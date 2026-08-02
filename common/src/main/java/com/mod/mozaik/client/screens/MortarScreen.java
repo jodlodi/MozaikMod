@@ -267,18 +267,18 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			Polyomino.PolyominoShape shapes = values[i];
 			float x = i - (count * 0.5F) + 0.5F;
 
-			this.addButtons.add(this.addRenderableWidget(new CreatePolyominoButton((int) (midX - (size * x)), this.topPos - 8, this, shapes.template)));
+			this.addButtons.add(this.addRenderableWidget(new CreatePolyominoButton((int) (midX - (size * x)), this.topPos + 4, this, shapes.template)));
 		}
 
 		int colorCount = TesseraMaterial.values().length;
 
-		this.addRenderableWidget(SpriteButton.createArrow(midX - 92, this.topPos + 24, LEFT, LEFT_HIGHLIGHTED, (button, input) -> {
+		this.addRenderableWidget(SpriteButton.createArrow(midX - 92, this.topPos + 32, LEFT, LEFT_HIGHLIGHTED, (button, input) -> {
 			this.addButtons.forEach(createPolyominoButton -> {
 				createPolyominoButton.setColor((createPolyominoButton.getColor() + colorCount - 1) % colorCount);
 			});
 		}));
 
-		this.addRenderableWidget(SpriteButton.createArrow(midX + 92, this.topPos + 24, RIGHT, RIGHT_HIGHLIGHTED, (button, input) -> {
+		this.addRenderableWidget(SpriteButton.createArrow(midX + 92, this.topPos + 32, RIGHT, RIGHT_HIGHLIGHTED, (button, input) -> {
 			this.addButtons.forEach(createPolyominoButton -> {
 				createPolyominoButton.setColor((createPolyominoButton.getColor() + 1) % colorCount);
 			});
