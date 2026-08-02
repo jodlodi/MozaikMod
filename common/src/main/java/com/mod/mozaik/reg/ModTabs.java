@@ -6,11 +6,8 @@ import org.jspecify.annotations.NullMarked;
 
 @NullMarked
 public class ModTabs {
-	public static final ResourceSupplier<CreativeModeTab> GLUE = Services.REGISTRY.registerCreativeTab("w", () -> ModItems.GLUE.get().getDefaultInstance(), new CreativeModeTab.DisplayItemsGenerator() {
-		@Override
-		public void accept(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
-			output.accept(ModItems.GLUE.get());
-		}
+	public static final ResourceSupplier<CreativeModeTab> TAB = Services.REGISTRY.registerCreativeTab("tab", () -> ModItems.GLUE.get().getDefaultInstance(), (itemDisplayParameters, output) -> {
+		output.accept(ModItems.GLUE.get());
 	});
 
 	public static void init() {
