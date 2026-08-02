@@ -1,0 +1,19 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"texture_size": [10, 10],
+	"textures": {
+		"texture": "mozaik:block/mural/tessera",
+		"particle": "mozaik:block/mural/tessera"
+	},
+	"elements": [
+		{
+			"from": [3, 0, 3],
+			"to": [13, 10, 13],
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#texture"}
+			}
+		}
+	]
+}
