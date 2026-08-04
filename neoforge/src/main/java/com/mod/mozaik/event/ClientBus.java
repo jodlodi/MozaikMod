@@ -3,7 +3,6 @@ package com.mod.mozaik.event;
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.TesseraMaterial;
 import com.mod.mozaik.client.model.block.mortar.MosaicStateModel;
-import com.mod.mozaik.client.renderers.GlueBlockEntityRenderer;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.data.gen.model.ModBlockStateGen;
 import com.mod.mozaik.reg.ModBlockEntities;
@@ -25,7 +24,7 @@ public class ClientBus {
 
 	@SubscribeEvent
 	public static void registerScreens(EntityRenderersEvent.RegisterRenderers event) {
-		event.registerBlockEntityRenderer(ModBlockEntities.GLUE.get(), GlueBlockEntityRenderer::new);
+
 	}
 
 	@SubscribeEvent

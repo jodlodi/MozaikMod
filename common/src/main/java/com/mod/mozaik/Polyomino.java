@@ -6,10 +6,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.block.Rotation;
 import org.joml.Vector2f;
 import org.joml.Vector3i;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@NullMarked
 public interface Polyomino<T extends Voxel> {
 	List<T> allVoxels();
 

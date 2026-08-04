@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Function;
 
 @NullMarked
 public class PolyominoWidget extends UnclickableWidget implements Polyomino<VoxelButton>, PhaseRenderable {
@@ -152,9 +151,11 @@ public class PolyominoWidget extends UnclickableWidget implements Polyomino<Voxe
 						voxel.relativeY() * VoxelButton.TESSERA_SIZE
 				);
 
+				List<FlatDirection> connections = new ArrayList<>();
+
 				for (FlatDirection direction : FlatDirection.cardinalClockwise()) {
 					if (PolyominoWidget.checkConnection(polyomino, voxel, direction).isPresent()) {
-						graphics.blitTessera(byDirection(direction, material), voxel.relativeX(), voxel.relativeY(), 1, 1, 1, 1);
+						connections.add(direction);
 					}
 				}
 
@@ -167,11 +168,11 @@ public class PolyominoWidget extends UnclickableWidget implements Polyomino<Voxe
 						}
 						if (!shouldExist) continue;
 
-						graphics.blitTessera(byDirection(direction, material), voxel.relativeX(), voxel.relativeY(), 1, 1, 1, 1);
+						connections.add(direction);
 					}
 				}
 
-				graphics.blitTessera(byDirection(null, material), voxel.relativeX(), voxel.relativeY(), 1, 1, 1, 1);
+				graphics.blitTessera(material, connections);
 			}));
 		});
 	}
@@ -184,7 +185,7 @@ public class PolyominoWidget extends UnclickableWidget implements Polyomino<Voxe
 		}).findFirst();
 	}
 
-	public static Identifier byDirection(@Nullable FlatDirection direction, TesseraMaterial material) {
+	public static Identifier byaDirection(@Nullable FlatDirection direction, TesseraMaterial material) {
 		if (direction == null) return Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/tessera.png");
 		return switch (direction) {
 			case UP -> Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/bridge_up.png");
