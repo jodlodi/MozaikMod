@@ -94,41 +94,37 @@ public class ModBlockStateGen extends BlockModelGenerators {
 	public static final String CORNER_LEFT_NO_UP = "corner_left_no_up";
 
 	private void genTessera(TesseraMaterial material) {
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_BASE, TESSERA, material, TESSERA);
+		this.createFromTemplate(ModModelTemplates.TESSERA_BASE, TESSERA, material, 1);
 
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_BASE, BRIDGE_UP, material, BRIDGE_UP);
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_UP, BRIDGE_NO_UP, material, TESSERA);
+		this.createFromTemplate(ModModelTemplates.TESSERA_UP, BRIDGE_UP, material, 1);
+		this.createFromTemplate(ModModelTemplates.TESSERA_NO_UP, BRIDGE_NO_UP, material, 1);
 
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_BASE, BRIDGE_RIGHT, material, BRIDGE_RIGHT);
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_RIGHT, BRIDGE_NO_RIGHT, material, TESSERA);
+		this.createFromTemplate(ModModelTemplates.TESSERA_RIGHT, BRIDGE_RIGHT, material, 1);
+		this.createFromTemplate(ModModelTemplates.TESSERA_NO_RIGHT, BRIDGE_NO_RIGHT, material, 1);
 
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_BASE, BRIDGE_DOWN, material, BRIDGE_DOWN);
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_DOWN, BRIDGE_NO_DOWN, material, TESSERA);
+		this.createFromTemplate(ModModelTemplates.TESSERA_DOWN, BRIDGE_DOWN, material, 1);
+		this.createFromTemplate(ModModelTemplates.TESSERA_NO_DOWN, BRIDGE_NO_DOWN, material, 1);
 
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_BASE, BRIDGE_LEFT, material, BRIDGE_LEFT);
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_LEFT, BRIDGE_NO_LEFT, material, TESSERA);
+		this.createFromTemplate(ModModelTemplates.TESSERA_LEFT, BRIDGE_LEFT, material, 1);
+		this.createFromTemplate(ModModelTemplates.TESSERA_NO_LEFT, BRIDGE_NO_LEFT, material, 1);
 
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_BASE, CORNER_UP_RIGHT, material, CORNER_UP_RIGHT);
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_UP_NO_RIGHT, CORNER_UP_NO_RIGHT, material, TESSERA);
+		this.createFromTemplate(ModModelTemplates.TESSERA_UR, CORNER_UP_RIGHT, material, 1);
+		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_UP_NO_RIGHT, CORNER_UP_NO_RIGHT, material, 1);
 
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_BASE, CORNER_DOWN_RIGHT, material, CORNER_DOWN_RIGHT);
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_RIGHT_NO_DOWN, CORNER_RIGHT_NO_DOWN, material, TESSERA);
+		this.createFromTemplate(ModModelTemplates.TESSERA_DR, CORNER_DOWN_RIGHT, material, 1);
+		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_RIGHT_NO_DOWN, CORNER_RIGHT_NO_DOWN, material, 1);
 
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_BASE, CORNER_DOWN_LEFT, material, CORNER_DOWN_LEFT);
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_DOWN_NO_LEFT, CORNER_DOWN_NO_LEFT, material, TESSERA);
+		this.createFromTemplate(ModModelTemplates.TESSERA_DL, CORNER_DOWN_LEFT, material, 1);
+		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_DOWN_NO_LEFT, CORNER_DOWN_NO_LEFT, material, 1);
 
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_BASE, CORNER_UP_LEFT, material, CORNER_UP_LEFT);
-		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_LEFT_NO_UP, CORNER_LEFT_NO_UP, material, TESSERA);
+		this.createFromTemplate(ModModelTemplates.TESSERA_UL, CORNER_UP_LEFT, material, 1);
+		this.createFromTemplate(ModModelTemplates.TESSERA_TEMPLATE_LEFT_NO_UP, CORNER_LEFT_NO_UP, material, 1);
 	}
 
-	protected void createFromTemplate(ModelTemplate template, String modelPath, TesseraMaterial texturePath) {
-		createFromTemplate(template, modelPath, texturePath, "tessera");
-	}
-
-	protected void createFromTemplate(ModelTemplate template, String modelPath, TesseraMaterial texturePath, String key) {
+	protected void createFromTemplate(ModelTemplate template, String modelPath, TesseraMaterial texturePath, int i) {
 		template.create(
 				Constants.prefix(texturePath.getSerializedName() + "/" +  modelPath),
-				TextureMapping.defaultTexture(new Material(Constants.prefix("block/mural/" + texturePath.getSerializedName() + "/" + key))),
+				TextureMapping.defaultTexture(new Material(Constants.prefix("block/mural/" + texturePath.getSerializedName() + "/block_" + i))),
 				this.modelOutput
 		);
 	}

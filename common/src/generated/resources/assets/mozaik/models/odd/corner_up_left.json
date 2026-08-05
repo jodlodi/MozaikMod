@@ -1,6 +1,6 @@
 {
-  "parent": "mozaik:block/murals/tessera_template_base",
+  "parent": "mozaik:block/murals/tessera_template_ul",
   "textures": {
-    "texture": "mozaik:block/mural/odd/corner_up_left"
+    "texture": "mozaik:block/mural/odd/block_1"
   }
 }

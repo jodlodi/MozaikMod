@@ -1,6 +1,6 @@
 {
-  "parent": "mozaik:block/murals/tessera_template_base",
+  "parent": "mozaik:block/murals/tessera_template_right",
   "textures": {
-    "texture": "mozaik:block/mural/mint/bridge_right"
+    "texture": "mozaik:block/mural/mint/block_1"
   }
 }

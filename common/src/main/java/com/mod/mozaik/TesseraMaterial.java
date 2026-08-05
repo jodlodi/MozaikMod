@@ -34,7 +34,7 @@ public enum TesseraMaterial implements StringRepresentable {
 	}
 
 	private static Identifier pathToTessera(String name, int number) {
-		return Constants.prefix("textures/block/mural/" + name + "/" + number +  ".png");
+		return Constants.prefix("textures/block/mural/" + name + "/gui_" + number +  ".png");
 	}
 
 	public Identifier getColor(long polySeed, int index) {

@@ -2,17 +2,16 @@
 	"format_version": "1.21.11",
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
-	"texture_size": [10, 10],
+	"texture_size": [26, 26],
 	"textures": {
-		"texture": "mozaik:block/mural/tessera",
-		"particle": "mozaik:block/mural/tessera"
+		"texture": "mozaik:block/mural/stone/block_1"
 	},
 	"elements": [
 		{
 			"from": [4, 0, 4],
 			"to": [12, 10, 12],
 			"faces": {
-				"south": {"uv": [1.6, 1.6, 14.4, 14.4], "texture": "#texture"}
+				"south": {"uv": [7.38462, 7.38462, 8.61538, 8.61538], "texture": "#texture"}
 			}
 		}
 	]
