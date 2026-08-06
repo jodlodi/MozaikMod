@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/tessera_template_down",
+  "textures": {
+    "texture": "mozaik:block/mural/shadow/block_0"
+  }
+}

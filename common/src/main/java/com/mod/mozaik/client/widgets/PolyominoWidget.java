@@ -22,8 +22,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @NullMarked
 public class PolyominoWidget extends UnclickableWidget implements Polyomino<VoxelButton>, PhaseRenderable {
-	private static final int SHADOW = 0x80000000;
-
 	public final List<VoxelButton> voxels = new ArrayList<>();
 	public final MortarScreen screen;
 	private final int color;
@@ -113,11 +111,11 @@ public class PolyominoWidget extends UnclickableWidget implements Polyomino<Voxe
 			renderVoxels(
 					graphics,
 					this,
-					TesseraMaterial.GLASS,
+					TesseraMaterial.SHADOW,
 					x + (VoxelButton.TESSERA_SIZE * 0.1F) + (-center.x * VoxelButton.TESSERA_SIZE) + 1,
 					y + (VoxelButton.TESSERA_SIZE * 0.1F) + (-center.y * VoxelButton.TESSERA_SIZE) + 1
 			);
-		} else renderVoxels(graphics, this, TesseraMaterial.GLASS, square.getX(), square.getY());
+		} else renderVoxels(graphics, this, TesseraMaterial.SHADOW, square.getX(), square.getY());
 	}
 
 	@Override
@@ -172,7 +170,7 @@ public class PolyominoWidget extends UnclickableWidget implements Polyomino<Voxe
 					}
 				}
 
-				graphics.blitTessera(material, connections);
+				graphics.blitTessera(material, connections, polyomino.seed(), index.get());
 			}));
 		});
 	}

@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/no_bridge/tessera_template_left",
+  "textures": {
+    "texture": "mozaik:block/mural/cyan_stained_glass/block_0"
+  }
+}

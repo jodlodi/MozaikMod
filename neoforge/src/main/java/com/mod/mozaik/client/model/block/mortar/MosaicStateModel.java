@@ -94,19 +94,21 @@ public final class MosaicStateModel implements DynamicBlockStateModel {
 			int x = polyomino.gridX();
 			int y = polyomino.gridY();
 
+			int index = -1;
 			for (Voxel.PlainVoxel voxel : polyomino.allVoxels()) {
+				index++;
 				int fx = x + voxel.relativeX();
 				int fy = y + voxel.relativeY();
 
 				for (FlatDirection direction : FlatDirection.cardinalClockwise()) {
 					if (PolyominoWidget.checkConnection(polyomino, voxel, direction).isPresent()) {
-						parts.add(TesseraHelper.bakeBridge(TesseraMaterial.values()[polyomino.color()], facing, direction, fx, fy));
+						parts.add(TesseraHelper.bakeBridge(TesseraMaterial.values()[polyomino.color()], facing, direction, fx, fy, polyomino.seed(), index));
 
 						if (PolyominoWidget.checkConnection(polyomino, voxel, direction.clockWise(1)).isEmpty() || PolyominoWidget.checkConnection(polyomino, voxel, direction.clockWise(2)).isEmpty()) {
-							parts.add(TesseraHelper.bakeNoCorner(TesseraMaterial.values()[polyomino.color()], facing, direction, fx, fy));
+							parts.add(TesseraHelper.bakeNoCorner(TesseraMaterial.values()[polyomino.color()], facing, direction, fx, fy, polyomino.seed(), index));
 						}
 					} else {
-						parts.add(TesseraHelper.bakeNoBridge(TesseraMaterial.values()[polyomino.color()], facing, direction, fx, fy));
+						parts.add(TesseraHelper.bakeNoBridge(TesseraMaterial.values()[polyomino.color()], facing, direction, fx, fy, polyomino.seed(), index));
 					}
 				}
 
@@ -119,11 +121,11 @@ public final class MosaicStateModel implements DynamicBlockStateModel {
 						}
 						if (!shouldExist) continue;
 
-						parts.add(TesseraHelper.bakeBridge(TesseraMaterial.values()[polyomino.color()], facing, direction, fx, fy));
+						parts.add(TesseraHelper.bakeBridge(TesseraMaterial.values()[polyomino.color()], facing, direction, fx, fy, polyomino.seed(), index));
 					}
 				}
 
-				parts.add(TesseraHelper.bakeTessera(TesseraMaterial.values()[polyomino.color()], facing, fx, fy));
+				parts.add(TesseraHelper.bakeTessera(TesseraMaterial.values()[polyomino.color()], facing, fx, fy, polyomino.seed(), index));
 			}
 		});
 	}

@@ -35,31 +35,33 @@ public class ClientBus {
 	@SubscribeEvent
 	public static void registerAdditionalModels(ModelEvent.RegisterStandalone event) {
 		for (TesseraMaterial material : TesseraMaterial.values()) {
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.TESSERA);
+			for (int i = 0; i < material.getSpriteSheets().size(); i++) {
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.TESSERA);
 
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.BRIDGE_UP);
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.BRIDGE_NO_UP);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_UP);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_NO_UP);
 
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.BRIDGE_RIGHT);
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.BRIDGE_NO_RIGHT);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_RIGHT);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_NO_RIGHT);
 
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.BRIDGE_DOWN);
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.BRIDGE_NO_DOWN);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_DOWN);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_NO_DOWN);
 
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.BRIDGE_LEFT);
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.BRIDGE_NO_LEFT);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_LEFT);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_NO_LEFT);
 
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.CORNER_UP_RIGHT);
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.CORNER_UP_NO_RIGHT);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_UP_RIGHT);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_UP_NO_RIGHT);
 
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.CORNER_DOWN_RIGHT);
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.CORNER_RIGHT_NO_DOWN);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_DOWN_RIGHT);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_RIGHT_NO_DOWN);
 
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.CORNER_DOWN_LEFT);
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.CORNER_DOWN_NO_LEFT);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_DOWN_LEFT);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_DOWN_NO_LEFT);
 
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.CORNER_UP_LEFT);
-			registerModel(event, material.getSerializedName() + "/" + ModBlockStateGen.CORNER_LEFT_NO_UP);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_UP_LEFT);
+				registerModel(event, material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_LEFT_NO_UP);
+			}
 		}
 	}
 

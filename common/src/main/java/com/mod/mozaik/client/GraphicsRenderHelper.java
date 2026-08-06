@@ -22,13 +22,13 @@ public class GraphicsRenderHelper {
 		this.graphics = graphics;
 	}
 
-	public void blitTessera(TesseraMaterial material, List<FlatDirection> connections) {
+	public void blitTessera(TesseraMaterial material, List<FlatDirection> connections, long seed, int index) {
 		TileMapUVGetter getter = TileMapUVGetter.get(connections);
-		this.blitScaled(fromMaterial(material), getter.u, getter.v, 120, 40, VoxelButton.TESSERA_SIZE);
+		this.blitScaled(fromMaterial(material, seed, index), getter.u, getter.v, 120, 40, VoxelButton.TESSERA_SIZE);
 	}
 
-	public static Identifier fromMaterial(TesseraMaterial material) {
-		return material.getColor(1L, 1);
+	public static Identifier fromMaterial(TesseraMaterial material, long seed, int index) {
+		return material.getGuiSheet(seed, index);
 	}
 
 	public void blitScaled(Identifier texture, int u, int v, int textureWidth, int textureHeight, int scale) {
