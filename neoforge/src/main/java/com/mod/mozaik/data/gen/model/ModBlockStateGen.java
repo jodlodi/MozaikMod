@@ -124,9 +124,10 @@ public class ModBlockStateGen extends BlockModelGenerators {
 	}
 
 	protected void createFromTemplate(ModelTemplate template, String modelPath, TesseraMaterial texturePath, int i) {
+		Material material = new Material(Constants.prefix("block/mural/" + texturePath.getSerializedName() + "/block_" + i));
 		template.create(
-				Constants.prefix(texturePath.getSerializedName() + "/" + i + "/" +  modelPath),
-				TextureMapping.defaultTexture(new Material(Constants.prefix("block/mural/" + texturePath.getSerializedName() + "/block_" + i))),
+				Constants.prefix("mozaik/" + texturePath.getSerializedName() + "/" + i + "/" +  modelPath),
+				TextureMapping.defaultTexture(material).put(TextureSlot.PARTICLE, material),
 				this.modelOutput
 		);
 	}

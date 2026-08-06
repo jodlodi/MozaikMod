@@ -1,0 +1,7 @@
+{
+  "parent": "mozaik:block/murals/no_bridge/tessera_template_down",
+  "textures": {
+    "particle": "mozaik:block/mural/cinnabar/block_2",
+    "texture": "mozaik:block/mural/cinnabar/block_2"
+  }
+}

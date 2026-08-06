@@ -1,0 +1,7 @@
+{
+  "parent": "mozaik:block/murals/tessera_template_dl",
+  "textures": {
+    "particle": "mozaik:block/mural/red_stained_glass/block_0",
+    "texture": "mozaik:block/mural/red_stained_glass/block_0"
+  }
+}

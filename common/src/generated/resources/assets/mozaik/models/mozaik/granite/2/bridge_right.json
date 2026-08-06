@@ -1,0 +1,7 @@
+{
+  "parent": "mozaik:block/murals/tessera_template_right",
+  "textures": {
+    "particle": "mozaik:block/mural/granite/block_2",
+    "texture": "mozaik:block/mural/granite/block_2"
+  }
+}

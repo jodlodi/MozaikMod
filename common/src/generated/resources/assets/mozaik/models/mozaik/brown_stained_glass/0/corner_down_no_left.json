@@ -1,0 +1,7 @@
+{
+  "parent": "mozaik:block/murals/no_corner/tessera_template_down_no_left",
+  "textures": {
+    "particle": "mozaik:block/mural/brown_stained_glass/block_0",
+    "texture": "mozaik:block/mural/brown_stained_glass/block_0"
+  }
+}

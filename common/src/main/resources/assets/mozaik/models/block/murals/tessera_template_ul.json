@@ -4,7 +4,8 @@
 	"parent": "minecraft:block/block",
 	"texture_size": [26, 26],
 	"textures": {
-		"texture": "mozaik:block/mural/stone/block_1"
+		"texture": "mozaik:block/mural/stone/block_0",
+		"particle": "mozaik:block/mural/stone/gui_0"
 	},
 	"elements": [
 		{

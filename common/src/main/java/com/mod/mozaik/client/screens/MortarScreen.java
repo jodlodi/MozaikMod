@@ -39,7 +39,7 @@ import java.util.Objects;
 
 @NullMarked
 public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
-	private static final Identifier GRINDSTONE_LOCATION = Constants.prefix("textures/gui/container/grindstone.png");
+	private static final Identifier MORTAR_LOCATION = Constants.prefix("textures/gui/container/mortar.png");
 
 	private static final Identifier LEFT = Constants.prefix("textures/gui/container/left.png");
 	private static final Identifier LEFT_HIGHLIGHTED = Constants.prefix("textures/gui/container/left_highlighted.png");
@@ -57,11 +57,11 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private final List<PhaseRenderable> renderableWidgets = new ArrayList<>();
 	private boolean hasTicked = false;
 
-	private static final int iX = 35;
-	private static final int iY = 29;
+	private static final int iX = 48;
+	private static final int iY = 77;
 
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
-		super(menu, playerInventory, title, 230, 219);
+		super(menu, playerInventory, title, 256, 256);
 	}
 
 	@Override
@@ -290,6 +290,6 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		super.extractBackground(graphics, mouseX, mouseY, a);
 		int xo = (this.width - this.imageWidth) / 2;
 		int yo = (this.height - this.imageHeight) / 2;
-		graphics.blit(RenderPipelines.GUI_TEXTURED, GRINDSTONE_LOCATION, xo, yo, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, MORTAR_LOCATION, xo, yo, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
 	}
 }

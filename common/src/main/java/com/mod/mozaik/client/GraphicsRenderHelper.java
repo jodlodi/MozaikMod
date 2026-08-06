@@ -1,13 +1,22 @@
 package com.mod.mozaik.client;
 
+import com.mod.mozaik.Constants;
 import com.mod.mozaik.FlatDirection;
 import com.mod.mozaik.TesseraMaterial;
 import com.mod.mozaik.client.buttons.VoxelButton;
+import com.mod.mozaik.mixin.GuiGraphicsExtractorMixin;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.client.resources.model.ResolvedModel;
 import net.minecraft.resources.Identifier;
 import org.joml.Matrix3x2f;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +25,8 @@ import java.util.function.Predicate;
 @NullMarked
 @SuppressWarnings({"UnusedReturnValue"})
 public class GraphicsRenderHelper {
+	@Nullable
+	public static ModelBaker BAKER;
 	private final GuiGraphicsExtractor graphics;
 
 	public GraphicsRenderHelper(GuiGraphicsExtractor graphics) {
@@ -30,12 +41,42 @@ public class GraphicsRenderHelper {
 	public static Identifier fromMaterial(TesseraMaterial material, long seed, int index) {
 		return material.getGuiSheet(seed, index);
 	}
+/*
+	public void blitsTessera(TesseraMaterial material, List<FlatDirection> connections, long seed, int index) {
+		ResolvedModel tesseraModel = BAKER.getModel(Constants.prefix( "mozaik/" + material.getSerializedName() + "/" + material.getBlockId(seed, index) + "/tessera"));
+		TextureAtlasSprite particle = tesseraModel.resolveParticleMaterial(tesseraModel.getTopTextureSlots(), BAKER).sprite();
+		TileMapUVGetter getter = TileMapUVGetter.get(connections);
+
+		this.blitBlockScaled(particle, getter.u, getter.v, 120, 40, VoxelButton.TESSERA_SIZE);
+	}*/
+/*
+	public void blitBlockScaled(TextureAtlasSprite texture, int u, int v, int textureWidth, int textureHeight, int scale) {
+		this.blit(texture, u * scale, v * scale, scale, scale, textureWidth, textureHeight);
+	}*/
+/*
+	public void blit(TextureAtlasSprite texture, int u, int v, int width, int height, int textureWidth, int textureHeight) {
+
+
+		((GuiGraphicsExtractorMixin)this.graphics).invokeBlit(RenderPipelines.BLOCK_SCREEN_EFFECT, texture.atlasLocation(), 0, width, 0, height,
+				texture.getU((float)u / (float)textureWidth),
+				texture.getU((float)(u + width) / (float)textureWidth),
+				texture.getV((float)v / (float)textureHeight),
+				texture.getV((float)(v + height) / (float)textureHeight),
+				-1);
+
+		if (true) return;
+		((GuiGraphicsExtractorMixin)this.graphics).invokeSprite(RenderPipelines.BLOCK_SCREEN_EFFECT, texture, 0, 0, 0, 0, 0, 0, 0, 0, -1);
+		((GuiGraphicsExtractorMixin)this.graphics).invokeBlit(RenderPipelines.BLOCK_SCREEN_EFFECT, texture.atlasLocation(), 0, width, 0, height, texture.getU0(), texture.getU1(), texture.getV0(), texture.getV1(), -1);
+	}*/
 
 	public void blitScaled(Identifier texture, int u, int v, int textureWidth, int textureHeight, int scale) {
 		this.blit(texture, u * scale, v * scale, scale, scale, textureWidth, textureHeight);
 	}
 
 	public void blit(Identifier texture, int u, int v, int width, int height, int textureWidth, int textureHeight) {
+		this.graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, textureWidth, textureHeight, u, v, 0, 0, width, height);
+		if (true) return;
+		this.graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, 0, 0, 0, 0, 0, 0, 0, 0);
 		this.graphics.blit(RenderPipelines.GUI_TEXTURED, texture, 0, 0, u, v, width, height, textureWidth, textureHeight);
 	}
 

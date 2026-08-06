@@ -1,6 +1,0 @@
-{
-  "parent": "mozaik:block/murals/no_corner/tessera_template_down_no_left",
-  "textures": {
-    "texture": "mozaik:block/mural/light_blue_glazed_terracotta/block_0"
-  }
-}

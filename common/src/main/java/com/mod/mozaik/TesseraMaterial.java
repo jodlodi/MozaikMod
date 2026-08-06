@@ -38,6 +38,8 @@ public enum TesseraMaterial implements StringRepresentable {
 	BLOCK_OF_RAW_IRON(0xe9c8b1, 0xd8af93, 0xaf8e77),
 	BLOCK_OF_RAW_COPPER(0xea8770, 0xd67b5b, 0x9d573f),
 	BLOCK_OF_RAW_GOLD(0xfaea2e, 0xf7c431, 0xeea41a),
+	PRISMARINE(0x79b7ab, 0x5ea496, 0x468974), //prismarine - #79b7ab, #5ea496, #468974 / #79b794, #5ea48e,  #2c8755 / #79b3b7, #5e85a4, #687396 / #79b7ab, #5e9ea4, #4e86a3
+
 	TERRACOTTA(0x9b6045, 0x965d43),
 	BLACK_TERRACOTTA(0x251710, 0x261811),
 	BLUE_TERRACOTTA(0x4a3b5b, 0x493a5a),
@@ -129,13 +131,9 @@ public enum TesseraMaterial implements StringRepresentable {
 		return this.name().toLowerCase(Locale.ROOT);
 	}
 
-	public record MaterialColor(int color, Identifier gui, Identifier block) {
+	public record MaterialColor(int color, Identifier gui) {
 		public MaterialColor(int color, String type, int number) {
-			this(
-					color,
-					Constants.prefix("textures/block/mural/" + type + "/gui_" + number +  ".png"),
-					Constants.prefix("textures/block/mural/" + type + "/block_" + number +  ".png")
-			);
+			this(color, Constants.prefix( type + "/" +  number));
 		}
 	}
 }

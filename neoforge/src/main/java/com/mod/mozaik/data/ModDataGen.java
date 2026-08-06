@@ -1,6 +1,7 @@
 package com.mod.mozaik.data;
 
 import com.mod.mozaik.Constants;
+import com.mod.mozaik.data.gen.AtlasGen;
 import com.mod.mozaik.data.gen.ModLangGen;
 import com.mod.mozaik.data.gen.ModLootGen;
 import com.mod.mozaik.data.gen.ModelGen;
@@ -38,6 +39,7 @@ public class ModDataGen {
 		generator.addProvider(true, datapackProvider);
 		generator.addProvider(true, new ModLootGen(output, lookupProvider));
 
+		generator.addProvider(true, new AtlasGen(output, lookupProvider));
 		generator.addProvider(true, new ModelGen(output));
 		generator.addProvider(true, new ModLangGen(output));
 	}

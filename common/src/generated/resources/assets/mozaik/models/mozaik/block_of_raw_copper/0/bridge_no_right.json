@@ -1,0 +1,7 @@
+{
+  "parent": "mozaik:block/murals/no_bridge/tessera_template_right",
+  "textures": {
+    "particle": "mozaik:block/mural/block_of_raw_copper/block_0",
+    "texture": "mozaik:block/mural/block_of_raw_copper/block_0"
+  }
+}

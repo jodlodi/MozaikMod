@@ -1,6 +1,0 @@
-{
-  "parent": "mozaik:block/murals/tessera_template_ur",
-  "textures": {
-    "texture": "mozaik:block/mural/glowstone/block_0"
-  }
-}

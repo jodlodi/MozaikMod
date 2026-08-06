@@ -3,6 +3,7 @@ package com.mod.mozaik.client.model.block.mortar;
 import com.mod.mozaik.*;
 import com.mod.mozaik.blocks.MortarBlock;
 import com.mod.mozaik.blocks.entities.NeoMortarBlockEntity;
+import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.model.TesseraHelper;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mojang.serialization.MapCodec;
@@ -82,7 +83,7 @@ public final class MosaicStateModel implements DynamicBlockStateModel {
 		Direction facing = state.getValue(MortarBlock.FACING);
 		parts.add(this.mortarMap.get(facing));
 
-		if (TesseraHelper.BAKER == null) return;
+		if (GraphicsRenderHelper.BAKER == null) return;
 
 		ModelData data = level.getModelData(pos);
 		List<Polyomino.PlainPolyomino> colorMap = data.get(NeoMortarBlockEntity.PROPERTY);
@@ -168,7 +169,7 @@ public final class MosaicStateModel implements DynamicBlockStateModel {
 
 		@Override
 		public BlockStateModel bake(ModelBaker baker) {
-			TesseraHelper.BAKER = baker;
+			GraphicsRenderHelper.BAKER = baker;
 
 			MosaicStateModel blockStateModel = new MosaicStateModel();
 			// Bake the model parts and pass into the block state model

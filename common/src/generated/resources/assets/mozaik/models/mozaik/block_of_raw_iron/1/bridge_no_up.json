@@ -1,0 +1,7 @@
+{
+  "parent": "mozaik:block/murals/no_bridge/tessera_template_up",
+  "textures": {
+    "particle": "mozaik:block/mural/block_of_raw_iron/block_1",
+    "texture": "mozaik:block/mural/block_of_raw_iron/block_1"
+  }
+}

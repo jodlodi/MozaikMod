@@ -1,6 +1,0 @@
-{
-  "parent": "mozaik:block/murals/tessera_template_up",
-  "textures": {
-    "texture": "mozaik:block/mural/nether_bricks/block_0"
-  }
-}

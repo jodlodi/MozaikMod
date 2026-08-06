@@ -1,6 +1,0 @@
-{
-  "parent": "mozaik:block/murals/tessera_template_up",
-  "textures": {
-    "texture": "mozaik:block/mural/diorite/block_0"
-  }
-}

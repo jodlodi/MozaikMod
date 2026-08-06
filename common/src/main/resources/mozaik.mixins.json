@@ -5,7 +5,7 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [],
   "client": [
-    "MixinMinecraft"
+    "GuiGraphicsExtractorMixin"
   ],
   "server": [],
   "injectors": {
