@@ -3,12 +3,14 @@ package com.mod.mozaik.blocks;
 import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.reg.ModBlockEntities;
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -18,6 +20,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -39,11 +42,24 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 	private static final Map<Direction, VoxelShape> SHAPES = Shapes.rotateAll(Block.box(0.0D, 0.0D, 0.5D, 16.0D, 16.0D, 16.0D));
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final EnumProperty<Direction> FACING = DirectionalBlock.FACING;
-	public static final MapCodec<MortarBlock> CODEC = simpleCodec(Services.MODLOADER::mortarBlock);
 
-	public MortarBlock(Properties properties) {
+	public static final MapCodec<MortarBlock> CODEC = RecordCodecBuilder.mapCodec(
+			instance -> instance.group(
+					DyeColor.CODEC.fieldOf("color").forGetter(MortarBlock::getColor),
+					Properties.CODEC.fieldOf("properties").forGetter(BlockBehaviour::properties)
+			).apply(instance, MortarBlock::new)
+	);
+
+	private final DyeColor color;
+
+	public MortarBlock(DyeColor color, Properties properties) {
 		super(properties);
+		this.color = color;
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(WATERLOGGED, false));
+	}
+
+	public DyeColor getColor() {
+		return this.color;
 	}
 
 	@Override
@@ -53,7 +69,7 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 
 	@Override
 	public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> type) {
-		return createTickerHelper(type, ModBlockEntities.GLUE.get(), (tickerLevel, tickerPos, tickerState, blockEntity) ->
+		return createTickerHelper(type, ModBlockEntities.MORTAR.get(), (tickerLevel, tickerPos, tickerState, blockEntity) ->
 				blockEntity.tick(tickerLevel, tickerPos, tickerState)
 		);
 	}

@@ -22,11 +22,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "mozaik:glue"
+          "name": "mozaik:pink_mortar"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "mozaik:blocks/glue"
+  "random_sequence": "mozaik:blocks/pink_mortar"
 }

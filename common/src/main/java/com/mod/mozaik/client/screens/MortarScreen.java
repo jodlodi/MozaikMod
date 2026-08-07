@@ -4,6 +4,7 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.Polyomino;
 import com.mod.mozaik.TesseraMaterial;
 import com.mod.mozaik.Voxel;
+import com.mod.mozaik.blocks.MortarBlock;
 import com.mod.mozaik.blocks.entities.MortarBlockEntity;
 import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.PhaseRenderable;
@@ -15,8 +16,11 @@ import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.menus.MortarMenu;
 import com.mod.mozaik.networking.bidirectional.UpdateGlueBidirectional;
 import com.mod.mozaik.platform.Services;
+import com.mod.mozaik.reg.ModBlocks;
+import com.mod.mozaik.reg.ResourceSupplier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
+import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -25,10 +29,14 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 import org.jspecify.annotations.NullMarked;
@@ -295,5 +303,21 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		int xo = (this.width - this.imageWidth) / 2;
 		int yo = (this.height - this.imageHeight) / 2;
 		graphics.blit(RenderPipelines.GUI_TEXTURED, MORTAR_LOCATION, xo, yo, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
+
+		ClientLevel level = Minecraft.getInstance().level;
+		if (level == null) return;
+		BlockEntity entity = level.getBlockEntity(this.menu.getPos());
+		if (entity == null) return;
+		Block block = entity.getBlockState().getBlock();
+		graphics.blit(RenderPipelines.GUI_TEXTURED, fromBlock(block), xo + iX, yo + iY, 0.0F, 0.0F, 160, 160, 160, 160);
+	}
+
+	private static Identifier fromBlock(Block block) {
+		for (ResourceSupplier<MortarBlock> mortarBlockResourceSupplier : ModBlocks.MORTARS.asList()) {
+			if (mortarBlockResourceSupplier.get() == block) {
+				return Constants.prefix("textures/block/" + mortarBlockResourceSupplier.id().getPath() + ".png");
+			}
+		}
+		return TextureManager.INTENTIONAL_MISSING_TEXTURE;
 	}
 }

@@ -1,2 +1,17 @@
-// 26.2	2026-08-02T20:07:34.2599204	Loot Tables
-0597673f3f01677bd764a979285ad3d6b1e6abbd data/mozaik/loot_table/blocks/glue.json
+// 26.2	2026-08-07T16:50:07.5787076	Loot Tables
+eb8288c31291cfa4bd04410af55d1e93232152fc data/mozaik/loot_table/blocks/black_mortar.json
+5681aea316bca64048f6cd09259ecd047e2edcf6 data/mozaik/loot_table/blocks/blue_mortar.json
+4fcd019e2a6b5b18f162e32c5faf8e916601d1c5 data/mozaik/loot_table/blocks/brown_mortar.json
+6d856884cbed944ce63713916a3dd8039f0f739a data/mozaik/loot_table/blocks/cyan_mortar.json
+92625e880431609a5c22ed0944903dd17ff8d3ef data/mozaik/loot_table/blocks/gray_mortar.json
+b17573983eee6a3b01c89579e2bebde1eabfd0f2 data/mozaik/loot_table/blocks/green_mortar.json
+19425db9fff63dd171d5e7f5ea38264f9b03610b data/mozaik/loot_table/blocks/light_blue_mortar.json
+7524ede23da0d68894a1ff6afcdd997a195e2b31 data/mozaik/loot_table/blocks/light_gray_mortar.json
+e7ef9c50d8ee542360df5ffb8e68e6ec795c4650 data/mozaik/loot_table/blocks/lime_mortar.json
+109f5f0a8a588b015335df2ea061210f70a727da data/mozaik/loot_table/blocks/magenta_mortar.json
+d4400fd5f68add459d4bd06006f1667c411734fc data/mozaik/loot_table/blocks/orange_mortar.json
+500bea1f3ec86ad1371ac43663552067eeb797e6 data/mozaik/loot_table/blocks/pink_mortar.json
+3e9ff6b067a42d798910854d3403fdac5571f765 data/mozaik/loot_table/blocks/purple_mortar.json
+e2f40c655a7133ebb35fd178d5af8aab4a548507 data/mozaik/loot_table/blocks/red_mortar.json
+18497d19531cb9cafc6602cae88d4c67bdb973c2 data/mozaik/loot_table/blocks/white_mortar.json
+1a7808affbbe18886b4b945b79cf87b711f9e005 data/mozaik/loot_table/blocks/yellow_mortar.json

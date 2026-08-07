@@ -45,7 +45,7 @@ public class MortarBlockEntity extends BlockEntity implements MenuProvider, Name
 	public final MortarContainerData dataAccess;
 
 	public MortarBlockEntity(BlockPos pos, BlockState blockState) {
-		super(ModBlockEntities.GLUE.get(), pos, blockState);
+		super(ModBlockEntities.MORTAR.get(), pos, blockState);
 		this.dataAccess = new MortarContainerData(this);
 	}
 

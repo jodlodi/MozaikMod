@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -40,7 +41,7 @@ public interface IRegistryHelper {
 	<T extends ParticleType<?>> ResourceSupplier<T> registerParticleType(String id, Supplier<T> particle);
 
 	@SuppressWarnings("unchecked")
-	<T extends BlockEntity> ResourceSupplier<BlockEntityType<T>> registerBlockEntityType(String id, BiFunction<BlockPos, BlockState, T> supplier, Supplier<Block>... blocks);
+	<T extends BlockEntity, B extends Block> ResourceSupplier<BlockEntityType<T>> registerBlockEntityType(String id, BiFunction<BlockPos, BlockState, T> supplier, List<ResourceSupplier<B>> blocks);
 
 	<T extends Entity> ResourceSupplier<EntityType<T>> registerEntityType(String id, EntityType.Builder<T> builder);
 

@@ -36,14 +36,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@NullMarked
 public class NeoForgeRegistryHelper implements IRegistryHelper {
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Constants.MOD_ID);
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, Constants.MOD_ID);
@@ -72,15 +75,14 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 		return new ResourceSupplier<>(PARTICLE_TYPES.register(id, particle), Constants.prefix(id));
 	}
 
-	@SafeVarargs
 	@Override
-	public final <T extends BlockEntity> ResourceSupplier<BlockEntityType<T>> registerBlockEntityType(String id, BiFunction<BlockPos, BlockState, T> supplier, Supplier<Block>... blockSuppliers) {
+	public final <T extends BlockEntity, B extends Block> ResourceSupplier<BlockEntityType<T>> registerBlockEntityType(String id, BiFunction<BlockPos, BlockState, T> supplier, List<ResourceSupplier<B>> blocks) {
 		Identifier location = Constants.prefix(id);
 
-		Block[] blocks  = new Block[blockSuppliers.length];
-		for (int i = 0; i < blockSuppliers.length; i++) blocks[i] = blockSuppliers[i].get();
+		Block[] blockArray  = new Block[blocks.size()];
+		for (int i = 0; i < blocks.size(); i++) blockArray[i] = blocks.get(i).get();
 
-		return new ResourceSupplier<>(BLOCK_ENTITY_TYPES.register(id, () -> new BlockEntityType<>(supplier::apply, blocks)), location);
+		return new ResourceSupplier<>(BLOCK_ENTITY_TYPES.register(id, () -> new BlockEntityType<>(supplier::apply, blockArray)), location);
 	}
 
 	@Override

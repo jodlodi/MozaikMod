@@ -40,9 +40,9 @@
     }
   ],
   "textures": {
-    "bottom": "mozaik:block/glue",
-    "particle": "mozaik:block/gluse",
-    "side": "mozaik:block/gluse",
-    "top": "mozaik:block/glue"
+    "bottom": "mozaik:block/light_gray_mortar",
+    "particle": "mozaik:block/light_gray_mortar",
+    "side": "mozaik:block/light_gray_mortar",
+    "top": "mozaik:block/light_gray_mortar"
   }
 }

@@ -33,34 +33,22 @@ public class ModBlockStateGen extends BlockModelGenerators {
 
 	@Override
 	public void run() {
-		this.wrapBlockItem(ModBlocks.GLUE.get(), block -> {
+		ModBlocks.MORTARS.forEach(supplier -> this.wrapBlockItem(supplier.get(), block -> {
 			TextureMapping dryTextures = (new TextureMapping())
-					.put(TextureSlot.PARTICLE, new Material(Constants.prefix("block/gluse")))
-					.put(TextureSlot.SIDE, new Material(Constants.prefix("block/gluse")))
+					.put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(block))
+					.put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block))
 					.put(TextureSlot.BOTTOM, TextureMapping.getBlockTexture(block))
 					.put(TextureSlot.TOP, TextureMapping.getBlockTexture(block));
 
-			Identifier horizModel = ModExtendedModelTemplates.MORTAR.create(ModBlocks.GLUE.get(), dryTextures, this.modelOutput);
+			Identifier horizontal = ModExtendedModelTemplates.MORTAR.create(block, dryTextures, this.modelOutput);
 
 			this.blockStateOutput.accept(
 					MultiVariantGenerator.dispatch(
-							// The block to generate the model for
-							ModBlocks.GLUE.get(),
-							// Our custom block state builder
-							MultiVariant.of(new MosaicStateModelBuilder(horizModel))
+							block,
+							MultiVariant.of(new MosaicStateModelBuilder(horizontal))
 					)
 			);
-/*
-			this.blockStateOutput.accept(MultiVariantGenerator.dispatch(block).with(
-					PropertyDispatch.initial(DirectionalBlock.FACING)
-							.select(Direction.UP, plainVariant(horizModel))
-							.select(Direction.DOWN, plainVariant(horizModel).with(X_ROT_180))
-							.select(Direction.SOUTH, plainVariant(horizModel).with(X_ROT_270))
-							.select(Direction.NORTH, plainVariant(horizModel).with(X_ROT_90))
-							.select(Direction.WEST, plainVariant(horizModel).with(Y_ROT_90).with(X_ROT_270))
-							.select(Direction.EAST, plainVariant(horizModel).with(Y_ROT_90).with(X_ROT_90))
-			));*/
-		});
+		}));
 
 		for (TesseraMaterial material : TesseraMaterial.values()) {
 			for (int i = 0; i < material.getSpriteSheets().size(); i++) {
@@ -126,7 +114,7 @@ public class ModBlockStateGen extends BlockModelGenerators {
 	protected void createFromTemplate(ModelTemplate template, String modelPath, TesseraMaterial texturePath, int i) {
 		Material material = new Material(Constants.prefix("block/mural/" + texturePath.getSerializedName() + "/block_" + i));
 		template.create(
-				Constants.prefix("mozaik/" + texturePath.getSerializedName() + "/" + i + "/" +  modelPath),
+				Constants.prefix("mozaik/" + texturePath.getSerializedName() + "/" + i + "/" + modelPath),
 				TextureMapping.defaultTexture(material).put(TextureSlot.PARTICLE, material),
 				this.modelOutput
 		);

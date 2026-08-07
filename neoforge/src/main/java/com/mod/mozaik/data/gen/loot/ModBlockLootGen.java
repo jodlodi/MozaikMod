@@ -2,6 +2,7 @@ package com.mod.mozaik.data.gen.loot;
 
 import com.mod.mozaik.platform.NeoForgeRegistryHelper;
 import com.mod.mozaik.reg.ModBlocks;
+import com.mod.mozaik.reg.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
@@ -23,7 +24,7 @@ public class ModBlockLootGen extends BlockLootSubProvider {
 
 	@Override
 	protected void generate() {
-		this.dropWhenSilkTouch(ModBlocks.GLUE.get());
+		ModBlocks.MORTARS.forEach(supplier -> this.dropWhenSilkTouch(supplier.get()));
 	}
 
 	@Override

@@ -38,12 +38,15 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@NullMarked
 public class FabricRegistryHelper implements IRegistryHelper {
 
 	@Override
@@ -70,12 +73,11 @@ public class FabricRegistryHelper implements IRegistryHelper {
 	}
 
 	@Override
-	@SafeVarargs
-	public final <T extends BlockEntity> ResourceSupplier<BlockEntityType<T>> registerBlockEntityType(String id, BiFunction<BlockPos, BlockState, T> supplier, Supplier<Block>... blockSuppliers) {
+	public final <T extends BlockEntity, B extends Block> ResourceSupplier<BlockEntityType<T>> registerBlockEntityType(String id, BiFunction<BlockPos, BlockState, T> supplier, List<ResourceSupplier<B>> blocks) {
 		Identifier location = Constants.prefix(id);
 
 		FabricBlockEntityTypeBuilder<T> builder = FabricBlockEntityTypeBuilder.create(supplier::apply);
-		for (Supplier<Block> blockSupplier : blockSuppliers) builder.addBlock(blockSupplier.get());
+		for (Supplier<B> blockSupplier : blocks) builder.addBlock(blockSupplier.get());
 
 		BlockEntityType<T> type = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, location, builder.build());
 		return new ResourceSupplier<>(() -> type, location);
