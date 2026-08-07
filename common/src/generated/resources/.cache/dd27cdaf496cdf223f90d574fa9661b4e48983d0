@@ -1,4 +1,4 @@
-// 26.2	2026-08-06T23:44:37.9525513	Model Definitions - mozaik
+// 26.2	2026-08-07T15:15:28.1554635	Model Definitions - mozaik
 2f67516d9c7461bd81f21da65beb3daa6e63de91 assets/mozaik/blockstates/glue.json
 7f0fcdd6bfce732d755b88ac84948f1f3eb214b8 assets/mozaik/items/glue.json
 7004992b94c0f8309c518e59327511aca32e1292 assets/mozaik/models/block/glue.json
@@ -1107,23 +1107,6 @@ c071b530b6c636ec0a4e7708fd063b23af3e9cd7 assets/mozaik/models/mozaik/end_stone/2
 aab02b1aa2b551e731e6144fa89635d74ffc0ddf assets/mozaik/models/mozaik/end_stone/2/corner_up_no_right.json
 f1ad49986860735d779192c166ceddc12970953b assets/mozaik/models/mozaik/end_stone/2/corner_up_right.json
 41f7b6c4cee6404c894d89bc3c6dca2e103f08a3 assets/mozaik/models/mozaik/end_stone/2/tessera.json
-3db5ee43c97e55fc6d9ac1b3b8f02117eafabeef assets/mozaik/models/mozaik/glass/0/bridge_down.json
-c3c93f1f10cb6b426c7a4b3a1c011c139478e992 assets/mozaik/models/mozaik/glass/0/bridge_left.json
-537788abb9c4d5bee5b02e69d2d19ea351c4295d assets/mozaik/models/mozaik/glass/0/bridge_no_down.json
-ea9321b84431b29a789cfc98eef744e983adcee4 assets/mozaik/models/mozaik/glass/0/bridge_no_left.json
-6e8afddd06eff648e2010ded54a825da581bd191 assets/mozaik/models/mozaik/glass/0/bridge_no_right.json
-9c5cbaff65dd86f3cb0fef245d17cdf6c910bee9 assets/mozaik/models/mozaik/glass/0/bridge_no_up.json
-58d622a6e776e5faaab18a4099a4138e3d1ac95d assets/mozaik/models/mozaik/glass/0/bridge_right.json
-ec20f3f9a690caa8ca994a8e2aeb5c0038f0db67 assets/mozaik/models/mozaik/glass/0/bridge_up.json
-9b9c5e19023562f29ce6b28f5de11e66e55a6050 assets/mozaik/models/mozaik/glass/0/corner_down_left.json
-30b7b313d231daad2ae3c50315b7e0ef3362232e assets/mozaik/models/mozaik/glass/0/corner_down_no_left.json
-8a2bc20892668f4ed843a6586e6b8cb1f3d09bc9 assets/mozaik/models/mozaik/glass/0/corner_down_right.json
-987652406adc4ef04e8b1eb6582e71877040ddf2 assets/mozaik/models/mozaik/glass/0/corner_left_no_up.json
-004f16792b8a6d00d75d74eb3feff587fe61b32b assets/mozaik/models/mozaik/glass/0/corner_right_no_down.json
-72df1d14b278dbd6cca29d05f2f700793526376a assets/mozaik/models/mozaik/glass/0/corner_up_left.json
-55e04fe95936771417d26911bd9520b9ef0c0db7 assets/mozaik/models/mozaik/glass/0/corner_up_no_right.json
-433753e05066af1d5123bd3dd3cb8bbaccad029b assets/mozaik/models/mozaik/glass/0/corner_up_right.json
-bb887f70669ee11b85d4da1902a82380f288d869 assets/mozaik/models/mozaik/glass/0/tessera.json
 20333a7e4be422ebaf63cd5bb55a447152fe1072 assets/mozaik/models/mozaik/glowstone/0/bridge_down.json
 6732e845724917be49baa043fc751c69d594ae01 assets/mozaik/models/mozaik/glowstone/0/bridge_left.json
 f80d33793b09e4813b19bf2a6accd35cc81787e8 assets/mozaik/models/mozaik/glowstone/0/bridge_no_down.json

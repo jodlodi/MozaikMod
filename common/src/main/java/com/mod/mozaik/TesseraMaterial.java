@@ -1,13 +1,16 @@
 package com.mod.mozaik;
 
+import net.minecraft.client.resources.metadata.animation.AnimationFrame;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @NullMarked
 public enum TesseraMaterial implements StringRepresentable {
@@ -25,10 +28,9 @@ public enum TesseraMaterial implements StringRepresentable {
 	SANDSTONE(0xe3dbb0, 0xdad2a3, 0xd5c496),
 	RED_SANDSTONE(0xd2752b, 0xc06822, 0xac5712),
 	CINNABAR(0xad6764, 0xaa5553, 0x964b42),
-	DARK_PRISMARINE( 0x3b8268, 0x386251, 0x345648),
-	NETHERRACK( 0x723232, 0x652828, 0x501b1b),
-	NETHER_BRICKS( 0x38181e, 0x30181c, 0x211114),
-	RED_NETHER_BRICKS( 0x6b1317, 0x560e10, 0x440507),
+	NETHERRACK(0x723232, 0x652828, 0x501b1b),
+	NETHER_BRICKS(0x38181e, 0x30181c, 0x211114),
+	RED_NETHER_BRICKS(0x6b1317, 0x560e10, 0x440507),
 	QUARTZ(0xeeeae6, 0xeee6de),
 	GLOWSTONE(0xfbda74, 0xcc8654, 0x855029),
 	ANCIENT_DEBRIS(0x654740, 0x5D342C, 0x4A2C23),
@@ -38,7 +40,13 @@ public enum TesseraMaterial implements StringRepresentable {
 	BLOCK_OF_RAW_IRON(0xe9c8b1, 0xd8af93, 0xaf8e77),
 	BLOCK_OF_RAW_COPPER(0xea8770, 0xd67b5b, 0x9d573f),
 	BLOCK_OF_RAW_GOLD(0xfaea2e, 0xf7c431, 0xeea41a),
-	PRISMARINE(0x79b7ab, 0x5ea496, 0x468974), //prismarine - #79b7ab, #5ea496, #468974 / #79b794, #5ea48e,  #2c8755 / #79b3b7, #5e85a4, #687396 / #79b7ab, #5e9ea4, #4e86a3
+	DARK_PRISMARINE(0x3b8268, 0x386251, 0x345648),
+	PRISMARINE(GenericAnimationMetadata.PRISMARINE,
+			0x79b7ab, 0x5ea496, 0x468974,
+			0x79b794, 0x5ea48e, 0x2c8755,
+			0x79b3b7, 0x5e85a4, 0x687396,
+			0x79b7ab, 0x5e9ea4, 0x4e86a3
+	),
 
 	TERRACOTTA(0x9b6045, 0x965d43),
 	BLACK_TERRACOTTA(0x251710, 0x261811),
@@ -75,7 +83,6 @@ public enum TesseraMaterial implements StringRepresentable {
 	WHITE_GLAZED_TERRACOTTA(0xf9fffe, 0xf4f4f2),
 	YELLOW_GLAZED_TERRACOTTA(0xfede5f, 0xfed83d),
 
-	GLASS(0xd5da94),
 	BLACK_STAINED_GLASS(0x66191919),
 	BLUE_STAINED_GLASS(0x66334cb2),
 	BROWN_STAINED_GLASS(0x66664c33),
@@ -93,17 +100,55 @@ public enum TesseraMaterial implements StringRepresentable {
 	WHITE_STAINED_GLASS(0x66ffffff),
 	YELLOW_STAINED_GLASS(0x66e5e533),
 
-	SHADOW( 0x80000000);
+	SHADOW(true, null, 0x80000000);
 
 	private static final RandomSource RANDOM = RandomSource.createThreadLocalInstance();
 
+	private final boolean isFakeMaterial;
+	private @Nullable
+	final GenericAnimationMetadata metadata;
 	private final List<MaterialColor> spriteSheets = new ArrayList<>();
 
 	TesseraMaterial(Integer... colors) {
-		int i = 0;
-		for (int color : colors) {
-			this.spriteSheets.add(new MaterialColor(color, this.getSerializedName(), i++));
+		this(null, colors);
+	}
+
+	TesseraMaterial(@Nullable GenericAnimationMetadata metadata, Integer... colors) {
+		this(false, metadata, colors);
+	}
+
+	TesseraMaterial(boolean isFakeMaterial, @Nullable GenericAnimationMetadata metadata, Integer... colors) {
+		this.isFakeMaterial = isFakeMaterial;
+		this.metadata = metadata;
+		if (metadata == null) {
+			int i = 0;
+			for (int color : colors) {
+				this.spriteSheets.add(new MaterialColor(i++, this.getSerializedName(), color));
+			}
+		} else {
+			int frameCount = metadata.frameCount; // 4 prismarine example
+			int variantCount = colors.length / frameCount; // 3 prismarine example
+
+			int[][] frames = new int[variantCount][frameCount];
+			for (int i = 0; i < colors.length; i++) { // 12 prismarine example
+				int frame = i % frameCount;
+				int variant = i / frameCount;
+
+				frames[variant][frame] = colors[i];
+			}
+
+			for (int i = 0; i < variantCount; i++) {
+				this.spriteSheets.add(new MaterialColor(i, this.getSerializedName(), frames[i]));
+			}
 		}
+	}
+
+	public boolean isFakeMaterial() {
+		return this.isFakeMaterial;
+	}
+
+	public @Nullable GenericAnimationMetadata getMetadata() {
+		return this.metadata;
 	}
 
 	public List<MaterialColor> getSpriteSheets() {
@@ -111,7 +156,7 @@ public enum TesseraMaterial implements StringRepresentable {
 	}
 
 	private static Identifier pathToTessera(String name, int number) {
-		return Constants.prefix("textures/block/mural/" + name + "/gui_" + number +  ".png");
+		return Constants.prefix("textures/block/mural/" + name + "/gui_" + number + ".png");
 	}
 
 	public Identifier getGuiSheet(long polySeed, int index) {
@@ -131,9 +176,42 @@ public enum TesseraMaterial implements StringRepresentable {
 		return this.name().toLowerCase(Locale.ROOT);
 	}
 
-	public record MaterialColor(int color, Identifier gui) {
-		public MaterialColor(int color, String type, int number) {
-			this(color, Constants.prefix( type + "/" +  number));
+	public record MaterialColor(Identifier gui, int... color) {
+		public MaterialColor(int number, String type, int... color) {
+			this(Constants.prefix(type + "/" + number), color);
 		}
+	}
+
+	public record GenericAnimationMetadata(Optional<List<AnimationFrame>> frames, int defaultFrameTime,
+										   boolean interpolatedFrames, int frameCount) {
+		public static final GenericAnimationMetadata PRISMARINE = new GenericAnimationMetadata(
+				Optional.of(List.of(
+						new AnimationFrame(0),
+						new AnimationFrame(1),
+						new AnimationFrame(0),
+						new AnimationFrame(2),
+						new AnimationFrame(0),
+						new AnimationFrame(3),
+						new AnimationFrame(0),
+						new AnimationFrame(1),
+						new AnimationFrame(2),
+						new AnimationFrame(1),
+						new AnimationFrame(3),
+						new AnimationFrame(1),
+						new AnimationFrame(0),
+						new AnimationFrame(2),
+						new AnimationFrame(1),
+						new AnimationFrame(2),
+						new AnimationFrame(3),
+						new AnimationFrame(2),
+						new AnimationFrame(0),
+						new AnimationFrame(3),
+						new AnimationFrame(1),
+						new AnimationFrame(3)
+				)),
+				300,
+				true,
+				4
+		);
 	}
 }

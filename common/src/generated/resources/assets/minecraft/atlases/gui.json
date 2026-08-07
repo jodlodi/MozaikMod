@@ -207,21 +207,6 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/dark_prismarine/gui_0",
-      "sprite": "mozaik:dark_prismarine/0"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:block/mural/dark_prismarine/gui_1",
-      "sprite": "mozaik:dark_prismarine/1"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:block/mural/dark_prismarine/gui_2",
-      "sprite": "mozaik:dark_prismarine/2"
-    },
-    {
-      "type": "minecraft:single",
       "resource": "mozaik:block/mural/netherrack/gui_0",
       "sprite": "mozaik:netherrack/0"
     },
@@ -394,6 +379,21 @@
       "type": "minecraft:single",
       "resource": "mozaik:block/mural/block_of_raw_gold/gui_2",
       "sprite": "mozaik:block_of_raw_gold/2"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:block/mural/dark_prismarine/gui_0",
+      "sprite": "mozaik:dark_prismarine/0"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:block/mural/dark_prismarine/gui_1",
+      "sprite": "mozaik:dark_prismarine/1"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:block/mural/dark_prismarine/gui_2",
+      "sprite": "mozaik:dark_prismarine/2"
     },
     {
       "type": "minecraft:single",
@@ -739,11 +739,6 @@
       "type": "minecraft:single",
       "resource": "mozaik:block/mural/yellow_glazed_terracotta/gui_1",
       "sprite": "mozaik:yellow_glazed_terracotta/1"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:block/mural/glass/gui_0",
-      "sprite": "mozaik:glass/0"
     },
     {
       "type": "minecraft:single",

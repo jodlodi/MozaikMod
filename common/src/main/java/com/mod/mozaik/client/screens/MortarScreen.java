@@ -274,13 +274,17 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 		this.addRenderableWidget(SpriteButton.createArrow(midX - 92, this.topPos + 32, LEFT, LEFT_HIGHLIGHTED, (button, input) -> {
 			this.addButtons.forEach(createPolyominoButton -> {
-				createPolyominoButton.setColor((createPolyominoButton.getColor() + colorCount - 1) % colorCount);
+				do {
+					createPolyominoButton.setColor((createPolyominoButton.getColor() + colorCount - 1) % colorCount);
+				} while (TesseraMaterial.values()[createPolyominoButton.getColor()].isFakeMaterial());
 			});
 		}));
 
 		this.addRenderableWidget(SpriteButton.createArrow(midX + 92, this.topPos + 32, RIGHT, RIGHT_HIGHLIGHTED, (button, input) -> {
 			this.addButtons.forEach(createPolyominoButton -> {
-				createPolyominoButton.setColor((createPolyominoButton.getColor() + 1) % colorCount);
+				do {
+					createPolyominoButton.setColor((createPolyominoButton.getColor() + 1) % colorCount);
+				} while (TesseraMaterial.values()[createPolyominoButton.getColor()].isFakeMaterial());
 			});
 		}));
 	}
