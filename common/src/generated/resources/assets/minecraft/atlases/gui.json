@@ -822,8 +822,13 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/shadow/gui_0",
-      "sprite": "mozaik:shadow/0"
+      "resource": "mozaik:block/mural/can_place/gui_0",
+      "sprite": "mozaik:can_place/0"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:block/mural/cant_place/gui_0",
+      "sprite": "mozaik:cant_place/0"
     }
   ]
 }

@@ -23,7 +23,7 @@ public enum TesseraMaterial implements StringRepresentable {
 	DEEPSLATE(0x515151, 0x5a5a5a, 0x4a4a4f, 0x3f3f45),
 	TUFF(0x85837b, 0x6a6e6f, 0x5d5d52),
 	BRICKS(0x9b5643, 0x8f503f),
-	packed_mud(0x9b775b, 0x957150, 0x89654d),
+	PACKED_MUD(0x9b775b, 0x957150, 0x89654d),
 	CALCITE(0xf0f5f4, 0xedece6, 0xd9dbd7),
 	SANDSTONE(0xe3dbb0, 0xdad2a3, 0xd5c496),
 	RED_SANDSTONE(0xd2752b, 0xc06822, 0xac5712),
@@ -100,7 +100,18 @@ public enum TesseraMaterial implements StringRepresentable {
 	WHITE_STAINED_GLASS(0x66ffffff),
 	YELLOW_STAINED_GLASS(0x66e5e533),
 
-	SHADOW(true, null, 0x80000000);
+	CAN_PLACE(true, GenericAnimationMetadata.INDICATOR,
+			0x672C8755,
+			0x67349E63,
+			0x67239B57,
+			0x6713994D
+	),
+	CANT_PLACE(true, GenericAnimationMetadata.INDICATOR,
+			0x67FF7272,
+			0x67FF5959,
+			0x67FF3F3F,
+			0x67FF2626
+	);
 
 	private static final RandomSource RANDOM = RandomSource.createThreadLocalInstance();
 
@@ -210,6 +221,17 @@ public enum TesseraMaterial implements StringRepresentable {
 						new AnimationFrame(3)
 				)),
 				300,
+				true,
+				4
+		);
+		public static final GenericAnimationMetadata INDICATOR = new GenericAnimationMetadata(
+				Optional.of(List.of(
+						new AnimationFrame(0),
+						new AnimationFrame(1),
+						new AnimationFrame(2),
+						new AnimationFrame(3)
+				)),
+				5,
 				true,
 				4
 		);

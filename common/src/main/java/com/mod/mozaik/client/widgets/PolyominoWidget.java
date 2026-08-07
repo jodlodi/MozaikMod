@@ -111,11 +111,11 @@ public class PolyominoWidget extends UnclickableWidget implements Polyomino<Voxe
 			renderVoxels(
 					graphics,
 					this,
-					TesseraMaterial.SHADOW,
+					TesseraMaterial.CANT_PLACE,
 					x + (VoxelButton.TESSERA_SIZE * 0.1F) + (-center.x * VoxelButton.TESSERA_SIZE) + 1,
 					y + (VoxelButton.TESSERA_SIZE * 0.1F) + (-center.y * VoxelButton.TESSERA_SIZE) + 1
 			);
-		} else renderVoxels(graphics, this, TesseraMaterial.SHADOW, square.getX(), square.getY());
+		} else renderVoxels(graphics, this, TesseraMaterial.CAN_PLACE, square.getX(), square.getY());
 	}
 
 	@Override
