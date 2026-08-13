@@ -122,13 +122,13 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/bricks/gui_0",
-      "sprite": "mozaik:bricks/0"
+      "resource": "mozaik:block/mural/brick/gui_0",
+      "sprite": "mozaik:brick/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/bricks/gui_1",
-      "sprite": "mozaik:bricks/1"
+      "resource": "mozaik:block/mural/brick/gui_1",
+      "sprite": "mozaik:brick/1"
     },
     {
       "type": "minecraft:single",
@@ -222,33 +222,33 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/nether_bricks/gui_0",
-      "sprite": "mozaik:nether_bricks/0"
+      "resource": "mozaik:block/mural/nether_brick/gui_0",
+      "sprite": "mozaik:nether_brick/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/nether_bricks/gui_1",
-      "sprite": "mozaik:nether_bricks/1"
+      "resource": "mozaik:block/mural/nether_brick/gui_1",
+      "sprite": "mozaik:nether_brick/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/nether_bricks/gui_2",
-      "sprite": "mozaik:nether_bricks/2"
+      "resource": "mozaik:block/mural/nether_brick/gui_2",
+      "sprite": "mozaik:nether_brick/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/red_nether_bricks/gui_0",
-      "sprite": "mozaik:red_nether_bricks/0"
+      "resource": "mozaik:block/mural/red_nether_brick/gui_0",
+      "sprite": "mozaik:red_nether_brick/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/red_nether_bricks/gui_1",
-      "sprite": "mozaik:red_nether_bricks/1"
+      "resource": "mozaik:block/mural/red_nether_brick/gui_1",
+      "sprite": "mozaik:red_nether_brick/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/red_nether_bricks/gui_2",
-      "sprite": "mozaik:red_nether_bricks/2"
+      "resource": "mozaik:block/mural/red_nether_brick/gui_2",
+      "sprite": "mozaik:red_nether_brick/2"
     },
     {
       "type": "minecraft:single",

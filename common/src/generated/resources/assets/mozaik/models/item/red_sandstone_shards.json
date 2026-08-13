@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "mozaik:item/red_sandstone_shards"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "mozaik:item/green_stained_glass_shards"
+  }
+}

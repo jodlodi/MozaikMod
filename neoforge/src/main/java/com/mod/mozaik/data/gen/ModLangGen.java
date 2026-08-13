@@ -1,15 +1,18 @@
 package com.mod.mozaik.data.gen;
 
+import com.google.common.base.Ascii;
 import com.mod.mozaik.data.util.ModLangProvider;
-import com.mod.mozaik.reg.ModBlocks;
 import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModTabs;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import org.jspecify.annotations.NullMarked;
 
+import java.util.Arrays;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @NullMarked
 public class ModLangGen extends ModLangProvider {
@@ -37,7 +40,18 @@ public class ModLangGen extends ModLangProvider {
 		this.addItem(ModItems.MORTARS.red(), "Red Mortar");
 		this.addItem(ModItems.MORTARS.black(), "Black Mortar");
 
+		ModItems.SHARDS.forEach(shard -> this.addItem(shard, identifierToTitleCase(shard.id())));
+
 		this.addCreativeTab(ModTabs.TAB, "Mozaik");
+	}
+
+	private static String identifierToTitleCase(Identifier id) {
+		return Arrays
+				.stream(id.getPath().split("_"))
+				.map(word -> word.isEmpty()
+						? word
+						: Ascii.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase())
+				.collect(Collectors.joining(" "));
 	}
 
 	@Override
