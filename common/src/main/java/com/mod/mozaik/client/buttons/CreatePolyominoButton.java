@@ -18,7 +18,7 @@ import java.util.Objects;
 
 public class CreatePolyominoButton extends ModButton {
 	public final static int SIZE = 32;
-	private final Polyomino.PlainPolyomino template;
+	private Polyomino.PlainPolyomino template;
 	private final MortarScreen screen;
 	private int color = 0;
 
@@ -26,6 +26,14 @@ public class CreatePolyominoButton extends ModButton {
 		super(x - SIZE / 2, y - SIZE / 2, SIZE, SIZE, Component.empty());
 		this.template = template;
 		this.screen = screen;
+	}
+
+	public void setTemplate(Polyomino.PlainPolyomino template) {
+		this.template = template;
+	}
+
+	public Polyomino.PlainPolyomino getTemplate() {
+		return this.template;
 	}
 
 	@Override

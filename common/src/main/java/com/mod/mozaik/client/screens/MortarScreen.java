@@ -20,7 +20,6 @@ import com.mod.mozaik.reg.ModBlocks;
 import com.mod.mozaik.reg.ResourceSupplier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
-import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -34,7 +33,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
@@ -48,28 +46,32 @@ import java.util.Objects;
 @NullMarked
 public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private static final Identifier MORTAR_LOCATION = Constants.prefix("textures/gui/container/mortar.png");
-
 	private static final Identifier LEFT = Constants.prefix("textures/gui/container/left.png");
 	private static final Identifier LEFT_HIGHLIGHTED = Constants.prefix("textures/gui/container/left_highlighted.png");
 	private static final Identifier RIGHT = Constants.prefix("textures/gui/container/right.png");
 	private static final Identifier RIGHT_HIGHLIGHTED = Constants.prefix("textures/gui/container/right_highlighted.png");
+	private static final int BACKGROUND_WIDTH = 180;
+	private static final int BACKGROUND_HEIGHT = 238;
+	private static final int GRID_START_X = 10;
+	private static final int GRID_START_Y = 68;
+	private static final int BOWL_CENTER_X = 35;
+	private static final int BOWL_CENTER_Y = 25;
 
 	public static final int LEFT_CLICK = 0;
 	public static final int MIDDLE_CLICK = 2;
 	public static final int RIGHT_CLICK = 1;
 
+	int template = 0;
+
 	public GridWidget[][] matrix = new GridWidget[16][16];
 	public List<PolyominoWidget> polyominos = new ArrayList<>();
 	public @Nullable PolyominoWidget selected;
-	public List<CreatePolyominoButton> addButtons = new ArrayList<>();
+	public CreatePolyominoButton addButton;
 	private final List<PhaseRenderable> renderableWidgets = new ArrayList<>();
 	private boolean hasTicked = false;
 
-	private static final int iX = 48;
-	private static final int iY = 77;
-
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
-		super(menu, playerInventory, title, 256, 256);
+		super(menu, playerInventory, title, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 	}
 
 	@Override
@@ -240,11 +242,9 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public void extractRenderState(GuiGraphicsExtractor graphicsExtractor, int mouseX, int mouseY, float partialTick) {
 		GraphicsRenderHelper graphics = new GraphicsRenderHelper(graphicsExtractor);
 		this.renderableWidgets.forEach(renderable -> renderable.renderBelowItems(graphics));
-		this.extractContents(graphicsExtractor, mouseX, mouseY, partialTick);
+		super.extractRenderState(graphicsExtractor, mouseX, mouseY, partialTick);
 		this.renderableWidgets.forEach(renderable -> renderable.renderAboveItems(graphics));
-		this.extractCarriedItem(graphicsExtractor, mouseX, mouseY);
 		this.renderableWidgets.forEach(renderable -> renderable.renderOnTop(graphics));
-		this.extractTooltip(graphicsExtractor, mouseX, mouseY);
 	}
 
 	@Override
@@ -262,38 +262,38 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		for (int x = 0; x < 16; x++) {
 			for (int y = 0; y < 16; y++) {
 				this.matrix[x][y] = this.addRenderableWidget(
-						new GridWidget(this.leftPos + iX + x * VoxelButton.TESSERA_SIZE, this.topPos + iY + y * VoxelButton.TESSERA_SIZE, x, y)
+						new GridWidget(this.leftPos + GRID_START_X + x * VoxelButton.TESSERA_SIZE, this.topPos + GRID_START_Y + y * VoxelButton.TESSERA_SIZE, x, y)
 				);
 			}
 		}
 
 		Polyomino.PolyominoShape[] values = Polyomino.PolyominoShape.values();
-		int count = values.length;
-		int size = CreatePolyominoButton.SIZE + 4;
-
-		for (int i = 0; i < count; i++) {
-			Polyomino.PolyominoShape shapes = values[i];
-			float x = i - (count * 0.5F) + 0.5F;
-
-			this.addButtons.add(this.addRenderableWidget(new CreatePolyominoButton((int) (midX - (size * x)), this.topPos + 4, this, shapes.template)));
-		}
+		this.addButton = this.addRenderableWidget(new CreatePolyominoButton(this.leftPos + BOWL_CENTER_X, this.topPos + BOWL_CENTER_Y, this, values[this.template].template));
 
 		int colorCount = TesseraMaterial.values().length;
 
 		this.addRenderableWidget(SpriteButton.createArrow(midX - 92, this.topPos + 32, LEFT, LEFT_HIGHLIGHTED, (button, input) -> {
-			this.addButtons.forEach(createPolyominoButton -> {
-				do {
-					createPolyominoButton.setColor((createPolyominoButton.getColor() + colorCount - 1) % colorCount);
-				} while (TesseraMaterial.values()[createPolyominoButton.getColor()].isFakeMaterial());
-			});
+			do {
+				this.addButton.setColor((this.addButton.getColor() + colorCount - 1) % colorCount);
+			} while (TesseraMaterial.values()[this.addButton.getColor()].isFakeMaterial());
 		}));
 
 		this.addRenderableWidget(SpriteButton.createArrow(midX + 92, this.topPos + 32, RIGHT, RIGHT_HIGHLIGHTED, (button, input) -> {
-			this.addButtons.forEach(createPolyominoButton -> {
-				do {
-					createPolyominoButton.setColor((createPolyominoButton.getColor() + 1) % colorCount);
-				} while (TesseraMaterial.values()[createPolyominoButton.getColor()].isFakeMaterial());
-			});
+			do {
+				this.addButton.setColor((this.addButton.getColor() + 1) % colorCount);
+			} while (TesseraMaterial.values()[this.addButton.getColor()].isFakeMaterial());
+		}));
+
+		int templateCount = Polyomino.PolyominoShape.values().length;
+
+		this.addRenderableWidget(SpriteButton.createArrow(midX - 92, this.topPos + 16, LEFT, LEFT_HIGHLIGHTED, (button, input) -> {
+			this.template = (this.template + templateCount - 1) % templateCount;
+			this.addButton.setTemplate(values[this.template].template);
+		}));
+
+		this.addRenderableWidget(SpriteButton.createArrow(midX + 92, this.topPos + 16, RIGHT, RIGHT_HIGHLIGHTED, (button, input) -> {
+			this.template = (this.template + 1) % templateCount;
+			this.addButton.setTemplate(values[this.template].template);
 		}));
 	}
 
@@ -309,7 +309,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		BlockEntity entity = level.getBlockEntity(this.menu.getPos());
 		if (entity == null) return;
 		Block block = entity.getBlockState().getBlock();
-		graphics.blit(RenderPipelines.GUI_TEXTURED, fromBlock(block), xo + iX, yo + iY, 0.0F, 0.0F, 160, 160, 160, 160);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, fromBlock(block), xo + GRID_START_X, yo + GRID_START_Y, 0.0F, 0.0F, 160, 160, 160, 160);
 	}
 
 	private static Identifier fromBlock(Block block) {
