@@ -5,8 +5,8 @@ import com.mod.mozaik.blocks.MortarBlock;
 import com.mod.mozaik.blocks.entities.NeoMortarBlockEntity;
 import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.model.TesseraHelper;
-import com.mod.mozaik.polyomino.IPolyominoHolder;
 import com.mod.mozaik.polyomino.Polyomino;
+import com.mod.mozaik.polyomino.Tessera;
 import com.mod.mozaik.util.FlatDirection;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -89,18 +89,18 @@ public final class MosaicStateModel implements DynamicBlockStateModel {
 		if (GraphicsRenderHelper.BAKER == null) return;
 
 		ModelData data = level.getModelData(pos);
-		List<IPolyominoHolder.PlacedPolyomino> colorMap = data.get(NeoMortarBlockEntity.PROPERTY);
+		List<Polyomino.PlacedPolyomino> colorMap = data.get(NeoMortarBlockEntity.PROPERTY);
 		if (colorMap == null) return;
-		List<IPolyominoHolder.PlacedPolyomino> copy = new ArrayList<>(colorMap);
+		List<Polyomino.PlacedPolyomino> copy = new ArrayList<>(colorMap);
 
-		copy.forEach((@Nullable IPolyominoHolder.PlacedPolyomino polyomino) -> {
+		copy.forEach((@Nullable Polyomino.PlacedPolyomino polyomino) -> {
 			if (polyomino == null) return;
 			int x = polyomino.x();
 			int y = polyomino.y();
 			List<Vector2i> dirs = polyomino.polyomino().placedTessera().stream().map(tessera -> new Vector2i(tessera.x(), tessera.y())).toList();
 
 			int index = -1;
-			for (Polyomino.PlacedTessera tessera : polyomino.polyomino().placedTessera()) {
+			for (Tessera.PlacedTessera tessera : polyomino.polyomino().placedTessera()) {
 				index++;
 				int fx = x + tessera.x();
 				int fy = y + tessera.y();

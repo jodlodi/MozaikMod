@@ -2,7 +2,7 @@ package com.mod.mozaik.platform;
 
 import com.mod.mozaik.networking.clientbound.IClientboundMessage;
 import com.mod.mozaik.networking.serverbound.IServerboundMessage;
-import com.mod.mozaik.networking.serverbound.UpdateGlueServerbound;
+import com.mod.mozaik.networking.serverbound.OpenGlueMenuServerbound;
 import com.mod.mozaik.platform.services.INetworkHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class FabricNetworkHelper implements INetworkHelper {
 	public static void initServerbound() {
-		registerServerbound(UpdateGlueServerbound.TYPE);
+		registerServerbound(OpenGlueMenuServerbound.TYPE);
 	}
 
 	private static <T extends IServerboundMessage> void registerServerbound(CustomPacketPayload.Type<T> type) {

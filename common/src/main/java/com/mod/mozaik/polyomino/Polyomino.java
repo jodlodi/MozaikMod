@@ -11,36 +11,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NullMarked
-public record Polyomino(List<PlacedTessera> placedTessera, TesseraMaterial material, long seed) {
+public record Polyomino(List<Tessera.PlacedTessera> placedTessera, TesseraMaterial material, long seed) {
 
-	private Polyomino(List<PlacedTessera> placedTessera, int ordinal, long seed) {
+	private Polyomino(List<Tessera.PlacedTessera> placedTessera, int ordinal, long seed) {
 		this(placedTessera, TesseraMaterial.values()[ordinal], seed);
 	}
 
 	public static final Codec<Polyomino> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
-			PlacedTessera.CODEC.listOf().fieldOf("placedTessera").forGetter(Polyomino::placedTessera),
+			Tessera.PlacedTessera.CODEC.listOf().fieldOf("placedTessera").forGetter(Polyomino::placedTessera),
 			Codec.INT.fieldOf("material").forGetter(material -> material.material.ordinal()),
 			Codec.LONG.fieldOf("seed").forGetter(Polyomino::seed)
 	).apply(recordCodecBuilder, Polyomino::new));
-
-	public record PlacedTessera(Tessera tessera, int x, int y) {
-		public static final Codec<PlacedTessera> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
-				Tessera.CODEC.fieldOf("polyomino").forGetter(PlacedTessera::tessera),
-				Codec.INT.fieldOf("x").forGetter(PlacedTessera::x),
-				Codec.INT.fieldOf("y").forGetter(PlacedTessera::y)
-		).apply(recordCodecBuilder, PlacedTessera::new));
-	}
 
 	public Vector2f getGridCenter() {
 		float x = 0;
 		float y = 0;
 
-		for (PlacedTessera voxel : this.placedTessera) {
+		for (Tessera.PlacedTessera voxel : this.placedTessera) {
 			x += voxel.x();
 			y += voxel.y();
 		}
 
 		return new Vector2f(x / this.placedTessera.size() + 0.5F, y / this.placedTessera.size() + 0.5F);
+	}
+
+	public record PlacedPolyomino(Polyomino polyomino, int x, int y) {
+		public static final Codec<PlacedPolyomino> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
+				Polyomino.CODEC.fieldOf("polyomino").forGetter(PlacedPolyomino::polyomino),
+				Codec.INT.fieldOf("x").forGetter(PlacedPolyomino::x),
+				Codec.INT.fieldOf("y").forGetter(PlacedPolyomino::y)
+		).apply(recordCodecBuilder, PlacedPolyomino::new));
 	}
 
 	public static class Builder {
@@ -70,7 +70,7 @@ public record Polyomino(List<PlacedTessera> placedTessera, TesseraMaterial mater
 				y++;
 			}
 
-			List<PlacedTessera> placedTessera = tessera.stream().map(vector2i -> {
+			List<Tessera.PlacedTessera> placedTessera = tessera.stream().map(vector2i -> {
 				List<FlatDirection> connections = new ArrayList<>();
 
 				for (FlatDirection direction : FlatDirection.cardinalClockwise()) {
@@ -91,7 +91,7 @@ public record Polyomino(List<PlacedTessera> placedTessera, TesseraMaterial mater
 					}
 				}
 
-				return new PlacedTessera(new Tessera(Tessera.Shape.get(connections)), vector2i.x(), vector2i.y());
+				return new Tessera.PlacedTessera(new Tessera(Tessera.Shape.get(connections)), vector2i.x(), vector2i.y());
 			}).toList();
 
 			return new Polyomino(placedTessera, material, seed);

@@ -3,6 +3,7 @@ package com.mod.mozaik.platform;
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.networking.bidirectional.UpdateGlueBidirectional;
 import com.mod.mozaik.networking.clientbound.IClientboundMessage;
+import com.mod.mozaik.networking.clientbound.OpenGlueMenuClientbound;
 import com.mod.mozaik.networking.serverbound.IServerboundMessage;
 import com.mod.mozaik.platform.services.INetworkHelper;
 import net.minecraft.client.player.LocalPlayer;
@@ -28,11 +29,17 @@ public class NeoForgeNetworkHelper implements INetworkHelper {
 	public static void onRegEvent(RegisterPayloadHandlersEvent event) {
 		PayloadRegistrar registrar = event.registrar(Constants.MOD_ID).versioned(PROTOCOL_VERSION).optional();
 		registrar.playBidirectional(UpdateGlueBidirectional.TYPE, UpdateGlueBidirectional.STREAM_CODEC, NeoForgeNetworkHelper::onServerMessage, NeoForgeNetworkHelper::onClientMessage);
+		registrar.playToClient(OpenGlueMenuClientbound.TYPE, OpenGlueMenuClientbound.STREAM_CODEC, NeoForgeNetworkHelper::onClientMessage);
 	}
 
 	@Override
 	public void sendToServer(IServerboundMessage payload, IServerboundMessage... payloads) {
 		ClientPacketDistributor.sendToServer(payload, payloads);
+	}
+
+	@Override
+	public void sendToClient(ServerPlayer player, IClientboundMessage payload, IClientboundMessage... payloads) {
+		PacketDistributor.sendToPlayer(player, payload, payloads);
 	}
 
 	@Override

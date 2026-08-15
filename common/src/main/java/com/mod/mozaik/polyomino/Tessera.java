@@ -25,6 +25,14 @@ public record Tessera(Shape shape) {
 		return this.shape.v;
 	}
 
+	public record PlacedTessera(Tessera tessera, int x, int y) {
+		public static final Codec<PlacedTessera> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
+				Tessera.CODEC.fieldOf("tessera").forGetter(PlacedTessera::tessera),
+				Codec.INT.fieldOf("x").forGetter(PlacedTessera::x),
+				Codec.INT.fieldOf("y").forGetter(PlacedTessera::y)
+		).apply(recordCodecBuilder, PlacedTessera::new));
+	}
+
 	public enum Shape {
 		U(0, 2, FlatDirection.UP),
 		R(1, 3, FlatDirection.RIGHT),
@@ -60,7 +68,7 @@ public record Tessera(Shape shape) {
 
 		L_R_D_DR_DL(10, 0, FlatDirection.LEFT, FlatDirection.RIGHT, FlatDirection.DOWN, FlatDirection.DOWN_RIGHT, FlatDirection.DOWN_LEFT),
 		L_R_U_UR_UL(9, 3, FlatDirection.LEFT, FlatDirection.RIGHT, FlatDirection.UP, FlatDirection.UP_RIGHT, FlatDirection.UP_LEFT),
-		U_D_R_UR_DR( 8, 1, FlatDirection.UP, FlatDirection.DOWN, FlatDirection.RIGHT, FlatDirection.UP_RIGHT, FlatDirection.DOWN_RIGHT),
+		U_D_R_UR_DR(8, 1, FlatDirection.UP, FlatDirection.DOWN, FlatDirection.RIGHT, FlatDirection.UP_RIGHT, FlatDirection.DOWN_RIGHT),
 		U_D_L_UL_DL(11, 2, FlatDirection.UP, FlatDirection.DOWN, FlatDirection.LEFT, FlatDirection.UP_LEFT, FlatDirection.DOWN_LEFT),
 
 		PLUS(2, 1, FlatDirection.UP, FlatDirection.DOWN, FlatDirection.RIGHT, FlatDirection.LEFT),

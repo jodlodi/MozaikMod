@@ -1,6 +1,6 @@
 package com.mod.mozaik.blocks.entities;
 
-import com.mod.mozaik.polyomino.IPolyominoHolder;
+import com.mod.mozaik.polyomino.Polyomino;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
@@ -12,14 +12,14 @@ import java.util.List;
 
 @NullMarked
 public class NeoMortarBlockEntity extends MortarBlockEntity {
-	public static final ModelProperty<List<IPolyominoHolder.PlacedPolyomino>> PROPERTY = new ModelProperty<>();
+	public static final ModelProperty<List<Polyomino.PlacedPolyomino>> PROPERTY = new ModelProperty<>();
 
 	public NeoMortarBlockEntity(BlockPos pos, BlockState blockState) {
 		super(pos, blockState);
 	}
 
 	@Override
-	public void setPolyominos(List<IPolyominoHolder.PlacedPolyomino> polyominos) {
+	public void setPolyominos(List<Polyomino.PlacedPolyomino> polyominos) {
 		super.setPolyominos(polyominos);
 		if (this.level instanceof ClientLevel clientLevel) {
 			this.requestModelDataUpdate();

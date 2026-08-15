@@ -1,12 +1,16 @@
 package com.mod.mozaik.blocks;
 
+import com.mod.mozaik.blocks.entities.MortarBlockEntity;
+import com.mod.mozaik.menus.MortarMenu;
+import com.mod.mozaik.mixin.ServerPlayerAccessor;
+import com.mod.mozaik.networking.clientbound.OpenGlueMenuClientbound;
 import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.reg.ModBlockEntities;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.stats.Stats;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -137,13 +141,28 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 
 	@Override
 	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-		if (level.isClientSide()) {
-			return InteractionResult.SUCCESS;
-		} else {
-			player.openMenu(state.getMenuProvider(level, pos));
-			player.awardStat(Stats.INTERACT_WITH_STONECUTTER);//FIXME
-			return InteractionResult.CONSUME;
+		if (player instanceof ServerPlayer serverPlayer && level.getBlockEntity(pos) instanceof MortarBlockEntity blockEntity) {
+			if (serverPlayer.containerMenu != serverPlayer.inventoryMenu) {
+				serverPlayer.closeContainer();
+			}
+
+			((ServerPlayerAccessor)serverPlayer).setContainerCounter(((ServerPlayerAccessor)serverPlayer).getContainerCounter() % 100 + 1);
+
+			MortarMenu menu = new MortarMenu(
+					((ServerPlayerAccessor)serverPlayer).getContainerCounter(),
+					serverPlayer.getInventory(),
+					blockEntity.getPolyominos(),
+					pos
+			);
+
+			Services.NETWORK.sendToClient(serverPlayer, new OpenGlueMenuClientbound(blockEntity.getPolyominos(), pos, ((ServerPlayerAccessor)serverPlayer).getContainerCounter()));
+
+			menu.addSlotListener(((ServerPlayerAccessor)serverPlayer).getContainerListener());
+			menu.setSynchronizer(((ServerPlayerAccessor)serverPlayer).getContainerSynchronizer());
+
+			serverPlayer.containerMenu = menu;
 		}
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
