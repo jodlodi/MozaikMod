@@ -49,12 +49,12 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private static final Identifier LEFT_HIGHLIGHTED = Constants.prefix("textures/gui/container/left_highlighted.png");
 	private static final Identifier RIGHT = Constants.prefix("textures/gui/container/right.png");
 	private static final Identifier RIGHT_HIGHLIGHTED = Constants.prefix("textures/gui/container/right_highlighted.png");
-	private static final int BACKGROUND_WIDTH = 180;
-	private static final int BACKGROUND_HEIGHT = 238;
-	private static final int GRID_START_X = 10;
-	private static final int GRID_START_Y = 68;
-	private static final int BOWL_CENTER_X = 35;
-	private static final int BOWL_CENTER_Y = 25;
+	private static final int BACKGROUND_WIDTH = 242;
+	private static final int BACKGROUND_HEIGHT = 256;
+	private static final int GRID_START_X = 41;
+	private static final int GRID_START_Y = 76;
+	private static final int BOWL_CENTER_X = 58;
+	private static final int BOWL_CENTER_Y = 26;
 
 	public static final int LEFT_CLICK = 0;
 	public static final int MIDDLE_CLICK = 2;
