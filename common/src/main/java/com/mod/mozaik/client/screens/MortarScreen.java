@@ -6,7 +6,6 @@ import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.buttons.CreatePolyominoButton;
 import com.mod.mozaik.client.buttons.SpriteButton;
-import com.mod.mozaik.client.widgets.GridWidget;
 import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.menus.MortarMenu;
@@ -36,6 +35,7 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
+import org.joml.Vector2i;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.ArrayList;
@@ -62,7 +62,6 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	int template = 0;
 
-	public GridWidget[][] matrix = new GridWidget[16][16];
 	public List<PolyominoWidget> polyominos = new ArrayList<>();
 	public @Nullable HeldPolyominoWidget selected;
 	public @Nullable CreatePolyominoButton addButton;
@@ -99,53 +98,35 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				this.selected.mirror();
 				return true;
 			} else if (click == LEFT_CLICK) {
-				GridWidget square = this.getTargetWidget();
-				if (square != null) {
-					int x = square.relativeX();
-					int y = square.relativeY();
+				Vector2i square = this.getTargetGrid();
 
-					PolyominoWidget widget = this.selected.build(x, y);
-					this.addRenderableWidget(widget);
+				PolyominoWidget widget = this.selected.build(square.x, square.y);
+				this.addRenderableWidget(widget);
 
-					widget.setX(square.getX());
-					widget.setY(square.getY());
-					this.polyominos.add(widget);
-					this.markChanged();
-				}
+				Vector2i gridPos = this.getGridPos(square);
+				widget.setX(gridPos.x);
+				widget.setY(gridPos.y);
+				this.polyominos.add(widget);
+				this.markChanged();
 				this.selected.remove();
 				return true;
 			} else if (click == MIDDLE_CLICK && this.addButton != null) {
+				Vector2i square = this.getTargetGrid();
+
+				PolyominoWidget widget = this.selected.build(square.x, square.y);
+				this.addRenderableWidget(widget);
+
+				Vector2i gridPos = this.getGridPos(square);
+				widget.setX(gridPos.x);
+				widget.setY(gridPos.y);
+				this.polyominos.add(widget);
+				this.markChanged();
 				this.selected.polyomino = this.addButton.getTemplate().build(this.selected.polyomino.material(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong());
-
-				GridWidget square = this.getTargetWidget();
-				if (square != null) {
-					int x = square.relativeX();
-					int y = square.relativeY();
-
-					PolyominoWidget widget = this.selected.build(x, y);
-					this.addRenderableWidget(widget);
-
-					widget.setX(square.getX());
-					widget.setY(square.getY());
-					this.polyominos.add(widget);
-					this.markChanged();
-
-					return true;
-				}
+				return true;
 			}
 			return true;
 		} else {
-			Minecraft minecraft = Minecraft.getInstance();
-			MouseHandler mouse = Objects.requireNonNull(minecraft).mouseHandler;
-			float mouseX = (float) mouse.xpos() * (float) minecraft.getWindow().getGuiScaledWidth() / (float) minecraft.getWindow().getScreenWidth();
-			float mouseY = (float) mouse.ypos() * (float) minecraft.getWindow().getGuiScaledHeight() / (float) minecraft.getWindow().getScreenHeight();
-
-			GridWidget square = this.matrix[0][0];
-			int gridX = square.getX();
-			int gridY = square.getY();
-
-			int x = (int) (mouseX - gridX) / Tessera.TESSERA_SIZE;
-			int y = (int) (mouseY - gridY) / Tessera.TESSERA_SIZE;
+			Vector2i square = this.getTargetGrid();
 
 			for (PolyominoWidget widget : this.polyominos) {
 				int widgetX = widget.gridX();
@@ -153,7 +134,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				for (Tessera.PlacedTessera tessera : widget.getPlacedPolyomino().polyomino().placedTessera()) {
 					int rX = widgetX + tessera.x();
 					int rY = widgetY + tessera.y();
-					if (rX == x && rY == y) {
+					if (rX == square.x && rY == square.y) {
 						this.selected = new HeldPolyominoWidget(this, widget.getX(), widget.getY(), widget.getPlacedPolyomino().polyomino());
 						this.addRenderableWidget(this.selected);
 						this.polyominos.remove(widget);
@@ -167,21 +148,31 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		return super.mouseClicked(event, doubleClick);
 	}
 
-	@Nullable
-	public GridWidget getTargetWidget() {
+	public Vector2i getTargetGrid() {
 		Minecraft minecraft = Minecraft.getInstance();
 		MouseHandler mouse = Objects.requireNonNull(minecraft).mouseHandler;
 		float mouseX = (float) mouse.xpos() * (float) minecraft.getWindow().getGuiScaledWidth() / (float) minecraft.getWindow().getScreenWidth();
 		float mouseY = (float) mouse.ypos() * (float) minecraft.getWindow().getGuiScaledHeight() / (float) minecraft.getWindow().getScreenHeight();
-		return this.getTargetWidget(mouseX, mouseY);
+
+		int gridX = this.leftPos + GRID_START_X;
+		int gridY = this.topPos + GRID_START_Y;
+
+		int x = (int) (mouseX - gridX) / Tessera.TESSERA_SIZE;
+		int y = (int) (mouseY - gridY) / Tessera.TESSERA_SIZE;
+		return new Vector2i(x, y);
+	}
+
+	public Vector2i getGridPos(Vector2i target) {
+		int gridX = this.leftPos + GRID_START_X;
+		int gridY = this.topPos + GRID_START_Y;
+		return new Vector2i(gridX + target.x * Tessera.TESSERA_SIZE, gridY + target.y * Tessera.TESSERA_SIZE);
 	}
 
 	@Nullable
-	public GridWidget getTargetWidget(float mouseX, float mouseY) {
+	public Vector2i getTargetWidget(float mouseX, float mouseY) {
 		if (this.selected != null) {
-			GridWidget square = this.matrix[0][0];
-			int gridX = square.getX();
-			int gridY = square.getY();
+			int gridX = this.leftPos + GRID_START_X;
+			int gridY = this.topPos + GRID_START_Y;
 
 			Vector2f center = this.selected.polyomino.getGridCenter();
 			mouseX -= center.x * Tessera.TESSERA_SIZE;
@@ -221,7 +212,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 						}
 					}
 
-					if (canFit) return this.matrix[x][y];
+					if (canFit) return new Vector2i(x, y);
 				}
 			}
 		}
@@ -255,14 +246,6 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 		int midX = this.width / 2;
 
-		for (int x = 0; x < 16; x++) {
-			for (int y = 0; y < 16; y++) {
-				this.matrix[x][y] = this.addRenderableWidget(
-						new GridWidget(this.leftPos + GRID_START_X + x * Tessera.TESSERA_SIZE, this.topPos + GRID_START_Y + y * Tessera.TESSERA_SIZE, x, y)
-				);
-			}
-		}
-
 		PrePolyominoShapes[] values = PrePolyominoShapes.values();
 		this.addButton = this.addRenderableWidget(new CreatePolyominoButton(this.leftPos + BOWL_CENTER_X, this.topPos + BOWL_CENTER_Y, this, values[this.template].template));
 
@@ -293,11 +276,10 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		}));
 
 		this.menu.getMosaic().forEach(placedPolyomino -> {
-			int gridX = placedPolyomino.x();
-			int gridY = placedPolyomino.y();
-			GridWidget widget = this.matrix[gridX][gridY];
+			int gridX = this.leftPos + GRID_START_X;
+			int gridY = this.topPos + GRID_START_Y;
 
-			PolyominoWidget polyominoWidget = new PolyominoWidget(this, widget.getX(), widget.getY(), placedPolyomino);
+			PolyominoWidget polyominoWidget = new PolyominoWidget(this, gridX + placedPolyomino.x() * Tessera.TESSERA_SIZE, gridY + placedPolyomino.y() * Tessera.TESSERA_SIZE, placedPolyomino);
 			this.polyominos.add(polyominoWidget);
 			this.addRenderableWidget(polyominoWidget);
 		});

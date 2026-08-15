@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.world.level.block.Rotation;
 import org.joml.Vector2f;
+import org.joml.Vector2i;
 import org.joml.Vector3i;
 import org.jspecify.annotations.NullMarked;
 
@@ -73,7 +74,7 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 		float y = (float) mouse.ypos() * (float) minecraft.getWindow().getGuiScaledHeight() / (float) minecraft.getWindow().getScreenHeight();
 
 		Vector2f center = this.polyomino.getGridCenter();
-		GridWidget square = this.screen.getTargetWidget(x, y);
+		Vector2i square = this.screen.getTargetWidget(x, y);
 
 		if (square == null) {
 			renderVoxels(
@@ -83,7 +84,10 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 					x + (Tessera.TESSERA_SIZE * 0.1F) + (-center.x * Tessera.TESSERA_SIZE) + 1,
 					y + (Tessera.TESSERA_SIZE * 0.1F) + (-center.y * Tessera.TESSERA_SIZE) + 1
 			);
-		} else renderVoxels(graphics, this.polyomino, TesseraMaterial.CAN_PLACE, square.getX(), square.getY());
+		} else {
+			square = this.screen.getGridPos(square);
+			renderVoxels(graphics, this.polyomino, TesseraMaterial.CAN_PLACE, square.x(), square.y());
+		}
 	}
 
 	@Override
