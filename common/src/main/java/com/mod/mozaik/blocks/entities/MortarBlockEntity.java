@@ -1,9 +1,9 @@
 package com.mod.mozaik.blocks.entities;
 
-import com.mod.mozaik.Polyomino;
 import com.mod.mozaik.menus.MortarMenu;
 import com.mod.mozaik.networking.bidirectional.UpdateGlueBidirectional;
 import com.mod.mozaik.platform.Services;
+import com.mod.mozaik.polyomino.IPolyominoHolder;
 import com.mod.mozaik.reg.ModBlockEntities;
 import com.mod.mozaik.util.MortarContainerData;
 import net.minecraft.core.BlockPos;
@@ -39,7 +39,7 @@ public class MortarBlockEntity extends BlockEntity implements MenuProvider, Name
 	private static final Component DEFAULT_NAME = Component.literal("Glu");
 	private static final String CUSTOM_NAME = "CustomName";
 	private static final String POLYOMINOS = "polyominos";
-	private final List<Polyomino.PlainPolyomino> polyominos = new ArrayList<>();
+	private final List<IPolyominoHolder.PlacedPolyomino> polyominos = new ArrayList<>();
 	private @Nullable Component name;
 	private LockCode lockKey = LockCode.NO_LOCK;
 	public final MortarContainerData dataAccess;
@@ -49,11 +49,11 @@ public class MortarBlockEntity extends BlockEntity implements MenuProvider, Name
 		this.dataAccess = new MortarContainerData(this);
 	}
 
-	public List<Polyomino.PlainPolyomino> getPolyominos() {
+	public List<IPolyominoHolder.PlacedPolyomino> getPolyominos() {
 		return this.polyominos;
 	}
 
-	public void setPolyominos(List<Polyomino.PlainPolyomino> polyominos) {
+	public void setPolyominos(List<IPolyominoHolder.PlacedPolyomino> polyominos) {
 		this.polyominos.clear();
 		this.polyominos.addAll(polyominos);
 		if (this.level instanceof ServerLevel serverLevel) {
@@ -115,13 +115,13 @@ public class MortarBlockEntity extends BlockEntity implements MenuProvider, Name
 		super.loadAdditional(input);
 		this.name = parseCustomNameSafe(input, CUSTOM_NAME);
 		this.lockKey = LockCode.fromTag(input);
-		input.read(POLYOMINOS, Polyomino.PlainPolyomino.CODEC.listOf()).ifPresent(this::setPolyominos);
+		input.read(POLYOMINOS, IPolyominoHolder.PlacedPolyomino.CODEC.listOf()).ifPresent(this::setPolyominos);
 	}
 
 	@Override
 	protected void saveAdditional(ValueOutput output) {
 		output.storeNullable(CUSTOM_NAME, ComponentSerialization.CODEC, this.name);
-		output.store(POLYOMINOS, Polyomino.PlainPolyomino.CODEC.listOf(), this.getPolyominos().stream().map(Polyomino::asPlain).toList());
+		output.store(POLYOMINOS, IPolyominoHolder.PlacedPolyomino.CODEC.listOf(), this.getPolyominos());
 		this.lockKey.addToTag(output);
 	}
 }

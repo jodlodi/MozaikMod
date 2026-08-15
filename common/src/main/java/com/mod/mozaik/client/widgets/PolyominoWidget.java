@@ -1,10 +1,13 @@
 package com.mod.mozaik.client.widgets;
 
-import com.mod.mozaik.*;
+import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.PhaseRenderable;
-import com.mod.mozaik.client.buttons.VoxelButton;
 import com.mod.mozaik.client.screens.MortarScreen;
+import com.mod.mozaik.polyomino.Polyomino;
+import com.mod.mozaik.polyomino.Tessera;
+import com.mod.mozaik.polyomino.TesseraMaterial;
+import com.mod.mozaik.util.FlatDirection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.resources.Identifier;
@@ -17,83 +20,62 @@ import org.jspecify.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @NullMarked
-public class PolyominoWidget extends UnclickableWidget implements Polyomino<VoxelButton>, PhaseRenderable {
-	public final List<VoxelButton> voxels = new ArrayList<>();
+public class PolyominoWidget extends UnclickableWidget implements PhaseRenderable {
 	public final MortarScreen screen;
-	private final int color;
-	private final long seed;
+	public Polyomino polyomino;
 
 	public int gridX = 0;
 	public int gridY = 0;
 
-	public PolyominoWidget(MortarScreen screen, int x, int y, int color, long seed) {
+	public PolyominoWidget(MortarScreen screen, int x, int y, Polyomino polyomino) {
 		super(x, y, 0, 0);
 		this.screen = screen;
-		this.color = color;
-		this.seed = seed;
-	}
-
-	public PolyominoWidget withVoxel(int x, int y) {
-		VoxelButton button = new VoxelButton(this, x, y);
-		this.screen.addRenderableWidget(button);
-		this.voxels.add(button);
-		return this;
+		this.polyomino = polyomino;
 	}
 
 	public PolyominoWidget copy() {
-		PolyominoWidget copy = new PolyominoWidget(this.screen, this.getX(), this.getY(), this.color, this.seed);
-		this.voxels.forEach(voxelButton -> copy.withVoxel(voxelButton.relativeX(), voxelButton.relativeY()));
-		return copy;
+		return new PolyominoWidget(this.screen, this.getX(), this.getY(), this.polyomino);
 	}
 
-	@Override
-	public PolyominoWidget rotate(Rotation rotation) {
+	public void rotate(Rotation rotation) {
+		List<Polyomino.PlacedTessera> placedTessera = new ArrayList<>();
 
-		this.allVoxels().forEach(voxel -> {
-			Vector3i vec = new Vector3i(voxel.relativeX(), 0, voxel.relativeY());
-			Vector3i rotated = rotation.rotation().rotate(vec);
-			voxel.setX(rotated.x);
-			voxel.setY(rotated.z);
-		});
+		this.placedTessera().forEach(voxel -> {
+					Vector3i vec = new Vector3i(voxel.x(), 0, voxel.y());
+					Vector3i rotated = rotation.rotation().rotate(vec);
+					placedTessera.add(new Polyomino.PlacedTessera(new Tessera(rotation == Rotation.CLOCKWISE_90 ? voxel.tessera().shape().clockWise() : voxel.tessera().shape().counterClockWise()), rotated.x(), rotated.z()));
+				}
+		);
 
-		return this;
+		this.polyomino = new Polyomino(placedTessera, this.polyomino.material(), this.polyomino.seed());
 	}
 
-	@Override
-	public Polyomino<VoxelButton> mirror() {
+	public void mirror() {
+		List<Polyomino.PlacedTessera> placedTessera = new ArrayList<>();
 
-		this.allVoxels().forEach(voxel -> {
-			voxel.setX(voxel.relativeX() * -1);
-		});
+		this.placedTessera().forEach(voxel ->
+				placedTessera.add(new Polyomino.PlacedTessera(new Tessera(voxel.tessera().shape().horizontalMirror()), voxel.x() * -1, voxel.y()))
+		);
 
-		return this;
-	}
-
-	@Override
-	public long seed() {
-		return this.seed;
+		this.polyomino = new Polyomino(placedTessera, this.polyomino.material(), this.polyomino.seed());
 	}
 
 	public void remove() {
-		for (VoxelButton tessera : this.voxels) this.screen.removeWidget(tessera);
-		this.voxels.clear();
 		this.screen.removeWidget(this);
 		this.screen.selected = null;
 	}
 
-	@Override
-	public List<VoxelButton> allVoxels() {
-		return this.voxels;
+	public List<Polyomino.PlacedTessera> placedTessera() {
+		return this.polyomino.placedTessera();
 	}
 
 	@Override
 	public void renderBelowItems(GraphicsRenderHelper graphics) {
 		if (this.screen.selected == this) return;
-		renderVoxels(graphics, this, TesseraMaterial.values()[this.color()], this.getX(), this.getY());
+		renderVoxels(graphics, this.polyomino, this.polyomino.material(), this.getX(), this.getY());
 	}
 
 	@Override
@@ -104,18 +86,18 @@ public class PolyominoWidget extends UnclickableWidget implements Polyomino<Voxe
 		float x = (float) mouse.xpos() * (float) minecraft.getWindow().getGuiScaledWidth() / (float) minecraft.getWindow().getScreenWidth();
 		float y = (float) mouse.ypos() * (float) minecraft.getWindow().getGuiScaledHeight() / (float) minecraft.getWindow().getScreenHeight();
 
-		Vector2f center = this.getGridCenter();
+		Vector2f center = this.polyomino.getGridCenter();
 		GridWidget square = this.screen.getTargetWidget(x, y);
 
 		if (square == null) {
 			renderVoxels(
 					graphics,
-					this,
+					this.polyomino,
 					TesseraMaterial.CANT_PLACE,
-					x + (VoxelButton.TESSERA_SIZE * 0.1F) + (-center.x * VoxelButton.TESSERA_SIZE) + 1,
-					y + (VoxelButton.TESSERA_SIZE * 0.1F) + (-center.y * VoxelButton.TESSERA_SIZE) + 1
+					x + (Tessera.TESSERA_SIZE * 0.1F) + (-center.x * Tessera.TESSERA_SIZE) + 1,
+					y + (Tessera.TESSERA_SIZE * 0.1F) + (-center.y * Tessera.TESSERA_SIZE) + 1
 			);
-		} else renderVoxels(graphics, this, TesseraMaterial.CAN_PLACE, square.getX(), square.getY());
+		} else renderVoxels(graphics, this.polyomino, TesseraMaterial.CAN_PLACE, square.getX(), square.getY());
 	}
 
 	@Override
@@ -126,89 +108,59 @@ public class PolyominoWidget extends UnclickableWidget implements Polyomino<Voxe
 		float x = (float) mouse.xpos() * (float) minecraft.getWindow().getGuiScaledWidth() / (float) minecraft.getWindow().getScreenWidth();
 		float y = (float) mouse.ypos() * (float) minecraft.getWindow().getGuiScaledHeight() / (float) minecraft.getWindow().getScreenHeight();
 
-		Vector2f center = this.getGridCenter();
+		Vector2f center = this.polyomino.getGridCenter();
 
 		renderVoxels(
 				graphics,
-				this,
-				TesseraMaterial.values()[this.color()],
-				x + (VoxelButton.TESSERA_SIZE * 0.1F) + (-center.x * VoxelButton.TESSERA_SIZE),
-				y + (VoxelButton.TESSERA_SIZE * 0.1F) + (-center.y * VoxelButton.TESSERA_SIZE)
+				this.polyomino,
+				this.polyomino.material(),
+				x + (Tessera.TESSERA_SIZE * 0.1F) + (-center.x * Tessera.TESSERA_SIZE),
+				y + (Tessera.TESSERA_SIZE * 0.1F) + (-center.y * Tessera.TESSERA_SIZE)
 		);
 	}
 
-	public static <T extends Voxel> void renderVoxels(GraphicsRenderHelper graphics, Polyomino<T> polyomino, TesseraMaterial material, float x, float y) {
+	public static void renderVoxels(GraphicsRenderHelper graphics, Polyomino polyomino, TesseraMaterial material, float x, float y) {
 		graphics.pushPop(() -> {
 			graphics.translate(x, y);
 
 			AtomicInteger index = new AtomicInteger(-1);
-			polyomino.allVoxels().forEach(voxel -> graphics.pushPop(() -> {
+			polyomino.placedTessera().forEach(tessera -> graphics.pushPop(() -> {
 				index.incrementAndGet();
 				graphics.translate(
-						voxel.relativeX() * VoxelButton.TESSERA_SIZE,
-						voxel.relativeY() * VoxelButton.TESSERA_SIZE
+						tessera.x() * Tessera.TESSERA_SIZE,
+						tessera.y() * Tessera.TESSERA_SIZE
 				);
 
-				List<FlatDirection> connections = new ArrayList<>();
-
-				for (FlatDirection direction : FlatDirection.cardinalClockwise()) {
-					if (PolyominoWidget.checkConnection(polyomino, voxel, direction).isPresent()) {
-						connections.add(direction);
-					}
-				}
-
-				for (FlatDirection direction : FlatDirection.subClockwise()) {
-					if (PolyominoWidget.checkConnection(polyomino, voxel, direction).isPresent()) {
-						boolean shouldExist = true;
-						for (FlatDirection related : direction.getRelated()) {
-							if (PolyominoWidget.checkConnection(polyomino, voxel, related).isEmpty())
-								shouldExist = false;
-						}
-						if (!shouldExist) continue;
-
-						connections.add(direction);
-					}
-				}
-
-				graphics.blitTessera(material, connections, polyomino.seed(), index.get());
+				graphics.blitTessera(material, tessera.tessera(), polyomino.seed(), index.get());
 			}));
 		});
 	}
 
-	public static <T extends Voxel> Optional<T> checkConnection(Polyomino<T> polyomino, T voxel, FlatDirection direction) {
-		return polyomino.allVoxels().stream().filter(relative -> {
-			int diffX = relative.relativeX() - voxel.relativeX();
-			int diffY = relative.relativeY() - voxel.relativeY();
-			return diffX == direction.getRelativeX() && diffY == direction.getRelativeY();
-		}).findFirst();
-	}
-
 	public static Identifier byaDirection(@Nullable FlatDirection direction, TesseraMaterial material) {
-		if (direction == null) return Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/tessera.png");
+		if (direction == null)
+			return Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/polyomino.png");
 		return switch (direction) {
 			case UP -> Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/bridge_up.png");
-			case UP_RIGHT -> Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/corner_up_right.png");
-			case RIGHT -> Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/bridge_right.png");
-			case DOWN_RIGHT -> Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/corner_down_right.png");
+			case UP_RIGHT ->
+					Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/corner_up_right.png");
+			case RIGHT ->
+					Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/bridge_right.png");
+			case DOWN_RIGHT ->
+					Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/corner_down_right.png");
 			case DOWN -> Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/bridge_down.png");
-			case DOWN_LEFT -> Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/corner_down_left.png");
+			case DOWN_LEFT ->
+					Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/corner_down_left.png");
 			case LEFT -> Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/bridge_left.png");
-			case UP_LEFT -> Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/corner_up_left.png");
+			case UP_LEFT ->
+					Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/corner_up_left.png");
 		};
 	}
 
-	@Override
 	public int gridX() {
 		return this.gridX;
 	}
 
-	@Override
 	public int gridY() {
 		return this.gridY;
-	}
-
-	@Override
-	public int color() {
-		return this.color;
 	}
 }

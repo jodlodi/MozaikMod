@@ -1,11 +1,13 @@
 package com.mod.mozaik.client.model.block.mortar;
 
-import com.mod.mozaik.*;
+import com.mod.mozaik.Constants;
 import com.mod.mozaik.blocks.MortarBlock;
 import com.mod.mozaik.blocks.entities.NeoMortarBlockEntity;
 import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.model.TesseraHelper;
-import com.mod.mozaik.client.widgets.PolyominoWidget;
+import com.mod.mozaik.polyomino.IPolyominoHolder;
+import com.mod.mozaik.polyomino.Polyomino;
+import com.mod.mozaik.util.FlatDirection;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
@@ -22,6 +24,7 @@ import net.neoforged.neoforge.client.model.DynamicBlockStateModel;
 import net.neoforged.neoforge.client.model.block.CustomUnbakedBlockStateModel;
 import net.neoforged.neoforge.model.data.ModelData;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector2i;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.*;
@@ -86,47 +89,48 @@ public final class MosaicStateModel implements DynamicBlockStateModel {
 		if (GraphicsRenderHelper.BAKER == null) return;
 
 		ModelData data = level.getModelData(pos);
-		List<Polyomino.PlainPolyomino> colorMap = data.get(NeoMortarBlockEntity.PROPERTY);
+		List<IPolyominoHolder.PlacedPolyomino> colorMap = data.get(NeoMortarBlockEntity.PROPERTY);
 		if (colorMap == null) return;
-		List<Polyomino.PlainPolyomino> copy = new ArrayList<>(colorMap);
+		List<IPolyominoHolder.PlacedPolyomino> copy = new ArrayList<>(colorMap);
 
-		copy.forEach((@Nullable Polyomino.PlainPolyomino polyomino) -> {
+		copy.forEach((@Nullable IPolyominoHolder.PlacedPolyomino polyomino) -> {
 			if (polyomino == null) return;
-			int x = polyomino.gridX();
-			int y = polyomino.gridY();
+			int x = polyomino.x();
+			int y = polyomino.y();
+			List<Vector2i> dirs = polyomino.polyomino().placedTessera().stream().map(tessera -> new Vector2i(tessera.x(), tessera.y())).toList();
 
 			int index = -1;
-			for (Voxel.PlainVoxel voxel : polyomino.allVoxels()) {
+			for (Polyomino.PlacedTessera tessera : polyomino.polyomino().placedTessera()) {
 				index++;
-				int fx = x + voxel.relativeX();
-				int fy = y + voxel.relativeY();
+				int fx = x + tessera.x();
+				int fy = y + tessera.y();
 
 				for (FlatDirection direction : FlatDirection.cardinalClockwise()) {
-					if (PolyominoWidget.checkConnection(polyomino, voxel, direction).isPresent()) {
-						parts.add(TesseraHelper.bakeBridge(TesseraMaterial.values()[polyomino.color()], facing, direction, fx, fy, polyomino.seed(), index));
+					if (Polyomino.Builder.checkConnection(dirs, new Vector2i(tessera.x(), tessera.y()), direction)) {
+						parts.add(TesseraHelper.bakeBridge(polyomino.polyomino().material(), facing, direction, fx, fy, polyomino.polyomino().seed(), index));
 
-						if (PolyominoWidget.checkConnection(polyomino, voxel, direction.clockWise(1)).isEmpty() || PolyominoWidget.checkConnection(polyomino, voxel, direction.clockWise(2)).isEmpty()) {
-							parts.add(TesseraHelper.bakeNoCorner(TesseraMaterial.values()[polyomino.color()], facing, direction, fx, fy, polyomino.seed(), index));
+						if (!Polyomino.Builder.checkConnection(dirs, new Vector2i(tessera.x(), tessera.y()), direction.clockWise(1)) || !Polyomino.Builder.checkConnection(dirs, new Vector2i(tessera.x(), tessera.y()), direction.clockWise(2))) {
+							parts.add(TesseraHelper.bakeNoCorner(polyomino.polyomino().material(), facing, direction, fx, fy, polyomino.polyomino().seed(), index));
 						}
 					} else {
-						parts.add(TesseraHelper.bakeNoBridge(TesseraMaterial.values()[polyomino.color()], facing, direction, fx, fy, polyomino.seed(), index));
+						parts.add(TesseraHelper.bakeNoBridge(polyomino.polyomino().material(), facing, direction, fx, fy, polyomino.polyomino().seed(), index));
 					}
 				}
 
 				for (FlatDirection direction : FlatDirection.subClockwise()) {
-					if (PolyominoWidget.checkConnection(polyomino, voxel, direction).isPresent()) {
+					if (Polyomino.Builder.checkConnection(dirs, new Vector2i(tessera.x(), tessera.y()), direction)) {
 						boolean shouldExist = true;
 						for (FlatDirection related : direction.getRelated()) {
-							if (PolyominoWidget.checkConnection(polyomino, voxel, related).isEmpty())
+							if (!Polyomino.Builder.checkConnection(dirs, new Vector2i(tessera.x(), tessera.y()), related))
 								shouldExist = false;
 						}
 						if (!shouldExist) continue;
 
-						parts.add(TesseraHelper.bakeBridge(TesseraMaterial.values()[polyomino.color()], facing, direction, fx, fy, polyomino.seed(), index));
+						parts.add(TesseraHelper.bakeBridge(polyomino.polyomino().material(), facing, direction, fx, fy, polyomino.polyomino().seed(), index));
 					}
 				}
 
-				parts.add(TesseraHelper.bakeTessera(TesseraMaterial.values()[polyomino.color()], facing, fx, fy, polyomino.seed(), index));
+				parts.add(TesseraHelper.bakeTessera(polyomino.polyomino().material(), facing, fx, fy, polyomino.polyomino().seed(), index));
 			}
 		});
 	}

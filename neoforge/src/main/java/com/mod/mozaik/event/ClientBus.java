@@ -1,11 +1,10 @@
 package com.mod.mozaik.event;
 
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.TesseraMaterial;
+import com.mod.mozaik.polyomino.TesseraMaterial;
 import com.mod.mozaik.client.model.block.mortar.MosaicStateModel;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.data.gen.model.ModBlockStateGen;
-import com.mod.mozaik.reg.ModBlockEntities;
 import com.mod.mozaik.reg.ModMenus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

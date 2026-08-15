@@ -1,8 +1,8 @@
 package com.mod.mozaik.networking.bidirectional;
 
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.Polyomino;
 import com.mod.mozaik.blocks.entities.MortarBlockEntity;
+import com.mod.mozaik.polyomino.IPolyominoHolder;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.player.LocalPlayer;
@@ -23,16 +23,16 @@ public final class UpdateGlueBidirectional implements IBidirectionalMessage {
 	public static final Type<UpdateGlueBidirectional> TYPE = new Type<>(Constants.prefix("update_glue"));
 
 	public static final Codec<UpdateGlueBidirectional> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
-			Polyomino.PlainPolyomino.CODEC.listOf().fieldOf("polyominos").forGetter(message -> message.polyominos),
+			IPolyominoHolder.PlacedPolyomino.CODEC.listOf().fieldOf("polyominos").forGetter(message -> message.polyominos),
 			BlockPos.CODEC.fieldOf("block_pos").forGetter(message -> message.pos)
 	).apply(recordCodecBuilder, UpdateGlueBidirectional::new));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, UpdateGlueBidirectional> STREAM_CODEC = CustomPacketPayload.codec(UpdateGlueBidirectional::encode, UpdateGlueBidirectional::decode);
 
-	private final List<Polyomino.PlainPolyomino> polyominos;
+	private final List<IPolyominoHolder.PlacedPolyomino> polyominos;
 	private final BlockPos pos;
 
-	public UpdateGlueBidirectional(List<Polyomino.PlainPolyomino> polyominos, BlockPos pos) {
+	public UpdateGlueBidirectional(List<IPolyominoHolder.PlacedPolyomino> polyominos, BlockPos pos) {
 		this.polyominos = new ArrayList<>();
 		this.polyominos.addAll(polyominos);
 		this.pos = pos;

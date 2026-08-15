@@ -1,5 +1,6 @@
-package com.mod.mozaik;
+package com.mod.mozaik.polyomino;
 
+import com.mod.mozaik.Constants;
 import net.minecraft.client.resources.metadata.animation.AnimationFrame;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;

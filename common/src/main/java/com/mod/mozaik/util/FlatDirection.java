@@ -1,6 +1,5 @@
-package com.mod.mozaik;
+package com.mod.mozaik.util;
 
-import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.Unmodifiable;
 import org.jspecify.annotations.NullMarked;
@@ -67,6 +66,18 @@ public enum FlatDirection implements StringRepresentable {
 
 	public FlatDirection counterClockWise(int steps) {
 		return values()[(this.ordinal() + values().length - steps) % values().length];
+	}
+
+	public FlatDirection horizontalMirror() {
+		return switch (this) {
+			case RIGHT -> LEFT;
+			case LEFT -> RIGHT;
+			case UP_RIGHT -> UP_LEFT;
+			case UP_LEFT -> UP_RIGHT;
+			case DOWN_RIGHT -> DOWN_LEFT;
+			case DOWN_LEFT -> DOWN_RIGHT;
+			default -> this;
+		};
 	}
 
 	@Override

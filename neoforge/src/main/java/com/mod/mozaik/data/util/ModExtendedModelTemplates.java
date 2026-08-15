@@ -1,6 +1,6 @@
 package com.mod.mozaik.data.util;
 
-import com.mod.mozaik.FlatDirection;
+import com.mod.mozaik.util.FlatDirection;
 import com.mod.mozaik.client.model.block.mortar.sub.TesseraModelPart;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.core.Direction;

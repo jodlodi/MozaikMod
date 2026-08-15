@@ -2,16 +2,12 @@ package com.mod.mozaik.platform;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.networking.bidirectional.UpdateGlueBidirectional;
-import com.mod.mozaik.networking.bidirectional.IBidirectionalMessage;
 import com.mod.mozaik.networking.clientbound.IClientboundMessage;
 import com.mod.mozaik.networking.serverbound.IServerboundMessage;
-import com.mod.mozaik.networking.serverbound.UpdateGlueServerbound;
 import com.mod.mozaik.platform.services.INetworkHelper;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

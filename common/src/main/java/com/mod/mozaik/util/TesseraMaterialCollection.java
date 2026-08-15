@@ -1,7 +1,7 @@
 package com.mod.mozaik.util;
 
 import com.google.common.collect.ImmutableList;
-import com.mod.mozaik.TesseraMaterial;
+import com.mod.mozaik.polyomino.TesseraMaterial;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.*;

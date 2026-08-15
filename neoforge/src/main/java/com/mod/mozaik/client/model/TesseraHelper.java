@@ -1,8 +1,8 @@
 package com.mod.mozaik.client.model;
 
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.FlatDirection;
-import com.mod.mozaik.TesseraMaterial;
+import com.mod.mozaik.util.FlatDirection;
+import com.mod.mozaik.polyomino.TesseraMaterial;
 import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.model.block.mortar.sub.TesseraModelPart;
 import com.mod.mozaik.data.gen.model.ModBlockStateGen;

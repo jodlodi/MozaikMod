@@ -1,7 +1,7 @@
 package com.mod.mozaik.data.gen;
 
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.TesseraMaterial;
+import com.mod.mozaik.polyomino.TesseraMaterial;
 import net.minecraft.client.renderer.texture.atlas.sources.SingleFile;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.AtlasIds;

@@ -1,7 +1,7 @@
 package com.mod.mozaik.data.gen.model;
 
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.TesseraMaterial;
+import com.mod.mozaik.polyomino.TesseraMaterial;
 import com.mod.mozaik.client.model.block.mortar.MosaicStateModelBuilder;
 import com.mod.mozaik.data.util.ModExtendedModelTemplates;
 import com.mod.mozaik.data.util.ModModelTemplates;
