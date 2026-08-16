@@ -18,7 +18,7 @@ public record Polyomino(List<Tessera.PlacedTessera> placedTessera, TesseraMateri
 	}
 
 	public static final Codec<Polyomino> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
-			Tessera.PlacedTessera.CODEC.listOf().fieldOf("placedTessera").forGetter(Polyomino::placedTessera),
+			Tessera.PlacedTessera.CODEC.listOf().fieldOf("placedPolyomino").forGetter(Polyomino::placedTessera),
 			Codec.INT.fieldOf("material").forGetter(material -> material.material.ordinal()),
 			Codec.LONG.fieldOf("seed").forGetter(Polyomino::seed)
 	).apply(recordCodecBuilder, Polyomino::new));

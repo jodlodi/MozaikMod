@@ -2,11 +2,14 @@ package com.mod.mozaik.menus;
 
 import com.mod.mozaik.blocks.MortarBlock;
 import com.mod.mozaik.blocks.entities.MortarBlockEntity;
+import com.mod.mozaik.client.screens.MortarScreen;
+import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.reg.ModMenus;
 import com.mod.mozaik.util.FlatDirection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -15,12 +18,13 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @NullMarked
 public class MortarMenu extends AbstractContainerMenu {
 	private final @Nullable MortarBlockEntity mortar;
-	private final Map<FlatDirection, MortarBlockEntity> map = new HashMap<>();
+	private final Map<FlatDirection, NeighbourMosaic> map = new HashMap<>();
 
 	public MortarMenu(int containerId, Inventory inventory) {
 		this(containerId, inventory, null);
@@ -38,7 +42,10 @@ public class MortarMenu extends AbstractContainerMenu {
 				Vec3i diff = direction.facing(facing);
 				BlockPos relative = new BlockPos(pos.getX() + diff.getX(), pos.getY() + diff.getY(), pos.getZ() + diff.getZ());
 				MortarBlockEntity blockEntity = this.mortar.getLevel().getBlockEntity(relative) instanceof MortarBlockEntity entity ? entity : null;
-				if (blockEntity != null) this.map.put(direction, blockEntity);
+				if (blockEntity != null) {
+					Identifier identifier = MortarScreen.fromBlock(blockEntity.getBlockState().getBlock());
+					this.map.put(direction, new NeighbourMosaic(identifier, blockEntity.getPolyominos()));
+				}
 			}
 		}
 	}
@@ -47,8 +54,8 @@ public class MortarMenu extends AbstractContainerMenu {
 		return this.mortar;
 	}
 
-	public Map<FlatDirection, MortarBlockEntity> getMap() {
-		return map;
+	public Map<FlatDirection, NeighbourMosaic> getMap() {
+		return this.map;
 	}
 
 	@Override
@@ -59,5 +66,9 @@ public class MortarMenu extends AbstractContainerMenu {
 	@Override
 	public boolean stillValid(Player player) {
 		return this.mortar != null && !this.mortar.isRemoved();
+	}
+
+	public record NeighbourMosaic(Identifier texture, List<Polyomino.PlacedPolyomino> placedPolyomino) {
+
 	}
 }

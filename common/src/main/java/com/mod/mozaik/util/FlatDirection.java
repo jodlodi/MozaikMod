@@ -73,7 +73,7 @@ public enum FlatDirection implements StringRepresentable {
 	public Vec3i facing(Direction direction) {
 		return switch (direction) {
 			case UP -> new Vec3i(this.getRelativeX(), 0, this.getRelativeY());
-			case DOWN -> new Vec3i(-this.getRelativeX(), 0, -this.getRelativeY());
+			case DOWN -> new Vec3i(this.getRelativeX(), 0, -this.getRelativeY());
 			case NORTH -> new Vec3i(-this.getRelativeX(), -this.getRelativeY(), 0);
 			case EAST -> new Vec3i(0, -this.getRelativeY(), -this.getRelativeX());
 			case SOUTH -> new Vec3i(this.getRelativeX(), -this.getRelativeY(), 0);

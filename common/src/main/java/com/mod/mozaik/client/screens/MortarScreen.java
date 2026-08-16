@@ -17,6 +17,7 @@ import com.mod.mozaik.polyomino.Tessera;
 import com.mod.mozaik.polyomino.TesseraMaterial;
 import com.mod.mozaik.reg.ModBlocks;
 import com.mod.mozaik.reg.ResourceSupplier;
+import com.mod.mozaik.util.FlatDirection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -40,7 +41,9 @@ import org.jspecify.annotations.NullMarked;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @NullMarked
 public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
@@ -218,6 +221,33 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 							}
 							if (!canFit) break; // Occupied
 						}
+
+						for (Map.Entry<FlatDirection, MortarMenu.NeighbourMosaic> mosaicEntry : this.menu.getMap().entrySet()) {
+							FlatDirection flatDirection = mosaicEntry.getKey();
+							MortarMenu.NeighbourMosaic mosaic = mosaicEntry.getValue();
+
+							for (Polyomino.PlacedPolyomino placedPolyomino : mosaic.placedPolyomino()) {
+								Polyomino polyomino = placedPolyomino.polyomino();
+
+								AtomicInteger index = new AtomicInteger(-1);
+								for (Tessera.PlacedTessera tessera : polyomino.placedTessera()) {
+									index.incrementAndGet();
+
+									int rX = tessera.x() + flatDirection.getRelativeX() * 16 + placedPolyomino.x();
+									int rY = tessera.y() + flatDirection.getRelativeY() * 16 + placedPolyomino.y();
+
+									if (rX >= -1 && rY >= -1 && rX < 17 && rY < 17) {
+
+										if (rX == relativeX && rY == relativeY) {
+											canFit = false;
+											break;
+										}
+									}
+								}
+								if (!canFit) break; // Occupied
+							}
+							if (!canFit) break; // Occupied
+						}
 					}
 
 					if (canFit) return grid;
@@ -242,10 +272,40 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	@Override
 	public void extractRenderState(GuiGraphicsExtractor graphicsExtractor, int mouseX, int mouseY, float partialTick) {
 		GraphicsRenderHelper graphics = new GraphicsRenderHelper(graphicsExtractor);
+		this.renderNeighbourTessera(graphicsExtractor);
 		this.renderableWidgets.forEach(renderable -> renderable.renderBelowItems(graphics));
 		super.extractRenderState(graphicsExtractor, mouseX, mouseY, partialTick);
 		this.renderableWidgets.forEach(renderable -> renderable.renderAboveItems(graphics));
 		this.renderableWidgets.forEach(renderable -> renderable.renderOnTop(graphics));
+	}
+
+	protected void renderNeighbourTessera(GuiGraphicsExtractor graphicsExtractor) {
+		GraphicsRenderHelper graphics = new GraphicsRenderHelper(graphicsExtractor);
+		int gridX = this.leftPos + GRID_START_X;
+		int gridY = this.topPos + GRID_START_Y;
+
+		this.menu.getMap().forEach((flatDirection, mosaic) -> mosaic.placedPolyomino().forEach(placedPolyomino -> graphics.pushPop(() -> {
+			graphics.translate(
+					placedPolyomino.x() * Tessera.TESSERA_SIZE + gridX,
+					placedPolyomino.y() * Tessera.TESSERA_SIZE + gridY
+			);
+			Polyomino polyomino = placedPolyomino.polyomino();
+
+			AtomicInteger index = new AtomicInteger(-1);
+			polyomino.placedTessera().forEach(tessera -> graphics.pushPop(() -> {
+				index.incrementAndGet();
+				int x = tessera.x() + flatDirection.getRelativeX() * 16;
+				int y = tessera.y() + flatDirection.getRelativeY() * 16;
+
+				int relativeX = x + placedPolyomino.x();
+				int relativeY = y + placedPolyomino.y();
+
+				if (relativeX >= -1 && relativeY >= -1 && relativeX < 17 && relativeY < 17) {
+					graphics.translate(x * Tessera.TESSERA_SIZE, y * Tessera.TESSERA_SIZE);
+					graphics.blitTessera(polyomino.material(), tessera.tessera(), polyomino.seed(), index.get());
+				}
+			}));
+		})));
 	}
 
 	@Override
@@ -312,7 +372,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		Block block = entity.getBlockState().getBlock();
 		graphics.blit(RenderPipelines.GUI_TEXTURED, fromBlock(block), xo + GRID_START_X, yo + GRID_START_Y, 0.0F, 0.0F, 160, 160, 160, 160);
 
-		this.menu.getMap().forEach((flatDirection, blockEntity) -> {
+		this.menu.getMap().forEach((flatDirection, mosaic) -> {
 			int u = flatDirection.getRelativeX() * Tessera.TESSERA_SIZE;
 			int v = flatDirection.getRelativeY() * Tessera.TESSERA_SIZE;
 
@@ -327,7 +387,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 			graphics.blit(
 					RenderPipelines.GUI_TEXTURED,
-					fromBlock(blockEntity.getBlockState().getBlock()),
+					mosaic.texture(),
 					xo + GRID_START_X + xSet,
 					yo + GRID_START_Y + ySet,
 					0, 0, width, height, width, height, 160, 160, 0xFF777777
@@ -335,7 +395,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		});
 	}
 
-	private static Identifier fromBlock(Block block) {
+	public static Identifier fromBlock(Block block) {
 		for (ResourceSupplier<MortarBlock> mortarBlockResourceSupplier : ModBlocks.MORTARS.asList()) {
 			if (mortarBlockResourceSupplier.get() == block) {
 				return Constants.prefix("textures/block/" + mortarBlockResourceSupplier.id().getPath() + ".png");
