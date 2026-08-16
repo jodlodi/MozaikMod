@@ -14,7 +14,7 @@ import java.util.function.Function;
 @NullMarked
 public class ModItems {
 	public static final ColorCollection<ResourceSupplier<BlockItem>> MORTARS = registerColoredBlockItems(ModBlocks.MORTARS, properties -> properties);
-	public static final TesseraMaterialCollection<ResourceSupplier<ShardItem>> SHARDS = TesseraMaterialCollection.zipMap(material -> Services.REGISTRY.registerItem(material.getSerializedName() + "_shards", ShardItem::new));
+	public static final TesseraMaterialCollection<ResourceSupplier<ShardItem>> SHARDS = TesseraMaterialCollection.zipMap(material -> Services.REGISTRY.registerItem(material.getSerializedName() + "_shards", (Item.Properties properties) -> new ShardItem(properties, material)));
 
 	public static void init() {
 

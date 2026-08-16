@@ -13,6 +13,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -48,6 +49,11 @@ public class MortarMenu extends AbstractContainerMenu {
 				}
 			}
 		}
+	}
+
+	@Override
+	public Slot addSlot(Slot slot) {
+		return super.addSlot(slot);
 	}
 
 	public @Nullable MortarBlockEntity getMortar() {
