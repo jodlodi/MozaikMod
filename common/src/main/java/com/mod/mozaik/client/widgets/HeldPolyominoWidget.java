@@ -74,7 +74,7 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 		float y = (float) mouse.ypos() * (float) minecraft.getWindow().getGuiScaledHeight() / (float) minecraft.getWindow().getScreenHeight();
 
 		Vector2f center = this.polyomino.getGridCenter();
-		Vector2i square = this.screen.getTargetWidget(x, y);
+		Vector2i square = this.screen.getGridForPlacement();
 
 		if (square == null) {
 			renderVoxels(

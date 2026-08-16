@@ -98,35 +98,37 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				this.selected.mirror();
 				return true;
 			} else if (click == LEFT_CLICK) {
-				Vector2i square = this.getTargetGrid();
+				Vector2i square = this.getGridForPlacement();
+				if (square != null) {
+					PolyominoWidget widget = this.selected.build(square.x, square.y);
+					this.addRenderableWidget(widget);
 
-				PolyominoWidget widget = this.selected.build(square.x, square.y);
-				this.addRenderableWidget(widget);
-
-				Vector2i gridPos = this.getGridPos(square);
-				widget.setX(gridPos.x);
-				widget.setY(gridPos.y);
-				this.polyominos.add(widget);
-				this.markChanged();
+					Vector2i gridPos = this.getGridPos(square);
+					widget.setX(gridPos.x);
+					widget.setY(gridPos.y);
+					this.polyominos.add(widget);
+					this.markChanged();
+				}
 				this.selected.remove();
 				return true;
 			} else if (click == MIDDLE_CLICK && this.addButton != null) {
-				Vector2i square = this.getTargetGrid();
+				Vector2i square = this.getGridForPlacement();
+				if (square != null) {
+					PolyominoWidget widget = this.selected.build(square.x, square.y);
+					this.addRenderableWidget(widget);
 
-				PolyominoWidget widget = this.selected.build(square.x, square.y);
-				this.addRenderableWidget(widget);
-
-				Vector2i gridPos = this.getGridPos(square);
-				widget.setX(gridPos.x);
-				widget.setY(gridPos.y);
-				this.polyominos.add(widget);
-				this.markChanged();
-				this.selected.polyomino = this.addButton.getTemplate().build(this.selected.polyomino.material(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong());
+					Vector2i gridPos = this.getGridPos(square);
+					widget.setX(gridPos.x);
+					widget.setY(gridPos.y);
+					this.polyominos.add(widget);
+					this.markChanged();
+					this.selected.polyomino = this.addButton.getTemplate().build(this.selected.polyomino.material(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong());
+				}
 				return true;
 			}
 			return true;
 		} else {
-			Vector2i square = this.getTargetGrid();
+			Vector2i square = this.getGridForTaking();
 
 			for (PolyominoWidget widget : this.polyominos) {
 				int widgetX = widget.gridX();
@@ -148,7 +150,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		return super.mouseClicked(event, doubleClick);
 	}
 
-	public Vector2i getTargetGrid() {
+	public Vector2i getGridForTaking() {
 		Minecraft minecraft = Minecraft.getInstance();
 		MouseHandler mouse = Objects.requireNonNull(minecraft).mouseHandler;
 		float mouseX = (float) mouse.xpos() * (float) minecraft.getWindow().getGuiScaledWidth() / (float) minecraft.getWindow().getScreenWidth();
@@ -169,8 +171,13 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	@Nullable
-	public Vector2i getTargetWidget(float mouseX, float mouseY) {
+	public Vector2i getGridForPlacement() {
 		if (this.selected != null) {
+			Minecraft minecraft = Minecraft.getInstance();
+			MouseHandler mouse = Objects.requireNonNull(minecraft).mouseHandler;
+			float mouseX = (float) mouse.xpos() * (float) minecraft.getWindow().getGuiScaledWidth() / (float) minecraft.getWindow().getScreenWidth();
+			float mouseY = (float) mouse.ypos() * (float) minecraft.getWindow().getGuiScaledHeight() / (float) minecraft.getWindow().getScreenHeight();
+
 			int gridX = this.leftPos + GRID_START_X;
 			int gridY = this.topPos + GRID_START_Y;
 
@@ -178,21 +185,24 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			mouseX -= center.x * Tessera.TESSERA_SIZE;
 			mouseY -= center.y * Tessera.TESSERA_SIZE;
 
+			int x = (int) (mouseX - gridX) / Tessera.TESSERA_SIZE;
+			int y = (int) (mouseY - gridY) / Tessera.TESSERA_SIZE;
+			Vector2i grid = new Vector2i(x, y);
+
 			for (int offsetX : new int[]{0, 1, -1}) {
 				for (int offsetY : new int[]{0, 1, -1}) {
-					int x = (int) (mouseX - gridX) / Tessera.TESSERA_SIZE + offsetX;
-					int y = (int) (mouseY - gridY) / Tessera.TESSERA_SIZE + offsetY;
+					grid = new Vector2i(grid.x + offsetX, grid.y + offsetY);
 
-					if (x < 0 || y < 0 || x >= 16 || y >= 16) {
+					if (grid.x < -1 || grid.y < -1 || grid.x >= 17 || grid.y >= 17) {
 						continue; // Out of bounds
 					}
 
 					boolean canFit = true;
 					for (Tessera.PlacedTessera entry : this.selected.polyomino.placedTessera()) {
-						int relativeX = x + entry.x();
-						int relativeY = y + entry.y();
+						int relativeX = grid.x + entry.x();
+						int relativeY = grid.y + entry.y();
 
-						if (relativeX < 0 || relativeY < 0 || relativeX >= 16 || relativeY >= 16) {
+						if (relativeX < -1 || relativeY < -1 || relativeX >= 17 || relativeY >= 17) {
 							canFit = false;
 							break; // Out of bounds
 						}
@@ -212,7 +222,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 						}
 					}
 
-					if (canFit) return new Vector2i(x, y);
+					if (canFit) return grid;
 				}
 			}
 		}
