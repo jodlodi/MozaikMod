@@ -151,11 +151,10 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 			MortarMenu menu = new MortarMenu(
 					((ServerPlayerAccessor)serverPlayer).getContainerCounter(),
 					serverPlayer.getInventory(),
-					blockEntity.getPolyominos(),
-					pos
+					blockEntity
 			);
 
-			Services.NETWORK.sendToClient(serverPlayer, new OpenGlueMenuClientbound(blockEntity.getPolyominos(), pos, ((ServerPlayerAccessor)serverPlayer).getContainerCounter()));
+			Services.NETWORK.sendToClient(serverPlayer, new OpenGlueMenuClientbound(pos, ((ServerPlayerAccessor)serverPlayer).getContainerCounter()));
 
 			menu.addSlotListener(((ServerPlayerAccessor)serverPlayer).getContainerListener());
 			menu.setSynchronizer(((ServerPlayerAccessor)serverPlayer).getContainerSynchronizer());

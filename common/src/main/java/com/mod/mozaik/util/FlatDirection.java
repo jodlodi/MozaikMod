@@ -1,5 +1,7 @@
 package com.mod.mozaik.util;
 
+import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.Unmodifiable;
 import org.jspecify.annotations.NullMarked;
@@ -66,6 +68,17 @@ public enum FlatDirection implements StringRepresentable {
 
 	public FlatDirection counterClockWise(int steps) {
 		return values()[(this.ordinal() + values().length - steps) % values().length];
+	}
+
+	public Vec3i facing(Direction direction) {
+		return switch (direction) {
+			case UP -> new Vec3i(this.getRelativeX(), 0, this.getRelativeY());
+			case DOWN -> new Vec3i(-this.getRelativeX(), 0, -this.getRelativeY());
+			case NORTH -> new Vec3i(-this.getRelativeX(), -this.getRelativeY(), 0);
+			case EAST -> new Vec3i(0, -this.getRelativeY(), -this.getRelativeX());
+			case SOUTH -> new Vec3i(this.getRelativeX(), -this.getRelativeY(), 0);
+			case WEST -> new Vec3i(0, -this.getRelativeY(), this.getRelativeX());
+		};
 	}
 
 	public FlatDirection horizontalMirror() {

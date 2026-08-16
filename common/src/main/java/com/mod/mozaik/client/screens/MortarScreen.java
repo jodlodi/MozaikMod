@@ -11,6 +11,7 @@ import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.menus.MortarMenu;
 import com.mod.mozaik.networking.bidirectional.UpdateGlueBidirectional;
 import com.mod.mozaik.platform.Services;
+import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.PrePolyominoShapes;
 import com.mod.mozaik.polyomino.Tessera;
 import com.mod.mozaik.polyomino.TesseraMaterial;
@@ -24,7 +25,6 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.network.chat.Component;
@@ -72,7 +72,9 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	protected void markChanged() {
-		Services.NETWORK.sendToServer(new UpdateGlueBidirectional(this.polyominos.stream().map(PolyominoWidget::getPlacedPolyomino).toList(), this.menu.getPos()));
+		if (this.menu.getMortar() != null) {
+			Services.NETWORK.sendToServer(new UpdateGlueBidirectional(this.polyominos.stream().map(PolyominoWidget::getPlacedPolyomino).toList(), this.menu.getMortar().getBlockPos()));
+		}
 	}
 
 	@Override
@@ -100,28 +102,14 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			} else if (click == LEFT_CLICK) {
 				Vector2i square = this.getGridForPlacement();
 				if (square != null) {
-					PolyominoWidget widget = this.selected.build(square.x, square.y);
-					this.addRenderableWidget(widget);
-
-					Vector2i gridPos = this.getGridPos(square);
-					widget.setX(gridPos.x);
-					widget.setY(gridPos.y);
-					this.polyominos.add(widget);
-					this.markChanged();
+					this.placePolyomino(this.selected, square);
 				}
 				this.selected.remove();
 				return true;
 			} else if (click == MIDDLE_CLICK && this.addButton != null) {
 				Vector2i square = this.getGridForPlacement();
 				if (square != null) {
-					PolyominoWidget widget = this.selected.build(square.x, square.y);
-					this.addRenderableWidget(widget);
-
-					Vector2i gridPos = this.getGridPos(square);
-					widget.setX(gridPos.x);
-					widget.setY(gridPos.y);
-					this.polyominos.add(widget);
-					this.markChanged();
+					this.placePolyomino(this.selected, square);
 					this.selected.polyomino = this.addButton.getTemplate().build(this.selected.polyomino.material(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong());
 				}
 				return true;
@@ -148,6 +136,16 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 		}
 		return super.mouseClicked(event, doubleClick);
+	}
+
+	protected void placePolyomino(HeldPolyominoWidget selected, Vector2i square) {
+		Vector2i gridPos = this.getGridPos(square);
+
+		PolyominoWidget widget = new PolyominoWidget(this, gridPos.x, gridPos.y, new Polyomino.PlacedPolyomino(selected.polyomino, square.x, square.y));
+		this.addRenderableWidget(widget);
+
+		this.polyominos.add(widget);
+		this.markChanged();
 	}
 
 	public Vector2i getGridForTaking() {
@@ -285,7 +283,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			this.addButton.setTemplate(values[this.template].template);
 		}));
 
-		this.menu.getMosaic().forEach(placedPolyomino -> {
+		Objects.requireNonNull(this.menu.getMortar()).getPolyominos().forEach(placedPolyomino -> {
 			int gridX = this.leftPos + GRID_START_X;
 			int gridY = this.topPos + GRID_START_Y;
 
@@ -309,12 +307,32 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		int yo = (this.height - this.imageHeight) / 2;
 		graphics.blit(RenderPipelines.GUI_TEXTURED, MORTAR_LOCATION, xo, yo, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
 
-		ClientLevel level = Minecraft.getInstance().level;
-		if (level == null) return;
-		BlockEntity entity = level.getBlockEntity(this.menu.getPos());
+		BlockEntity entity = this.menu.getMortar();
 		if (entity == null) return;
 		Block block = entity.getBlockState().getBlock();
 		graphics.blit(RenderPipelines.GUI_TEXTURED, fromBlock(block), xo + GRID_START_X, yo + GRID_START_Y, 0.0F, 0.0F, 160, 160, 160, 160);
+
+		this.menu.getMap().forEach((flatDirection, blockEntity) -> {
+			int u = flatDirection.getRelativeX() * Tessera.TESSERA_SIZE;
+			int v = flatDirection.getRelativeY() * Tessera.TESSERA_SIZE;
+
+			int absU = Math.abs(u);
+			int absV = Math.abs(v);
+
+			int width = absU == 0 ? 160 : absU;
+			int height = absV == 0 ? 160 : absV;
+
+			int xSet = u < 0 ? u : (u > 0 ? 160 : 0);
+			int ySet = v < 0 ? v : (v > 0 ? 160 : 0);
+
+			graphics.blit(
+					RenderPipelines.GUI_TEXTURED,
+					fromBlock(blockEntity.getBlockState().getBlock()),
+					xo + GRID_START_X + xSet,
+					yo + GRID_START_Y + ySet,
+					0, 0, width, height, width, height, 160, 160, 0xFF777777
+			);
+		});
 	}
 
 	private static Identifier fromBlock(Block block) {

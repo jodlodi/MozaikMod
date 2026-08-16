@@ -30,10 +30,6 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 		this.polyomino = polyomino;
 	}
 
-	public PolyominoWidget build(int x, int y) {
-		return new PolyominoWidget(this.screen, this.getX(), this.getY(), new Polyomino.PlacedPolyomino(this.polyomino, x, y));
-	}
-
 	public void rotate(Rotation rotation) {
 		List<Tessera.PlacedTessera> placedTessera = new ArrayList<>();
 

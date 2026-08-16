@@ -58,6 +58,7 @@ public final class UpdateGlueBidirectional implements IBidirectionalMessage {
 	public void executeServerbound(ServerPlayer player) {
 		if (player.level().getBlockEntity(this.pos) instanceof MortarBlockEntity blockEntity) {
 			blockEntity.setPolyominos(this.polyominos);
+			blockEntity.setChanged();
 		}
 	}
 
