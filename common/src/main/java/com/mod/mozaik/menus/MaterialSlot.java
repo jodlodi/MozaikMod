@@ -2,6 +2,8 @@ package com.mod.mozaik.menus;
 
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.items.ShardItem;
+import com.mod.mozaik.polyomino.TesseraMaterial;
+import com.mod.mozaik.reg.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.server.level.ServerLevel;
@@ -31,6 +33,34 @@ public class MaterialSlot extends Slot {
 			screen.addButton.setColor(shard.getMaterial().ordinal());
 		}
 		return ItemStack.EMPTY;
+	}
+
+	public static void scrollUpBy(MortarScreen screen, int by) {
+		screen.from = Math.max(0, screen.from - by);
+		screen.to = Math.max(9, screen.to - by);
+
+		int s = 0;
+		for (int i = screen.from; i < screen.to; i++) {
+			ItemStack stack = ModItems.SHARDS.asList().get(i).get().getDefaultInstance();
+			MortarScreen.MATERIALS.setItem(s, stack);
+			screen.materialSlots.get(s++).set(stack);
+		}
+
+		MortarScreen.MATERIALS.setChanged();
+	}
+
+	public static void scrollDownBy(MortarScreen screen, int by) {
+		screen.from = Math.min(TesseraMaterial.values().length - 9, screen.from + by);
+		screen.to = Math.min(TesseraMaterial.values().length, screen.to + by);
+
+		int s = 0;
+		for (int i = screen.from; i < screen.to; i++) {
+			ItemStack stack = ModItems.SHARDS.asList().get(i).get().getDefaultInstance();
+			MortarScreen.MATERIALS.setItem(s, stack);
+			screen.materialSlots.get(s++).set(stack);
+		}
+
+		MortarScreen.MATERIALS.setChanged();
 	}
 
 	@Override

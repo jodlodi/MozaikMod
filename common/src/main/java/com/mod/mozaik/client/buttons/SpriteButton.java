@@ -2,56 +2,30 @@ package com.mod.mozaik.client.buttons;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.PhaseRenderable;
+import com.mod.mozaik.client.screens.MortarScreen;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import org.joml.Vector2i;
 import org.jspecify.annotations.NullMarked;
-
-import java.util.function.BiConsumer;
+import org.jspecify.annotations.Nullable;
 
 @NullMarked
 public abstract class SpriteButton extends ModButton implements PhaseRenderable {
-	private final Identifier normal;
-	private final Identifier hover;
-	private final Identifier pressed;
-	private final Identifier unable;
+	protected final MortarScreen screen;
+	protected final SpriteSet spriteSet;
 
-	private int isPressed = 0;
-
-	protected SpriteButton(int x, int y, Identifier normal, Identifier hover, Identifier pressed, Identifier unable, int width, int height) {
-		super(x, y, width, height, Component.empty());
-		this.normal = normal;
-		this.hover = hover;
-		this.pressed = pressed;
-		this.unable = unable;
-	}
-
-	public SpriteButton(int x, int y, SpriteSet spriteSet) {
-		super(x, y, spriteSet.width, spriteSet.height, Component.empty());
-		this.normal = spriteSet.normal;
-		this.hover = spriteSet.hover;
-		this.pressed = spriteSet.pressed;
-		this.unable = spriteSet.unable;
-	}
-
-	public static SpriteButton createArrow(int x, int y, Identifier location, Identifier hover, BiConsumer<SpriteButton, InputWithModifiers> onPress) {
-		int width = 23;
-		int height = 13;
-		return new SpriteButton(x - width / 2, y - height / 2, location, hover, location, location, width, height) {
-			@Override
-			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				onPress.accept(this, inputWithModifiers);
-			}
-		};
+	public SpriteButton(MortarScreen screen, Vector2i pos, SpriteSet spriteSet) {
+		super(screen.getLeftPos() + pos.x, screen.getTopPos() + pos.y, spriteSet.width, spriteSet.height, Component.empty());
+		this.screen = screen;
+		this.spriteSet = spriteSet;
 	}
 
 	protected Identifier getTexture() {
-		if (this.isPressed > 0) return this.pressed;
-		if (this.isBlocked()) return this.unable;
-		return this.isHovered() ? this.hover : this.normal;
+		if (this.isPressed()) return this.spriteSet.pressed();
+		return this.isHovered() ? this.spriteSet.hover() : this.spriteSet.normal();
 	}
 
 	@Override
@@ -60,45 +34,85 @@ public abstract class SpriteButton extends ModButton implements PhaseRenderable 
 	}
 
 	public void tick() {
-		if (this.isPressed > 0) this.isPressed--;
+
 	}
 
 	@Override
-	public final void onPress(InputWithModifiers inputWithModifiers) {
-		if (this.isBlocked()) return;
-		this.isPressed = 2;
-		this.onUnblockedPress(inputWithModifiers);
-	}
+	public abstract void onPress(InputWithModifiers inputWithModifiers);
 
-	@Override
-	public void playDownSound(SoundManager soundManager) {
-		if (this.isBlocked()) return;
-		super.playDownSound(soundManager);
-	}
+	public abstract boolean isPressed();
 
-	@Override
-	public boolean isHovered() {
-		return super.isHovered() && !this.isBlocked();
-	}
+	public record SpriteSet(Identifier normal, Identifier hover, Identifier pressed, @Nullable Identifier unable, int width, int height) {
+		public static final SpriteSet UP_ARROW = new SpriteSet(
+				Constants.prefix("textures/gui/container/up_arrow/unselected.png"),
+				Constants.prefix("textures/gui/container/up_arrow/hovered.png"),
+				Constants.prefix("textures/gui/container/up_arrow/pressed.png"),
+				Constants.prefix("textures/gui/container/up_arrow/unable.png"),
+				16,
+				8
+		);
 
-	public abstract void onUnblockedPress(InputWithModifiers inputWithModifiers);
+		public static final SpriteSet DOWN_ARROW = new SpriteSet(
+				Constants.prefix("textures/gui/container/down_arrow/unselected.png"),
+				Constants.prefix("textures/gui/container/down_arrow/hovered.png"),
+				Constants.prefix("textures/gui/container/down_arrow/pressed.png"),
+				Constants.prefix("textures/gui/container/down_arrow/unable.png"),
+				16,
+				8
+		);
 
-	public boolean isBlocked() {
-		return false;
-	}
+		public static final SpriteSet CURSOR = new SpriteSet(
+				Constants.prefix("textures/gui/container/cursor/unselected.png"),
+				Constants.prefix("textures/gui/container/cursor/hovered.png"),
+				Constants.prefix("textures/gui/container/cursor/pressed.png"),
+				null,
+				20,
+				20
+		);
 
-	public record SpriteSet(Identifier normal, Identifier hover, Identifier pressed, Identifier unable, int width, int height) {
-		private static final Identifier UP_UNSELECTED = Constants.prefix("textures/gui/container/up_unselected.png");
-		private static final Identifier UP_HOVERED = Constants.prefix("textures/gui/container/up_hovered.png");
-		private static final Identifier UP_PRESSED = Constants.prefix("textures/gui/container/up_pressed.png");
-		private static final Identifier UP_UNABLE = Constants.prefix("textures/gui/container/up_unable.png");
+		public static final SpriteSet CHISEL = new SpriteSet(
+				Constants.prefix("textures/gui/container/chisel/unselected.png"),
+				Constants.prefix("textures/gui/container/chisel/hovered.png"),
+				Constants.prefix("textures/gui/container/chisel/pressed.png"),
+				null,
+				20,
+				20
+		);
 
-		private static final Identifier DOWN_UNSELECTED = Constants.prefix("textures/gui/container/down_unselected.png");
-		private static final Identifier DOWN_HOVERED = Constants.prefix("textures/gui/container/down_hovered.png");
-		private static final Identifier DOWN_PRESSED = Constants.prefix("textures/gui/container/down_pressed.png");
-		private static final Identifier DOWN_UNABLE = Constants.prefix("textures/gui/container/down_unable.png");
+		public static final SpriteSet SWAP = new SpriteSet(
+				Constants.prefix("textures/gui/container/swap/unselected.png"),
+				Constants.prefix("textures/gui/container/swap/hovered.png"),
+				Constants.prefix("textures/gui/container/swap/pressed.png"),
+				null,
+				20,
+				20
+		);
 
-		public static SpriteSet UP_ARROW = new SpriteSet(UP_UNSELECTED, UP_HOVERED, UP_PRESSED, UP_UNABLE, 16, 8);
-		public static SpriteSet DOWN_ARROW = new SpriteSet(DOWN_UNSELECTED, DOWN_HOVERED, DOWN_PRESSED, DOWN_UNABLE, 16, 8);
+		public static final SpriteSet PICKER = new SpriteSet(
+				Constants.prefix("textures/gui/container/picker/unselected.png"),
+				Constants.prefix("textures/gui/container/picker/hovered.png"),
+				Constants.prefix("textures/gui/container/picker/pressed.png"),
+				null,
+				20,
+				20
+		);
+
+		public static final SpriteSet WAND = new SpriteSet(
+				Constants.prefix("textures/gui/container/wand/unselected.png"),
+				Constants.prefix("textures/gui/container/wand/hovered.png"),
+				Constants.prefix("textures/gui/container/wand/pressed.png"),
+				null,
+				20,
+				20
+		);
+
+		public static final SpriteSet SELECT = new SpriteSet(
+				Constants.prefix("textures/gui/container/select/unselected.png"),
+				Constants.prefix("textures/gui/container/select/hovered.png"),
+				Constants.prefix("textures/gui/container/select/pressed.png"),
+				null,
+				20,
+				20
+		);
 	}
 }

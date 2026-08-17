@@ -4,8 +4,10 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.blocks.MortarBlock;
 import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.PhaseRenderable;
+import com.mod.mozaik.client.buttons.ClickableButton;
 import com.mod.mozaik.client.buttons.CreatePolyominoButton;
 import com.mod.mozaik.client.buttons.SpriteButton;
+import com.mod.mozaik.client.buttons.ToolButton;
 import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.menus.MaterialSlot;
@@ -53,33 +55,37 @@ import java.util.concurrent.atomic.AtomicInteger;
 @NullMarked
 public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private static final Identifier MORTAR_LOCATION = Constants.prefix("textures/gui/container/mortar.png");
-	private static final Identifier LEFT = Constants.prefix("textures/gui/container/left.png");
-	private static final Identifier LEFT_HIGHLIGHTED = Constants.prefix("textures/gui/container/left_highlighted.png");
-	private static final Identifier RIGHT = Constants.prefix("textures/gui/container/right.png");
-	private static final Identifier RIGHT_HIGHLIGHTED = Constants.prefix("textures/gui/container/right_highlighted.png");
 	private static final int BACKGROUND_WIDTH = 242;
 	private static final int BACKGROUND_HEIGHT = 256;
 	private static final Vector2i GRID_START = new Vector2i(41, 76);
-	private static final Vector2i BOWL_CENTER = new Vector2i(58, 26);
+	private static final Vector2i BOWL_CENTER = new Vector2i(59, 26);
 	private static final Vector2i MATERIAL_BAR = new Vector2i(4, 75);
 	private static final Vector2i MATERIAL_BAR_UP = new Vector2i(4, 66);
 	private static final Vector2i MATERIAL_BAR_DOWN = new Vector2i(4, 236);
 
-	private static final SimpleContainer MATERIALS = new SimpleContainer(9);
+	private static final Vector2i CHISEL = new Vector2i(154, 11);
+	private static final Vector2i CURSOR = new Vector2i(154, 32);
+	private static final Vector2i SWAP = new Vector2i(175, 11);
+	private static final Vector2i PICKER = new Vector2i(175, 32);
+	private static final Vector2i WAND = new Vector2i(196, 11);
+	private static final Vector2i SELECT = new Vector2i(196, 32);
+
+	public static final SimpleContainer MATERIALS = new SimpleContainer(9);
 
 	public static final int LEFT_CLICK = 0;
 	public static final int MIDDLE_CLICK = 2;
 	public static final int RIGHT_CLICK = 1;
 
 	int template = 0;
-	int from = 0;
-	int to = 9;
+	public int mode = 0;
+	public int from = 0;
+	public int to = 9;
 
 	public List<PolyominoWidget> polyominos = new ArrayList<>();
 	public @Nullable HeldPolyominoWidget selected;
 	public @Nullable CreatePolyominoButton addButton;
 	private final List<PhaseRenderable> renderableWidgets = new ArrayList<>();
-	private final List<MaterialSlot> materialSlots = new ArrayList<>();
+	public final List<MaterialSlot> materialSlots = new ArrayList<>();
 
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
@@ -107,22 +113,12 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
 		if (this.hoveredSlot instanceof MaterialSlot) {
 			if (scrollY > 0) {
-				this.from = Math.max(0, this.from - (int) scrollY);
-				this.to = Math.max(9, this.to - (int) scrollY);
-			} else {
-				this.from = Math.min(TesseraMaterial.values().length - 9, this.from - (int) scrollY);
-				this.to = Math.min(TesseraMaterial.values().length, this.to - (int) scrollY);
+				MaterialSlot.scrollUpBy(this, (int) scrollY);
+				return true;
+			} else if (scrollY < 0) {
+				MaterialSlot.scrollDownBy(this, (int) - scrollY);
+				return true;
 			}
-
-			int s = 0;
-			for (int i = this.from; i < this.to; i++) {
-				ItemStack stack = ModItems.SHARDS.asList().get(i).get().getDefaultInstance();
-				MATERIALS.setItem(s, stack);
-				this.materialSlots.get(s++).set(stack);
-			}
-
-			MATERIALS.setChanged();
-			return true;
 		}
 		if (this.selected != null) {
 			this.selected.rotate(scrollY > 0 ? Rotation.CLOCKWISE_90 : Rotation.COUNTERCLOCKWISE_90);
@@ -357,25 +353,13 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	protected void init() {
 		super.init();
 
-		int midX = this.width / 2;
-
 		PrePolyominoShapes[] values = PrePolyominoShapes.values();
 		this.addButton = this.addRenderableWidget(new CreatePolyominoButton(this.leftPos + BOWL_CENTER.x, this.topPos + BOWL_CENTER.y, this, values[this.template].template));
 
-		this.addRenderableWidget(new SpriteButton(this.leftPos + MATERIAL_BAR_UP.x, this.topPos + MATERIAL_BAR_UP.y, SpriteButton.SpriteSet.UP_ARROW) {
+		this.addRenderableWidget(new ClickableButton(this, MATERIAL_BAR_UP, SpriteButton.SpriteSet.UP_ARROW) {
 			@Override
 			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				MortarScreen.this.from = Math.max(0, MortarScreen.this.from - 9);
-				MortarScreen.this.to = Math.max(9, MortarScreen.this.to - 9);
-
-				int s = 0;
-				for (int i = MortarScreen.this.from; i < MortarScreen.this.to; i++) {
-					ItemStack stack = ModItems.SHARDS.asList().get(i).get().getDefaultInstance();
-					MATERIALS.setItem(s, stack);
-					MortarScreen.this.materialSlots.get(s++).set(stack);
-				}
-
-				MATERIALS.setChanged();
+				MaterialSlot.scrollUpBy(MortarScreen.this, inputWithModifiers.hasShiftDown() ? TesseraMaterial.values().length : 9);
 			}
 
 			@Override
@@ -384,20 +368,10 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 		});
 
-		this.addRenderableWidget(new SpriteButton(this.leftPos + MATERIAL_BAR_DOWN.x, this.topPos + MATERIAL_BAR_DOWN.y, SpriteButton.SpriteSet.DOWN_ARROW) {
+		this.addRenderableWidget(new ClickableButton(this, MATERIAL_BAR_DOWN, SpriteButton.SpriteSet.DOWN_ARROW) {
 			@Override
 			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				MortarScreen.this.from = Math.min(TesseraMaterial.values().length - 9, MortarScreen.this.from + 9);
-				MortarScreen.this.to = Math.min(TesseraMaterial.values().length, MortarScreen.this.to + 9);
-
-				int s = 0;
-				for (int i = MortarScreen.this.from; i < MortarScreen.this.to; i++) {
-					ItemStack stack = ModItems.SHARDS.asList().get(i).get().getDefaultInstance();
-					MATERIALS.setItem(s, stack);
-					MortarScreen.this.materialSlots.get(s++).set(stack);
-				}
-
-				MATERIALS.setChanged();
+				MaterialSlot.scrollDownBy(MortarScreen.this, inputWithModifiers.hasShiftDown() ? TesseraMaterial.values().length : 9);
 			}
 
 			@Override
@@ -406,17 +380,12 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 		});
 
-		int templateCount = PrePolyominoShapes.values().length;
-
-		this.addRenderableWidget(SpriteButton.createArrow(midX - 92, this.topPos + 16, LEFT, LEFT_HIGHLIGHTED, (button, input) -> {
-			this.template = (this.template + templateCount - 1) % templateCount;
-			this.addButton.setTemplate(values[this.template].template);
-		}));
-
-		this.addRenderableWidget(SpriteButton.createArrow(midX + 92, this.topPos + 16, RIGHT, RIGHT_HIGHLIGHTED, (button, input) -> {
-			this.template = (this.template + 1) % templateCount;
-			this.addButton.setTemplate(values[this.template].template);
-		}));
+		this.addRenderableWidget(new ToolButton(this, CHISEL, SpriteButton.SpriteSet.CHISEL, 0));
+		this.addRenderableWidget(new ToolButton(this, CURSOR, SpriteButton.SpriteSet.CURSOR, 1));
+		this.addRenderableWidget(new ToolButton(this, SWAP, SpriteButton.SpriteSet.SWAP, 2));
+		this.addRenderableWidget(new ToolButton(this, PICKER, SpriteButton.SpriteSet.PICKER, 3));
+		this.addRenderableWidget(new ToolButton(this, WAND, SpriteButton.SpriteSet.WAND, 4));
+		this.addRenderableWidget(new ToolButton(this, SELECT, SpriteButton.SpriteSet.SELECT, 5));
 
 		Objects.requireNonNull(this.menu.getMortar()).getPolyominos().forEach(placedPolyomino -> {
 			int gridX = this.leftPos + GRID_START.x;
@@ -433,6 +402,14 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		this.polyominos.clear();
 		this.renderableWidgets.clear();
 		super.clearWidgets();
+	}
+
+	public int getLeftPos() {
+		return this.leftPos;
+	}
+
+	public int getTopPos() {
+		return this.topPos;
 	}
 
 	@Override
