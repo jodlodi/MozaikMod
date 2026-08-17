@@ -27,6 +27,7 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -61,6 +62,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private static final Vector2i GRID_START = new Vector2i(41, 76);
 	private static final Vector2i BOWL_CENTER = new Vector2i(58, 26);
 	private static final Vector2i MATERIAL_BAR = new Vector2i(4, 75);
+	private static final Vector2i MATERIAL_BAR_UP = new Vector2i(4, 66);
+	private static final Vector2i MATERIAL_BAR_DOWN = new Vector2i(4, 236);
 
 	private static final SimpleContainer MATERIALS = new SimpleContainer(9);
 
@@ -304,6 +307,14 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	@Override
+	protected void containerTick() {
+		super.containerTick();
+		this.renderableWidgets.forEach(phaseRenderable -> {
+			if (phaseRenderable instanceof SpriteButton button) button.tick();
+		});
+	}
+
+	@Override
 	public void extractRenderState(GuiGraphicsExtractor graphicsExtractor, int mouseX, int mouseY, float partialTick) {
 		GraphicsRenderHelper graphics = new GraphicsRenderHelper(graphicsExtractor);
 		this.renderNeighbourTessera(graphicsExtractor);
@@ -351,19 +362,49 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		PrePolyominoShapes[] values = PrePolyominoShapes.values();
 		this.addButton = this.addRenderableWidget(new CreatePolyominoButton(this.leftPos + BOWL_CENTER.x, this.topPos + BOWL_CENTER.y, this, values[this.template].template));
 
-		int colorCount = TesseraMaterial.values().length;
+		this.addRenderableWidget(new SpriteButton(this.leftPos + MATERIAL_BAR_UP.x, this.topPos + MATERIAL_BAR_UP.y, SpriteButton.UP_UNSELECTED, SpriteButton.UP_HOVERED, SpriteButton.UP_PRESSED, SpriteButton.UP_UNABLE, 16, 8) {
+			@Override
+			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
+				MortarScreen.this.from = Math.max(0, MortarScreen.this.from - 9);
+				MortarScreen.this.to = Math.max(9, MortarScreen.this.to - 9);
 
-		this.addRenderableWidget(SpriteButton.createArrow(midX - 92, this.topPos + 32, LEFT, LEFT_HIGHLIGHTED, (button, input) -> {
-			do {
-				this.addButton.setColor((this.addButton.getColor() + colorCount - 1) % colorCount);
-			} while (TesseraMaterial.values()[this.addButton.getColor()].isFakeMaterial());
-		}));
+				int s = 0;
+				for (int i = MortarScreen.this.from; i < MortarScreen.this.to; i++) {
+					ItemStack stack = ModItems.SHARDS.asList().get(i).get().getDefaultInstance();
+					MATERIALS.setItem(s, stack);
+					MortarScreen.this.materialSlots.get(s++).set(stack);
+				}
 
-		this.addRenderableWidget(SpriteButton.createArrow(midX + 92, this.topPos + 32, RIGHT, RIGHT_HIGHLIGHTED, (button, input) -> {
-			do {
-				this.addButton.setColor((this.addButton.getColor() + 1) % colorCount);
-			} while (TesseraMaterial.values()[this.addButton.getColor()].isFakeMaterial());
-		}));
+				MATERIALS.setChanged();
+			}
+
+			@Override
+			public boolean isBlocked() {
+				return MortarScreen.this.from == 0;
+			}
+		});
+
+		this.addRenderableWidget(new SpriteButton(this.leftPos + MATERIAL_BAR_DOWN.x, this.topPos + MATERIAL_BAR_DOWN.y, SpriteButton.DOWN_UNSELECTED, SpriteButton.DOWN_HOVERED, SpriteButton.DOWN_PRESSED, SpriteButton.DOWN_UNABLE, 16, 8) {
+			@Override
+			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
+				MortarScreen.this.from = Math.min(TesseraMaterial.values().length - 9, MortarScreen.this.from + 9);
+				MortarScreen.this.to = Math.min(TesseraMaterial.values().length, MortarScreen.this.to + 9);
+
+				int s = 0;
+				for (int i = MortarScreen.this.from; i < MortarScreen.this.to; i++) {
+					ItemStack stack = ModItems.SHARDS.asList().get(i).get().getDefaultInstance();
+					MATERIALS.setItem(s, stack);
+					MortarScreen.this.materialSlots.get(s++).set(stack);
+				}
+
+				MATERIALS.setChanged();
+			}
+
+			@Override
+			public boolean isBlocked() {
+				return MortarScreen.this.to == TesseraMaterial.values().length;
+			}
+		});
 
 		int templateCount = PrePolyominoShapes.values().length;
 
