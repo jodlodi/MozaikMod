@@ -14,16 +14,6 @@ import java.util.function.BiConsumer;
 
 @NullMarked
 public abstract class SpriteButton extends ModButton implements PhaseRenderable {
-	public static final Identifier UP_UNSELECTED = Constants.prefix("textures/gui/container/up_unselected.png");
-	public static final Identifier UP_HOVERED = Constants.prefix("textures/gui/container/up_hovered.png");
-	public static final Identifier UP_PRESSED = Constants.prefix("textures/gui/container/up_pressed.png");
-	public static final Identifier UP_UNABLE = Constants.prefix("textures/gui/container/up_unable.png");
-
-	public static final Identifier DOWN_UNSELECTED = Constants.prefix("textures/gui/container/down_unselected.png");
-	public static final Identifier DOWN_HOVERED = Constants.prefix("textures/gui/container/down_hovered.png");
-	public static final Identifier DOWN_PRESSED = Constants.prefix("textures/gui/container/down_pressed.png");
-	public static final Identifier DOWN_UNABLE = Constants.prefix("textures/gui/container/down_unable.png");
-
 	private final Identifier normal;
 	private final Identifier hover;
 	private final Identifier pressed;
@@ -31,12 +21,20 @@ public abstract class SpriteButton extends ModButton implements PhaseRenderable 
 
 	private int isPressed = 0;
 
-	public SpriteButton(int x, int y, Identifier normal, Identifier hover, Identifier pressed, Identifier unable, int width, int height) {
+	protected SpriteButton(int x, int y, Identifier normal, Identifier hover, Identifier pressed, Identifier unable, int width, int height) {
 		super(x, y, width, height, Component.empty());
 		this.normal = normal;
 		this.hover = hover;
 		this.pressed = pressed;
 		this.unable = unable;
+	}
+
+	public SpriteButton(int x, int y, SpriteSet spriteSet) {
+		super(x, y, spriteSet.width, spriteSet.height, Component.empty());
+		this.normal = spriteSet.normal;
+		this.hover = spriteSet.hover;
+		this.pressed = spriteSet.pressed;
+		this.unable = spriteSet.unable;
 	}
 
 	public static SpriteButton createArrow(int x, int y, Identifier location, Identifier hover, BiConsumer<SpriteButton, InputWithModifiers> onPress) {
@@ -87,5 +85,20 @@ public abstract class SpriteButton extends ModButton implements PhaseRenderable 
 
 	public boolean isBlocked() {
 		return false;
+	}
+
+	public record SpriteSet(Identifier normal, Identifier hover, Identifier pressed, Identifier unable, int width, int height) {
+		private static final Identifier UP_UNSELECTED = Constants.prefix("textures/gui/container/up_unselected.png");
+		private static final Identifier UP_HOVERED = Constants.prefix("textures/gui/container/up_hovered.png");
+		private static final Identifier UP_PRESSED = Constants.prefix("textures/gui/container/up_pressed.png");
+		private static final Identifier UP_UNABLE = Constants.prefix("textures/gui/container/up_unable.png");
+
+		private static final Identifier DOWN_UNSELECTED = Constants.prefix("textures/gui/container/down_unselected.png");
+		private static final Identifier DOWN_HOVERED = Constants.prefix("textures/gui/container/down_hovered.png");
+		private static final Identifier DOWN_PRESSED = Constants.prefix("textures/gui/container/down_pressed.png");
+		private static final Identifier DOWN_UNABLE = Constants.prefix("textures/gui/container/down_unable.png");
+
+		public static SpriteSet UP_ARROW = new SpriteSet(UP_UNSELECTED, UP_HOVERED, UP_PRESSED, UP_UNABLE, 16, 8);
+		public static SpriteSet DOWN_ARROW = new SpriteSet(DOWN_UNSELECTED, DOWN_HOVERED, DOWN_PRESSED, DOWN_UNABLE, 16, 8);
 	}
 }

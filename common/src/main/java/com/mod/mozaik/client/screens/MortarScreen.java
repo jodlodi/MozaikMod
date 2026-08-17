@@ -362,7 +362,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		PrePolyominoShapes[] values = PrePolyominoShapes.values();
 		this.addButton = this.addRenderableWidget(new CreatePolyominoButton(this.leftPos + BOWL_CENTER.x, this.topPos + BOWL_CENTER.y, this, values[this.template].template));
 
-		this.addRenderableWidget(new SpriteButton(this.leftPos + MATERIAL_BAR_UP.x, this.topPos + MATERIAL_BAR_UP.y, SpriteButton.UP_UNSELECTED, SpriteButton.UP_HOVERED, SpriteButton.UP_PRESSED, SpriteButton.UP_UNABLE, 16, 8) {
+		this.addRenderableWidget(new SpriteButton(this.leftPos + MATERIAL_BAR_UP.x, this.topPos + MATERIAL_BAR_UP.y, SpriteButton.SpriteSet.UP_ARROW) {
 			@Override
 			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
 				MortarScreen.this.from = Math.max(0, MortarScreen.this.from - 9);
@@ -384,7 +384,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 		});
 
-		this.addRenderableWidget(new SpriteButton(this.leftPos + MATERIAL_BAR_DOWN.x, this.topPos + MATERIAL_BAR_DOWN.y, SpriteButton.DOWN_UNSELECTED, SpriteButton.DOWN_HOVERED, SpriteButton.DOWN_PRESSED, SpriteButton.DOWN_UNABLE, 16, 8) {
+		this.addRenderableWidget(new SpriteButton(this.leftPos + MATERIAL_BAR_DOWN.x, this.topPos + MATERIAL_BAR_DOWN.y, SpriteButton.SpriteSet.DOWN_ARROW) {
 			@Override
 			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
 				MortarScreen.this.from = Math.min(TesseraMaterial.values().length - 9, MortarScreen.this.from + 9);
