@@ -2,832 +2,832 @@
   "sources": [
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/stone/gui_0",
+      "resource": "mozaik:gui/mural/stone/gui_0",
       "sprite": "mozaik:stone/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/stone/gui_1",
+      "resource": "mozaik:gui/mural/stone/gui_1",
       "sprite": "mozaik:stone/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/cobblestone/gui_0",
+      "resource": "mozaik:gui/mural/cobblestone/gui_0",
       "sprite": "mozaik:cobblestone/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/cobblestone/gui_1",
+      "resource": "mozaik:gui/mural/cobblestone/gui_1",
       "sprite": "mozaik:cobblestone/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/cobblestone/gui_2",
+      "resource": "mozaik:gui/mural/cobblestone/gui_2",
       "sprite": "mozaik:cobblestone/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/blackstone/gui_0",
+      "resource": "mozaik:gui/mural/blackstone/gui_0",
       "sprite": "mozaik:blackstone/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/blackstone/gui_1",
+      "resource": "mozaik:gui/mural/blackstone/gui_1",
       "sprite": "mozaik:blackstone/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/blackstone/gui_2",
+      "resource": "mozaik:gui/mural/blackstone/gui_2",
       "sprite": "mozaik:blackstone/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/granite/gui_0",
+      "resource": "mozaik:gui/mural/granite/gui_0",
       "sprite": "mozaik:granite/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/granite/gui_1",
+      "resource": "mozaik:gui/mural/granite/gui_1",
       "sprite": "mozaik:granite/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/granite/gui_2",
+      "resource": "mozaik:gui/mural/granite/gui_2",
       "sprite": "mozaik:granite/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/diorite/gui_0",
+      "resource": "mozaik:gui/mural/diorite/gui_0",
       "sprite": "mozaik:diorite/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/diorite/gui_1",
+      "resource": "mozaik:gui/mural/diorite/gui_1",
       "sprite": "mozaik:diorite/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/diorite/gui_2",
+      "resource": "mozaik:gui/mural/diorite/gui_2",
       "sprite": "mozaik:diorite/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/andesite/gui_0",
+      "resource": "mozaik:gui/mural/andesite/gui_0",
       "sprite": "mozaik:andesite/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/andesite/gui_1",
+      "resource": "mozaik:gui/mural/andesite/gui_1",
       "sprite": "mozaik:andesite/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/andesite/gui_2",
+      "resource": "mozaik:gui/mural/andesite/gui_2",
       "sprite": "mozaik:andesite/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/deepslate/gui_0",
+      "resource": "mozaik:gui/mural/deepslate/gui_0",
       "sprite": "mozaik:deepslate/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/deepslate/gui_1",
+      "resource": "mozaik:gui/mural/deepslate/gui_1",
       "sprite": "mozaik:deepslate/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/deepslate/gui_2",
+      "resource": "mozaik:gui/mural/deepslate/gui_2",
       "sprite": "mozaik:deepslate/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/deepslate/gui_3",
+      "resource": "mozaik:gui/mural/deepslate/gui_3",
       "sprite": "mozaik:deepslate/3"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/tuff/gui_0",
+      "resource": "mozaik:gui/mural/tuff/gui_0",
       "sprite": "mozaik:tuff/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/tuff/gui_1",
+      "resource": "mozaik:gui/mural/tuff/gui_1",
       "sprite": "mozaik:tuff/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/tuff/gui_2",
+      "resource": "mozaik:gui/mural/tuff/gui_2",
       "sprite": "mozaik:tuff/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/brick/gui_0",
+      "resource": "mozaik:gui/mural/brick/gui_0",
       "sprite": "mozaik:brick/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/brick/gui_1",
+      "resource": "mozaik:gui/mural/brick/gui_1",
       "sprite": "mozaik:brick/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/packed_mud/gui_0",
+      "resource": "mozaik:gui/mural/packed_mud/gui_0",
       "sprite": "mozaik:packed_mud/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/packed_mud/gui_1",
+      "resource": "mozaik:gui/mural/packed_mud/gui_1",
       "sprite": "mozaik:packed_mud/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/packed_mud/gui_2",
+      "resource": "mozaik:gui/mural/packed_mud/gui_2",
       "sprite": "mozaik:packed_mud/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/calcite/gui_0",
+      "resource": "mozaik:gui/mural/calcite/gui_0",
       "sprite": "mozaik:calcite/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/calcite/gui_1",
+      "resource": "mozaik:gui/mural/calcite/gui_1",
       "sprite": "mozaik:calcite/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/calcite/gui_2",
+      "resource": "mozaik:gui/mural/calcite/gui_2",
       "sprite": "mozaik:calcite/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/sandstone/gui_0",
+      "resource": "mozaik:gui/mural/sandstone/gui_0",
       "sprite": "mozaik:sandstone/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/sandstone/gui_1",
+      "resource": "mozaik:gui/mural/sandstone/gui_1",
       "sprite": "mozaik:sandstone/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/sandstone/gui_2",
+      "resource": "mozaik:gui/mural/sandstone/gui_2",
       "sprite": "mozaik:sandstone/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/red_sandstone/gui_0",
+      "resource": "mozaik:gui/mural/red_sandstone/gui_0",
       "sprite": "mozaik:red_sandstone/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/red_sandstone/gui_1",
+      "resource": "mozaik:gui/mural/red_sandstone/gui_1",
       "sprite": "mozaik:red_sandstone/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/red_sandstone/gui_2",
+      "resource": "mozaik:gui/mural/red_sandstone/gui_2",
       "sprite": "mozaik:red_sandstone/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/cinnabar/gui_0",
+      "resource": "mozaik:gui/mural/cinnabar/gui_0",
       "sprite": "mozaik:cinnabar/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/cinnabar/gui_1",
+      "resource": "mozaik:gui/mural/cinnabar/gui_1",
       "sprite": "mozaik:cinnabar/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/cinnabar/gui_2",
+      "resource": "mozaik:gui/mural/cinnabar/gui_2",
       "sprite": "mozaik:cinnabar/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/netherrack/gui_0",
+      "resource": "mozaik:gui/mural/netherrack/gui_0",
       "sprite": "mozaik:netherrack/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/netherrack/gui_1",
+      "resource": "mozaik:gui/mural/netherrack/gui_1",
       "sprite": "mozaik:netherrack/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/netherrack/gui_2",
+      "resource": "mozaik:gui/mural/netherrack/gui_2",
       "sprite": "mozaik:netherrack/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/nether_brick/gui_0",
+      "resource": "mozaik:gui/mural/nether_brick/gui_0",
       "sprite": "mozaik:nether_brick/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/nether_brick/gui_1",
+      "resource": "mozaik:gui/mural/nether_brick/gui_1",
       "sprite": "mozaik:nether_brick/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/nether_brick/gui_2",
+      "resource": "mozaik:gui/mural/nether_brick/gui_2",
       "sprite": "mozaik:nether_brick/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/red_nether_brick/gui_0",
+      "resource": "mozaik:gui/mural/red_nether_brick/gui_0",
       "sprite": "mozaik:red_nether_brick/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/red_nether_brick/gui_1",
+      "resource": "mozaik:gui/mural/red_nether_brick/gui_1",
       "sprite": "mozaik:red_nether_brick/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/red_nether_brick/gui_2",
+      "resource": "mozaik:gui/mural/red_nether_brick/gui_2",
       "sprite": "mozaik:red_nether_brick/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/quartz/gui_0",
+      "resource": "mozaik:gui/mural/quartz/gui_0",
       "sprite": "mozaik:quartz/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/quartz/gui_1",
+      "resource": "mozaik:gui/mural/quartz/gui_1",
       "sprite": "mozaik:quartz/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/glowstone/gui_0",
+      "resource": "mozaik:gui/mural/glowstone/gui_0",
       "sprite": "mozaik:glowstone/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/glowstone/gui_1",
+      "resource": "mozaik:gui/mural/glowstone/gui_1",
       "sprite": "mozaik:glowstone/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/glowstone/gui_2",
+      "resource": "mozaik:gui/mural/glowstone/gui_2",
       "sprite": "mozaik:glowstone/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/ancient_debris/gui_0",
+      "resource": "mozaik:gui/mural/ancient_debris/gui_0",
       "sprite": "mozaik:ancient_debris/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/ancient_debris/gui_1",
+      "resource": "mozaik:gui/mural/ancient_debris/gui_1",
       "sprite": "mozaik:ancient_debris/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/ancient_debris/gui_2",
+      "resource": "mozaik:gui/mural/ancient_debris/gui_2",
       "sprite": "mozaik:ancient_debris/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/basalt/gui_0",
+      "resource": "mozaik:gui/mural/basalt/gui_0",
       "sprite": "mozaik:basalt/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/basalt/gui_1",
+      "resource": "mozaik:gui/mural/basalt/gui_1",
       "sprite": "mozaik:basalt/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/basalt/gui_2",
+      "resource": "mozaik:gui/mural/basalt/gui_2",
       "sprite": "mozaik:basalt/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/end_stone/gui_0",
+      "resource": "mozaik:gui/mural/end_stone/gui_0",
       "sprite": "mozaik:end_stone/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/end_stone/gui_1",
+      "resource": "mozaik:gui/mural/end_stone/gui_1",
       "sprite": "mozaik:end_stone/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/end_stone/gui_2",
+      "resource": "mozaik:gui/mural/end_stone/gui_2",
       "sprite": "mozaik:end_stone/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/purpur/gui_0",
+      "resource": "mozaik:gui/mural/purpur/gui_0",
       "sprite": "mozaik:purpur/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/purpur/gui_1",
+      "resource": "mozaik:gui/mural/purpur/gui_1",
       "sprite": "mozaik:purpur/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/purpur/gui_2",
+      "resource": "mozaik:gui/mural/purpur/gui_2",
       "sprite": "mozaik:purpur/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/block_of_raw_iron/gui_0",
+      "resource": "mozaik:gui/mural/block_of_raw_iron/gui_0",
       "sprite": "mozaik:block_of_raw_iron/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/block_of_raw_iron/gui_1",
+      "resource": "mozaik:gui/mural/block_of_raw_iron/gui_1",
       "sprite": "mozaik:block_of_raw_iron/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/block_of_raw_iron/gui_2",
+      "resource": "mozaik:gui/mural/block_of_raw_iron/gui_2",
       "sprite": "mozaik:block_of_raw_iron/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/block_of_raw_copper/gui_0",
+      "resource": "mozaik:gui/mural/block_of_raw_copper/gui_0",
       "sprite": "mozaik:block_of_raw_copper/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/block_of_raw_copper/gui_1",
+      "resource": "mozaik:gui/mural/block_of_raw_copper/gui_1",
       "sprite": "mozaik:block_of_raw_copper/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/block_of_raw_copper/gui_2",
+      "resource": "mozaik:gui/mural/block_of_raw_copper/gui_2",
       "sprite": "mozaik:block_of_raw_copper/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/block_of_raw_gold/gui_0",
+      "resource": "mozaik:gui/mural/block_of_raw_gold/gui_0",
       "sprite": "mozaik:block_of_raw_gold/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/block_of_raw_gold/gui_1",
+      "resource": "mozaik:gui/mural/block_of_raw_gold/gui_1",
       "sprite": "mozaik:block_of_raw_gold/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/block_of_raw_gold/gui_2",
+      "resource": "mozaik:gui/mural/block_of_raw_gold/gui_2",
       "sprite": "mozaik:block_of_raw_gold/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/dark_prismarine/gui_0",
+      "resource": "mozaik:gui/mural/dark_prismarine/gui_0",
       "sprite": "mozaik:dark_prismarine/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/dark_prismarine/gui_1",
+      "resource": "mozaik:gui/mural/dark_prismarine/gui_1",
       "sprite": "mozaik:dark_prismarine/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/dark_prismarine/gui_2",
+      "resource": "mozaik:gui/mural/dark_prismarine/gui_2",
       "sprite": "mozaik:dark_prismarine/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/prismarine/gui_0",
+      "resource": "mozaik:gui/mural/prismarine/gui_0",
       "sprite": "mozaik:prismarine/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/prismarine/gui_1",
+      "resource": "mozaik:gui/mural/prismarine/gui_1",
       "sprite": "mozaik:prismarine/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/prismarine/gui_2",
+      "resource": "mozaik:gui/mural/prismarine/gui_2",
       "sprite": "mozaik:prismarine/2"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/terracotta/gui_0",
+      "resource": "mozaik:gui/mural/terracotta/gui_0",
       "sprite": "mozaik:terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/terracotta/gui_1",
+      "resource": "mozaik:gui/mural/terracotta/gui_1",
       "sprite": "mozaik:terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/black_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/black_terracotta/gui_0",
       "sprite": "mozaik:black_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/black_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/black_terracotta/gui_1",
       "sprite": "mozaik:black_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/blue_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/blue_terracotta/gui_0",
       "sprite": "mozaik:blue_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/blue_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/blue_terracotta/gui_1",
       "sprite": "mozaik:blue_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/brown_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/brown_terracotta/gui_0",
       "sprite": "mozaik:brown_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/brown_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/brown_terracotta/gui_1",
       "sprite": "mozaik:brown_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/cyan_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/cyan_terracotta/gui_0",
       "sprite": "mozaik:cyan_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/cyan_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/cyan_terracotta/gui_1",
       "sprite": "mozaik:cyan_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/gray_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/gray_terracotta/gui_0",
       "sprite": "mozaik:gray_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/gray_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/gray_terracotta/gui_1",
       "sprite": "mozaik:gray_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/green_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/green_terracotta/gui_0",
       "sprite": "mozaik:green_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/green_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/green_terracotta/gui_1",
       "sprite": "mozaik:green_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/light_blue_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/light_blue_terracotta/gui_0",
       "sprite": "mozaik:light_blue_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/light_blue_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/light_blue_terracotta/gui_1",
       "sprite": "mozaik:light_blue_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/light_gray_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/light_gray_terracotta/gui_0",
       "sprite": "mozaik:light_gray_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/light_gray_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/light_gray_terracotta/gui_1",
       "sprite": "mozaik:light_gray_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/lime_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/lime_terracotta/gui_0",
       "sprite": "mozaik:lime_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/lime_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/lime_terracotta/gui_1",
       "sprite": "mozaik:lime_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/magenta_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/magenta_terracotta/gui_0",
       "sprite": "mozaik:magenta_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/magenta_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/magenta_terracotta/gui_1",
       "sprite": "mozaik:magenta_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/orange_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/orange_terracotta/gui_0",
       "sprite": "mozaik:orange_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/orange_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/orange_terracotta/gui_1",
       "sprite": "mozaik:orange_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/pink_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/pink_terracotta/gui_0",
       "sprite": "mozaik:pink_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/pink_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/pink_terracotta/gui_1",
       "sprite": "mozaik:pink_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/purple_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/purple_terracotta/gui_0",
       "sprite": "mozaik:purple_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/purple_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/purple_terracotta/gui_1",
       "sprite": "mozaik:purple_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/red_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/red_terracotta/gui_0",
       "sprite": "mozaik:red_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/red_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/red_terracotta/gui_1",
       "sprite": "mozaik:red_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/white_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/white_terracotta/gui_0",
       "sprite": "mozaik:white_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/white_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/white_terracotta/gui_1",
       "sprite": "mozaik:white_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/yellow_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/yellow_terracotta/gui_0",
       "sprite": "mozaik:yellow_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/yellow_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/yellow_terracotta/gui_1",
       "sprite": "mozaik:yellow_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/black_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/black_glazed_terracotta/gui_0",
       "sprite": "mozaik:black_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/black_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/black_glazed_terracotta/gui_1",
       "sprite": "mozaik:black_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/blue_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/blue_glazed_terracotta/gui_0",
       "sprite": "mozaik:blue_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/blue_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/blue_glazed_terracotta/gui_1",
       "sprite": "mozaik:blue_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/brown_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/brown_glazed_terracotta/gui_0",
       "sprite": "mozaik:brown_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/brown_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/brown_glazed_terracotta/gui_1",
       "sprite": "mozaik:brown_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/cyan_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/cyan_glazed_terracotta/gui_0",
       "sprite": "mozaik:cyan_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/cyan_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/cyan_glazed_terracotta/gui_1",
       "sprite": "mozaik:cyan_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/gray_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/gray_glazed_terracotta/gui_0",
       "sprite": "mozaik:gray_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/gray_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/gray_glazed_terracotta/gui_1",
       "sprite": "mozaik:gray_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/green_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/green_glazed_terracotta/gui_0",
       "sprite": "mozaik:green_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/green_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/green_glazed_terracotta/gui_1",
       "sprite": "mozaik:green_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/light_blue_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/light_blue_glazed_terracotta/gui_0",
       "sprite": "mozaik:light_blue_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/light_blue_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/light_blue_glazed_terracotta/gui_1",
       "sprite": "mozaik:light_blue_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/light_gray_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/light_gray_glazed_terracotta/gui_0",
       "sprite": "mozaik:light_gray_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/light_gray_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/light_gray_glazed_terracotta/gui_1",
       "sprite": "mozaik:light_gray_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/lime_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/lime_glazed_terracotta/gui_0",
       "sprite": "mozaik:lime_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/lime_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/lime_glazed_terracotta/gui_1",
       "sprite": "mozaik:lime_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/magenta_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/magenta_glazed_terracotta/gui_0",
       "sprite": "mozaik:magenta_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/magenta_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/magenta_glazed_terracotta/gui_1",
       "sprite": "mozaik:magenta_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/orange_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/orange_glazed_terracotta/gui_0",
       "sprite": "mozaik:orange_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/orange_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/orange_glazed_terracotta/gui_1",
       "sprite": "mozaik:orange_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/pink_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/pink_glazed_terracotta/gui_0",
       "sprite": "mozaik:pink_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/pink_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/pink_glazed_terracotta/gui_1",
       "sprite": "mozaik:pink_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/purple_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/purple_glazed_terracotta/gui_0",
       "sprite": "mozaik:purple_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/purple_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/purple_glazed_terracotta/gui_1",
       "sprite": "mozaik:purple_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/red_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/red_glazed_terracotta/gui_0",
       "sprite": "mozaik:red_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/red_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/red_glazed_terracotta/gui_1",
       "sprite": "mozaik:red_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/white_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/white_glazed_terracotta/gui_0",
       "sprite": "mozaik:white_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/white_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/white_glazed_terracotta/gui_1",
       "sprite": "mozaik:white_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/yellow_glazed_terracotta/gui_0",
+      "resource": "mozaik:gui/mural/yellow_glazed_terracotta/gui_0",
       "sprite": "mozaik:yellow_glazed_terracotta/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/yellow_glazed_terracotta/gui_1",
+      "resource": "mozaik:gui/mural/yellow_glazed_terracotta/gui_1",
       "sprite": "mozaik:yellow_glazed_terracotta/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/black_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/black_stained_glass/gui_0",
       "sprite": "mozaik:black_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/blue_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/blue_stained_glass/gui_0",
       "sprite": "mozaik:blue_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/brown_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/brown_stained_glass/gui_0",
       "sprite": "mozaik:brown_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/cyan_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/cyan_stained_glass/gui_0",
       "sprite": "mozaik:cyan_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/gray_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/gray_stained_glass/gui_0",
       "sprite": "mozaik:gray_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/green_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/green_stained_glass/gui_0",
       "sprite": "mozaik:green_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/light_blue_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/light_blue_stained_glass/gui_0",
       "sprite": "mozaik:light_blue_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/light_gray_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/light_gray_stained_glass/gui_0",
       "sprite": "mozaik:light_gray_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/lime_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/lime_stained_glass/gui_0",
       "sprite": "mozaik:lime_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/magenta_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/magenta_stained_glass/gui_0",
       "sprite": "mozaik:magenta_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/orange_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/orange_stained_glass/gui_0",
       "sprite": "mozaik:orange_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/pink_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/pink_stained_glass/gui_0",
       "sprite": "mozaik:pink_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/purple_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/purple_stained_glass/gui_0",
       "sprite": "mozaik:purple_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/red_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/red_stained_glass/gui_0",
       "sprite": "mozaik:red_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/white_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/white_stained_glass/gui_0",
       "sprite": "mozaik:white_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/yellow_stained_glass/gui_0",
+      "resource": "mozaik:gui/mural/yellow_stained_glass/gui_0",
       "sprite": "mozaik:yellow_stained_glass/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/can_place/gui_0",
+      "resource": "mozaik:gui/mural/can_place/gui_0",
       "sprite": "mozaik:can_place/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:block/mural/cant_place/gui_0",
+      "resource": "mozaik:gui/mural/cant_place/gui_0",
       "sprite": "mozaik:cant_place/0"
     }
   ]

@@ -1,7 +1,0 @@
-{
-  "parent": "mozaik:block/murals/no_bridge/tessera_template_down",
-  "textures": {
-    "particle": "mozaik:block/mural/pink_terracotta/block_0",
-    "texture": "mozaik:block/mural/pink_terracotta/block_0"
-  }
-}

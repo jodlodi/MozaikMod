@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/end",
+  "textures": {
+    "texture": "mozaik:block/mural/netherrack/block_1"
+  }
+}

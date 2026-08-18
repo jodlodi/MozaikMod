@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/t",
+  "textures": {
+    "texture": "mozaik:block/mural/magenta_stained_glass/block_0"
+  }
+}

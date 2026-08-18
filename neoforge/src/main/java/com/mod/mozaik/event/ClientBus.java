@@ -4,7 +4,7 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.polyomino.TesseraMaterial;
 import com.mod.mozaik.client.model.block.mortar.MosaicStateModel;
 import com.mod.mozaik.client.screens.MortarScreen;
-import com.mod.mozaik.data.gen.model.ModBlockStateGen;
+import com.mod.mozaik.polyomino.TesseraShape;
 import com.mod.mozaik.reg.ModMenus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -35,31 +35,9 @@ public class ClientBus {
 	public static void registerAdditionalModels(ModelEvent.RegisterStandalone event) {
 		for (TesseraMaterial material : TesseraMaterial.values()) {
 			for (int i = 0; i < material.getSpriteSheets().size(); i++) {
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.TESSERA);
-
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_UP);
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_NO_UP);
-
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_RIGHT);
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_NO_RIGHT);
-
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_DOWN);
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_NO_DOWN);
-
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_LEFT);
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.BRIDGE_NO_LEFT);
-
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_UP_RIGHT);
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_UP_NO_RIGHT);
-
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_DOWN_RIGHT);
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_RIGHT_NO_DOWN);
-
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_DOWN_LEFT);
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_DOWN_NO_LEFT);
-
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_UP_LEFT);
-				registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + ModBlockStateGen.CORNER_LEFT_NO_UP);
+				for (TesseraShape.ModelReference shape : TesseraShape.ModelReference.values()) {
+					registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + shape.getSerializedName());
+				}
 			}
 		}
 	}

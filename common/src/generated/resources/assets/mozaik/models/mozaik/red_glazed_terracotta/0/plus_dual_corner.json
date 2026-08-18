@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/plus_dual_corner",
+  "textures": {
+    "texture": "mozaik:block/mural/red_glazed_terracotta/block_0"
+  }
+}

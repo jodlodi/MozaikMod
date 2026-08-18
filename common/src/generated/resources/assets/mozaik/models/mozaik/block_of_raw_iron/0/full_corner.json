@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/full_corner",
+  "textures": {
+    "texture": "mozaik:block/mural/block_of_raw_iron/block_0"
+  }
+}

@@ -124,6 +124,11 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			this.selected.rotate(scrollY > 0 ? Rotation.CLOCKWISE_90 : Rotation.COUNTERCLOCKWISE_90);
 			return true;
 		}
+		else {
+			int templateCount = PrePolyominoShapes.values().length;
+			this.template = (this.template + templateCount - 1) % templateCount;
+			this.addButton.setTemplate(PrePolyominoShapes.values()[this.template].template);
+		}
 		return super.mouseScrolled(x, y, scrollX, scrollY);
 	}
 

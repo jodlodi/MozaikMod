@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/corner",
+  "textures": {
+    "texture": "mozaik:block/mural/light_gray_stained_glass/block_0"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/full",
+  "textures": {
+    "texture": "mozaik:block/mural/block_of_raw_iron/block_1"
+  }
+}

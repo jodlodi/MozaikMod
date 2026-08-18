@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/full_corner",
+  "textures": {
+    "texture": "mozaik:block/mural/blue_terracotta/block_1"
+  }
+}

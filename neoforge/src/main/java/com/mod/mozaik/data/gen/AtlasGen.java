@@ -20,7 +20,7 @@ public class AtlasGen extends SpriteSourceProvider {
 	protected void gather() {
 		for (TesseraMaterial material : TesseraMaterial.values()) {
 			for (int i = 0; i < material.getSpriteSheets().size(); i++) {
-				this.atlas(AtlasIds.GUI).addSource(new SingleFile(Constants.prefix("block/mural/" + material.getSerializedName() + "/gui_" +  i), Optional.of(Constants.prefix( material.getSerializedName() + "/" +  i))));
+				this.atlas(AtlasIds.GUI).addSource(new SingleFile(Constants.prefix("gui/mural/" + material.getSerializedName() + "/gui_" +  i), Optional.of(Constants.prefix( material.getSerializedName() + "/" +  i))));
 			}
 		}
 	}

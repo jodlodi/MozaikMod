@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/long",
+  "textures": {
+    "texture": "mozaik:block/mural/magenta_terracotta/block_0"
+  }
+}

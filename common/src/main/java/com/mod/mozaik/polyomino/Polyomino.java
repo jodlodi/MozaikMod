@@ -91,7 +91,7 @@ public record Polyomino(List<Tessera.PlacedTessera> placedTessera, TesseraMateri
 					}
 				}
 
-				return new Tessera.PlacedTessera(new Tessera(Tessera.Shape.get(connections)), vector2i.x(), vector2i.y());
+				return new Tessera.PlacedTessera(new Tessera(TesseraShape.get(connections)), vector2i.x(), vector2i.y());
 			}).toList();
 
 			return new Polyomino(placedTessera, material, seed);

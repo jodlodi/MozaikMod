@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/long",
+  "textures": {
+    "texture": "mozaik:block/mural/red_sandstone/block_0"
+  }
+}

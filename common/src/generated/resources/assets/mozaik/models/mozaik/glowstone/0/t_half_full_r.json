@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals_fullbright/t_half_full_r",
+  "textures": {
+    "texture": "mozaik:block/mural/glowstone/block_0"
+  }
+}

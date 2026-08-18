@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/plus_corner",
+  "textures": {
+    "texture": "mozaik:block/mural/sandstone/block_1"
+  }
+}

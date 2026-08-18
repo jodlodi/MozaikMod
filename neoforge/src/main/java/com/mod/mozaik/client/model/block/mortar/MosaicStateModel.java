@@ -104,7 +104,7 @@ public final class MosaicStateModel implements DynamicBlockStateModel {
 				index++;
 				int fx = x + tessera.x();
 				int fy = y + tessera.y();
-
+/*
 				for (FlatDirection direction : FlatDirection.cardinalClockwise()) {
 					if (Polyomino.Builder.checkConnection(dirs, new Vector2i(tessera.x(), tessera.y()), direction)) {
 						parts.add(TesseraHelper.bakeBridge(polyomino.polyomino().material(), facing, direction, fx, fy, polyomino.polyomino().seed(), index));
@@ -128,9 +128,9 @@ public final class MosaicStateModel implements DynamicBlockStateModel {
 
 						parts.add(TesseraHelper.bakeBridge(polyomino.polyomino().material(), facing, direction, fx, fy, polyomino.polyomino().seed(), index));
 					}
-				}
+				}*/
 
-				parts.add(TesseraHelper.bakeTessera(polyomino.polyomino().material(), facing, fx, fy, polyomino.polyomino().seed(), index));
+				parts.add(TesseraHelper.bakeTessera(polyomino.polyomino().material(), facing, fx, fy, polyomino.polyomino().seed(), index, tessera.tessera().shape()));
 			}
 		});
 	}

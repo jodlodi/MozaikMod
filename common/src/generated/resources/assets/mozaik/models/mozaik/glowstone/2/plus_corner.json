@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals_fullbright/plus_corner",
+  "textures": {
+    "texture": "mozaik:block/mural/glowstone/block_2"
+  }
+}

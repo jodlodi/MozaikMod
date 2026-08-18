@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/full",
+  "textures": {
+    "texture": "mozaik:block/mural/granite/block_0"
+  }
+}

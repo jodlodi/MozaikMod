@@ -1,0 +1,34 @@
+{
+	"format_version": "1.21.11",
+	"parent": "minecraft:block/block",
+	"textures": {
+		"texture": "mozaik:block/mural/stone/block_0",
+		"particle": "#texture"
+	},
+	"elements": [
+		{
+			"from": [3, 0, 4],
+			"to": [12, 10, 13],
+			"faces": {
+				"north": {"uv": [3, 3, 13, 13], "texture": "#texture"},
+				"east": {"uv": [3, 3, 13, 13], "texture": "#texture"},
+				"south": {"uv": [3, 3, 13, 13], "texture": "#texture"},
+				"west": {"uv": [3, 3, 13, 13], "texture": "#texture"},
+				"up": {"uv": [3, 3, 13, 13], "texture": "#texture"},
+				"down": {"uv": [3, 3, 13, 13], "texture": "#texture"}
+			}
+		},
+		{
+			"from": [12, 0, 4],
+			"to": [13, 10, 12],
+			"faces": {
+				"north": {"uv": [3, 3, 13, 13], "texture": "#texture"},
+				"east": {"uv": [3, 3, 13, 13], "texture": "#texture"},
+				"south": {"uv": [3, 3, 13, 13], "texture": "#texture"},
+				"west": {"uv": [3, 3, 13, 13], "texture": "#texture"},
+				"up": {"uv": [3, 3, 13, 13], "texture": "#texture"},
+				"down": {"uv": [3, 3, 13, 13], "texture": "#texture"}
+			}
+		}
+	]
+}

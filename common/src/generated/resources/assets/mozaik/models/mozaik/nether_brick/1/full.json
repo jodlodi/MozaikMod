@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/full",
+  "textures": {
+    "texture": "mozaik:block/mural/nether_brick/block_1"
+  }
+}

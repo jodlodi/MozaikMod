@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals/t_half_full_r",
+  "textures": {
+    "texture": "mozaik:block/mural/orange_terracotta/block_0"
+  }
+}

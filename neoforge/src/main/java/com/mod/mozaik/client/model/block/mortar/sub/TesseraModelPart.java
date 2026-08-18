@@ -1,5 +1,6 @@
 package com.mod.mozaik.client.model.block.mortar.sub;
 
+import com.mod.mozaik.polyomino.TesseraShape;
 import com.mojang.math.Transformation;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -14,8 +15,10 @@ import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.client.resources.model.sprite.TextureSlots;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Rotation;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
+import org.joml.Quaternionf;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -66,7 +69,7 @@ public record TesseraModelPart(QuadCollection quads, boolean useAmbientOcclusion
 
 	// The model state used to apply the necessary transformations
 	// If you are using an intermediate object to hold the model state, it must be transformable to a ModelState
-	public record MyModelState(Direction facing, int x, int y) implements ModelState {
+	public record MyModelState(TesseraShape shape, Direction facing, int x, int y) implements ModelState {
 		public static final float FACTOR = 1.0F;
 		public static final float PIXEL = FACTOR / 16.0F;
 		public static final float VOXEL_SIZE = 10.0F;
@@ -77,12 +80,22 @@ public record TesseraModelPart(QuadCollection quads, boolean useAmbientOcclusion
 		@Override
 		public Transformation transformation() {
 			// Returns the model rotation to apply to the baking vertices
-			return new Transformation((new Matrix4f())
+			return new Transformation(new Matrix4f()
 					.rotate(this.facing.getRotation())
 					.translate(HALF, 1F, HALF)
 					.translate(this.x() * PIXEL, 0.0F, this.y() * PIXEL)
 					.scale(SCALE)
-					.translate(-HALF_BLOCK / SCALE, -HALF_BLOCK / SCALE, -HALF_BLOCK / SCALE));
+					.translate(-HALF_BLOCK / SCALE, -HALF_BLOCK / SCALE, -HALF_BLOCK / SCALE)
+					.rotate(this.getRotation(this.shape.getModel().rotation())));
+		}
+
+		public Quaternionf getRotation(Rotation rotation) {
+			return switch (rotation) {
+				case Rotation.COUNTERCLOCKWISE_90 -> new Quaternionf().rotationY(((float)Math.PI / 2F));
+				case Rotation.NONE -> new Quaternionf();
+				case Rotation.CLOCKWISE_90 -> new Quaternionf().rotationY(((float)Math.PI / 2F) * 3.0F);
+				case Rotation.CLOCKWISE_180 -> new Quaternionf().rotationY(((float)Math.PI / 2F) * 2.0F);
+			};
 		}
 
 		@Override

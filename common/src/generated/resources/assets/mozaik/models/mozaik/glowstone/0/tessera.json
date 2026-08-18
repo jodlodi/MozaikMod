@@ -1,7 +1,6 @@
 {
-  "parent": "mozaik:block/murals/tessera_template_base",
+  "parent": "mozaik:block/murals_fullbright/tessera",
   "textures": {
-    "particle": "mozaik:block/mural/glowstone/block_0",
     "texture": "mozaik:block/mural/glowstone/block_0"
   }
 }
