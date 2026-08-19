@@ -44,10 +44,10 @@ public class PolyominoWidget extends UnclickableWidget implements PhaseRenderabl
 
 	@Override
 	public void renderBelowItems(GraphicsRenderHelper graphics) {
-		renderVoxels(graphics, this.placedPolyomino.polyomino(), this.placedPolyomino.polyomino().material(), this.getX(), this.getY());
+		renderVoxels(graphics, this.placedPolyomino.polyomino(), this.getX(), this.getY());
 	}
 
-	public static void renderVoxels(GraphicsRenderHelper graphics, Polyomino polyomino, TesseraMaterial material, float x, float y) {
+	public static void renderVoxels(GraphicsRenderHelper graphics, Polyomino polyomino, float x, float y) {
 		graphics.pushPop(() -> {
 			graphics.translate(x, y);
 
@@ -59,7 +59,7 @@ public class PolyominoWidget extends UnclickableWidget implements PhaseRenderabl
 						tessera.y() * Tessera.TESSERA_SIZE
 				);
 
-				graphics.blitTessera(material, tessera.tessera(), polyomino.seed(), index.get());
+				graphics.blitTessera(polyomino.material(), tessera.tessera(), polyomino.seed(), index.get());
 			}));
 		});
 	}

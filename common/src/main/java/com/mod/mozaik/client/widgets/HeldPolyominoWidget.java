@@ -43,16 +43,6 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 		this.polyomino = new Polyomino(placedTessera, this.polyomino.material(), this.polyomino.seed());
 	}
 
-	public void mirror() {
-		List<Tessera.PlacedTessera> placedTessera = new ArrayList<>();
-
-		this.placedTessera().forEach(voxel ->
-				placedTessera.add(new Tessera.PlacedTessera(new Tessera(voxel.tessera().shape().horizontalMirror()), voxel.x() * -1, voxel.y()))
-		);
-
-		this.polyomino = new Polyomino(placedTessera, this.polyomino.material(), this.polyomino.seed());
-	}
-
 	public void remove() {
 		this.screen.removeWidget(this);
 		this.screen.selected = null;

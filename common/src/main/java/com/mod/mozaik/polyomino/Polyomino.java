@@ -12,9 +12,18 @@ import java.util.List;
 
 @NullMarked
 public record Polyomino(List<Tessera.PlacedTessera> placedTessera, TesseraMaterial material, long seed) {
+	public static Polyomino EMPTY = new Polyomino(List.of(), TesseraMaterial.STONE, 0L);
 
 	private Polyomino(List<Tessera.PlacedTessera> placedTessera, int ordinal, long seed) {
 		this(placedTessera, TesseraMaterial.values()[ordinal], seed);
+	}
+
+	public Polyomino rebuild(TesseraMaterial material, long seed) {
+		return new Polyomino(this.placedTessera(), material, seed);
+	}
+
+	public Polyomino copy() {
+		return new Polyomino(this.placedTessera, this.material, this.seed);
 	}
 
 	public static final Codec<Polyomino> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
