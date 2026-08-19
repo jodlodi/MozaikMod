@@ -5,6 +5,7 @@ import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.polyomino.Tessera;
+import com.mod.mozaik.reg.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -37,6 +38,7 @@ public class CreatePolyominoButton extends ModButton {
 		this.screen.setShape(this.screen.getShape().rebuild(this.screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
 
 		this.screen.selected = this.screen.addRenderableWidget(widget);
+		this.screen.tool = MortarScreen.Tool.CURSOR;
 	}
 
 	@Override
@@ -57,5 +59,13 @@ public class CreatePolyominoButton extends ModButton {
 				(int) (-center.x * Tessera.TESSERA_SIZE + this.getX() + SIZE * 0.5F),
 				(int) (-center.y * Tessera.TESSERA_SIZE + this.getY() + SIZE * 0.5F)
 		);
+
+		if (this.isHovered()) {
+			this.extractTooltip(graphics, mouseX, mouseY);
+		}
+	}
+
+	protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y) {
+		graphics.setTooltipForNextFrame(Minecraft.getInstance().font, ModItems.SHARDS.pick(this.screen.getPrimaryColor()).get().getDefaultInstance(), x, y);
 	}
 }

@@ -36,8 +36,6 @@
   "item.mozaik.brown_stained_glass_shards": "Brown Stained Glass Shards",
   "item.mozaik.brown_terracotta_shards": "Brown Terracotta Shards",
   "item.mozaik.calcite_shards": "Calcite Shards",
-  "item.mozaik.can_place_shards": "Can Place Shards",
-  "item.mozaik.cant_place_shards": "Cant Place Shards",
   "item.mozaik.cinnabar_shards": "Cinnabar Shards",
   "item.mozaik.cobblestone_shards": "Cobblestone Shards",
   "item.mozaik.cyan_glazed_terracotta_shards": "Cyan Glazed Terracotta Shards",
@@ -110,5 +108,11 @@
   "item.mozaik.yellow_mortar": "Yellow Mortar",
   "item.mozaik.yellow_stained_glass_shards": "Yellow Stained Glass Shards",
   "item.mozaik.yellow_terracotta_shards": "Yellow Terracotta Shards",
-  "item_group.mozaik.tab": "Mozaik"
+  "item_group.mozaik.tab": "Mozaik",
+  "tooltip.mozaik.tool.chisel": "Chisel",
+  "tooltip.mozaik.tool.cursor": "Cursor",
+  "tooltip.mozaik.tool.picker": "Picker",
+  "tooltip.mozaik.tool.select": "Select",
+  "tooltip.mozaik.tool.swap": "Swap",
+  "tooltip.mozaik.tool.wand": "Wand"
 }

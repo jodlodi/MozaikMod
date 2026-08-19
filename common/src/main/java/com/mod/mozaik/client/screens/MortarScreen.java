@@ -8,8 +8,8 @@ import com.mod.mozaik.client.buttons.ClickableButton;
 import com.mod.mozaik.client.buttons.CreatePolyominoButton;
 import com.mod.mozaik.client.buttons.SpriteButton;
 import com.mod.mozaik.client.buttons.ToolButton;
-import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.widgets.AltColorWidget;
+import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.widgets.MaterialWidget;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.menus.MortarMenu;
@@ -30,11 +30,13 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.InputWithModifiers;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.block.Block;
@@ -72,7 +74,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public static final int RIGHT_CLICK = 1;
 
 	int template = 0;
-	public int mode = 0;
+	public MortarScreen.Tool tool = Tool.CURSOR;
 	public int from = 0;
 	public int to = 9;
 
@@ -131,6 +133,17 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	@Override
 	protected void extractLabels(GuiGraphicsExtractor graphics, int xm, int ym) {
 
+	}
+
+	@Override
+	public boolean keyPressed(KeyEvent event) {
+		for(int i = 0; i < 6; ++i) {
+			if (this.minecraft.options.keyHotbarSlots[i].matches(event)) {
+				this.tool = Tool.values()[i];
+				return true;
+			}
+		}
+		return super.keyPressed(event);
 	}
 
 	@Override
@@ -206,11 +219,49 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 					int rX = widgetX + tessera.x();
 					int rY = widgetY + tessera.y();
 					if (rX == square.x && rY == square.y) {
-						this.selected = new HeldPolyominoWidget(this, widget.getX(), widget.getY(), widget.getPlacedPolyomino().polyomino());
-						this.addRenderableWidget(this.selected);
-						this.polyominos.remove(widget);
-						this.removeWidget(widget);
-						this.markChanged();
+						switch (this.tool) {
+							case CURSOR -> {
+								this.selected = new HeldPolyominoWidget(this, widget.getX(), widget.getY(), widget.getPlacedPolyomino().polyomino());
+								this.addRenderableWidget(this.selected);
+								this.polyominos.remove(widget);
+								this.removeWidget(widget);
+								this.markChanged();
+							}
+							case CHISEL -> {
+								this.polyominos.remove(widget);
+								this.removeWidget(widget);
+								this.markChanged();
+							}
+							case SWAP -> {
+								TesseraMaterial material = widget.getPlacedPolyomino().polyomino().material();
+								if (material != this.primaryColor) {
+									PolyominoWidget newWidget = new PolyominoWidget(
+											this,
+											widget.getX(),
+											widget.getY(),
+											new Polyomino.PlacedPolyomino(new Polyomino(widget.getPlacedPolyomino().polyomino().placedTessera(), this.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()), widgetX, widgetY)
+									);
+									this.polyominos.remove(widget);
+									this.removeWidget(widget);
+
+									this.polyominos.add(newWidget);
+									this.addRenderableWidget(newWidget);
+
+									this.markChanged();
+								}
+							}
+							case PICKER -> {
+								if (event.hasShiftDown()) {
+									this.shape = widget.getPlacedPolyomino().polyomino().rebuild(this.primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong());
+								} else {
+									this.setPrimaryColor(widget.getPlacedPolyomino().polyomino().material());
+								}
+							}
+							case WAND -> {
+							}
+							case SELECT -> {
+							}
+						}
 						return true;
 					}
 				}
@@ -435,12 +486,12 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 		});
 
-		this.addRenderableWidget(new ToolButton(this, CHISEL, SpriteButton.SpriteSet.CHISEL, 0));
-		this.addRenderableWidget(new ToolButton(this, CURSOR, SpriteButton.SpriteSet.CURSOR, 1));
-		this.addRenderableWidget(new ToolButton(this, SWAP, SpriteButton.SpriteSet.SWAP, 2));
-		this.addRenderableWidget(new ToolButton(this, PICKER, SpriteButton.SpriteSet.PICKER, 3));
-		this.addRenderableWidget(new ToolButton(this, WAND, SpriteButton.SpriteSet.WAND, 4));
-		this.addRenderableWidget(new ToolButton(this, SELECT, SpriteButton.SpriteSet.SELECT, 5));
+		this.addRenderableWidget(new ToolButton(this, CHISEL, SpriteButton.SpriteSet.CHISEL, Tool.CHISEL));
+		this.addRenderableWidget(new ToolButton(this, CURSOR, SpriteButton.SpriteSet.CURSOR, Tool.CURSOR));
+		this.addRenderableWidget(new ToolButton(this, SWAP, SpriteButton.SpriteSet.SWAP, Tool.SWAP));
+		this.addRenderableWidget(new ToolButton(this, PICKER, SpriteButton.SpriteSet.PICKER, Tool.PICKER));
+		this.addRenderableWidget(new ToolButton(this, WAND, SpriteButton.SpriteSet.WAND, Tool.WAND));
+		this.addRenderableWidget(new ToolButton(this, SELECT, SpriteButton.SpriteSet.SELECT, Tool.SELECT));
 
 		Objects.requireNonNull(this.menu.getMortar()).getPolyominos().forEach(placedPolyomino -> {
 			int gridX = this.leftPos + GRID_START.x;
@@ -515,5 +566,23 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 		}
 		return TextureManager.INTENTIONAL_MISSING_TEXTURE;
+	}
+
+	public enum Tool implements StringRepresentable {
+		CHISEL,
+		CURSOR,
+		SWAP,
+		PICKER,
+		WAND,
+		SELECT;
+
+		public String asTranslationString() {
+			return "tooltip.mozaik.tool." + this.getSerializedName();
+		}
+
+		@Override
+		public String getSerializedName() {
+			return this.name().toLowerCase(Locale.ROOT);
+		}
 	}
 }

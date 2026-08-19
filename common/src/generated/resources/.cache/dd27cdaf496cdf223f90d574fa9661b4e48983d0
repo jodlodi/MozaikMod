@@ -1,4 +1,4 @@
-// 26.2	2026-08-18T23:22:22.7961474	Model Definitions - mozaik
+// 26.2	2026-08-19T22:54:52.5911844	Model Definitions - mozaik
 ed8070786d3c66d715ebfb34a6101b78e89f081b assets/mozaik/blockstates/black_mortar.json
 a7f780fea362b7bf47a98419e02c1053fda9c557 assets/mozaik/blockstates/blue_mortar.json
 c592853a2d94b82ac1c0bc92d83fe02b3f73dfd8 assets/mozaik/blockstates/brown_mortar.json
@@ -36,8 +36,6 @@ f63533627234d155dfeae89bc306bb074e537d57 assets/mozaik/items/blue_terracotta_sha
 7b5feff85e416948dfa44f26e81d4005b91672b0 assets/mozaik/items/brown_stained_glass_shards.json
 347f52d98cdbb98237b0a9a0aa50079b045cd8c3 assets/mozaik/items/brown_terracotta_shards.json
 7d90a270d1b8b11029fa5e12c13a4e6ed2f8076a assets/mozaik/items/calcite_shards.json
-0d8975ae1160ba4ed3278daa3c82578dc2470780 assets/mozaik/items/cant_place_shards.json
-159fd7c597e4593a581e7def29d44201d7847693 assets/mozaik/items/can_place_shards.json
 e5c9519a6ec30d96a476051b597c02ea6d876449 assets/mozaik/items/cinnabar_shards.json
 966687d66e199f8d64bf17afea53f302452a7681 assets/mozaik/items/cobblestone_shards.json
 b456da43f9c0d041cb272c009f7c922af117a0c1 assets/mozaik/items/cyan_glazed_terracotta_shards.json
@@ -144,8 +142,6 @@ ba7b6b938c9eb8a96c921bea9cc94d63183c90c0 assets/mozaik/models/item/brown_glazed_
 785ebd69b16649065507dac5cf51e01c7b8c73fe assets/mozaik/models/item/brown_stained_glass_shards.json
 17f8196f95d0c93d1a7a803f34f4b417de0eed78 assets/mozaik/models/item/brown_terracotta_shards.json
 5d2591e966c1da8cdd50631e1ebd0d9bba647433 assets/mozaik/models/item/calcite_shards.json
-944e0a546467bc20c74688c64e85ab29c3c78792 assets/mozaik/models/item/cant_place_shards.json
-d6c98b09bfb5f99d31833136bd8ca8d350d79df6 assets/mozaik/models/item/can_place_shards.json
 24ecd37c9abd6068da6cd62ac54c396a15064bbc assets/mozaik/models/item/cinnabar_shards.json
 26b69bcfd7d845a9e051eb8dde4440653555e81a assets/mozaik/models/item/cobblestone_shards.json
 c656e1dee32a9a5fc3911d83a394dab10845af3a assets/mozaik/models/item/cyan_glazed_terracotta_shards.json
@@ -820,36 +816,6 @@ f2be9348347dadd90932c21603eea6fcc3832fa2 assets/mozaik/models/mozaik/calcite/2/p
 b9ce3a141a9afa8bf745286c7e925f97c415744f assets/mozaik/models/mozaik/calcite/2/t_half_full_l.json
 71ed92d0d09a689b3cddfb0dbd61cf9b376e1a4e assets/mozaik/models/mozaik/calcite/2/t_half_full_r.json
 e2a5bb7b96f6751bfbf34254f612c4a987dbebdb assets/mozaik/models/mozaik/calcite/2/wall.json
-e7d5986ca84fff76fe910c8faa44e97c1fda59fd assets/mozaik/models/mozaik/cant_place/0/corner.json
-9e7992c5fccedebf895e64d1dcc31f6c612a2832 assets/mozaik/models/mozaik/cant_place/0/end.json
-cd6c3c8658bd6f4ed9a8de47ad2e16815a65d3f1 assets/mozaik/models/mozaik/cant_place/0/full.json
-409378f5bd94d016272ed0355ec9d182fd95f5ac assets/mozaik/models/mozaik/cant_place/0/full_corner.json
-71033dda7cd93f1c18cb7509282655d0cb7dcae4 assets/mozaik/models/mozaik/cant_place/0/long.json
-13bbebc18830223a0bdeb3602283d264a150b49d assets/mozaik/models/mozaik/cant_place/0/plus.json
-feb83e53fe47e481753aaa4310975a3aadabdcfe assets/mozaik/models/mozaik/cant_place/0/plus_anti_corner.json
-347516d41592793b8d55cbe8e6468d6ec0caa80a assets/mozaik/models/mozaik/cant_place/0/plus_corner.json
-f8d5322721117968ad1f914fa6ac06114725b9ba assets/mozaik/models/mozaik/cant_place/0/plus_dual_corner.json
-b94339c2dcf70ca291c7748d5b6ca16d8f4519f0 assets/mozaik/models/mozaik/cant_place/0/plus_wall.json
-cbe37a184ad9bae0fa706cb1cf5127a1470514fa assets/mozaik/models/mozaik/cant_place/0/t.json
-b81474507f6f708d9e88d99d93bc7c90d972b1d9 assets/mozaik/models/mozaik/cant_place/0/tessera.json
-9d759583edb22fcf35d9ee87b31128b093156cf9 assets/mozaik/models/mozaik/cant_place/0/t_half_full_l.json
-436eddd0ebd6bb42782b34dd583e071b398371ac assets/mozaik/models/mozaik/cant_place/0/t_half_full_r.json
-b211818151b1d53e5ef0f9bc54e63b2585a90bae assets/mozaik/models/mozaik/cant_place/0/wall.json
-959bad266c559110f8b86b9ea264f7b396f85945 assets/mozaik/models/mozaik/can_place/0/corner.json
-c9dc3f1610b479a2043e7ccb4b87c13d9c23c2ee assets/mozaik/models/mozaik/can_place/0/end.json
-ca8b74e8595c4a9e98e4cc21dd8a29a321fb4ef9 assets/mozaik/models/mozaik/can_place/0/full.json
-2faa714719c336012114ea2a2c66d33906204ed6 assets/mozaik/models/mozaik/can_place/0/full_corner.json
-92796251d79c86f777cba9eef079ccf579877aa7 assets/mozaik/models/mozaik/can_place/0/long.json
-98c7bf3dea9aa5a43faed6d7197474db8641956a assets/mozaik/models/mozaik/can_place/0/plus.json
-1d24e29dc3141dde456750939ed9765a2eeda52c assets/mozaik/models/mozaik/can_place/0/plus_anti_corner.json
-97d99475f8baf830d298dee72c1dd773aa4c5996 assets/mozaik/models/mozaik/can_place/0/plus_corner.json
-69e786b0df848a1089cebe7747a5ff1a0ef6bed1 assets/mozaik/models/mozaik/can_place/0/plus_dual_corner.json
-a156a2d17d7ee75b4c8af0485368f6406feb45f2 assets/mozaik/models/mozaik/can_place/0/plus_wall.json
-7f2b7defa8527715aee139ba5f5ab88028ee0bdb assets/mozaik/models/mozaik/can_place/0/t.json
-043bab72915158abadd41d84c73bd7d899ff7b64 assets/mozaik/models/mozaik/can_place/0/tessera.json
-7632fc1b77eafe1a8703ad9880de6a2aae6a9636 assets/mozaik/models/mozaik/can_place/0/t_half_full_l.json
-edfed6401fbe833def71f35dcfc5587c29429c2c assets/mozaik/models/mozaik/can_place/0/t_half_full_r.json
-9ee64720137a453cd2ec31a45474749a5804d2d7 assets/mozaik/models/mozaik/can_place/0/wall.json
 a9197b72bec188dc8e1efe06e381d997839f7906 assets/mozaik/models/mozaik/cinnabar/0/corner.json
 920fdf07b1a7184621f1e5ca24b332be9278405c assets/mozaik/models/mozaik/cinnabar/0/end.json
 e6fd35b1b695db898deb9b310fdb6d95b0ced119 assets/mozaik/models/mozaik/cinnabar/0/full.json

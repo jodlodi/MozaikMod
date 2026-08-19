@@ -1,6 +1,7 @@
 package com.mod.mozaik.data.gen;
 
 import com.google.common.base.Ascii;
+import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.data.util.ModLangProvider;
 import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModTabs;
@@ -43,11 +44,19 @@ public class ModLangGen extends ModLangProvider {
 		ModItems.SHARDS.forEach(shard -> this.addItem(shard, identifierToTitleCase(shard.id())));
 
 		this.addCreativeTab(ModTabs.TAB, "Mozaik");
+
+		for (MortarScreen.Tool tool : MortarScreen.Tool.values()) {
+			this.add(tool.asTranslationString(), toTitleCase(tool.getSerializedName()));
+		}
 	}
 
 	private static String identifierToTitleCase(Identifier id) {
+		return toTitleCase(id.getPath());
+	}
+
+	private static String toTitleCase(String s) {
 		return Arrays
-				.stream(id.getPath().split("_"))
+				.stream(s.split("_"))
 				.map(word -> word.isEmpty()
 						? word
 						: Ascii.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase())

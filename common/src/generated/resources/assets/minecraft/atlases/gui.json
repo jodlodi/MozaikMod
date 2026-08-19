@@ -819,16 +819,6 @@
       "type": "minecraft:single",
       "resource": "mozaik:gui/mural/yellow_stained_glass/gui_0",
       "sprite": "mozaik:yellow_stained_glass/0"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mural/can_place/gui_0",
-      "sprite": "mozaik:can_place/0"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mural/cant_place/gui_0",
-      "sprite": "mozaik:cant_place/0"
     }
   ]
 }
