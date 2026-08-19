@@ -81,18 +81,6 @@ public enum FlatDirection implements StringRepresentable {
 		};
 	}
 
-	public FlatDirection horizontalMirror() {
-		return switch (this) {
-			case RIGHT -> LEFT;
-			case LEFT -> RIGHT;
-			case UP_RIGHT -> UP_LEFT;
-			case UP_LEFT -> UP_RIGHT;
-			case DOWN_RIGHT -> DOWN_LEFT;
-			case DOWN_LEFT -> DOWN_RIGHT;
-			default -> this;
-		};
-	}
-
 	@Override
 	public String getSerializedName() {
 		return this.name().toLowerCase(Locale.ROOT);

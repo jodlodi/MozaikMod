@@ -43,11 +43,19 @@ public class CreatePolyominoButton extends ModButton {
 	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
 		Vector2f center = this.screen.getShape().getGridCenter();
 
+		PolyominoWidget.fill(
+				graphics,
+				this.screen.getShape(),
+				(int) (-center.x * Tessera.TESSERA_SIZE + this.getX() + SIZE * 0.5F + 1),
+				(int) (-center.y * Tessera.TESSERA_SIZE + this.getY() + SIZE * 0.5F + 1),
+				0x67222222
+		);
+
 		PolyominoWidget.renderVoxels(
 				new GraphicsRenderHelper(graphics),
 				this.screen.getShape(),
-				-center.x * Tessera.TESSERA_SIZE + this.getX() + SIZE * 0.5F,
-				-center.y * Tessera.TESSERA_SIZE + this.getY() + SIZE * 0.5F
+				(int) (-center.x * Tessera.TESSERA_SIZE + this.getX() + SIZE * 0.5F),
+				(int) (-center.y * Tessera.TESSERA_SIZE + this.getY() + SIZE * 0.5F)
 		);
 	}
 }

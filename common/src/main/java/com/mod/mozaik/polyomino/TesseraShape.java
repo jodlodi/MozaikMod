@@ -106,8 +106,8 @@ public enum TesseraShape implements StringRepresentable {
 		return get(this.check.stream().map(flatDirection -> flatDirection.counterClockWise(2)).toList());
 	}
 
-	public TesseraShape horizontalMirror() {
-		return get(this.check.stream().map(FlatDirection::horizontalMirror).toList());
+	public List<FlatDirection> getCheck() {
+		return check;
 	}
 
 	public static TesseraShape get(List<FlatDirection> flatDirections) {

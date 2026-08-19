@@ -66,13 +66,14 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 			renderVoxels(
 					graphics,
 					this.polyomino,
-					TesseraMaterial.CANT_PLACE,
+					this.polyomino.material(),
 					x + (Tessera.TESSERA_SIZE * 0.1F) + (-center.x * Tessera.TESSERA_SIZE) + 1,
-					y + (Tessera.TESSERA_SIZE * 0.1F) + (-center.y * Tessera.TESSERA_SIZE) + 1
+					y + (Tessera.TESSERA_SIZE * 0.1F) + (-center.y * Tessera.TESSERA_SIZE) + 1,
+					0x67222222
 			);
 		} else {
 			square = this.screen.getGridPos(square);
-			renderVoxels(graphics, this.polyomino, TesseraMaterial.CAN_PLACE, square.x(), square.y());
+			renderVoxels(graphics, this.polyomino, this.polyomino.material(), square.x(), square.y(), 0x77FFFFFF);
 		}
 	}
 
@@ -95,6 +96,10 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 	}
 
 	public static void renderVoxels(GraphicsRenderHelper graphics, Polyomino polyomino, TesseraMaterial material, float x, float y) {
+		renderVoxels(graphics, polyomino, material, x, y, -1);
+	}
+
+	public static void renderVoxels(GraphicsRenderHelper graphics, Polyomino polyomino, TesseraMaterial material, float x, float y, int color) {
 		graphics.pushPop(() -> {
 			graphics.translate(x, y);
 
@@ -106,7 +111,7 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 						tessera.y() * Tessera.TESSERA_SIZE
 				);
 
-				graphics.blitTessera(material, tessera.tessera(), polyomino.seed(), index.get());
+				graphics.blitTessera(material, tessera.tessera(), polyomino.seed(), index.get(), color);
 			}));
 		});
 	}

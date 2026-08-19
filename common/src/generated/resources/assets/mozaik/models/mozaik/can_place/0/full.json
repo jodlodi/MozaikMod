@@ -1,6 +1,0 @@
-{
-  "parent": "mozaik:block/murals/full",
-  "textures": {
-    "texture": "mozaik:block/mural/can_place/block_0"
-  }
-}

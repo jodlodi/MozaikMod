@@ -54,7 +54,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private static final int BACKGROUND_WIDTH = 242;
 	private static final int BACKGROUND_HEIGHT = 256;
 	private static final Vector2i GRID_START = new Vector2i(41, 76);
-	private static final Vector2i BOWL_CENTER = new Vector2i(59, 26);
+	private static final Vector2i BOWL_CENTER = new Vector2i(59, 25);
 	private static final Vector2i MINI_BOWL_ITEM = new Vector2i(107, 7);
 	private static final Vector2i MATERIAL_BAR = new Vector2i(4, 75);
 	private static final Vector2i MATERIAL_BAR_UP = new Vector2i(4, 66);
@@ -96,6 +96,9 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public void setPrimaryColor(TesseraMaterial primaryColor) {
 		this.primaryColor = primaryColor;
 		this.shape = this.shape.rebuild(this.primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong());
+		if (this.selected != null) {
+			this.selected.polyomino = this.selected.polyomino.rebuild(primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong());
+		}
 	}
 
 	public TesseraMaterial getSecondaryColor() {
@@ -157,6 +160,18 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
 		int click = event.button();
 
+		Optional<GuiEventListener> child = this.getChildAt(event.x(), event.y());
+		if (child.isPresent()) {
+			GuiEventListener widget = child.get();
+			if (widget.mouseClicked(event, doubleClick) && widget.shouldTakeFocusAfterInteraction()) {
+				this.setFocused(widget);
+				if (event.button() == LEFT_CLICK) {
+					this.setDragging(true);
+				}
+			}
+			return true;
+		}
+
 		if (click == RIGHT_CLICK) {
 			TesseraMaterial color = this.getPrimaryColor();
 			this.setPrimaryColor(this.getSecondaryColor());
@@ -201,7 +216,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				}
 			}
 		}
-		return super.mouseClicked(event, doubleClick);
+
+		return false;
 	}
 
 	protected void placePolyomino(HeldPolyominoWidget selected, Vector2i square) {
@@ -373,7 +389,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 				if (relativeX >= -1 && relativeY >= -1 && relativeX < 17 && relativeY < 17) {
 					graphics.translate(x * Tessera.TESSERA_SIZE, y * Tessera.TESSERA_SIZE);
-					graphics.blitTessera(polyomino.material(), tessera.tessera(), polyomino.seed(), index.get());
+					graphics.blitTessera(polyomino.material(), tessera.tessera(), polyomino.seed(), index.get(), 0xFF999999);
 				}
 			}));
 		})));

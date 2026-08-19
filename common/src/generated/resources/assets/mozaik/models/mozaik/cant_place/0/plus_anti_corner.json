@@ -1,6 +1,0 @@
-{
-  "parent": "mozaik:block/murals/plus_anti_corner",
-  "textures": {
-    "texture": "mozaik:block/mural/cant_place/block_0"
-  }
-}

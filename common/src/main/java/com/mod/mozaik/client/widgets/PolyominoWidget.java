@@ -1,18 +1,13 @@
 package com.mod.mozaik.client.widgets;
 
-import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.Tessera;
-import com.mod.mozaik.polyomino.TesseraMaterial;
-import com.mod.mozaik.util.FlatDirection;
-import net.minecraft.resources.Identifier;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import org.jspecify.annotations.NullMarked;
-import org.jspecify.annotations.Nullable;
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @NullMarked
@@ -38,16 +33,16 @@ public class PolyominoWidget extends UnclickableWidget implements PhaseRenderabl
 		return this.placedPolyomino.y();
 	}
 
-	public List<Tessera.PlacedTessera> placedTessera() {
-		return this.placedPolyomino.polyomino().placedTessera();
-	}
-
 	@Override
 	public void renderBelowItems(GraphicsRenderHelper graphics) {
 		renderVoxels(graphics, this.placedPolyomino.polyomino(), this.getX(), this.getY());
 	}
 
-	public static void renderVoxels(GraphicsRenderHelper graphics, Polyomino polyomino, float x, float y) {
+	public static void renderVoxels(GraphicsRenderHelper graphics, Polyomino polyomino, int x, int y) {
+		renderVoxels(graphics, polyomino, x, y, -1);
+	}
+
+	public static void renderVoxels(GraphicsRenderHelper graphics, Polyomino polyomino, int x, int y, int color) {
 		graphics.pushPop(() -> {
 			graphics.translate(x, y);
 
@@ -59,28 +54,33 @@ public class PolyominoWidget extends UnclickableWidget implements PhaseRenderabl
 						tessera.y() * Tessera.TESSERA_SIZE
 				);
 
-				graphics.blitTessera(polyomino.material(), tessera.tessera(), polyomino.seed(), index.get());
+				graphics.blitTessera(polyomino.material(), tessera.tessera(), polyomino.seed(), index.get(), color);
 			}));
 		});
 	}
 
-	public static Identifier byaDirection(@Nullable FlatDirection direction, TesseraMaterial material) {
-		if (direction == null)
-			return Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/polyomino.png");
-		return switch (direction) {
-			case UP -> Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/bridge_up.png");
-			case UP_RIGHT ->
-					Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/corner_up_right.png");
-			case RIGHT ->
-					Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/bridge_right.png");
-			case DOWN_RIGHT ->
-					Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/corner_down_right.png");
-			case DOWN -> Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/bridge_down.png");
-			case DOWN_LEFT ->
-					Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/corner_down_left.png");
-			case LEFT -> Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/bridge_left.png");
-			case UP_LEFT ->
-					Constants.prefix("textures/block/mural/" + material.getSerializedName() + "/corner_up_left.png");
-		};
+	public static void fill(GuiGraphicsExtractor graphics, Polyomino polyomino, int x, int y, int color) {
+		int minSize = 8;
+		polyomino.placedTessera().forEach(tessera -> {
+			int xMin = x + tessera.x() * Tessera.TESSERA_SIZE + 1;
+			int yMin = y + tessera.y() * Tessera.TESSERA_SIZE + 1;
+			int xMax = xMin + minSize;
+			int yMax = yMin + minSize;
+
+			graphics.fill(xMin, yMin, xMax, yMax, color);
+
+			tessera.tessera().shape().getCheck().forEach(flatDirection -> {
+				switch (flatDirection) {
+					case UP -> graphics.fill(xMin, yMin - 1, xMax, yMin, color);
+					case RIGHT -> graphics.fill(xMax, yMin, xMax + 1, yMax, color);
+					case DOWN -> graphics.fill(xMin, yMax, xMax, yMax + 1, color);
+					case LEFT -> graphics.fill(xMin - 1, yMin, xMin, yMax, color);
+					case UP_RIGHT -> graphics.fill(xMax, yMin - 1, xMax + 1, yMin, color);
+					case DOWN_RIGHT -> graphics.fill(xMax, yMax, xMax + 1, yMax + 1, color);
+					case DOWN_LEFT -> graphics.fill(xMin - 1, yMax, xMin, yMax + 1, color);
+					case UP_LEFT -> graphics.fill(xMin - 1, yMin - 1, xMin, yMin, color);
+				}
+			});
+		});
 	}
 }

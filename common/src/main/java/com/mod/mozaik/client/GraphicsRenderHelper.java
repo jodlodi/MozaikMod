@@ -21,20 +21,20 @@ public class GraphicsRenderHelper {
 		this.graphics = graphics;
 	}
 
-	public void blitTessera(TesseraMaterial material, Tessera tessera, long seed, int index) {
-		this.blitScaled(fromMaterial(material, seed, index), tessera.getU(), tessera.getV(), 120, 40, Tessera.TESSERA_SIZE);
+	public void blitTessera(TesseraMaterial material, Tessera tessera, long seed, int index, int color) {
+		this.blitScaled(fromMaterial(material, seed, index), tessera.getU(), tessera.getV(), 120, 40, Tessera.TESSERA_SIZE, color);
 	}
 
 	public static Identifier fromMaterial(TesseraMaterial material, long seed, int index) {
 		return material.getGuiSheet(seed, index);
 	}
 
-	public void blitScaled(Identifier texture, int u, int v, int textureWidth, int textureHeight, int scale) {
-		this.blit(texture, u * scale, v * scale, scale, scale, textureWidth, textureHeight);
+	public void blitScaled(Identifier texture, int u, int v, int textureWidth, int textureHeight, int scale, int color) {
+		this.blit(texture, u * scale, v * scale, scale, scale, textureWidth, textureHeight, color);
 	}
 
-	public void blit(Identifier texture, int u, int v, int width, int height, int textureWidth, int textureHeight) {
-		this.graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, textureWidth, textureHeight, u, v, 0, 0, width, height);
+	public void blit(Identifier texture, int u, int v, int width, int height, int textureWidth, int textureHeight, int color) {
+		this.graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, textureWidth, textureHeight, u, v, 0, 0, width, height, color);
 	}
 
 	public void pushPop(Runnable runnable) {

@@ -99,20 +99,7 @@ public enum TesseraMaterial implements StringRepresentable {
 	PURPLE_STAINED_GLASS(0x667f3fb2),
 	RED_STAINED_GLASS(0x66993333),
 	WHITE_STAINED_GLASS(0x66ffffff),
-	YELLOW_STAINED_GLASS(0x66e5e533),
-
-	CAN_PLACE(true, GenericAnimationMetadata.INDICATOR,
-			0x672C8755,
-			0x67349E63,
-			0x67239B57,
-			0x6713994D
-	),
-	CANT_PLACE(true, GenericAnimationMetadata.INDICATOR,
-			0x67FF7272,
-			0x67FF5959,
-			0x67FF3F3F,
-			0x67FF2626
-	);
+	YELLOW_STAINED_GLASS(0x66e5e533);
 
 	private static final RandomSource RANDOM = RandomSource.createThreadLocalInstance();
 
@@ -222,17 +209,6 @@ public enum TesseraMaterial implements StringRepresentable {
 						new AnimationFrame(3)
 				)),
 				300,
-				true,
-				4
-		);
-		public static final GenericAnimationMetadata INDICATOR = new GenericAnimationMetadata(
-				Optional.of(List.of(
-						new AnimationFrame(0),
-						new AnimationFrame(1),
-						new AnimationFrame(2),
-						new AnimationFrame(3)
-				)),
-				5,
 				true,
 				4
 		);
