@@ -158,22 +158,9 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	@Override
 	public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
 		if (!this.carried.isEmpty()) {
+			Rotation rotation = scrollY > 0 ? Rotation.CLOCKWISE_90 : Rotation.COUNTERCLOCKWISE_90;
 			this.carried.forEach(heldPolyominoWidget -> {
-				Rotation rotation = scrollY > 0 ? Rotation.CLOCKWISE_90 : Rotation.COUNTERCLOCKWISE_90;
-				Polyomino polyomino = heldPolyominoWidget.rotate(rotation);
-
-				Vector2i average = new Vector2i();
-				for (HeldPolyominoWidget widget : this.carried) {
-					average.add(widget.getGridX(), widget.getGridY());
-				}
-				average.div(this.carried.size());
-
-				Vector2i diff = new Vector2i(heldPolyominoWidget.getGridX(), heldPolyominoWidget.getGridY()).sub(average);
-
-				Vector3i vec = new Vector3i(diff.x(), 0, diff.y());
-				Vector3i rotated = rotation.rotation().rotate(vec);
-
-				heldPolyominoWidget.setPolyomino(new Polyomino.PlacedPolyomino(polyomino, average.x + rotated.x, average.y + rotated.z));
+				heldPolyominoWidget.setPolyomino(heldPolyominoWidget.rotate(rotation));
 			});
 			return true;
 		}

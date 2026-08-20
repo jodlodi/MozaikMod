@@ -62,7 +62,7 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 		this.polyomino = new Polyomino.PlacedPolyomino(this.polyomino.polyomino(), this.getGridX(), gridY);
 	}
 
-	public Polyomino rotate(Rotation rotation) {
+	public Polyomino.PlacedPolyomino rotate(Rotation rotation) {
 		List<Tessera.PlacedTessera> placedTessera = new ArrayList<>();
 
 		this.placedTessera().forEach(voxel -> {
@@ -72,7 +72,14 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 				}
 		);
 
-		return new Polyomino(placedTessera, this.getPolyomino().material(), this.getPolyomino().seed());
+		Vector3i vec = new Vector3i(this.getGridX(), 0, this.getGridY());
+		Vector3i rotated = rotation.rotation().rotate(vec);
+
+		return new Polyomino.PlacedPolyomino(
+				new Polyomino(placedTessera, this.getPolyomino().material(), this.getPolyomino().seed()),
+				rotated.x(),
+				rotated.z()
+		);
 	}
 
 	public List<Tessera.PlacedTessera> placedTessera() {
