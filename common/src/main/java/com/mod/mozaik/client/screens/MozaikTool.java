@@ -5,7 +5,6 @@ import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.TesseraMaterial;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.util.StringRepresentable;
 import org.joml.Vector2i;
 import org.jspecify.annotations.NullMarked;
@@ -74,6 +73,7 @@ public enum MozaikTool implements StringRepresentable {
 						screen.setPrimaryColor(widget.getPlacedPolyomino().polyomino().material());
 					}
 				}
+				screen.tool = SWAP;
 			}
 			case WAND -> {
 				for (PolyominoWidget widget : list) {
