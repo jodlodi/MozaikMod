@@ -20,10 +20,10 @@ public class MaterialWidget extends AbstractItemWidget {
 	@Override
 	public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
 		if (scrollY > 0) {
-			MortarScreen.scrollUpBy(this.screen, (int) scrollY);
+			MortarScreen.materialUpBy(this.screen, (int) scrollY);
 			return true;
 		} else if (scrollY < 0) {
-			MortarScreen.scrollDownBy(this.screen, (int) -scrollY);
+			MortarScreen.materialDownBy(this.screen, (int) -scrollY);
 			return true;
 		}
 
@@ -38,14 +38,14 @@ public class MaterialWidget extends AbstractItemWidget {
 	@Override
 	public void onClick(MouseButtonEvent event, boolean doubleClick) {
 		if (event.button() == MortarScreen.LEFT_CLICK) {
-			this.screen.setPrimaryColor(TesseraMaterial.values()[this.screen.from + this.index]);
+			this.screen.setPrimaryColor(TesseraMaterial.values()[this.screen.materialFrom + this.index]);
 		} else {
-			this.screen.setSecondaryColor(TesseraMaterial.values()[this.screen.from + this.index]);
+			this.screen.setSecondaryColor(TesseraMaterial.values()[this.screen.materialFrom + this.index]);
 		}
 	}
 
 	@Override
 	protected ItemStack getItemStack() {
-		return ModItems.SHARDS.pick(TesseraMaterial.values()[this.screen.from + this.index]).get().getDefaultInstance();
+		return ModItems.SHARDS.pick(TesseraMaterial.values()[this.screen.materialFrom + this.index]).get().getDefaultInstance();
 	}
 }

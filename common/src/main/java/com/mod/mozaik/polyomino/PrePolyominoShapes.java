@@ -25,7 +25,7 @@ public enum PrePolyominoShapes {
 			.addLine(true, true)
 			.addLine(true, true)
 	),
-	L(new Polyomino.Builder()
+	MIN_L(new Polyomino.Builder()
 			.addLine(true, false)
 			.addLine(true, true)
 	),
@@ -34,7 +34,7 @@ public enum PrePolyominoShapes {
 			.addLine(true, true, true)
 			.addLine(true, true, true)
 	),
-	I(new Polyomino.Builder()
+	III(new Polyomino.Builder()
 			.addLine(true)
 			.addLine(true)
 			.addLine(true)
@@ -45,12 +45,14 @@ public enum PrePolyominoShapes {
 			.addLine(false, true, false)
 	),
 	Z(new Polyomino.Builder()
-			.addLine(true, true, false)
-			.addLine(false, true, true)
+			.addLine(true, false)
+			.addLine(true, true)
+			.addLine(false, true)
 	),
 	S(new Polyomino.Builder()
-			.addLine(false, true, true)
-			.addLine(true, true, false)
+			.addLine(true, false)
+			.addLine(true, true)
+			.addLine(false, true)
 	),
 	C(new Polyomino.Builder()
 			.addLine(true, true)

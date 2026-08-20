@@ -102,7 +102,7 @@ public enum TesseraMaterial implements StringRepresentable {
 	WHITE_STAINED_GLASS(0x66ffffff),
 	YELLOW_STAINED_GLASS(0x66e5e533);
 
-	private static final RandomSource RANDOM = RandomSource.createThreadLocalInstance();
+	private final RandomSource random;
 
 	private final boolean glows;
 	private @Nullable final GenericAnimationMetadata metadata;
@@ -121,6 +121,7 @@ public enum TesseraMaterial implements StringRepresentable {
 	}
 
 	TesseraMaterial(boolean glows, @Nullable GenericAnimationMetadata metadata, Integer... colors) {
+		this.random = RandomSource.createThreadLocalInstance();
 		this.glows = glows;
 		this.metadata = metadata;
 		if (metadata == null) {
@@ -160,14 +161,17 @@ public enum TesseraMaterial implements StringRepresentable {
 
 	public Identifier getGuiSheet(long polySeed, int index) {
 		if (this.spriteSheets.size() == 1) return this.spriteSheets.getFirst().gui;
-		RANDOM.setSeed(this.ordinal() + polySeed + index);
-		return this.spriteSheets.get(RANDOM.nextInt(this.spriteSheets.size())).gui;
+		return this.spriteSheets.get(this.randomIndex(polySeed, index)).gui;
 	}
 
 	public int getBlockId(long polySeed, int index) {
 		if (this.spriteSheets.size() == 1) return 0;
-		RANDOM.setSeed(this.ordinal() + polySeed + index);
-		return RANDOM.nextInt(this.spriteSheets.size());
+		return this.randomIndex(polySeed, index);
+	}
+
+	private int randomIndex(long polySeed, int index) {
+		this.random.setSeed(polySeed + index * 250L);
+		return (this.random.nextInt(Integer.MAX_VALUE) + index) % this.spriteSheets.size();
 	}
 
 	@Override
