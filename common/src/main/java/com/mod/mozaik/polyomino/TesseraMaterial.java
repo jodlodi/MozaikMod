@@ -158,10 +158,6 @@ public enum TesseraMaterial implements StringRepresentable {
 		return this.spriteSheets;
 	}
 
-	private static Identifier pathToTessera(String name, int number) {
-		return Constants.prefix("textures/block/mural/" + name + "/gui_" + number + ".png");
-	}
-
 	public Identifier getGuiSheet(long polySeed, int index) {
 		if (this.spriteSheets.size() == 1) return this.spriteSheets.getFirst().gui;
 		RANDOM.setSeed(this.ordinal() + polySeed + index);
