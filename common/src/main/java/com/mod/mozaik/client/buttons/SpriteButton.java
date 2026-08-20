@@ -25,7 +25,7 @@ public abstract class SpriteButton extends ModButton implements PhaseRenderable 
 
 	protected Identifier getTexture() {
 		if (this.isPressed()) return this.spriteSet.pressed();
-		return this.isHovered() ? this.spriteSet.hover() : this.spriteSet.normal();
+		return this.isHoveredOrFocused() ? this.spriteSet.hover() : this.spriteSet.normal();
 	}
 
 	@Override

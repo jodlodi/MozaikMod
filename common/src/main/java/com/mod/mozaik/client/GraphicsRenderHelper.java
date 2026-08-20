@@ -2,6 +2,7 @@ package com.mod.mozaik.client;
 
 import com.mod.mozaik.polyomino.Tessera;
 import com.mod.mozaik.polyomino.TesseraMaterial;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.model.ModelBaker;
@@ -9,6 +10,8 @@ import net.minecraft.resources.Identifier;
 import org.joml.Matrix3x2f;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
+
+import java.util.Objects;
 
 @NullMarked
 @SuppressWarnings({"UnusedReturnValue"})
@@ -49,5 +52,25 @@ public class GraphicsRenderHelper {
 
 	public Matrix3x2f scale(float x, float y) {
 		return this.graphics.pose().scale(x, y);
+	}
+
+	public void fill(int x0, int y0, int x1, int y1, int col) {
+		this.graphics.fill(x0, y0, x1, y1, col);
+	}
+
+	public void selection(int x0, int y0, int x1, int y1) {
+		long time = Objects.requireNonNull(Minecraft.getInstance().level).getGameTime();
+		int xMin = Math.min(x0, x1);
+		int xMax = Math.max(x0, x1);
+		int yMin = Math.min(y0, y1);
+		int yMax = Math.max(y0, y1);
+
+		for (int x = xMin; x < xMax; x++) {
+			for (int y = yMin; y < yMax; y++) {
+				if ((x + y) % 2 == (time / 10) % 2) {
+					this.graphics.fill(x, y, x + 1, y + 1, 0xFFFFFFFF);
+				}
+			}
+		}
 	}
 }

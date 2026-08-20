@@ -45,7 +45,7 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 
 	public void remove() {
 		this.screen.removeWidget(this);
-		this.screen.selected = null;
+		this.screen.carried = null;
 	}
 
 	public List<Tessera.PlacedTessera> placedTessera() {

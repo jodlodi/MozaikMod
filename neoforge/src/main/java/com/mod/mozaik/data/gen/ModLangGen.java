@@ -1,7 +1,7 @@
 package com.mod.mozaik.data.gen;
 
 import com.google.common.base.Ascii;
-import com.mod.mozaik.client.screens.MortarScreen;
+import com.mod.mozaik.client.screens.MozaikTool;
 import com.mod.mozaik.data.util.ModLangProvider;
 import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModTabs;
@@ -45,7 +45,7 @@ public class ModLangGen extends ModLangProvider {
 
 		this.addCreativeTab(ModTabs.TAB, "Mozaik");
 
-		for (MortarScreen.Tool tool : MortarScreen.Tool.values()) {
+		for (MozaikTool tool : MozaikTool.values()) {
 			this.add(tool.asTranslationString(), toTitleCase(tool.getSerializedName()));
 		}
 	}

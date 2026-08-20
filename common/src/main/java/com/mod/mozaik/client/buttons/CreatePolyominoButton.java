@@ -2,6 +2,7 @@ package com.mod.mozaik.client.buttons;
 
 import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.screens.MortarScreen;
+import com.mod.mozaik.client.screens.MozaikTool;
 import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.polyomino.Tessera;
@@ -37,8 +38,8 @@ public class CreatePolyominoButton extends ModButton {
 		HeldPolyominoWidget widget = new HeldPolyominoWidget(this.screen, (int) (x - center.x * Tessera.TESSERA_SIZE), (int) (y - center.y * Tessera.TESSERA_SIZE), this.screen.getShape().copy());
 		this.screen.setShape(this.screen.getShape().rebuild(this.screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
 
-		this.screen.selected = this.screen.addRenderableWidget(widget);
-		this.screen.tool = MortarScreen.Tool.CURSOR;
+		this.screen.carried = this.screen.addRenderableWidget(widget);
+		this.screen.tool = MozaikTool.CURSOR;
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class CreatePolyominoButton extends ModButton {
 		Vector2f center = this.screen.getShape().getGridCenter();
 
 		PolyominoWidget.fill(
-				graphics,
+				new GraphicsRenderHelper(graphics),
 				this.screen.getShape(),
 				(int) (-center.x * Tessera.TESSERA_SIZE + this.getX() + SIZE * 0.5F + 1),
 				(int) (-center.y * Tessera.TESSERA_SIZE + this.getY() + SIZE * 0.5F + 1),
