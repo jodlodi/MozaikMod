@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/murals_fullbright/plus",
+  "textures": {
+    "texture": "mozaik:block/mural/sea_lantern/block_0"
+  }
+}

@@ -412,6 +412,21 @@
     },
     {
       "type": "minecraft:single",
+      "resource": "mozaik:gui/mural/sea_lantern/gui_0",
+      "sprite": "mozaik:sea_lantern/0"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mural/sea_lantern/gui_1",
+      "sprite": "mozaik:sea_lantern/1"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mural/sea_lantern/gui_2",
+      "sprite": "mozaik:sea_lantern/2"
+    },
+    {
+      "type": "minecraft:single",
       "resource": "mozaik:gui/mural/terracotta/gui_0",
       "sprite": "mozaik:terracotta/0"
     },

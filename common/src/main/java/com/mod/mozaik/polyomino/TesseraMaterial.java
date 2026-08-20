@@ -33,7 +33,7 @@ public enum TesseraMaterial implements StringRepresentable {
 	NETHER_BRICK(0x38181e, 0x30181c, 0x211114),
 	RED_NETHER_BRICK(0x6b1317, 0x560e10, 0x440507),
 	QUARTZ(0xeeeae6, 0xeee6de),
-	GLOWSTONE(0xfbda74, 0xcc8654, 0x855029),
+	GLOWSTONE(true, 0xfbda74, 0xcc8654, 0x855029),
 	ANCIENT_DEBRIS(0x654740, 0x5D342C, 0x4A2C23),
 	BASALT(0x5c5c5c, 0x4f4b4f, 0x32333d),
 	END_STONE(0xeef6b4, 0xdee6a4, 0xd5da94),
@@ -48,6 +48,7 @@ public enum TesseraMaterial implements StringRepresentable {
 			0x79b3b7, 0x5e85a4, 0x687396,
 			0x79b7ab, 0x5e9ea4, 0x4e86a3
 	),
+	SEA_LANTERN(true, 0xdfeadc, 0xcee1db, 0xb3d5cc),
 
 	TERRACOTTA(0x9b6045, 0x965d43),
 	BLACK_TERRACOTTA(0x251710, 0x261811),
@@ -103,9 +104,8 @@ public enum TesseraMaterial implements StringRepresentable {
 
 	private static final RandomSource RANDOM = RandomSource.createThreadLocalInstance();
 
-	private final boolean isFakeMaterial;
-	private @Nullable
-	final GenericAnimationMetadata metadata;
+	private final boolean glows;
+	private @Nullable final GenericAnimationMetadata metadata;
 	private final List<MaterialColor> spriteSheets = new ArrayList<>();
 
 	TesseraMaterial(Integer... colors) {
@@ -116,8 +116,12 @@ public enum TesseraMaterial implements StringRepresentable {
 		this(false, metadata, colors);
 	}
 
-	TesseraMaterial(boolean isFakeMaterial, @Nullable GenericAnimationMetadata metadata, Integer... colors) {
-		this.isFakeMaterial = isFakeMaterial;
+	TesseraMaterial(boolean glows, Integer... colors) {
+		this(glows, null, colors);
+	}
+
+	TesseraMaterial(boolean glows, @Nullable GenericAnimationMetadata metadata, Integer... colors) {
+		this.glows = glows;
 		this.metadata = metadata;
 		if (metadata == null) {
 			int i = 0;
@@ -142,8 +146,8 @@ public enum TesseraMaterial implements StringRepresentable {
 		}
 	}
 
-	public boolean isFakeMaterial() {
-		return this.isFakeMaterial;
+	public boolean isGlows() {
+		return this.glows;
 	}
 
 	public @Nullable GenericAnimationMetadata getMetadata() {

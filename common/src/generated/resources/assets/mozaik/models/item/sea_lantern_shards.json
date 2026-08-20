@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "mozaik:item/sea_lantern_shards"
+  }
+}
