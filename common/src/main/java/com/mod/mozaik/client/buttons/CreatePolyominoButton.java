@@ -38,7 +38,8 @@ public class CreatePolyominoButton extends ModButton {
 		HeldPolyominoWidget widget = new HeldPolyominoWidget(this.screen, (int) (x - center.x * Tessera.TESSERA_SIZE), (int) (y - center.y * Tessera.TESSERA_SIZE), this.screen.getShape().copy());
 		this.screen.setShape(this.screen.getShape().rebuild(this.screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
 
-		this.screen.carried = this.screen.addRenderableWidget(widget);
+		this.screen.carried.clear();
+		this.screen.carried.add(this.screen.addRenderableWidget(widget));
 		this.screen.tool = MozaikTool.CURSOR;
 	}
 

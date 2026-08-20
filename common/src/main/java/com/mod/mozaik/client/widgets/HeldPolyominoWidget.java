@@ -22,12 +22,44 @@ import java.util.concurrent.atomic.AtomicInteger;
 @NullMarked
 public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRenderable {
 	public final MortarScreen screen;
-	public Polyomino polyomino;
+	private Polyomino.PlacedPolyomino polyomino;
 
-	public HeldPolyominoWidget(MortarScreen screen, int x, int y, Polyomino polyomino) {
+	public HeldPolyominoWidget(MortarScreen screen, int x, int y, Polyomino.PlacedPolyomino polyomino) {
 		super(x, y, 0, 0);
 		this.screen = screen;
 		this.polyomino = polyomino;
+	}
+
+	public HeldPolyominoWidget(MortarScreen screen, int x, int y, Polyomino polyomino) {
+		this(screen, x, y, new Polyomino.PlacedPolyomino(polyomino, 0, 0));
+	}
+
+	public void setPolyomino(Polyomino.PlacedPolyomino polyomino) {
+		this.polyomino = polyomino;
+	}
+
+	public Polyomino getPolyomino() {
+		return this.polyomino.polyomino();
+	}
+
+	public void setPolyomino(Polyomino polyomino) {
+		this.polyomino = new Polyomino.PlacedPolyomino(polyomino, this.getGridX(), this.getGridY());
+	}
+
+	public int getGridX() {
+		return this.polyomino.x();
+	}
+
+	public void setGridX(int gridX) {
+		this.polyomino = new Polyomino.PlacedPolyomino(this.polyomino.polyomino(), gridX, this.getGridY());
+	}
+
+	public int getGridY() {
+		return this.polyomino.y();
+	}
+
+	public void setGridY(int gridY) {
+		this.polyomino = new Polyomino.PlacedPolyomino(this.polyomino.polyomino(), this.getGridX(), gridY);
 	}
 
 	public void rotate(Rotation rotation) {
@@ -40,56 +72,66 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 				}
 		);
 
-		this.polyomino = new Polyomino(placedTessera, this.polyomino.material(), this.polyomino.seed());
-	}
-
-	public void remove() {
-		this.screen.removeWidget(this);
-		this.screen.carried = null;
+		this.setPolyomino(new Polyomino(placedTessera, this.getPolyomino().material(), this.getPolyomino().seed()));
 	}
 
 	public List<Tessera.PlacedTessera> placedTessera() {
-		return this.polyomino.placedTessera();
+		return this.getPolyomino().placedTessera();
 	}
 
 	@Override
 	public void renderAboveItems(GraphicsRenderHelper graphics) {
-		Minecraft minecraft = Minecraft.getInstance();
-		MouseHandler mouse = Objects.requireNonNull(minecraft).mouseHandler;
-		float x = (float) mouse.xpos() * (float) minecraft.getWindow().getGuiScaledWidth() / (float) minecraft.getWindow().getScreenWidth();
-		float y = (float) mouse.ypos() * (float) minecraft.getWindow().getGuiScaledHeight() / (float) minecraft.getWindow().getScreenHeight();
-
-		Vector2f center = this.polyomino.getGridCenter();
-		Vector2i square = this.screen.getGridForPlacement();
+		Vector2i square = this.screen.getGridForPlacement(this);
 
 		if (square == null) {
+			Vector2f center = this.heldPos();
 			renderVoxels(
 					graphics,
-					this.polyomino,
-					this.polyomino.material(),
-					x + (Tessera.TESSERA_SIZE * 0.1F) + (-center.x * Tessera.TESSERA_SIZE) + 1,
-					y + (Tessera.TESSERA_SIZE * 0.1F) + (-center.y * Tessera.TESSERA_SIZE) + 1,
+					this.getPolyomino(),
+					this.getPolyomino().material(),
+					center.x(),
+					center.y(),
 					0x67222222
 			);
 		} else {
 			square = this.screen.getGridPos(square);
-			renderVoxels(graphics, this.polyomino, this.polyomino.material(), square.x(), square.y(), 0x77FFFFFF);
+			renderVoxels(graphics, this.getPolyomino(), this.getPolyomino().material(), square.x(), square.y(), 0x77FFFFFF);
 		}
 	}
 
 	@Override
 	public void renderOnTop(GraphicsRenderHelper graphics) {
+		Vector2f center = this.heldPos();
+
+		renderVoxels(
+				graphics,
+				this.getPolyomino(),
+				this.getPolyomino().material(),
+				center.x(),
+				center.y()
+		);
+	}
+
+	public Vector2f heldPos() {
+		Vector2f held = new Vector2f();
+
+		for (HeldPolyominoWidget widget : this.screen.carried) {
+			held.add(widget.offsetPos());
+		}
+		held.div(this.screen.carried.size());
+
+		return held.add(this.getGridX() * Tessera.TESSERA_SIZE, this.getGridY() * Tessera.TESSERA_SIZE);
+	}
+
+	private Vector2f offsetPos() {
 		Minecraft minecraft = Minecraft.getInstance();
 		MouseHandler mouse = Objects.requireNonNull(minecraft).mouseHandler;
 		float x = (float) mouse.xpos() * (float) minecraft.getWindow().getGuiScaledWidth() / (float) minecraft.getWindow().getScreenWidth();
 		float y = (float) mouse.ypos() * (float) minecraft.getWindow().getGuiScaledHeight() / (float) minecraft.getWindow().getScreenHeight();
 
-		Vector2f center = this.polyomino.getGridCenter();
+		Vector2f center = this.getPolyomino().getGridCenter();
 
-		renderVoxels(
-				graphics,
-				this.polyomino,
-				this.polyomino.material(),
+		return new Vector2f(
 				x + (Tessera.TESSERA_SIZE * 0.1F) + (-center.x * Tessera.TESSERA_SIZE),
 				y + (Tessera.TESSERA_SIZE * 0.1F) + (-center.y * Tessera.TESSERA_SIZE)
 		);

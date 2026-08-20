@@ -80,7 +80,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	public List<PolyominoWidget> polyominos = new ArrayList<>();
 	public List<PolyominoWidget> selected = new ArrayList<>();
-	public @Nullable HeldPolyominoWidget carried;
+	public List<HeldPolyominoWidget> carried = new ArrayList<>();
 	private final List<PhaseRenderable> renderableWidgets = new ArrayList<>();
 
 	private TesseraMaterial primaryColor = TesseraMaterial.values()[0];
@@ -99,9 +99,10 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public void setPrimaryColor(TesseraMaterial primaryColor) {
 		this.primaryColor = primaryColor;
 		this.shape = this.shape.rebuild(this.primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong());
-		if (this.carried != null) {
-			this.carried.polyomino = this.carried.polyomino.rebuild(primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong());
-		}
+
+		this.carried.forEach(heldPolyominoWidget ->
+				heldPolyominoWidget.setPolyomino(heldPolyominoWidget.getPolyomino().rebuild(primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()))
+		);
 	}
 
 	public TesseraMaterial getSecondaryColor() {
@@ -155,8 +156,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	@Override
 	public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
-		if (this.carried != null) {
-			this.carried.rotate(scrollY > 0 ? Rotation.CLOCKWISE_90 : Rotation.COUNTERCLOCKWISE_90);
+		if (!this.carried.isEmpty()) {
+			this.carried.forEach(heldPolyominoWidget -> heldPolyominoWidget.rotate(scrollY > 0 ? Rotation.CLOCKWISE_90 : Rotation.COUNTERCLOCKWISE_90));
 			return true;
 		}
 
@@ -199,20 +200,25 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			return true;
 		}
 
-		if (this.carried != null) {
+		if (!this.carried.isEmpty()) {
 			if (click == LEFT_CLICK) {
-				Vector2i square = this.getGridForPlacement();
-				if (square != null) {
-					this.placePolyomino(this.carried, square);
-				}
-				this.carried.remove();
+				this.carried.forEach(heldPolyominoWidget -> {
+					Vector2i square = this.getGridForPlacement(heldPolyominoWidget);
+					if (square != null) {
+						this.placePolyomino(heldPolyominoWidget, square);
+					}
+					this.removeWidget(heldPolyominoWidget);
+				});
+				this.carried.clear();
 				return true;
 			} else if (click == MIDDLE_CLICK) {
-				Vector2i square = this.getGridForPlacement();
-				if (square != null) {
-					this.placePolyomino(this.carried, square);
-					this.carried.polyomino = this.shape.rebuild(this.carried.polyomino.material(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong());
-				}
+				this.carried.forEach(heldPolyominoWidget -> {
+					Vector2i square = this.getGridForPlacement(heldPolyominoWidget);
+					if (square != null) {
+						this.placePolyomino(heldPolyominoWidget, square);
+						heldPolyominoWidget.setPolyomino(this.shape.rebuild(heldPolyominoWidget.getPolyomino().material(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
+					}
+				});
 				return true;
 			}
 			return true;
@@ -239,7 +245,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	protected void placePolyomino(HeldPolyominoWidget selected, Vector2i square) {
 		Vector2i gridPos = this.getGridPos(square);
 
-		PolyominoWidget widget = new PolyominoWidget(this, gridPos.x, gridPos.y, new Polyomino.PlacedPolyomino(selected.polyomino, square.x, square.y));
+		PolyominoWidget widget = new PolyominoWidget(this, gridPos.x, gridPos.y, new Polyomino.PlacedPolyomino(selected.getPolyomino(), square.x, square.y));
 		this.addRenderableWidget(widget);
 
 		this.polyominos.add(widget);
@@ -267,86 +273,76 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	@Nullable
-	public Vector2i getGridForPlacement() {
-		if (this.carried != null) {
-			Minecraft minecraft = Minecraft.getInstance();
-			MouseHandler mouse = Objects.requireNonNull(minecraft).mouseHandler;
-			float mouseX = (float) mouse.xpos() * (float) minecraft.getWindow().getGuiScaledWidth() / (float) minecraft.getWindow().getScreenWidth();
-			float mouseY = (float) mouse.ypos() * (float) minecraft.getWindow().getGuiScaledHeight() / (float) minecraft.getWindow().getScreenHeight();
+	public Vector2i getGridForPlacement(HeldPolyominoWidget polyominoWidget) {
+		int gridX = this.leftPos + GRID_START.x;
+		int gridY = this.topPos + GRID_START.y;
 
-			int gridX = this.leftPos + GRID_START.x;
-			int gridY = this.topPos + GRID_START.y;
+		Vector2f center = polyominoWidget.heldPos();
 
-			Vector2f center = this.carried.polyomino.getGridCenter();
-			mouseX -= center.x * Tessera.TESSERA_SIZE;
-			mouseY -= center.y * Tessera.TESSERA_SIZE;
+		int x = (int) (center.x - gridX) / Tessera.TESSERA_SIZE;
+		int y = (int) (center.y - gridY) / Tessera.TESSERA_SIZE;
+		Vector2i grid = new Vector2i(x, y);
 
-			int x = (int) (mouseX - gridX) / Tessera.TESSERA_SIZE;
-			int y = (int) (mouseY - gridY) / Tessera.TESSERA_SIZE;
-			Vector2i grid = new Vector2i(x, y);
+		for (int offsetX : new int[]{0, 1, -1}) {
+			for (int offsetY : new int[]{0, 1, -1}) {
+				grid = new Vector2i(grid.x + offsetX, grid.y + offsetY);
 
-			for (int offsetX : new int[]{0, 1, -1}) {
-				for (int offsetY : new int[]{0, 1, -1}) {
-					grid = new Vector2i(grid.x + offsetX, grid.y + offsetY);
+				if (grid.x < -1 || grid.y < -1 || grid.x >= 17 || grid.y >= 17) {
+					continue; // Out of bounds
+				}
 
-					if (grid.x < -1 || grid.y < -1 || grid.x >= 17 || grid.y >= 17) {
-						continue; // Out of bounds
+				boolean canFit = true;
+				for (Tessera.PlacedTessera entry : polyominoWidget.placedTessera()) {
+					int relativeX = grid.x + entry.x();
+					int relativeY = grid.y + entry.y();
+
+					if (relativeX < -1 || relativeY < -1 || relativeX >= 17 || relativeY >= 17) {
+						canFit = false;
+						break; // Out of bounds
 					}
 
-					boolean canFit = true;
-					for (Tessera.PlacedTessera entry : this.carried.polyomino.placedTessera()) {
-						int relativeX = grid.x + entry.x();
-						int relativeY = grid.y + entry.y();
-
-						if (relativeX < -1 || relativeY < -1 || relativeX >= 17 || relativeY >= 17) {
-							canFit = false;
-							break; // Out of bounds
-						}
-
-						for (PolyominoWidget widget : this.polyominos) {
-							int widgetX = widget.gridX();
-							int widgetY = widget.gridY();
-							for (Tessera.PlacedTessera tessera : widget.getPlacedPolyomino().polyomino().placedTessera()) {
-								int rX = widgetX + tessera.x();
-								int rY = widgetY + tessera.y();
-								if (rX == relativeX && rY == relativeY) {
-									canFit = false;
-									break;
-								}
+					for (PolyominoWidget widget : this.polyominos) {
+						int widgetX = widget.gridX();
+						int widgetY = widget.gridY();
+						for (Tessera.PlacedTessera tessera : widget.getPlacedPolyomino().polyomino().placedTessera()) {
+							int rX = widgetX + tessera.x();
+							int rY = widgetY + tessera.y();
+							if (rX == relativeX && rY == relativeY) {
+								canFit = false;
+								break;
 							}
-							if (!canFit) break; // Occupied
 						}
+						if (!canFit) break; // Occupied
+					}
 
-						for (Map.Entry<FlatDirection, MortarMenu.NeighbourMosaic> mosaicEntry : this.menu.getMap().entrySet()) {
-							FlatDirection flatDirection = mosaicEntry.getKey();
-							MortarMenu.NeighbourMosaic mosaic = mosaicEntry.getValue();
+					for (Map.Entry<FlatDirection, MortarMenu.NeighbourMosaic> mosaicEntry : this.menu.getMap().entrySet()) {
+						FlatDirection flatDirection = mosaicEntry.getKey();
+						MortarMenu.NeighbourMosaic mosaic = mosaicEntry.getValue();
 
-							for (Polyomino.PlacedPolyomino placedPolyomino : mosaic.placedPolyomino()) {
-								Polyomino polyomino = placedPolyomino.polyomino();
+						for (Polyomino.PlacedPolyomino placedPolyomino : mosaic.placedPolyomino()) {
+							Polyomino polyomino = placedPolyomino.polyomino();
 
-								AtomicInteger index = new AtomicInteger(-1);
-								for (Tessera.PlacedTessera tessera : polyomino.placedTessera()) {
-									index.incrementAndGet();
+							AtomicInteger index = new AtomicInteger(-1);
+							for (Tessera.PlacedTessera tessera : polyomino.placedTessera()) {
+								index.incrementAndGet();
 
-									int rX = tessera.x() + flatDirection.getRelativeX() * 16 + placedPolyomino.x();
-									int rY = tessera.y() + flatDirection.getRelativeY() * 16 + placedPolyomino.y();
+								int rX = tessera.x() + flatDirection.getRelativeX() * 16 + placedPolyomino.x();
+								int rY = tessera.y() + flatDirection.getRelativeY() * 16 + placedPolyomino.y();
 
-									if (rX >= -1 && rY >= -1 && rX < 17 && rY < 17) {
+								if (rX >= -1 && rY >= -1 && rX < 17 && rY < 17) {
 
-										if (rX == relativeX && rY == relativeY) {
-											canFit = false;
-											break;
-										}
+									if (rX == relativeX && rY == relativeY) {
+										canFit = false;
+										break;
 									}
 								}
-								if (!canFit) break; // Occupied
 							}
 							if (!canFit) break; // Occupied
 						}
+						if (!canFit) break; // Occupied
 					}
-
-					if (canFit) return grid;
 				}
+				if (canFit) return grid;
 			}
 		}
 		return null;

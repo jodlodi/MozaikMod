@@ -7,6 +7,7 @@ import com.mod.mozaik.polyomino.TesseraMaterial;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.util.StringRepresentable;
+import org.joml.Vector2i;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
@@ -26,9 +27,17 @@ public enum MozaikTool implements StringRepresentable {
 		if (list.isEmpty()) return;
 		switch (tool) {
 			case CURSOR -> {
+				screen.carried.clear();
+				Vector2i average = new Vector2i();
 				for (PolyominoWidget widget : list) {
-					screen.carried = new HeldPolyominoWidget(screen, widget.getX(), widget.getY(), widget.getPlacedPolyomino().polyomino());
-					screen.addRenderableWidget(screen.carried);
+					average.add(widget.gridX(), widget.gridY());
+				}
+				average.div(list.size());
+
+				for (PolyominoWidget widget : list) {
+					Polyomino.PlacedPolyomino polyomino = widget.getPlacedPolyomino();
+					screen.carried.add(new HeldPolyominoWidget(screen, widget.getX(), widget.getY(), new Polyomino.PlacedPolyomino(polyomino.polyomino(), polyomino.x() - average.x, polyomino.y() - average.y)));
+					screen.addRenderableWidget(screen.carried.getLast());
 					screen.polyominos.remove(widget);
 					screen.removeWidget(widget);
 				}
