@@ -3,6 +3,7 @@ package com.mod.mozaik.blocks;
 import com.mod.mozaik.blocks.entities.MortarBlockEntity;
 import com.mod.mozaik.menus.MortarMenu;
 import com.mod.mozaik.mixin.ServerPlayerAccessor;
+import com.mod.mozaik.networking.bidirectional.UpdateGlueBidirectional;
 import com.mod.mozaik.networking.clientbound.OpenGlueMenuClientbound;
 import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.reg.ModBlockEntities;
@@ -13,8 +14,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -112,9 +115,9 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 
 		Direction clickedFace = context.getClickedFace();
 		BlockState blockState = context.getLevel().getBlockState(context.getClickedPos().relative(clickedFace.getOpposite()));
-		return blockState.is(this) && blockState.getValue(FACING) == clickedFace ?
-				this.defaultBlockState().setValue(FACING, clickedFace.getOpposite()).setValue(WATERLOGGED, replacedFluidState.is(Fluids.WATER)) :
-				this.defaultBlockState().setValue(FACING, clickedFace).setValue(WATERLOGGED, replacedFluidState.is(Fluids.WATER));
+		return blockState.is(this) && blockState.getValue(FACING) == clickedFace
+				? this.defaultBlockState().setValue(FACING, clickedFace.getOpposite()).setValue(WATERLOGGED, replacedFluidState.is(Fluids.WATER))
+				: this.defaultBlockState().setValue(FACING, clickedFace).setValue(WATERLOGGED, replacedFluidState.is(Fluids.WATER));
 	}
 
 	@Override

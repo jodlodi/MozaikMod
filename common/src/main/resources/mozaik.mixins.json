@@ -4,8 +4,6 @@
   "package": "com.mod.mozaik.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "ChunkHolderMixin",
-    "PlayerChunkSenderMixin",
     "ServerPlayerAccessor"
   ],
   "client": [
