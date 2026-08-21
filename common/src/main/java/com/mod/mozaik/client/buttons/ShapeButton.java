@@ -16,6 +16,7 @@ import org.jspecify.annotations.NullMarked;
 
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Scanner;
 
 @NullMarked
 public class ShapeButton extends ModButton implements PhaseRenderable {
@@ -29,7 +30,8 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 	}
 
 	protected Identifier getTexture() {
-		return Constants.prefix("textures/gui/container/shapes/" + PrePolyominoShapes.values()[MortarScreen.templateFrom + this.index].name().toLowerCase(Locale.ROOT) + ".png");
+		int dis = MortarScreen.templateFrom + this.index;
+		return Constants.prefix("textures/gui/container/shapes/" + PrePolyominoShapes.values()[dis].name().toLowerCase(Locale.ROOT) + "/" + (dis == MortarScreen.template ? "pressed" : "unselected") + ".png");
 	}
 
 	@Override
@@ -53,16 +55,11 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 	@Override
 	public void onClick(MouseButtonEvent event, boolean doubleClick) {
 		MortarScreen.template = MortarScreen.templateFrom + this.index;
-		this.screen.setShape(PrePolyominoShapes.values()[MortarScreen.template].template.build(this.screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
+		MortarScreen.setShape(PrePolyominoShapes.values()[MortarScreen.template].template.build(this.screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
 	}
 
 	@Override
 	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-		graphics.blit(RenderPipelines.GUI_TEXTURED, this.getTexture(), this.getX(), this.getY(), 0, 0, 16, 16, 16, 16);
-	}
-
-	@Override
-	public void onPress(InputWithModifiers inputWithModifiers) {
-		MortarScreen.template = this.index;
+		graphics.blit(RenderPipelines.GUI_TEXTURED, this.getTexture(), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
 	}
 }

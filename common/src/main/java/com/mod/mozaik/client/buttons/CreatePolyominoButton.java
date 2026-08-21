@@ -36,7 +36,7 @@ public class CreatePolyominoButton extends ModButton {
 
 		Vector2f center = this.screen.getShape().getGridCenter();
 		HeldPolyominoWidget widget = new HeldPolyominoWidget(this.screen, (int) (x - center.x * Tessera.TESSERA_SIZE), (int) (y - center.y * Tessera.TESSERA_SIZE), this.screen.getShape().copy());
-		this.screen.setShape(this.screen.getShape().rebuild(this.screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
+		MortarScreen.setShape(this.screen.getShape().rebuild(this.screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
 
 		this.screen.carried.clear();
 		this.screen.carried.add(this.screen.addRenderableWidget(widget));

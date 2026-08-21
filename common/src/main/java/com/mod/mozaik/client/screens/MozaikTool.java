@@ -68,7 +68,7 @@ public enum MozaikTool implements StringRepresentable {
 			case PICKER -> {
 				for (PolyominoWidget widget : list) {
 					if (shift) {
-						screen.setShape(widget.getPlacedPolyomino().polyomino().rebuild(screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
+						MortarScreen.setShape(widget.getPlacedPolyomino().polyomino().rebuild(screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
 					} else {
 						screen.setPrimaryColor(widget.getPlacedPolyomino().polyomino().material());
 					}

@@ -16,12 +16,10 @@ public abstract class AbstractItemWidget extends AbstractWidget {
 	protected final Minecraft minecraft;
 	private final boolean decorations;
 	private final boolean tooltip;
-	private final boolean canBeSelected;
 
-	public AbstractItemWidget(MortarScreen screen, int x, int y, boolean decorations, boolean tooltip, boolean canBeSelected) {
+	public AbstractItemWidget(MortarScreen screen, int x, int y, boolean decorations, boolean tooltip) {
 		super(x, y, 18, 18, Component.empty());
 		this.screen = screen;
-		this.canBeSelected = canBeSelected;
 		this.minecraft = Minecraft.getInstance();
 		this.decorations = decorations;
 		this.tooltip = tooltip;
@@ -32,10 +30,6 @@ public abstract class AbstractItemWidget extends AbstractWidget {
 		graphics.item(this.getItemStack(), this.getX(), this.getY(), 0);
 		if (this.decorations) {
 			graphics.itemDecorations(this.minecraft.font, this.getItemStack(), this.getX(), this.getY(), null);
-		}
-
-		if (this.canBeSelected && this.isHovered()) {
-			graphics.outline(this.getX() - 1, this.getY() - 1, this.getWidth(), this.getHeight(), -1);
 		}
 
 		if (this.tooltip && this.isHovered()) {

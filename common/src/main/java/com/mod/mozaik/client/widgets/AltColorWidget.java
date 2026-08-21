@@ -9,7 +9,7 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public class AltColorWidget extends AbstractItemWidget {
 	public AltColorWidget(MortarScreen screen, int offsetX, int offsetY) {
-		super(screen, offsetX, offsetY, true, true, false);
+		super(screen, offsetX, offsetY, true, true);
 	}
 
 	@Override
