@@ -82,30 +82,33 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public List<HeldPolyominoWidget> carried = new ArrayList<>();
 	private final List<PhaseRenderable> renderableWidgets = new ArrayList<>();
 
-	private TesseraMaterial primaryColor = TesseraMaterial.values()[0];
-	private TesseraMaterial secondaryColor = TesseraMaterial.values()[1];
-	public int materialFrom = 0;
-	public int materialTo = 9;
+	private static TesseraMaterial primaryColor = TesseraMaterial.values()[0];
+	private static TesseraMaterial secondaryColor = TesseraMaterial.values()[1];
+	public static int materialFrom = 0;
+	public static int materialTo = 9;
 
-	public int template = 0;
-	private Polyomino shape = Polyomino.EMPTY;
-	public int templateFrom = 0;
-	public int templateTo = 9;
+	public static int template = 0;
+	private static Polyomino shape = Polyomino.EMPTY;
+	public static int templateFrom = 0;
+	public static int templateTo = 9;
+
+	public static int[] faves = new int[9];
 
 	private @Nullable Vector2i selectionStart = null;
 
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
-		if (shape == Polyomino.EMPTY) shape = PrePolyominoShapes.SQUARE.template.build(primaryColor, 10L);
+		if (MortarScreen.shape == Polyomino.EMPTY)
+			MortarScreen.shape = PrePolyominoShapes.SQUARE.template.build(MortarScreen.primaryColor, 10L);
 	}
 
 	public TesseraMaterial getPrimaryColor() {
-		return this.primaryColor;
+		return MortarScreen.primaryColor;
 	}
 
 	public void setPrimaryColor(TesseraMaterial primaryColor) {
-		this.primaryColor = primaryColor;
-		this.shape = this.shape.rebuild(this.primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong());
+		MortarScreen.primaryColor = primaryColor;
+		MortarScreen.shape = MortarScreen.shape.rebuild(MortarScreen.primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong());
 
 		this.carried.forEach(heldPolyominoWidget ->
 				heldPolyominoWidget.setPolyomino(heldPolyominoWidget.getPolyomino().rebuild(primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()))
@@ -113,19 +116,19 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	public TesseraMaterial getSecondaryColor() {
-		return this.secondaryColor;
+		return MortarScreen.secondaryColor;
 	}
 
 	public void setSecondaryColor(TesseraMaterial secondaryColor) {
-		this.secondaryColor = secondaryColor;
+		MortarScreen.secondaryColor = secondaryColor;
 	}
 
 	public Polyomino getShape() {
-		return this.shape;
+		return MortarScreen.shape;
 	}
 
 	public void setShape(Polyomino shape) {
-		this.shape = shape;
+		MortarScreen.shape = shape;
 	}
 
 	@Override
@@ -149,10 +152,10 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		for (int i = 0; i < 9; ++i) {
 			if (this.minecraft.options.keyHotbarSlots[i].matches(event)) {
 				if (!event.hasShiftDown()) {
-					this.setPrimaryColor(TesseraMaterial.values()[this.materialFrom + i]);
+					this.setPrimaryColor(TesseraMaterial.values()[MortarScreen.materialFrom + i]);
 				} else {
-					this.template = this.templateFrom + i;
-					this.setShape(PrePolyominoShapes.values()[this.template].template.build(this.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
+					MortarScreen.template = MortarScreen.templateFrom + i;
+					this.setShape(PrePolyominoShapes.values()[MortarScreen.template].template.build(this.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
 				}
 				return true;
 			}
@@ -220,7 +223,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 					Vector2i square = this.getGridForPlacement(heldPolyominoWidget);
 					if (square != null) {
 						this.placePolyomino(heldPolyominoWidget, square);
-						heldPolyominoWidget.setPolyomino(this.shape.rebuild(heldPolyominoWidget.getPolyomino().material(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
+						heldPolyominoWidget.setPolyomino(MortarScreen.shape.rebuild(heldPolyominoWidget.getPolyomino().material(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
 					}
 				});
 				return true;
@@ -488,24 +491,24 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		}
 	}
 
-	public static void materialUpBy(MortarScreen screen, int by) {
-		screen.materialFrom = Math.max(0, screen.materialFrom - by);
-		screen.materialTo = Math.max(9, screen.materialTo - by);
+	public static void materialUpBy(int by) {
+		MortarScreen.materialFrom = Math.max(0, MortarScreen.materialFrom - by);
+		MortarScreen.materialTo = Math.max(9, MortarScreen.materialTo - by);
 	}
 
-	public static void materialDownBy(MortarScreen screen, int by) {
-		screen.materialFrom = Math.min(TesseraMaterial.values().length - 9, screen.materialFrom + by);
-		screen.materialTo = Math.min(TesseraMaterial.values().length, screen.materialTo + by);
+	public static void materialDownBy(int by) {
+		MortarScreen.materialFrom = Math.min(TesseraMaterial.values().length - 9, MortarScreen.materialFrom + by);
+		MortarScreen.materialTo = Math.min(TesseraMaterial.values().length, MortarScreen.materialTo + by);
 	}
 
-	public static void templateUpBy(MortarScreen screen, int by) {
-		screen.templateFrom = Math.max(0, screen.templateFrom - by);
-		screen.templateTo = Math.max(9, screen.templateTo - by);
+	public static void templateUpBy(int by) {
+		MortarScreen.templateFrom = Math.max(0, MortarScreen.templateFrom - by);
+		MortarScreen.templateTo = Math.max(9, MortarScreen.templateTo - by);
 	}
 
-	public static void templateDownBy(MortarScreen screen, int by) {
-		screen.templateFrom = Math.min(PrePolyominoShapes.values().length - 9, screen.templateFrom + by);
-		screen.templateTo = Math.min(PrePolyominoShapes.values().length, screen.templateTo + by);
+	public static void templateDownBy(int by) {
+		MortarScreen.templateFrom = Math.min(PrePolyominoShapes.values().length - 9, MortarScreen.templateFrom + by);
+		MortarScreen.templateTo = Math.min(PrePolyominoShapes.values().length, MortarScreen.templateTo + by);
 	}
 
 	@Override
@@ -517,48 +520,48 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		this.addRenderableWidget(new ClickableButton(this, MATERIAL_BAR_UP, SpriteButton.SpriteSet.UP_ARROW) {
 			@Override
 			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				materialUpBy(MortarScreen.this, inputWithModifiers.hasShiftDown() ? TesseraMaterial.values().length : 9);
+				materialUpBy(inputWithModifiers.hasShiftDown() ? TesseraMaterial.values().length : 9);
 			}
 
 			@Override
 			public boolean isBlocked() {
-				return MortarScreen.this.materialFrom == 0;
+				return MortarScreen.materialFrom == 0;
 			}
 		});
 
 		this.addRenderableWidget(new ClickableButton(this, MATERIAL_BAR_DOWN, SpriteButton.SpriteSet.DOWN_ARROW) {
 			@Override
 			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				materialDownBy(MortarScreen.this, inputWithModifiers.hasShiftDown() ? TesseraMaterial.values().length : 9);
+				materialDownBy(inputWithModifiers.hasShiftDown() ? TesseraMaterial.values().length : 9);
 			}
 
 			@Override
 			public boolean isBlocked() {
-				return MortarScreen.this.materialTo == TesseraMaterial.values().length;
+				return MortarScreen.materialTo == TesseraMaterial.values().length;
 			}
 		});
 
 		this.addRenderableWidget(new ClickableButton(this, SHAPE_BAR_UP, SpriteButton.SpriteSet.UP_ARROW) {
 			@Override
 			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				templateUpBy(MortarScreen.this, inputWithModifiers.hasShiftDown() ? PrePolyominoShapes.values().length : 9);
+				templateUpBy(inputWithModifiers.hasShiftDown() ? PrePolyominoShapes.values().length : 9);
 			}
 
 			@Override
 			public boolean isBlocked() {
-				return MortarScreen.this.templateFrom == 0;
+				return MortarScreen.templateFrom == 0;
 			}
 		});
 
 		this.addRenderableWidget(new ClickableButton(this, SHAPE_BAR_DOWN, SpriteButton.SpriteSet.DOWN_ARROW) {
 			@Override
 			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				templateDownBy(MortarScreen.this, inputWithModifiers.hasShiftDown() ? PrePolyominoShapes.values().length : 9);
+				templateDownBy(inputWithModifiers.hasShiftDown() ? PrePolyominoShapes.values().length : 9);
 			}
 
 			@Override
 			public boolean isBlocked() {
-				return MortarScreen.this.templateTo == PrePolyominoShapes.values().length;
+				return MortarScreen.templateTo == PrePolyominoShapes.values().length;
 			}
 		});
 

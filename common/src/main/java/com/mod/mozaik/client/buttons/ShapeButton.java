@@ -29,16 +29,16 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 	}
 
 	protected Identifier getTexture() {
-		return Constants.prefix("textures/gui/container/shapes/" + PrePolyominoShapes.values()[this.screen.templateFrom + this.index].name().toLowerCase(Locale.ROOT) + ".png");
+		return Constants.prefix("textures/gui/container/shapes/" + PrePolyominoShapes.values()[MortarScreen.templateFrom + this.index].name().toLowerCase(Locale.ROOT) + ".png");
 	}
 
 	@Override
 	public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
 		if (scrollY > 0) {
-			MortarScreen.templateUpBy(this.screen, (int) scrollY);
+			MortarScreen.templateUpBy((int) scrollY);
 			return true;
 		} else if (scrollY < 0) {
-			MortarScreen.templateDownBy(this.screen, (int) -scrollY);
+			MortarScreen.templateDownBy((int) -scrollY);
 			return true;
 		}
 
@@ -52,8 +52,8 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 
 	@Override
 	public void onClick(MouseButtonEvent event, boolean doubleClick) {
-		this.screen.template = this.screen.templateFrom + this.index;
-		this.screen.setShape(PrePolyominoShapes.values()[this.screen.template].template.build(this.screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
+		MortarScreen.template = MortarScreen.templateFrom + this.index;
+		this.screen.setShape(PrePolyominoShapes.values()[MortarScreen.template].template.build(this.screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
 	}
 
 	@Override
@@ -63,6 +63,6 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 
 	@Override
 	public void onPress(InputWithModifiers inputWithModifiers) {
-		this.screen.template = this.index;
+		MortarScreen.template = this.index;
 	}
 }
