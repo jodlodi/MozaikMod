@@ -11,6 +11,7 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.Nameable;
@@ -70,12 +71,6 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 	@Nullable
 	public Component getCustomName() {
 		return this.getName();
-	}
-
-	public void tick(Level level, BlockPos pos, BlockState state) {
-		if (level instanceof ServerLevel serverLevel) {
-			Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(this.getBlockPos()), new UpdateGlueBidirectional(this.polyominos, this.getBlockPos()));
-		}
 	}
 
 	@Override

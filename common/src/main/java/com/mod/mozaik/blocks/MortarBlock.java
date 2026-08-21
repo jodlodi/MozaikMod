@@ -72,13 +72,6 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 	}
 
 	@Override
-	public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> type) {
-		return createTickerHelper(type, ModBlockEntities.MORTAR.get(), (tickerLevel, tickerPos, tickerState, blockEntity) ->
-				blockEntity.tick(tickerLevel, tickerPos, tickerState)
-		);
-	}
-
-	@Override
 	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return SHAPES.get(state.getValue(FACING));
 	}
