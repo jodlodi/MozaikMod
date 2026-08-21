@@ -92,6 +92,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public int templateFrom = 0;
 	public int templateTo = 9;
 
+	private @Nullable Vector2i selectionStart = null;
+
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 		if (shape == Polyomino.EMPTY) shape = PrePolyominoShapes.SQUARE.template.build(primaryColor, 10L);
@@ -144,10 +146,14 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	@Override
 	public boolean keyPressed(KeyEvent event) {
-		for (int i = 0; i < 6; ++i) {
+		for (int i = 0; i < 9; ++i) {
 			if (this.minecraft.options.keyHotbarSlots[i].matches(event)) {
-				this.tool = MozaikTool.values()[i];
-				this.selected.clear();
+				if (!event.hasShiftDown()) {
+					this.setPrimaryColor(TesseraMaterial.values()[this.materialFrom + i]);
+				} else {
+					this.template = this.templateFrom + i;
+					this.setShape(PrePolyominoShapes.values()[this.template].template.build(this.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
+				}
 				return true;
 			}
 		}
@@ -163,9 +169,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
 		if (!this.carried.isEmpty()) {
 			Rotation rotation = scrollY > 0 ? Rotation.CLOCKWISE_90 : Rotation.COUNTERCLOCKWISE_90;
-			this.carried.forEach(heldPolyominoWidget -> {
-				heldPolyominoWidget.setPolyomino(heldPolyominoWidget.rotate(rotation));
-			});
+			this.carried.forEach(heldPolyominoWidget -> heldPolyominoWidget.setPolyomino(heldPolyominoWidget.rotate(rotation)));
 			return true;
 		}
 
@@ -224,6 +228,11 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			return true;
 		}
 
+		if (this.tool == MozaikTool.SELECT) {
+			this.selectionStart = new Vector2i((int) event.x(), (int) event.y());
+			return true;
+		}
+
 		Vector2i square = this.getGridForTaking();
 
 		for (PolyominoWidget widget : this.polyominos) {
@@ -240,6 +249,38 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		}
 
 		return false;
+	}
+
+	@Override
+	public boolean mouseReleased(MouseButtonEvent event) {
+		if (this.selectionStart != null) {
+			if (!event.hasShiftDown()) this.selected.clear();
+
+			int minX = Math.min(this.selectionStart.x, (int) Minecraft.getInstance().mouseHandler.getScaledXPos(Minecraft.getInstance().getWindow()));
+			int minY = Math.min(this.selectionStart.y, (int) Minecraft.getInstance().mouseHandler.getScaledYPos(Minecraft.getInstance().getWindow()));
+			int maxX = Math.max(this.selectionStart.x, (int) Minecraft.getInstance().mouseHandler.getScaledXPos(Minecraft.getInstance().getWindow()));
+			int maxY = Math.max(this.selectionStart.y, (int) Minecraft.getInstance().mouseHandler.getScaledYPos(Minecraft.getInstance().getWindow()));
+
+			for (PolyominoWidget widget : this.polyominos) {
+				int widgetX = widget.gridX();
+				int widgetY = widget.gridY();
+				for (Tessera.PlacedTessera tessera : widget.getPlacedPolyomino().polyomino().placedTessera()) {
+					int rX = widgetX + tessera.x();
+					int rY = widgetY + tessera.y();
+
+					int xPos = this.leftPos + GRID_START.x + rX * Tessera.TESSERA_SIZE + 5;
+					int yPos = this.topPos + GRID_START.y + rY * Tessera.TESSERA_SIZE + 5;
+
+					if (xPos > minX && yPos > minY && xPos < maxX && yPos < maxY) {
+						if (!this.selected.contains(widget)) this.selected.add(widget);
+						break;
+					}
+				}
+			}
+
+			this.selectionStart = null;
+		}
+		return super.mouseReleased(event);
 	}
 
 	protected void placePolyomino(HeldPolyominoWidget selected, Vector2i square) {
@@ -414,22 +455,37 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		})));
 	}
 
-	protected void renderSelection(GuiGraphicsExtractor graphics) {
+	protected void renderSelection(GuiGraphicsExtractor graphicsExtractor) {
+		GraphicsRenderHelper graphics = new GraphicsRenderHelper(graphicsExtractor);
 		this.selected.forEach(polyominoWidget -> {
 			PolyominoWidget.fill(
-					new GraphicsRenderHelper(graphics),
+					graphics,
 					polyominoWidget.getPlacedPolyomino().polyomino(),
 					polyominoWidget.getX(),
 					polyominoWidget.getY(),
 					0x500094FF
 			);
 			PolyominoWidget.selection(
-					new GraphicsRenderHelper(graphics),
+					graphics,
 					polyominoWidget.getPlacedPolyomino().polyomino(),
 					polyominoWidget.getX(),
 					polyominoWidget.getY()
 			);
 		});
+
+		if (this.selectionStart != null) {
+			int minX = this.selectionStart.x;
+			int minY = this.selectionStart.y;
+			int maxX = (int) Minecraft.getInstance().mouseHandler.getScaledXPos(Minecraft.getInstance().getWindow());
+			int maxY = (int) Minecraft.getInstance().mouseHandler.getScaledYPos(Minecraft.getInstance().getWindow());
+
+			graphics.fill(minX, minY, maxX, maxY, 0x500094FF);
+
+			graphics.selection(minX, minY, minX + 1, maxY);
+			graphics.selection(maxX, minY, maxX + 1, maxY);
+			graphics.selection(minX, minY, maxX, minY + 1);
+			graphics.selection(minX, maxY, maxX, maxY + 1);
+		}
 	}
 
 	public static void materialUpBy(MortarScreen screen, int by) {

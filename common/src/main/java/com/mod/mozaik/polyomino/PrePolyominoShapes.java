@@ -40,9 +40,9 @@ public enum PrePolyominoShapes {
 			.addLine(true)
 	),
 	T(new Polyomino.Builder()
-			.addLine(true, true, true)
-			.addLine(false, true, false)
-			.addLine(false, true, false)
+			.addLine(false, true)
+			.addLine(true, true)
+			.addLine(false, true)
 	),
 	Z(new Polyomino.Builder()
 			.addLine(false, true)
