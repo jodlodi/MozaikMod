@@ -1,6 +1,7 @@
 package com.mod.mozaik.client.widgets;
 
 import com.mod.mozaik.client.screens.MortarScreen;
+import com.mod.mozaik.client.screens.PersonalPreferences;
 import com.mod.mozaik.reg.ModItems;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.world.item.ItemStack;
@@ -14,7 +15,7 @@ public class AltColorWidget extends AbstractItemWidget {
 
 	@Override
 	protected ItemStack getItemStack() {
-		return ModItems.SHARDS.pick(this.screen.getSecondaryColor()).get().getDefaultInstance();
+		return ModItems.SHARDS.pick(PersonalPreferences.getSecondaryColor()).get().getDefaultInstance();
 	}
 
 	@Override

@@ -4,14 +4,12 @@ import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.TesseraMaterial;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.StringRepresentable;
 import org.joml.Vector2i;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 @NullMarked
 public enum MozaikTool implements StringRepresentable {
@@ -55,7 +53,7 @@ public enum MozaikTool implements StringRepresentable {
 							screen,
 							widget.getX(),
 							widget.getY(),
-							new Polyomino.PlacedPolyomino(new Polyomino(widget.getPlacedPolyomino().polyomino().placedTessera(), screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()), widget.gridX(), widget.gridY())
+							new Polyomino.PlacedPolyomino(new Polyomino(widget.getPlacedPolyomino().polyomino().placedTessera(), PersonalPreferences.getPrimaryColor(), MortarScreen.randomSeed()), widget.gridX(), widget.gridY())
 					);
 					screen.polyominos.remove(widget);
 					screen.removeWidget(widget);
@@ -68,9 +66,9 @@ public enum MozaikTool implements StringRepresentable {
 			case PICKER -> {
 				for (PolyominoWidget widget : list) {
 					if (shift) {
-						MortarScreen.setShape(widget.getPlacedPolyomino().polyomino().rebuild(screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
+						PersonalPreferences.setShape(widget.getPlacedPolyomino().polyomino().rebuild(PersonalPreferences.getPrimaryColor()));
 					} else {
-						screen.setPrimaryColor(widget.getPlacedPolyomino().polyomino().material());
+						PersonalPreferences.setPrimaryColor(screen, widget.getPlacedPolyomino().polyomino().material());
 					}
 				}
 				screen.tool = SWAP;

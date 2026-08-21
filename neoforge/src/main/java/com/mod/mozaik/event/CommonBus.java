@@ -10,7 +10,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.level.ChunkWatchEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked

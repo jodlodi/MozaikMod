@@ -3,6 +3,7 @@ package com.mod.mozaik.client.buttons;
 import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.MozaikTool;
+import com.mod.mozaik.client.screens.PersonalPreferences;
 import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.polyomino.Tessera;
@@ -34,9 +35,9 @@ public class CreatePolyominoButton extends ModButton {
 		double x = mouse.xpos() * (double) minecraft.getWindow().getGuiScaledWidth() / (double) minecraft.getWindow().getScreenWidth();
 		double y = mouse.ypos() * (double) minecraft.getWindow().getGuiScaledHeight() / (double) minecraft.getWindow().getScreenHeight();
 
-		Vector2f center = this.screen.getShape().getGridCenter();
-		HeldPolyominoWidget widget = new HeldPolyominoWidget(this.screen, (int) (x - center.x * Tessera.TESSERA_SIZE), (int) (y - center.y * Tessera.TESSERA_SIZE), this.screen.getShape().copy());
-		MortarScreen.setShape(this.screen.getShape().rebuild(this.screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
+		Vector2f center = PersonalPreferences.getShape().getGridCenter();
+		HeldPolyominoWidget widget = new HeldPolyominoWidget(this.screen, (int) (x - center.x * Tessera.TESSERA_SIZE), (int) (y - center.y * Tessera.TESSERA_SIZE), PersonalPreferences.getShape().copy());
+		PersonalPreferences.setShape(PersonalPreferences.getShape().rebuild(PersonalPreferences.getPrimaryColor()));
 
 		this.screen.carried.clear();
 		this.screen.carried.add(this.screen.addRenderableWidget(widget));
@@ -45,11 +46,11 @@ public class CreatePolyominoButton extends ModButton {
 
 	@Override
 	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-		Vector2f center = this.screen.getShape().getGridCenter();
+		Vector2f center = PersonalPreferences.getShape().getGridCenter();
 
 		PolyominoWidget.fill(
 				new GraphicsRenderHelper(graphics),
-				this.screen.getShape(),
+				PersonalPreferences.getShape(),
 				(int) (-center.x * Tessera.TESSERA_SIZE + this.getX() + SIZE * 0.5F + 1),
 				(int) (-center.y * Tessera.TESSERA_SIZE + this.getY() + SIZE * 0.5F + 1),
 				0x67222222
@@ -57,7 +58,7 @@ public class CreatePolyominoButton extends ModButton {
 
 		PolyominoWidget.renderVoxels(
 				new GraphicsRenderHelper(graphics),
-				this.screen.getShape(),
+				PersonalPreferences.getShape(),
 				(int) (-center.x * Tessera.TESSERA_SIZE + this.getX() + SIZE * 0.5F),
 				(int) (-center.y * Tessera.TESSERA_SIZE + this.getY() + SIZE * 0.5F)
 		);
@@ -68,6 +69,6 @@ public class CreatePolyominoButton extends ModButton {
 	}
 
 	protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y) {
-		graphics.setTooltipForNextFrame(Minecraft.getInstance().font, ModItems.SHARDS.pick(this.screen.getPrimaryColor()).get().getDefaultInstance(), x, y);
+		graphics.setTooltipForNextFrame(Minecraft.getInstance().font, ModItems.SHARDS.pick(PersonalPreferences.getPrimaryColor()).get().getDefaultInstance(), x, y);
 	}
 }

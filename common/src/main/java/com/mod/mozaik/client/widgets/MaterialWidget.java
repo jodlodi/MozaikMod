@@ -2,7 +2,7 @@ package com.mod.mozaik.client.widgets;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.screens.MortarScreen;
-import com.mod.mozaik.polyomino.PrePolyominoShapes;
+import com.mod.mozaik.client.screens.PersonalPreferences;
 import com.mod.mozaik.polyomino.TesseraMaterial;
 import com.mod.mozaik.reg.ModItems;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -12,8 +12,6 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NullMarked;
-
-import java.util.Locale;
 
 @NullMarked
 public class MaterialWidget extends AbstractItemWidget {
@@ -31,10 +29,10 @@ public class MaterialWidget extends AbstractItemWidget {
 	@Override
 	public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
 		if (scrollY > 0) {
-			MortarScreen.materialUpBy((int) scrollY);
+			this.screen.materialUpBy((int) scrollY);
 			return true;
 		} else if (scrollY < 0) {
-			MortarScreen.materialDownBy((int) -scrollY);
+			this.screen.materialDownBy((int) -scrollY);
 			return true;
 		}
 
@@ -44,7 +42,7 @@ public class MaterialWidget extends AbstractItemWidget {
 	@Override
 	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
 		super.extractWidgetRenderState(graphics, mouseX, mouseY, a);
-		if (this.screen.getPrimaryColor() == TesseraMaterial.values()[MortarScreen.materialFrom + this.index]) {
+		if (PersonalPreferences.getPrimaryColor() == TesseraMaterial.values()[PersonalPreferences.minMaterial() + this.index]) {
 			graphics.blit(RenderPipelines.GUI_TEXTURED, this.getTexture(), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
 		}
 	}
@@ -57,14 +55,14 @@ public class MaterialWidget extends AbstractItemWidget {
 	@Override
 	public void onClick(MouseButtonEvent event, boolean doubleClick) {
 		if (event.button() == MortarScreen.LEFT_CLICK) {
-			this.screen.setPrimaryColor(TesseraMaterial.values()[MortarScreen.materialFrom + this.index]);
+			PersonalPreferences.setPrimaryColor(this.screen, TesseraMaterial.values()[PersonalPreferences.minMaterial() + this.index]);
 		} else {
-			this.screen.setSecondaryColor(TesseraMaterial.values()[MortarScreen.materialFrom + this.index]);
+			PersonalPreferences.setSecondaryColor(TesseraMaterial.values()[PersonalPreferences.minMaterial() + this.index]);
 		}
 	}
 
 	@Override
 	protected ItemStack getItemStack() {
-		return ModItems.SHARDS.pick(TesseraMaterial.values()[MortarScreen.materialFrom + this.index]).get().getDefaultInstance();
+		return ModItems.SHARDS.pick(TesseraMaterial.values()[PersonalPreferences.minMaterial() + this.index]).get().getDefaultInstance();
 	}
 }

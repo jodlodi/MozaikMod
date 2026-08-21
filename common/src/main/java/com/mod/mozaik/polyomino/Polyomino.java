@@ -1,5 +1,6 @@
 package com.mod.mozaik.polyomino;
 
+import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.util.FlatDirection;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -18,8 +19,8 @@ public record Polyomino(List<Tessera.PlacedTessera> placedTessera, TesseraMateri
 		this(placedTessera, TesseraMaterial.values()[ordinal], seed);
 	}
 
-	public Polyomino rebuild(TesseraMaterial material, long seed) {
-		return new Polyomino(this.placedTessera(), material, seed);
+	public Polyomino rebuild(TesseraMaterial material) {
+		return new Polyomino(this.placedTessera(), material, MortarScreen.randomSeed());
 	}
 
 	public Polyomino copy() {

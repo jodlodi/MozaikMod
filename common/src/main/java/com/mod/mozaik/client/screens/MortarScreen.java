@@ -82,53 +82,19 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public List<HeldPolyominoWidget> carried = new ArrayList<>();
 	private final List<PhaseRenderable> renderableWidgets = new ArrayList<>();
 
-	private static TesseraMaterial primaryColor = TesseraMaterial.values()[0];
-	private static TesseraMaterial secondaryColor = TesseraMaterial.values()[1];
-	public static int materialFrom = 0;
-	public static int materialTo = 9;
-
-	public static int template = 0;
-	private static Polyomino shape = Polyomino.EMPTY;
-	public static int templateFrom = 0;
-	public static int templateTo = 9;
-
-	public static int[] faves = new int[9];
-
 	private @Nullable Vector2i selectionStart = null;
 
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
-		if (MortarScreen.shape == Polyomino.EMPTY)
-			MortarScreen.shape = PrePolyominoShapes.SQUARE.template.build(MortarScreen.primaryColor, 10L);
+		if (PersonalPreferences.getShape() == Polyomino.EMPTY) {
+			PersonalPreferences.setShape(PrePolyominoShapes.SQUARE.template.build(PersonalPreferences.getPrimaryColor(), 10L));
+		}
 	}
 
-	public TesseraMaterial getPrimaryColor() {
-		return MortarScreen.primaryColor;
-	}
-
-	public void setPrimaryColor(TesseraMaterial primaryColor) {
-		MortarScreen.primaryColor = primaryColor;
-		MortarScreen.shape = MortarScreen.shape.rebuild(MortarScreen.primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong());
-
-		this.carried.forEach(heldPolyominoWidget ->
-				heldPolyominoWidget.setPolyomino(heldPolyominoWidget.getPolyomino().rebuild(primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()))
-		);
-	}
-
-	public TesseraMaterial getSecondaryColor() {
-		return MortarScreen.secondaryColor;
-	}
-
-	public void setSecondaryColor(TesseraMaterial secondaryColor) {
-		MortarScreen.secondaryColor = secondaryColor;
-	}
-
-	public Polyomino getShape() {
-		return MortarScreen.shape;
-	}
-
-	public static void setShape(Polyomino shape) {
-		MortarScreen.shape = shape;
+	public static long randomSeed() {
+		long seed = 0L;
+		if (Minecraft.getInstance().level != null) seed = Minecraft.getInstance().level.getRandom().nextLong();
+		return seed;
 	}
 
 	@Override
@@ -152,10 +118,13 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		for (int i = 0; i < 9; ++i) {
 			if (this.minecraft.options.keyHotbarSlots[i].matches(event)) {
 				if (!event.hasShiftDown()) {
-					this.setPrimaryColor(TesseraMaterial.values()[MortarScreen.materialFrom + i]);
+					PersonalPreferences.setPrimaryColor(this, TesseraMaterial.values()[PersonalPreferences.minMaterial() + i]);
 				} else {
-					MortarScreen.template = MortarScreen.templateFrom + i;
-					MortarScreen.setShape(PrePolyominoShapes.values()[MortarScreen.template].template.build(this.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
+					PersonalPreferences.setTemplate(PersonalPreferences.minTemplate() + i);
+					PersonalPreferences.setShape(PrePolyominoShapes.values()[PersonalPreferences.getTemplate()].template.build(
+							PersonalPreferences.getPrimaryColor(),
+							MortarScreen.randomSeed()
+					));
 				}
 				return true;
 			}
@@ -201,9 +170,9 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		}
 
 		if (click == RIGHT_CLICK) {
-			TesseraMaterial color = this.getPrimaryColor();
-			this.setPrimaryColor(this.getSecondaryColor());
-			this.setSecondaryColor(color);
+			TesseraMaterial color = PersonalPreferences.getPrimaryColor();
+			PersonalPreferences.setPrimaryColor(this, PersonalPreferences.getSecondaryColor());
+			PersonalPreferences.setSecondaryColor(color);
 			return true;
 		}
 
@@ -213,7 +182,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 					Vector2i square = this.getGridForPlacement(heldPolyominoWidget);
 					if (square != null) {
 						this.placePolyomino(heldPolyominoWidget, square);
-						heldPolyominoWidget.setPolyomino(heldPolyominoWidget.getPolyomino().rebuild(heldPolyominoWidget.getPolyomino().material(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
+						heldPolyominoWidget.setPolyomino(heldPolyominoWidget.getPolyomino().rebuild(heldPolyominoWidget.getPolyomino().material()));
 					}
 				});
 				return true;
@@ -487,50 +456,24 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		}
 	}
 
-	public static void materialUpBy(int by) {
-		int ordinal = Math.max(MortarScreen.primaryColor.ordinal() - by, 0);
-		MortarScreen.primaryColor = TesseraMaterial.values()[ordinal];
-		MortarScreen.setShape(PrePolyominoShapes.values()[MortarScreen.template].template.build(MortarScreen.primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
-
-		int diff = ordinal - MortarScreen.materialFrom;
-		if (diff < 4) {
-			MortarScreen.materialFrom = Math.max(0, MortarScreen.materialFrom - by);
-			MortarScreen.materialTo = Math.max(9, MortarScreen.materialTo - by);
-		}
+	public void materialUpBy(int by) {
+		int ordinal = Math.max(PersonalPreferences.getPrimaryColor().ordinal() - by, 0);
+		PersonalPreferences.setPrimaryColor(this, TesseraMaterial.values()[ordinal]);
 	}
 
-	public static void materialDownBy(int by) {
-		int ordinal = Math.max(MortarScreen.primaryColor.ordinal() + by, 0);
-		MortarScreen.primaryColor = TesseraMaterial.values()[ordinal];
-		MortarScreen.setShape(PrePolyominoShapes.values()[MortarScreen.template].template.build(MortarScreen.primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
-
-		int diff = ordinal - MortarScreen.materialFrom;
-		if (diff > 4) {
-			MortarScreen.materialFrom = Math.min(TesseraMaterial.values().length - 9, MortarScreen.materialFrom + by);
-			MortarScreen.materialTo = Math.min(TesseraMaterial.values().length, MortarScreen.materialTo + by);
-		}
+	public void materialDownBy(int by) {
+		int ordinal = Math.min(PersonalPreferences.getPrimaryColor().ordinal() + by, TesseraMaterial.values().length - 1);
+		PersonalPreferences.setPrimaryColor(this, TesseraMaterial.values()[ordinal]);
 	}
 
 	public static void templateUpBy(int by) {
-		MortarScreen.template = Math.max(MortarScreen.template - by, 0);
-		MortarScreen.setShape(PrePolyominoShapes.values()[MortarScreen.template].template.build(MortarScreen.primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
-
-		int diff = MortarScreen.template - MortarScreen.templateFrom;
-		if (diff < 4) {
-			MortarScreen.templateFrom = Math.max(0, MortarScreen.templateFrom - by);
-			MortarScreen.templateTo = Math.max(9, MortarScreen.templateTo - by);
-		}
+		PersonalPreferences.setTemplate(Math.max(PersonalPreferences.getTemplate() - by, 0));
+		PersonalPreferences.setShape(PrePolyominoShapes.values()[PersonalPreferences.getTemplate()].template.build(PersonalPreferences.getPrimaryColor(), randomSeed()));
 	}
 
 	public static void templateDownBy(int by) {
-		MortarScreen.template = Math.min(MortarScreen.template + by, PrePolyominoShapes.values().length - 1);
-		MortarScreen.setShape(PrePolyominoShapes.values()[MortarScreen.template].template.build(MortarScreen.primaryColor, Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
-
-		int diff = MortarScreen.template - MortarScreen.templateFrom;
-		if (diff > 4) {
-			MortarScreen.templateFrom = Math.min(PrePolyominoShapes.values().length - 9, MortarScreen.templateFrom + by);
-			MortarScreen.templateTo = Math.min(PrePolyominoShapes.values().length, MortarScreen.templateTo + by);
-		}
+		PersonalPreferences.setTemplate(Math.min(PersonalPreferences.getTemplate() + by, PrePolyominoShapes.values().length - 1));
+		PersonalPreferences.setShape(PrePolyominoShapes.values()[PersonalPreferences.getTemplate()].template.build(PersonalPreferences.getPrimaryColor(), randomSeed()));
 	}
 
 	@Override
@@ -547,7 +490,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 			@Override
 			public boolean isBlocked() {
-				return MortarScreen.materialFrom == 0;
+				return PersonalPreferences.minMaterial() == 0;
 			}
 		});
 
@@ -559,7 +502,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 			@Override
 			public boolean isBlocked() {
-				return MortarScreen.materialTo == TesseraMaterial.values().length;
+				return PersonalPreferences.minMaterial() + 9 == TesseraMaterial.values().length;
 			}
 		});
 
@@ -571,7 +514,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 			@Override
 			public boolean isBlocked() {
-				return MortarScreen.templateFrom == 0;
+				return PersonalPreferences.minTemplate() == 0;
 			}
 		});
 
@@ -583,7 +526,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 			@Override
 			public boolean isBlocked() {
-				return MortarScreen.templateTo == PrePolyominoShapes.values().length;
+				return PersonalPreferences.minTemplate() + 9 == PrePolyominoShapes.values().length;
 			}
 		});
 

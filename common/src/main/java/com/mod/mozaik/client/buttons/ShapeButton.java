@@ -3,10 +3,9 @@ package com.mod.mozaik.client.buttons;
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.screens.MortarScreen;
+import com.mod.mozaik.client.screens.PersonalPreferences;
 import com.mod.mozaik.polyomino.PrePolyominoShapes;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -15,8 +14,6 @@ import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.Locale;
-import java.util.Objects;
-import java.util.Scanner;
 
 @NullMarked
 public class ShapeButton extends ModButton implements PhaseRenderable {
@@ -30,8 +27,8 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 	}
 
 	protected Identifier getTexture() {
-		int dis = MortarScreen.templateFrom + this.index;
-		return Constants.prefix("textures/gui/container/shapes/" + PrePolyominoShapes.values()[dis].name().toLowerCase(Locale.ROOT) + "/" + (dis == MortarScreen.template ? "pressed" : "unselected") + ".png");
+		int dis = PersonalPreferences.minTemplate() + this.index;
+		return Constants.prefix("textures/gui/container/shapes/" + PrePolyominoShapes.values()[dis].name().toLowerCase(Locale.ROOT) + "/" + (dis == PersonalPreferences.getTemplate() ? "pressed" : "unselected") + ".png");
 	}
 
 	@Override
@@ -54,8 +51,8 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 
 	@Override
 	public void onClick(MouseButtonEvent event, boolean doubleClick) {
-		MortarScreen.template = MortarScreen.templateFrom + this.index;
-		MortarScreen.setShape(PrePolyominoShapes.values()[MortarScreen.template].template.build(this.screen.getPrimaryColor(), Objects.requireNonNull(Minecraft.getInstance().level).getRandom().nextLong()));
+		PersonalPreferences.setTemplate(PersonalPreferences.minTemplate() + this.index);
+		PersonalPreferences.setShape(PrePolyominoShapes.values()[PersonalPreferences.getTemplate()].template.build(PersonalPreferences.getPrimaryColor(), MortarScreen.randomSeed()));
 	}
 
 	@Override
