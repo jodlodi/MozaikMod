@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": "minecraft:lime_concrete_powder",
+    "S": "minecraft:slime_ball",
+    "W": "minecraft:water_bucket"
+  },
+  "pattern": [
+    "CSC",
+    "SWS",
+    "CSC"
+  ],
+  "result": {
+    "count": 4,
+    "id": "mozaik:lime_mortar"
+  }
+}

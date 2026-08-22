@@ -9,6 +9,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import org.jspecify.annotations.NullMarked;
@@ -27,12 +28,12 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
 		super(registries, output);
 	}
 
-	protected void shard(TesseraMaterial material, ItemLike source, int count) {
-		this.stonecutterResultFromBase(RecipeCategory.DECORATIONS, ModItems.SHARDS.pick(material).get(), source, count);
-	}
-
 	@Override
 	protected void buildRecipes() {
+		for (DyeColor color : DyeColor.values()) {
+			this.mortar(color);
+		}
+
 		this.shard(TesseraMaterial.STONE, Items.STONE, PER_BLOCK);
 		this.shard(TesseraMaterial.STONE, Items.STONE_STAIRS, PER_STAIR);
 		this.shard(TesseraMaterial.STONE, Items.STONE_SLAB, PER_SLAB);
@@ -270,6 +271,22 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
 		this.shard(TesseraMaterial.RED_STAINED_GLASS, Items.STAINED_GLASS.red(), PER_BLOCK);
 		this.shard(TesseraMaterial.WHITE_STAINED_GLASS, Items.STAINED_GLASS.white(), PER_BLOCK);
 		this.shard(TesseraMaterial.YELLOW_STAINED_GLASS, Items.STAINED_GLASS.yellow(), PER_BLOCK);
+	}
+
+	protected void shard(TesseraMaterial material, ItemLike source, int count) {
+		this.stonecutterResultFromBase(RecipeCategory.DECORATIONS, ModItems.SHARDS.pick(material).get(), source, count);
+	}
+
+	protected void mortar(DyeColor color) {
+		this.shaped(RecipeCategory.DECORATIONS, ModItems.MORTARS.pick(color).get(), 4)
+				.pattern("CSC")
+				.pattern("SWS")
+				.pattern("CSC")
+				.define('C', Items.CONCRETE_POWDER.pick(color))
+				.define('S', Items.SLIME_BALL)
+				.define('W', Items.WATER_BUCKET)
+				.unlockedBy("has_item", has(Items.CONCRETE_POWDER.pick(color)))
+				.save(this.output);
 	}
 
 	public static class ModRecipeRunner extends RecipeProvider.Runner {
