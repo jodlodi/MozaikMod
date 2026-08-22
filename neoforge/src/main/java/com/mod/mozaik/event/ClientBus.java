@@ -1,6 +1,7 @@
 package com.mod.mozaik.event;
 
 import com.mod.mozaik.Constants;
+import com.mod.mozaik.client.ModKeyMappings;
 import com.mod.mozaik.polyomino.TesseraMaterial;
 import com.mod.mozaik.client.model.block.mortar.MosaicStateModel;
 import com.mod.mozaik.client.screens.MortarScreen;
@@ -44,5 +45,11 @@ public class ClientBus {
 
 	private static void registerModel(ModelEvent.RegisterStandalone event, String name) {
 		event.register(new StandaloneModelKey<>(() -> Constants.prefix(name).toString()), SimpleUnbakedStandaloneModel.simpleModelWrapper(Constants.prefix(name)));
+	}
+
+	@SubscribeEvent
+	public static void registerKeyMappingsEvent(RegisterKeyMappingsEvent event) {
+		ModKeyMappings.KEY_MAPPINGS.forEach(event::register);
+		event.registerCategory(ModKeyMappings.MOD_CATEGORY);
 	}
 }

@@ -3,22 +3,31 @@ package com.mod.mozaik.blocks;
 import com.mod.mozaik.blocks.entities.MortarBlockEntity;
 import com.mod.mozaik.menus.MortarMenu;
 import com.mod.mozaik.mixin.ServerPlayerAccessor;
+import com.mod.mozaik.networking.bidirectional.UpdateGlueBidirectional;
 import com.mod.mozaik.networking.clientbound.OpenGlueMenuClientbound;
 import com.mod.mozaik.platform.Services;
+import com.mod.mozaik.reg.ModBlocks;
+import com.mod.mozaik.reg.ResourceSupplier;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.thread.BlockableEventLoop;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -74,8 +83,13 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 	}
 
 	@Override
-	protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+	protected VoxelShape getEntityInsideCollisionShape(BlockState state, BlockGetter level, BlockPos pos, Entity entity) {
 		return Shapes.block();
+	}
+
+	@Override
+	protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return SHAPES.get(state.getValue(FACING));
 	}
 
 	@Override
@@ -130,24 +144,59 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 	}
 
 	@Override
+	protected InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+		if (itemStack.getItem() instanceof BucketItem bucketItem && (
+				(bucketItem.getContent() == Fluids.WATER && !state.getValue(WATERLOGGED))
+						|| (bucketItem.getContent() == Fluids.EMPTY && state.getValue(WATERLOGGED))
+		)) {
+			return InteractionResult.PASS;
+		}
+
+		DyeColor dye = itemStack.get(DataComponents.DYE);
+		if (dye != null) {
+			ResourceSupplier<MortarBlock> mortar = ModBlocks.MORTARS.pick(dye);
+
+			if (level instanceof ServerLevel serverLevel && !state.is(mortar.get()) && level.getBlockEntity(pos) instanceof MortarBlockEntity blockEntity) {
+				BlockState newState = mortar.get().defaultBlockState()
+						.setValue(WATERLOGGED, state.getValue(WATERLOGGED))
+						.setValue(FACING, state.getValue(FACING));
+
+				level.setBlock(pos, newState, Block.UPDATE_ALL);
+
+				if (level.getBlockEntity(pos) instanceof MortarBlockEntity newBlockEntity) {
+					newBlockEntity.setPolyominos(blockEntity.getPolyominos());
+
+					serverLevel.getServer().schedule(new TickTask(0, () ->
+							Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(pos), new UpdateGlueBidirectional(newBlockEntity.getPolyominos(), pos))
+					));
+				}
+			}
+
+			return InteractionResult.SUCCESS;
+		}
+
+		return InteractionResult.TRY_WITH_EMPTY_HAND;
+	}
+
+	@Override
 	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
 		if (player instanceof ServerPlayer serverPlayer && level.getBlockEntity(pos) instanceof MortarBlockEntity blockEntity) {
 			if (serverPlayer.containerMenu != serverPlayer.inventoryMenu) {
 				serverPlayer.closeContainer();
 			}
 
-			((ServerPlayerAccessor)serverPlayer).setContainerCounter(((ServerPlayerAccessor)serverPlayer).getContainerCounter() % 100 + 1);
+			((ServerPlayerAccessor) serverPlayer).setContainerCounter(((ServerPlayerAccessor) serverPlayer).getContainerCounter() % 100 + 1);
 
 			MortarMenu menu = new MortarMenu(
-					((ServerPlayerAccessor)serverPlayer).getContainerCounter(),
+					((ServerPlayerAccessor) serverPlayer).getContainerCounter(),
 					serverPlayer.getInventory(),
 					blockEntity
 			);
 
-			Services.NETWORK.sendToClient(serverPlayer, new OpenGlueMenuClientbound(pos, ((ServerPlayerAccessor)serverPlayer).getContainerCounter()));
+			Services.NETWORK.sendToClient(serverPlayer, new OpenGlueMenuClientbound(pos, ((ServerPlayerAccessor) serverPlayer).getContainerCounter()));
 
-			menu.addSlotListener(((ServerPlayerAccessor)serverPlayer).getContainerListener());
-			menu.setSynchronizer(((ServerPlayerAccessor)serverPlayer).getContainerSynchronizer());
+			menu.addSlotListener(((ServerPlayerAccessor) serverPlayer).getContainerListener());
+			menu.setSynchronizer(((ServerPlayerAccessor) serverPlayer).getContainerSynchronizer());
 
 			serverPlayer.containerMenu = menu;
 		}

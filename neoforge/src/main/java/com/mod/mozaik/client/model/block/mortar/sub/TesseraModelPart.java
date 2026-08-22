@@ -2,9 +2,6 @@ package com.mod.mozaik.client.model.block.mortar.sub;
 
 import com.mod.mozaik.polyomino.TesseraShape;
 import com.mojang.math.Transformation;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.block.dispatch.ModelState;
 import net.minecraft.client.resources.model.ModelBaker;
@@ -82,7 +79,7 @@ public record TesseraModelPart(QuadCollection quads, boolean useAmbientOcclusion
 			// Returns the model rotation to apply to the baking vertices
 			return new Transformation(new Matrix4f()
 					.rotate(this.facing.getRotation())
-					.translate(HALF, 1F, HALF)
+					.translate(HALF, 1F - PIXEL * 0.2F, HALF)
 					.translate(this.x() * PIXEL, 0.0F, this.y() * PIXEL)
 					.scale(SCALE)
 					.translate(-HALF_BLOCK / SCALE, -HALF_BLOCK / SCALE, -HALF_BLOCK / SCALE)

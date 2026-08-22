@@ -26,7 +26,7 @@ public enum PrePolyominoShapes {
 			.addLine(true, true)
 	),
 	MIN_L(new Polyomino.Builder()
-			.addLine(true, false)
+			.addLine(false, true)
 			.addLine(true, true)
 	),
 	MIDDLE_FINGER(new Polyomino.Builder()

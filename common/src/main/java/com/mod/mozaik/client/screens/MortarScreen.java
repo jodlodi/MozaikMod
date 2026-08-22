@@ -64,12 +64,12 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private static final Vector2i SHAPE_BAR_UP = new Vector2i(222, 66);
 	private static final Vector2i SHAPE_BAR_DOWN = new Vector2i(222, 236);
 
-	private static final Vector2i CHISEL = new Vector2i(154, 11);
+	private static final Vector2i PICKER = new Vector2i(154, 11);
 	private static final Vector2i CURSOR = new Vector2i(154, 32);
-	private static final Vector2i SWAP = new Vector2i(175, 11);
-	private static final Vector2i PICKER = new Vector2i(175, 32);
+	private static final Vector2i SELECT = new Vector2i(175, 11);
+	private static final Vector2i SWAP = new Vector2i(175, 32);
 	private static final Vector2i WAND = new Vector2i(196, 11);
-	private static final Vector2i SELECT = new Vector2i(196, 32);
+	private static final Vector2i CHISEL = new Vector2i(196, 32);
 
 	public static final int LEFT_CLICK = 0;
 	public static final int MIDDLE_CLICK = 2;
@@ -115,6 +115,42 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	@Override
 	public boolean keyPressed(KeyEvent event) {
+		if (event.isSelectAll()) {
+			this.selected.clear();
+			this.selected.addAll(this.polyominos);
+			return true;
+		}
+
+		for (MozaikTool tool : MozaikTool.values()) {
+			if (tool.getKeyMapping().matches(event)) {
+				this.tool = tool;
+				return true;
+			}
+		}
+
+		if (InputConstants.KEY_DELETE == event.key()) {
+			if (this.selected.isEmpty()) {
+				Vector2i square = this.getGridForTaking();
+
+				for (PolyominoWidget widget : this.polyominos) {
+					int widgetX = widget.gridX();
+					int widgetY = widget.gridY();
+					for (Tessera.PlacedTessera tessera : widget.getPlacedPolyomino().polyomino().placedTessera()) {
+						int rX = widgetX + tessera.x();
+						int rY = widgetY + tessera.y();
+						if (rX == square.x && rY == square.y) {
+							MozaikTool.useOn(this, event.hasShiftDown(), widget, MozaikTool.CHISEL);
+							return true;
+						}
+					}
+				}
+			} else {
+				MozaikTool.useOn(this, event.hasShiftDown(), this.selected, MozaikTool.CHISEL);
+			}
+
+			return true;
+		}
+
 		for (int i = 0; i < 9; ++i) {
 			if (this.minecraft.options.keyHotbarSlots[i].matches(event)) {
 				if (!event.hasShiftDown()) {
@@ -157,25 +193,6 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
 		int click = event.button();
 
-		Optional<GuiEventListener> child = this.getChildAt(event.x(), event.y());
-		if (child.isPresent()) {
-			GuiEventListener widget = child.get();
-			if (widget.mouseClicked(event, doubleClick) && widget.shouldTakeFocusAfterInteraction()) {
-				this.setFocused(widget);
-				if (event.button() == LEFT_CLICK) {
-					this.setDragging(true);
-				}
-			}
-			return true;
-		}
-
-		if (click == RIGHT_CLICK) {
-			TesseraMaterial color = PersonalPreferences.getPrimaryColor();
-			PersonalPreferences.setPrimaryColor(this, PersonalPreferences.getSecondaryColor());
-			PersonalPreferences.setSecondaryColor(color);
-			return true;
-		}
-
 		if (!this.carried.isEmpty()) {
 			if (click == LEFT_CLICK) {
 				this.carried.forEach(heldPolyominoWidget -> {
@@ -196,6 +213,25 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			return true;
 		}
 
+		Optional<GuiEventListener> child = this.getChildAt(event.x(), event.y());
+		if (child.isPresent()) {
+			GuiEventListener widget = child.get();
+			if (widget.mouseClicked(event, doubleClick) && widget.shouldTakeFocusAfterInteraction()) {
+				this.setFocused(widget);
+				if (event.button() == LEFT_CLICK) {
+					this.setDragging(true);
+				}
+			}
+			return true;
+		}
+
+		if (click == RIGHT_CLICK) {
+			TesseraMaterial color = PersonalPreferences.getPrimaryColor();
+			PersonalPreferences.setPrimaryColor(this, PersonalPreferences.getSecondaryColor());
+			PersonalPreferences.setSecondaryColor(color);
+			return true;
+		}
+
 		if (this.tool == MozaikTool.SELECT) {
 			this.selectionStart = new Vector2i((int) event.x(), (int) event.y());
 			return true;
@@ -210,7 +246,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				int rX = widgetX + tessera.x();
 				int rY = widgetY + tessera.y();
 				if (rX == square.x && rY == square.y) {
-					MozaikTool.useOn(this, event.hasShiftDown(), List.of(widget), this.tool);
+					MozaikTool.useOn(this, event.hasShiftDown(), widget, this.tool);
 					return true;
 				}
 			}
