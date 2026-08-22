@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:calcite",
+  "result": {
+    "count": 8,
+    "id": "mozaik:calcite_shards"
+  }
+}

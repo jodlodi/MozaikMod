@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:diorite_slab",
+  "result": {
+    "count": 4,
+    "id": "mozaik:diorite_shards"
+  }
+}

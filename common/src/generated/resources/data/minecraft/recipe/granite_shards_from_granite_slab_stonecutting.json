@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:granite_slab",
+  "result": {
+    "count": 4,
+    "id": "mozaik:granite_shards"
+  }
+}

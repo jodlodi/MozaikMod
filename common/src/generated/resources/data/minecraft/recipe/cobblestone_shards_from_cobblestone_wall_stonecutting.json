@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:cobblestone_wall",
+  "result": {
+    "count": 6,
+    "id": "mozaik:cobblestone_shards"
+  }
+}

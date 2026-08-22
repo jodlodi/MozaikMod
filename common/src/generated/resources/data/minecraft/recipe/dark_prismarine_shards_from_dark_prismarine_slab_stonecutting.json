@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:dark_prismarine_slab",
+  "result": {
+    "count": 4,
+    "id": "mozaik:dark_prismarine_shards"
+  }
+}

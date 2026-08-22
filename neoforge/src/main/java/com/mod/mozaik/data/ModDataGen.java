@@ -1,10 +1,7 @@
 package com.mod.mozaik.data;
 
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.data.gen.AtlasGen;
-import com.mod.mozaik.data.gen.ModLangGen;
-import com.mod.mozaik.data.gen.ModLootGen;
-import com.mod.mozaik.data.gen.ModelGen;
+import com.mod.mozaik.data.gen.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -38,6 +35,7 @@ public class ModDataGen {
 		CompletableFuture<HolderLookup.Provider> registryProvider = datapackProvider.getRegistryProvider();
 		generator.addProvider(true, datapackProvider);
 		generator.addProvider(true, new ModLootGen(output, lookupProvider));
+		generator.addProvider(true, new ModRecipeProvider.ModRecipeRunner(output, registryProvider));
 
 		generator.addProvider(true, new AtlasGen(output, lookupProvider));
 		generator.addProvider(true, new ModelGen(output));

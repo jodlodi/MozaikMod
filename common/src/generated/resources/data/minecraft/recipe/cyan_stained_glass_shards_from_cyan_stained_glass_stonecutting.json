@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:cyan_stained_glass",
+  "result": {
+    "count": 8,
+    "id": "mozaik:cyan_stained_glass_shards"
+  }
+}

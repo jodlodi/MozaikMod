@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:prismarine_brick_slab",
+  "result": {
+    "count": 4,
+    "id": "mozaik:prismarine_shards"
+  }
+}

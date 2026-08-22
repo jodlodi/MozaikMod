@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:prismarine_wall",
+  "result": {
+    "count": 6,
+    "id": "mozaik:prismarine_shards"
+  }
+}

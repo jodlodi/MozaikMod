@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:polished_cinnabar_slab",
+  "result": {
+    "count": 4,
+    "id": "mozaik:cinnabar_shards"
+  }
+}

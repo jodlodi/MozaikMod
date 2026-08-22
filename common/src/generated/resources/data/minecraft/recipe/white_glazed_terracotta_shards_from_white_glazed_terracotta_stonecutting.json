@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:white_glazed_terracotta",
+  "result": {
+    "count": 8,
+    "id": "mozaik:white_glazed_terracotta_shards"
+  }
+}
