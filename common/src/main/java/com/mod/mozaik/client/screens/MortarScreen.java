@@ -190,13 +190,14 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 		if (!this.carried.isEmpty()) {
 			if (click == LEFT_CLICK) {
-				this.carried.forEach(heldPolyominoWidget -> {
-					Vector2i square = this.getGridForPlacement(heldPolyominoWidget);
-					if (square != null) {
-						this.placePolyomino(heldPolyominoWidget, square);
+				Map<HeldPolyominoWidget, Vector2i> map = this.getOffsetForPlacement(this.carried);
+				if (map != null) {
+					this.carried.forEach(heldPolyominoWidget -> {
+						Vector2i vector2i = map.get(heldPolyominoWidget);
+						this.placePolyomino(heldPolyominoWidget, vector2i);
 						heldPolyominoWidget.setPolyomino(heldPolyominoWidget.getPolyomino().rebuild(heldPolyominoWidget.getPolyomino().material()));
-					}
-				});
+					});
+				}
 				return true;
 			} else if (click == MIDDLE_CLICK) {
 				this.carried.removeIf(widget -> {
@@ -313,19 +314,26 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	@Nullable
-	public Vector2i getGridForPlacement(HeldPolyominoWidget polyominoWidget) {
+	public Map<HeldPolyominoWidget, Vector2i> getOffsetForPlacement(List<HeldPolyominoWidget> widgets) {
 		int gridX = this.leftPos + GRID_START.x;
 		int gridY = this.topPos + GRID_START.y;
 
-		Vector2f center = polyominoWidget.heldPos();
+		HeldPolyominoWidget first = widgets.getFirst();
+
+		Vector2f center = first.heldPos();
 		float fX = (center.x - gridX) / Tessera.TESSERA_SIZE;
 		float fY = (center.y - gridY) / Tessera.TESSERA_SIZE;
 
 		int x = Math.round(fX);
 		int y = Math.round(fY);
 
-		Vector2i onCheck = this.getClosestGrid(polyominoWidget, new Vector2i(x, y));
-		if (onCheck != null) return onCheck;
+		Map<HeldPolyominoWidget, Vector2i> test = new HashMap<>();
+		for (HeldPolyominoWidget widget : widgets) {
+			Vector2i onCheck = this.getClosestGrid(widget, 0, 0);
+			if (onCheck == null) break;
+			else test.put(widget, onCheck);
+		}
+		if (test.size() == widgets.size()) return test;
 
 		Map<FlatDirection, Float> distanceCheck = new HashMap<>();
 
@@ -346,8 +354,13 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				}
 			}
 
-			onCheck = this.getClosestGrid(polyominoWidget, new Vector2i(x + shortest.getRelativeX(), y + shortest.getRelativeY()));
-			if (onCheck != null) return onCheck;
+			test = new HashMap<>();
+			for (HeldPolyominoWidget widget : widgets) {
+				Vector2i onCheck = this.getClosestGrid(widget, shortest.getRelativeX(), shortest.getRelativeY());
+				if (onCheck == null) break;
+				else test.put(widget, onCheck);
+			}
+			if (test.size() == widgets.size()) return test;
 			else distanceCheck.remove(shortest);
 		}
 
@@ -355,7 +368,19 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	@Nullable
-	public Vector2i getClosestGrid(HeldPolyominoWidget polyominoWidget, Vector2i grid) {
+	public Vector2i getClosestGrid(HeldPolyominoWidget polyominoWidget, int diffX, int diffY) {
+		int gridX = this.leftPos + GRID_START.x;
+		int gridY = this.topPos + GRID_START.y;
+
+		Vector2f center = polyominoWidget.heldPos();
+
+		float fX = (center.x - gridX) / Tessera.TESSERA_SIZE;
+		float fY = (center.y - gridY) / Tessera.TESSERA_SIZE;
+
+		int x = Math.round(fX);
+		int y = Math.round(fY);
+
+		Vector2i grid = new Vector2i(x + diffX, y + diffY);
 		if (this.isOutOfBounds(grid)) return null; // Out of bounds
 
 		boolean canFit = true;

@@ -16,6 +16,7 @@ import org.jspecify.annotations.NullMarked;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -88,21 +89,27 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 
 	@Override
 	public void renderAboveItems(GraphicsRenderHelper graphics) {
-		Vector2i square = this.screen.getGridForPlacement(this);
+		if (this.screen.carried.getFirst() != this) return;
+		Map<HeldPolyominoWidget, Vector2i> map = this.screen.getOffsetForPlacement(this.screen.carried);
 
-		if (square == null) {
-			Vector2f center = this.heldPos();
-			renderVoxels(
-					graphics,
-					this.getPolyomino(),
-					this.getPolyomino().material(),
-					center.x(),
-					center.y(),
-					0x67222222
-			);
+		if (map == null) {
+			for (HeldPolyominoWidget widget : this.screen.carried) {
+				Vector2f center = widget.heldPos();
+				renderVoxels(
+						graphics,
+						widget.getPolyomino(),
+						widget.getPolyomino().material(),
+						center.x(),
+						center.y(),
+						0x67222222
+				);
+			}
 		} else {
-			square = this.screen.getGridPos(square);
-			renderVoxels(graphics, this.getPolyomino(), this.getPolyomino().material(), square.x(), square.y(), 0x77FFFFFF);
+			for (HeldPolyominoWidget widget : this.screen.carried) {
+				Vector2i square = map.get(widget);
+				square = this.screen.getGridPos(square);
+				renderVoxels(graphics, widget.getPolyomino(), widget.getPolyomino().material(), square.x(), square.y(), 0x77FFFFFF);
+			}
 		}
 	}
 
