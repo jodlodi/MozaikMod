@@ -1,5 +1,5 @@
 {
-  "parent": "mozaik:block/murals/plus_corner",
+  "parent": "mozaik:block/normal/plus_corner",
   "textures": {
     "texture": "mozaik:block/mural/cobblestone/block_1"
   }

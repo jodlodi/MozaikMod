@@ -1,5 +1,5 @@
 {
-  "parent": "mozaik:block/murals/end",
+  "parent": "mozaik:block/glass/end",
   "textures": {
     "texture": "mozaik:block/mural/pink_stained_glass/block_0"
   }

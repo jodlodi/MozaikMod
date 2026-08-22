@@ -1,5 +1,5 @@
 {
-  "parent": "mozaik:block/murals/end",
+  "parent": "mozaik:block/normal/end",
   "textures": {
     "texture": "mozaik:block/mural/light_blue_terracotta/block_1"
   }

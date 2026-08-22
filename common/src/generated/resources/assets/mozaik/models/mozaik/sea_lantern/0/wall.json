@@ -1,5 +1,5 @@
 {
-  "parent": "mozaik:block/murals_fullbright/wall",
+  "parent": "mozaik:block/glow/wall",
   "textures": {
     "texture": "mozaik:block/mural/sea_lantern/block_0"
   }

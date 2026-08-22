@@ -1,5 +1,5 @@
 {
-  "parent": "mozaik:block/murals/wall",
+  "parent": "mozaik:block/normal/wall",
   "textures": {
     "texture": "mozaik:block/mural/andesite/block_2"
   }

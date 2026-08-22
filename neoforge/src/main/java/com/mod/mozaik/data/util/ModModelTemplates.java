@@ -1,6 +1,7 @@
 package com.mod.mozaik.data.util;
 
 import com.mod.mozaik.Constants;
+import com.mod.mozaik.polyomino.TesseraMaterial;
 import com.mod.mozaik.polyomino.TesseraShape;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplate;
@@ -10,23 +11,27 @@ import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
 @NullMarked
 public class ModModelTemplates extends ModelTemplates {
-	public static final Map<TesseraShape.ModelReference, ModelTemplate> TEMPLATE_MAP = new HashMap<>();
-	public static final Map<TesseraShape.ModelReference, ModelTemplate> FULLBRIGHT_MAP = new HashMap<>();
+	public static final Map<TesseraMaterial.Type, Map<TesseraShape.ModelReference, ModelTemplate>> TEMPLATE_MAP = new HashMap<>();
 
 	static {
+		for (TesseraMaterial.Type type : TesseraMaterial.Type.values()) {
+			TEMPLATE_MAP.put(type, new HashMap<>());
+		}
 		for (TesseraShape.ModelReference shape : TesseraShape.ModelReference.values()) {
-			TEMPLATE_MAP.put(shape, create(shape.getSerializedName(), false, TextureSlot.TEXTURE));
-			FULLBRIGHT_MAP.put(shape, create(shape.getSerializedName(), true, TextureSlot.TEXTURE));
+			for (TesseraMaterial.Type type : TesseraMaterial.Type.values()) {
+				TEMPLATE_MAP.get(type).put(shape, create(shape.getSerializedName(), type, TextureSlot.TEXTURE));
+			}
 		}
 	}
 
-	public static ModelTemplate create(String id, boolean fullBright, TextureSlot... slots) {
-		return create(Constants.prefix(id), slots).extend().parent(Constants.prefix("block/" + (fullBright ? "murals_fullbright/" : "murals/") + id)).build();
+	public static ModelTemplate create(String id, TesseraMaterial.Type type, TextureSlot... slots) {
+		return create(Constants.prefix(id), slots).extend().parent(Constants.prefix("block/" + type.name().toLowerCase(Locale.ROOT) + "/" + id)).build();
 	}
 
 	@SuppressWarnings("deprecation")

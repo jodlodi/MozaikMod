@@ -1,5 +1,5 @@
 {
-  "parent": "mozaik:block/murals/corner",
+  "parent": "mozaik:block/glass/corner",
   "textures": {
     "texture": "mozaik:block/mural/purple_stained_glass/block_0"
   }

@@ -1,5 +1,5 @@
 {
-  "parent": "mozaik:block/murals/plus_wall",
+  "parent": "mozaik:block/normal/plus_wall",
   "textures": {
     "texture": "mozaik:block/mural/cinnabar/block_2"
   }

@@ -1,0 +1,22 @@
+{
+	"format_version": "1.21.11",
+	"parent": "minecraft:block/block",
+	"textures": {
+		"texture": "mozaik:block/mural/stone/block_0",
+		"particle": "#texture"
+	},
+	"elements": [
+		{
+			"from": [4, 0, 4],
+			"to": [12, 10, 12],
+			"faces": {
+				"north": {"uv": [4, 4, 12, 12], "texture": "#texture"},
+				"east": {"uv": [4, 4, 12, 12], "texture": "#texture"},
+				"south": {"uv": [4, 4, 12, 12], "texture": "#texture"},
+				"west": {"uv": [4, 4, 12, 12], "texture": "#texture"},
+				"up": {"uv": [4, 4, 12, 12], "texture": "#texture"},
+				"down": {"uv": [4, 4, 12, 12], "texture": "#texture"}
+			}
+		}
+	]
+}

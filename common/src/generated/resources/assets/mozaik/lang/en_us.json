@@ -117,7 +117,7 @@
   "mozaik.select": "Select Tool",
   "mozaik.swap": "Swap Tool",
   "mozaik.wand": "Wand Tool",
-  "tooltip.mozaik.hotkey": "§8Shortcut key: [§r§b%1$s§r§8]",
+  "tooltip.mozaik.hotkey": "§8Shortcut key: [%1$s]",
   "tooltip.mozaik.tool.chisel": "Chisel",
   "tooltip.mozaik.tool.cursor": "Cursor",
   "tooltip.mozaik.tool.picker": "Picker",

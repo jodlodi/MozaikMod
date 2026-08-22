@@ -1,5 +1,5 @@
 {
-  "parent": "mozaik:block/murals/wall",
+  "parent": "mozaik:block/normal/wall",
   "textures": {
     "texture": "mozaik:block/mural/block_of_raw_gold/block_1"
   }

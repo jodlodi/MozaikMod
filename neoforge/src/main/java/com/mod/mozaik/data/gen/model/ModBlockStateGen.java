@@ -55,7 +55,7 @@ public class ModBlockStateGen extends BlockModelGenerators {
 		for (TesseraMaterial material : TesseraMaterial.values()) {
 			for (int color = 0; color < material.getSpriteSheets().size(); color++) {
 				for (TesseraShape.ModelReference shape : TesseraShape.ModelReference.values()) {
-					this.createFromTemplate((material.isGlows() ? ModModelTemplates.FULLBRIGHT_MAP : ModModelTemplates.TEMPLATE_MAP).get(shape), shape.getSerializedName(), material, color);
+					this.createFromTemplate(ModModelTemplates.TEMPLATE_MAP.get(material.getType()).get(shape), shape.getSerializedName(), material, color);
 				}
 			}
 		}

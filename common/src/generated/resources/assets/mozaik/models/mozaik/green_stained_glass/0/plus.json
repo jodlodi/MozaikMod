@@ -1,5 +1,5 @@
 {
-  "parent": "mozaik:block/murals/plus",
+  "parent": "mozaik:block/glass/plus",
   "textures": {
     "texture": "mozaik:block/mural/green_stained_glass/block_0"
   }

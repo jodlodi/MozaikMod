@@ -33,7 +33,7 @@ public enum TesseraMaterial implements StringRepresentable {
 	NETHER_BRICK(0x38181e, 0x30181c, 0x211114),
 	RED_NETHER_BRICK(0x6b1317, 0x560e10, 0x440507),
 	QUARTZ(0xeeeae6, 0xeee6de),
-	GLOWSTONE(true, 0xfbda74, 0xcc8654, 0x855029),
+	GLOWSTONE(Type.GLOW, 0xfbda74, 0xcc8654, 0x855029),
 	ANCIENT_DEBRIS(0x654740, 0x5D342C, 0x4A2C23),
 	BASALT(0x5c5c5c, 0x4f4b4f, 0x32333d),
 	END_STONE(0xeef6b4, 0xdee6a4, 0xd5da94),
@@ -48,7 +48,7 @@ public enum TesseraMaterial implements StringRepresentable {
 			0x79b3b7, 0x5e85a4, 0x687396,
 			0x79b7ab, 0x5e9ea4, 0x4e86a3
 	),
-	SEA_LANTERN(true, 0xdfeadc, 0xcee1db, 0xb3d5cc),
+	SEA_LANTERN(Type.GLOW, 0xdfeadc, 0xcee1db, 0xb3d5cc),
 
 	TERRACOTTA(0x9b6045, 0x965d43),
 	BLACK_TERRACOTTA(0x251710, 0x261811),
@@ -85,44 +85,44 @@ public enum TesseraMaterial implements StringRepresentable {
 	WHITE_GLAZED_TERRACOTTA(0xf9fffe, 0xf4f4f2),
 	YELLOW_GLAZED_TERRACOTTA(0xfede5f, 0xfed83d),
 
-	BLACK_STAINED_GLASS(0x66191919),
-	BLUE_STAINED_GLASS(0x66334cb2),
-	BROWN_STAINED_GLASS(0x66664c33),
-	CYAN_STAINED_GLASS(0x664c7f99),
-	GRAY_STAINED_GLASS(0x664c4c4c),
-	GREEN_STAINED_GLASS(0x66667f33),
-	LIGHT_BLUE_STAINED_GLASS(0x666699d8),
-	LIGHT_GRAY_STAINED_GLASS(0x66999999),
-	LIME_STAINED_GLASS(0x667fcc19),
-	MAGENTA_STAINED_GLASS(0x66b24cd8),
-	ORANGE_STAINED_GLASS(0x66d87f33),
-	PINK_STAINED_GLASS(0x66f27fa5),
-	PURPLE_STAINED_GLASS(0x667f3fb2),
-	RED_STAINED_GLASS(0x66993333),
-	WHITE_STAINED_GLASS(0x66ffffff),
-	YELLOW_STAINED_GLASS(0x66e5e533);
+	BLACK_STAINED_GLASS(Type.GLASS, 0x66191919),
+	BLUE_STAINED_GLASS(Type.GLASS,0x66334cb2),
+	BROWN_STAINED_GLASS(Type.GLASS,0x66664c33),
+	CYAN_STAINED_GLASS(Type.GLASS,0x664c7f99),
+	GRAY_STAINED_GLASS(Type.GLASS,0x664c4c4c),
+	GREEN_STAINED_GLASS(Type.GLASS,0x66667f33),
+	LIGHT_BLUE_STAINED_GLASS(Type.GLASS,0x666699d8),
+	LIGHT_GRAY_STAINED_GLASS(Type.GLASS,0x66999999),
+	LIME_STAINED_GLASS(Type.GLASS,0x667fcc19),
+	MAGENTA_STAINED_GLASS(Type.GLASS,0x66b24cd8),
+	ORANGE_STAINED_GLASS(Type.GLASS,0x66d87f33),
+	PINK_STAINED_GLASS(Type.GLASS,0x66f27fa5),
+	PURPLE_STAINED_GLASS(Type.GLASS,0x667f3fb2),
+	RED_STAINED_GLASS(Type.GLASS,0x66993333),
+	WHITE_STAINED_GLASS(Type.GLASS,0x66ffffff),
+	YELLOW_STAINED_GLASS(Type.GLASS,0x66e5e533);
 
 	private final RandomSource random;
 
-	private final boolean glows;
+	private final Type type;
 	private @Nullable final GenericAnimationMetadata metadata;
 	private final List<MaterialColor> spriteSheets = new ArrayList<>();
 
 	TesseraMaterial(Integer... colors) {
-		this(null, colors);
+		this((GenericAnimationMetadata)null, colors);
 	}
 
 	TesseraMaterial(@Nullable GenericAnimationMetadata metadata, Integer... colors) {
-		this(false, metadata, colors);
+		this(Type.NORMAL, metadata, colors);
 	}
 
-	TesseraMaterial(boolean glows, Integer... colors) {
-		this(glows, null, colors);
+	TesseraMaterial(Type type, Integer... colors) {
+		this(type, null, colors);
 	}
 
-	TesseraMaterial(boolean glows, @Nullable GenericAnimationMetadata metadata, Integer... colors) {
+	TesseraMaterial(Type type, @Nullable GenericAnimationMetadata metadata, Integer... colors) {
 		this.random = RandomSource.createThreadLocalInstance();
-		this.glows = glows;
+		this.type = type;
 		this.metadata = metadata;
 		if (metadata == null) {
 			int i = 0;
@@ -147,8 +147,8 @@ public enum TesseraMaterial implements StringRepresentable {
 		}
 	}
 
-	public boolean isGlows() {
-		return this.glows;
+	public Type getType() {
+		return this.type;
 	}
 
 	public @Nullable GenericAnimationMetadata getMetadata() {
@@ -216,5 +216,11 @@ public enum TesseraMaterial implements StringRepresentable {
 				true,
 				4
 		);
+	}
+
+	public enum Type {
+		NORMAL,
+		GLOW,
+		GLASS
 	}
 }

@@ -1,5 +1,5 @@
 {
-  "parent": "mozaik:block/murals/full_corner",
+  "parent": "mozaik:block/normal/full_corner",
   "textures": {
     "texture": "mozaik:block/mural/ancient_debris/block_0"
   }

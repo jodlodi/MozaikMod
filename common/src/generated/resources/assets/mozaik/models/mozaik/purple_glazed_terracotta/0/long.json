@@ -1,5 +1,5 @@
 {
-  "parent": "mozaik:block/murals/long",
+  "parent": "mozaik:block/normal/long",
   "textures": {
     "texture": "mozaik:block/mural/purple_glazed_terracotta/block_0"
   }

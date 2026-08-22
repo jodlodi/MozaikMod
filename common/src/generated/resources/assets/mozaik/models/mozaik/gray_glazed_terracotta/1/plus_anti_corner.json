@@ -1,5 +1,5 @@
 {
-  "parent": "mozaik:block/murals/plus_anti_corner",
+  "parent": "mozaik:block/normal/plus_anti_corner",
   "textures": {
     "texture": "mozaik:block/mural/gray_glazed_terracotta/block_1"
   }

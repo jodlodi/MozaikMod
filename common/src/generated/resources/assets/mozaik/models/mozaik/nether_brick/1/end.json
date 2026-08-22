@@ -1,5 +1,5 @@
 {
-  "parent": "mozaik:block/murals/end",
+  "parent": "mozaik:block/normal/end",
   "textures": {
     "texture": "mozaik:block/mural/nether_brick/block_1"
   }
