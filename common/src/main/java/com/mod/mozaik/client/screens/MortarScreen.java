@@ -318,11 +318,44 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		int gridY = this.topPos + GRID_START.y;
 
 		Vector2f center = polyominoWidget.heldPos();
+		float fX = (center.x - gridX) / Tessera.TESSERA_SIZE;
+		float fY = (center.y - gridY) / Tessera.TESSERA_SIZE;
 
-		int x = (int) (center.x - gridX) / Tessera.TESSERA_SIZE;
-		int y = (int) (center.y - gridY) / Tessera.TESSERA_SIZE;
-		Vector2i grid = new Vector2i(x, y);
+		int x = Math.round(fX);
+		int y = Math.round(fY);
 
+		Vector2i onCheck = this.getClosestGrid(polyominoWidget, new Vector2i(x, y));
+		if (onCheck != null) return onCheck;
+
+		Map<FlatDirection, Float> distanceCheck = new HashMap<>();
+
+		for (FlatDirection direction : FlatDirection.values()) {
+			distanceCheck.put(direction, new Vector2f(fX, fY).distanceSquared(x + direction.getRelativeX(), y + direction.getRelativeY()));
+		}
+
+		for (int i = 0; i < 8; i++) {
+			FlatDirection shortest = FlatDirection.DOWN;
+			float smallest = Float.MAX_VALUE;
+			for (FlatDirection direction : FlatDirection.values()) {
+				if (!distanceCheck.containsKey(direction)) continue;
+
+				float distance = distanceCheck.get(direction);
+				if (distance < smallest) {
+					shortest = direction;
+					smallest = distance;
+				}
+			}
+
+			onCheck = this.getClosestGrid(polyominoWidget, new Vector2i(x + shortest.getRelativeX(), y + shortest.getRelativeY()));
+			if (onCheck != null) return onCheck;
+			else distanceCheck.remove(shortest);
+		}
+
+		return null;
+	}
+
+	@Nullable
+	public Vector2i getClosestGrid(HeldPolyominoWidget polyominoWidget, Vector2i grid) {
 		if (this.isOutOfBounds(grid)) return null; // Out of bounds
 
 		boolean canFit = true;
@@ -374,7 +407,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 		}
 		if (canFit) return grid;
-		return null;
+		else return null;
 	}
 
 	protected boolean isOutOfBounds(Vector2i grid) {
