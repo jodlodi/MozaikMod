@@ -328,69 +328,77 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		int y = (int) (center.y - gridY) / Tessera.TESSERA_SIZE;
 		Vector2i grid = new Vector2i(x, y);
 
-		for (int offsetX : new int[]{0, 1, -1}) {
-			for (int offsetY : new int[]{0, 1, -1}) {
-				grid = new Vector2i(grid.x + offsetX, grid.y + offsetY);
+		if (this.isOutOfBounds(grid)) return null; // Out of bounds
 
-				if (grid.x < -1 || grid.y < -1 || grid.x >= 17 || grid.y >= 17) {
-					continue; // Out of bounds
-				}
+		boolean canFit = true;
+		for (Tessera.PlacedTessera entry : polyominoWidget.placedTessera()) {
+			int relativeX = grid.x + entry.x();
+			int relativeY = grid.y + entry.y();
 
-				boolean canFit = true;
-				for (Tessera.PlacedTessera entry : polyominoWidget.placedTessera()) {
-					int relativeX = grid.x + entry.x();
-					int relativeY = grid.y + entry.y();
+			if (this.isOutOfBounds(relativeX, relativeY)) {
+				canFit = false;
+				break; // Out of bounds
+			}
 
-					if (relativeX < -1 || relativeY < -1 || relativeX >= 17 || relativeY >= 17) {
+			for (PolyominoWidget widget : this.polyominos) {
+				int widgetX = widget.gridX();
+				int widgetY = widget.gridY();
+				for (Tessera.PlacedTessera tessera : widget.getPlacedPolyomino().polyomino().placedTessera()) {
+					int rX = widgetX + tessera.x();
+					int rY = widgetY + tessera.y();
+					if (rX == relativeX && rY == relativeY) {
 						canFit = false;
-						break; // Out of bounds
-					}
-
-					for (PolyominoWidget widget : this.polyominos) {
-						int widgetX = widget.gridX();
-						int widgetY = widget.gridY();
-						for (Tessera.PlacedTessera tessera : widget.getPlacedPolyomino().polyomino().placedTessera()) {
-							int rX = widgetX + tessera.x();
-							int rY = widgetY + tessera.y();
-							if (rX == relativeX && rY == relativeY) {
-								canFit = false;
-								break;
-							}
-						}
-						if (!canFit) break; // Occupied
-					}
-
-					for (Map.Entry<FlatDirection, MortarMenu.NeighbourMosaic> mosaicEntry : this.menu.getMap().entrySet()) {
-						FlatDirection flatDirection = mosaicEntry.getKey();
-						MortarMenu.NeighbourMosaic mosaic = mosaicEntry.getValue();
-
-						for (Polyomino.PlacedPolyomino placedPolyomino : mosaic.placedPolyomino()) {
-							Polyomino polyomino = placedPolyomino.polyomino();
-
-							AtomicInteger index = new AtomicInteger(-1);
-							for (Tessera.PlacedTessera tessera : polyomino.placedTessera()) {
-								index.incrementAndGet();
-
-								int rX = tessera.x() + flatDirection.getRelativeX() * 16 + placedPolyomino.x();
-								int rY = tessera.y() + flatDirection.getRelativeY() * 16 + placedPolyomino.y();
-
-								if (rX >= -1 && rY >= -1 && rX < 17 && rY < 17) {
-
-									if (rX == relativeX && rY == relativeY) {
-										canFit = false;
-										break;
-									}
-								}
-							}
-							if (!canFit) break; // Occupied
-						}
-						if (!canFit) break; // Occupied
+						break;
 					}
 				}
-				if (canFit) return grid;
+				if (!canFit) break; // Occupied
+			}
+
+			for (Map.Entry<FlatDirection, MortarMenu.NeighbourMosaic> mosaicEntry : this.menu.getMap().entrySet()) {
+				FlatDirection flatDirection = mosaicEntry.getKey();
+				MortarMenu.NeighbourMosaic mosaic = mosaicEntry.getValue();
+
+				for (Polyomino.PlacedPolyomino placedPolyomino : mosaic.placedPolyomino()) {
+					Polyomino polyomino = placedPolyomino.polyomino();
+
+					AtomicInteger index = new AtomicInteger(-1);
+					for (Tessera.PlacedTessera tessera : polyomino.placedTessera()) {
+						index.incrementAndGet();
+
+						int rX = tessera.x() + flatDirection.getRelativeX() * 16 + placedPolyomino.x();
+						int rY = tessera.y() + flatDirection.getRelativeY() * 16 + placedPolyomino.y();
+
+						if (!this.isOutOfBounds(rX, rY) && rX == relativeX && rY == relativeY) {
+							canFit = false;
+							break;
+						}
+					}
+					if (!canFit) break; // Occupied
+				}
+				if (!canFit) break; // Occupied
 			}
 		}
+		if (canFit) return grid;
 		return null;
+	}
+
+	protected boolean isOutOfBounds(Vector2i grid) {
+		return isOutOfBounds(grid.x, grid.y);
+	}
+
+	protected boolean isOutOfBounds(int x, int y) {
+		if (x >= 0 && y >= 0 && x <= 15 && y <= 15) return false;
+		if (x < -1 || y < -1 || x > 16 || y > 16) return true;
+
+		if (x == 16 && y == -1) return !this.menu.getMap().containsKey(FlatDirection.UP_RIGHT);
+		if (x == 16 && y == 16) return !this.menu.getMap().containsKey(FlatDirection.DOWN_RIGHT);
+		if (x == -1 && y == 16) return !this.menu.getMap().containsKey(FlatDirection.DOWN_LEFT);
+		if (x == -1 && y == -1) return !this.menu.getMap().containsKey(FlatDirection.UP_LEFT);
+
+		if (y == -1) return !this.menu.getMap().containsKey(FlatDirection.UP);
+		if (x == 16) return !this.menu.getMap().containsKey(FlatDirection.RIGHT);
+		if (y == 16) return !this.menu.getMap().containsKey(FlatDirection.DOWN);
+		return !this.menu.getMap().containsKey(FlatDirection.LEFT);
 	}
 
 	@Override
