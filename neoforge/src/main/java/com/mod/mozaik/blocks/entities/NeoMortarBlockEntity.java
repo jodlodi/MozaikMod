@@ -35,7 +35,7 @@ public class NeoMortarBlockEntity extends MortarBlockEntity {
 	@Override
 	public ModelData getModelData() {
 		return ModelData.builder()
-				.with(PROPERTY, this.getPolyominos())
+				.with(PROPERTY, this.getPolyomino())
 				.build();
 	}
 }

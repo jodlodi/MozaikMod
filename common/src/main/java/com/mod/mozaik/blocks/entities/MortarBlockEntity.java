@@ -40,7 +40,7 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 		this.dataAccess = new MortarContainerData(this);
 	}
 
-	public List<Polyomino.PlacedPolyomino> getPolyominos() {
+	public List<Polyomino.PlacedPolyomino> getPolyomino() {
 		return this.polyominos;
 	}
 
@@ -96,7 +96,7 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 	@Override
 	protected void saveAdditional(ValueOutput output) {
 		output.storeNullable(CUSTOM_NAME, ComponentSerialization.CODEC, this.name);
-		output.store(POLYOMINOS, Polyomino.PlacedPolyomino.CODEC.listOf(), this.getPolyominos());
+		output.store(POLYOMINOS, Polyomino.PlacedPolyomino.CODEC.listOf(), this.getPolyomino());
 		this.lockKey.addToTag(output);
 	}
 }

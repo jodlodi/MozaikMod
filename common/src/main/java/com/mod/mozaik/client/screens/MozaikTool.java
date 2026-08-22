@@ -57,14 +57,14 @@ public enum MozaikTool implements StringRepresentable {
 					Polyomino.PlacedPolyomino polyomino = widget.getPlacedPolyomino();
 					screen.carried.add(new HeldPolyominoWidget(screen, widget.getX(), widget.getY(), new Polyomino.PlacedPolyomino(polyomino.polyomino(), polyomino.x() - average.x, polyomino.y() - average.y)));
 					screen.addRenderableWidget(screen.carried.getLast());
-					screen.polyominos.remove(widget);
+					screen.getPolyomino().remove(widget);
 					screen.removeWidget(widget);
 				}
 				screen.markChanged();
 			}
 			case CHISEL -> {
 				for (PolyominoWidget widget : list) {
-					screen.polyominos.remove(widget);
+					screen.getPolyomino().remove(widget);
 					screen.removeWidget(widget);
 				}
 				screen.markChanged();
@@ -77,10 +77,10 @@ public enum MozaikTool implements StringRepresentable {
 							widget.getY(),
 							new Polyomino.PlacedPolyomino(new Polyomino(widget.getPlacedPolyomino().polyomino().placedTessera(), PersonalPreferences.getPrimaryColor(), MortarScreen.randomSeed()), widget.gridX(), widget.gridY())
 					);
-					screen.polyominos.remove(widget);
+					screen.getPolyomino().remove(widget);
 					screen.removeWidget(widget);
 
-					screen.polyominos.add(newWidget);
+					screen.getPolyomino().add(newWidget);
 					screen.addRenderableWidget(newWidget);
 				}
 				screen.markChanged();
@@ -98,7 +98,7 @@ public enum MozaikTool implements StringRepresentable {
 				for (PolyominoWidget widget : list) {
 					TesseraMaterial material = widget.getPlacedPolyomino().polyomino().material();
 					if (!shift) screen.selected.clear();
-					screen.selected.addAll(screen.polyominos.stream().filter(polyominoWidget ->
+					screen.selected.addAll(screen.getPolyomino().stream().filter(polyominoWidget ->
 							!screen.selected.contains(polyominoWidget) && polyominoWidget.getPlacedPolyomino().polyomino().material() == material
 					).toList());
 				}

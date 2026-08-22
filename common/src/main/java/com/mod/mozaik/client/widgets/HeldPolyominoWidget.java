@@ -68,7 +68,7 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 		this.placedTessera().forEach(voxel -> {
 					Vector3i vec = new Vector3i(voxel.x(), 0, voxel.y());
 					Vector3i rotated = rotation.rotation().rotate(vec);
-					placedTessera.add(new Tessera.PlacedTessera(new Tessera(rotation == Rotation.CLOCKWISE_90 ? voxel.tessera().shape().clockWise() : voxel.tessera().shape().counterClockWise()), rotated.x(), rotated.z()));
+					placedTessera.add(new Tessera.PlacedTessera(new Tessera(voxel.tessera().shape().rotate(rotation)), rotated.x(), rotated.z()));
 				}
 		);
 

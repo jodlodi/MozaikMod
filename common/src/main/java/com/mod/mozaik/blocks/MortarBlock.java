@@ -162,10 +162,10 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 				level.setBlock(pos, newState, Block.UPDATE_ALL);
 
 				if (level.getBlockEntity(pos) instanceof MortarBlockEntity newBlockEntity) {
-					newBlockEntity.setPolyominos(blockEntity.getPolyominos());
+					newBlockEntity.setPolyominos(blockEntity.getPolyomino());
 
 					serverLevel.getServer().schedule(new TickTask(0, () ->
-							Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(pos), new UpdateGlueBidirectional(newBlockEntity.getPolyominos(), pos))
+							Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(pos), new UpdateGlueBidirectional(newBlockEntity.getPolyomino(), pos))
 					));
 				}
 			}
@@ -188,8 +188,8 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 			MortarMenu menu = new MortarMenu(
 					((ServerPlayerAccessor) serverPlayer).getContainerCounter(),
 					serverPlayer.getInventory(),
-					blockEntity
-			);
+					blockEntity,
+					Rotation.NONE);
 
 			Services.NETWORK.sendToClient(serverPlayer, new OpenGlueMenuClientbound(pos, ((ServerPlayerAccessor) serverPlayer).getContainerCounter()));
 

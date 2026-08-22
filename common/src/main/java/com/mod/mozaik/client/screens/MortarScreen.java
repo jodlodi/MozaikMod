@@ -1,7 +1,6 @@
 package com.mod.mozaik.client.screens;
 
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.blocks.MortarBlock;
 import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.buttons.*;
@@ -10,14 +9,10 @@ import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.widgets.MaterialWidget;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.menus.MortarMenu;
-import com.mod.mozaik.networking.bidirectional.UpdateGlueBidirectional;
-import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.PrePolyominoShapes;
 import com.mod.mozaik.polyomino.Tessera;
 import com.mod.mozaik.polyomino.TesseraMaterial;
-import com.mod.mozaik.reg.ModBlocks;
-import com.mod.mozaik.reg.ResourceSupplier;
 import com.mod.mozaik.util.FlatDirection;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
@@ -31,14 +26,11 @@ import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
@@ -103,9 +95,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	public void markChanged() {
-		if (this.menu.getMortar() != null) {
-			Services.NETWORK.sendToServer(new UpdateGlueBidirectional(this.polyominos.stream().map(PolyominoWidget::getPlacedPolyomino).toList(), this.menu.getMortar().getBlockPos()));
-		}
+		this.menu.setRotatedPolyomino(this.polyominos);
 	}
 
 	@Override
@@ -113,11 +103,15 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	}
 
+	public List<PolyominoWidget> getPolyomino() {
+		return this.polyominos;
+	}
+
 	@Override
 	public boolean keyPressed(KeyEvent event) {
 		if (event.isSelectAll()) {
 			this.selected.clear();
-			this.selected.addAll(this.polyominos);
+			this.selected.addAll(this.getPolyomino());
 			return true;
 		}
 
@@ -132,7 +126,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			if (this.selected.isEmpty()) {
 				Vector2i square = this.getGridForTaking();
 
-				for (PolyominoWidget widget : this.polyominos) {
+				for (PolyominoWidget widget : this.getPolyomino()) {
 					int widgetX = widget.gridX();
 					int widgetY = widget.gridY();
 					for (Tessera.PlacedTessera tessera : widget.getPlacedPolyomino().polyomino().placedTessera()) {
@@ -146,6 +140,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				}
 			} else {
 				MozaikTool.useOn(this, event.hasShiftDown(), this.selected, MozaikTool.CHISEL);
+				this.selected.clear();
 			}
 
 			return true;
@@ -239,7 +234,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 		Vector2i square = this.getGridForTaking();
 
-		for (PolyominoWidget widget : this.polyominos) {
+		for (PolyominoWidget widget : this.getPolyomino()) {
 			int widgetX = widget.gridX();
 			int widgetY = widget.gridY();
 			for (Tessera.PlacedTessera tessera : widget.getPlacedPolyomino().polyomino().placedTessera()) {
@@ -265,7 +260,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			int maxX = Math.max(this.selectionStart.x, (int) Minecraft.getInstance().mouseHandler.getScaledXPos(Minecraft.getInstance().getWindow()));
 			int maxY = Math.max(this.selectionStart.y, (int) Minecraft.getInstance().mouseHandler.getScaledYPos(Minecraft.getInstance().getWindow()));
 
-			for (PolyominoWidget widget : this.polyominos) {
+			for (PolyominoWidget widget : this.getPolyomino()) {
 				int widgetX = widget.gridX();
 				int widgetY = widget.gridY();
 				for (Tessera.PlacedTessera tessera : widget.getPlacedPolyomino().polyomino().placedTessera()) {
@@ -293,7 +288,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		PolyominoWidget widget = new PolyominoWidget(this, gridPos.x, gridPos.y, new Polyomino.PlacedPolyomino(selected.getPolyomino(), square.x, square.y));
 		this.addRenderableWidget(widget);
 
-		this.polyominos.add(widget);
+		this.getPolyomino().add(widget);
 		this.markChanged();
 	}
 
@@ -340,7 +335,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				break; // Out of bounds
 			}
 
-			for (PolyominoWidget widget : this.polyominos) {
+			for (PolyominoWidget widget : this.getPolyomino()) {
 				int widgetX = widget.gridX();
 				int widgetY = widget.gridY();
 				for (Tessera.PlacedTessera tessera : widget.getPlacedPolyomino().polyomino().placedTessera()) {
@@ -581,12 +576,12 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		this.addRenderableWidget(new ToolButton(this, WAND, SpriteButton.SpriteSet.WAND, MozaikTool.WAND));
 		this.addRenderableWidget(new ToolButton(this, SELECT, SpriteButton.SpriteSet.SELECT, MozaikTool.SELECT));
 
-		Objects.requireNonNull(this.menu.getMortar()).getPolyominos().forEach(placedPolyomino -> {
+		this.menu.getRotatedPolyomino().forEach(placedPolyomino -> {
 			int gridX = this.leftPos + GRID_START.x;
 			int gridY = this.topPos + GRID_START.y;
 
 			PolyominoWidget polyominoWidget = new PolyominoWidget(this, gridX + placedPolyomino.x() * Tessera.TESSERA_SIZE, gridY + placedPolyomino.y() * Tessera.TESSERA_SIZE, placedPolyomino);
-			this.polyominos.add(polyominoWidget);
+			this.getPolyomino().add(polyominoWidget);
 			this.addRenderableWidget(polyominoWidget);
 		});
 
@@ -603,7 +598,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	@Override
 	protected void clearWidgets() {
-		this.polyominos.clear();
+		this.getPolyomino().clear();
 		this.renderableWidgets.clear();
 		super.clearWidgets();
 	}
@@ -623,10 +618,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		int yo = (this.height - this.imageHeight) / 2;
 		graphics.blit(RenderPipelines.GUI_TEXTURED, MORTAR_LOCATION, xo, yo, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
 
-		BlockEntity entity = this.menu.getMortar();
-		if (entity == null) return;
-		Block block = entity.getBlockState().getBlock();
-		graphics.blit(RenderPipelines.GUI_TEXTURED, fromBlock(block), xo + GRID_START.x, yo + GRID_START.y, 0.0F, 0.0F, 160, 160, 160, 160);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, this.menu.getTexture(), xo + GRID_START.x, yo + GRID_START.y, 0.0F, 0.0F, 160, 160, 160, 160);
 
 		this.menu.getMap().forEach((flatDirection, mosaic) -> {
 			int u = flatDirection.getRelativeX() * Tessera.TESSERA_SIZE;
@@ -649,14 +641,5 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 					0, 0, width, height, width, height, 160, 160, 0xFF777777
 			);
 		});
-	}
-
-	public static Identifier fromBlock(Block block) {
-		for (ResourceSupplier<MortarBlock> mortarBlockResourceSupplier : ModBlocks.MORTARS.asList()) {
-			if (mortarBlockResourceSupplier.get() == block) {
-				return Constants.prefix("textures/block/" + mortarBlockResourceSupplier.id().getPath() + ".png");
-			}
-		}
-		return TextureManager.INTENTIONAL_MISSING_TEXTURE;
 	}
 }

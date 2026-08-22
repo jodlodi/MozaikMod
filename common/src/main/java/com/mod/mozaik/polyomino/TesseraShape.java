@@ -98,12 +98,17 @@ public enum TesseraShape implements StringRepresentable {
 		return this.model;
 	}
 
-	public TesseraShape clockWise() {
-		return get(this.check.stream().map(flatDirection -> flatDirection.clockWise(2)).toList());
-	}
+	public TesseraShape rotate(Rotation rotation) {
+		if (rotation == Rotation.NONE) return this;
 
-	public TesseraShape counterClockWise() {
-		return get(this.check.stream().map(flatDirection -> flatDirection.counterClockWise(2)).toList());
+		int steps = switch (rotation) {
+			case CLOCKWISE_90 -> 2;
+			case CLOCKWISE_180 -> 4;
+			case COUNTERCLOCKWISE_90 -> 6;
+			default -> 0;
+		};
+
+		return get(this.check.stream().map(flatDirection -> flatDirection.clockWise(steps)).toList());
 	}
 
 	public List<FlatDirection> getCheck() {

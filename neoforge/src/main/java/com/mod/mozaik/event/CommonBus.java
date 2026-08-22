@@ -25,7 +25,7 @@ public class CommonBus {
 	public static void onChunkWatchEventSent(ChunkWatchEvent.Sent event) {
 		event.getChunk().getBlockEntities().forEach((pos, blockEntity) -> {
 			if (blockEntity instanceof MortarBlockEntity entity) {
-				Services.NETWORK.sendToClient(event.getPlayer(), new UpdateGlueBidirectional(entity.getPolyominos(), pos));
+				Services.NETWORK.sendToClient(event.getPlayer(), new UpdateGlueBidirectional(entity.getPolyomino(), pos));
 			}
 		});
 	}
