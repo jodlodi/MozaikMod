@@ -59,33 +59,38 @@ public enum MozaikTool implements StringRepresentable {
 					Polyomino.PlacedPolyomino polyomino = widget.getPlacedPolyomino();
 					screen.carried.add(new HeldPolyominoWidget(screen, widget.getX(), widget.getY(), new Polyomino.PlacedPolyomino(polyomino.polyomino(), polyomino.x() - average.x, polyomino.y() - average.y)));
 					screen.addRenderableWidget(screen.carried.getLast());
+					screen.removeFromSource(widget.getPlacedPolyomino().polyomino());
 					screen.getPolyomino().remove(widget);
 					screen.removeWidget(widget);
 				}
-				screen.markChanged();
 			}
 			case CHISEL -> {
 				for (PolyominoWidget widget : list) {
+					screen.removeFromSource(widget.getPlacedPolyomino().polyomino());
 					screen.getPolyomino().remove(widget);
 					screen.removeWidget(widget);
 				}
-				screen.markChanged();
 			}
 			case SWAP -> {
+				int maxSwap = screen.getShardSource().getCount(PersonalPreferences.getPrimaryColor());
+
 				for (PolyominoWidget widget : list) {
+					if (maxSwap-- == 0 && !screen.getShardSource().isCreative()) break;
+
 					PolyominoWidget newWidget = new PolyominoWidget(
 							screen,
 							widget.getX(),
 							widget.getY(),
 							new Polyomino.PlacedPolyomino(new Polyomino(widget.getPlacedPolyomino().polyomino().placedTessera(), PersonalPreferences.getPrimaryColor(), UUID.randomUUID()), widget.gridX(), widget.gridY())
 					);
+					screen.removeFromSource(widget.getPlacedPolyomino().polyomino());
 					screen.getPolyomino().remove(widget);
 					screen.removeWidget(widget);
 
 					screen.getPolyomino().add(newWidget);
 					screen.addRenderableWidget(newWidget);
+					screen.addToSource(newWidget.getPlacedPolyomino());
 				}
-				screen.markChanged();
 			}
 			case PICKER -> {
 				for (PolyominoWidget widget : list) {

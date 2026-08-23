@@ -32,6 +32,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Rotation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
@@ -116,6 +117,45 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	public void markChanged() {
 		this.menu.setRotatedPolyomino(this.polyominos);
+	}
+
+	public void removeFromSource(Polyomino polyomino) {
+		if (this.menu.getShardSource().isCreative()) {
+			this.markChanged();
+		} else {
+			this.menu.removeFromSource(polyomino.uuid());
+			MortarMenu.ShardCount count = this.getMenu().getShardSource().get(polyomino.material());
+
+			for (ItemStack stack : count.stacks()) {
+				if (stack.getCount() < stack.getMaxStackSize()) {
+					stack.grow(1);
+					return;
+				}
+			}
+
+			Objects.requireNonNull(Minecraft.getInstance().player).getInventory().add(new ItemStack(ShardItem.SHARDS.get(polyomino.material())));
+		}
+	}
+
+	public void addToSource(Polyomino.PlacedPolyomino polyomino) {
+		if (this.menu.getShardSource().isCreative()) {
+			this.markChanged();
+		} else {
+			this.menu.addToSource(polyomino);
+			MortarMenu.ShardCount count = this.getMenu().getShardSource().get(polyomino.polyomino().material());
+			if (count.count() <= 0) return;
+
+			int value = Integer.MAX_VALUE;
+			ItemStack smallest = ItemStack.EMPTY;
+			for (ItemStack stack : count.stacks()) {
+				if (stack.getCount() < value) {
+					value = stack.getCount();
+					smallest = stack;
+				}
+			}
+
+			smallest.shrink(1);
+		}
 	}
 
 	@Override
@@ -217,6 +257,16 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 						this.placePolyomino(heldPolyominoWidget, vector2i);
 						heldPolyominoWidget.setPolyomino(heldPolyominoWidget.getPolyomino().rebuild(heldPolyominoWidget.getPolyomino().material()));
 					});
+					MortarMenu.ShardSource shardSource = this.getShardSource();
+					if (!shardSource.isCreative()) {
+						int count = shardSource.getCount(this.carried.getFirst().getPolyomino().material());
+						int carry = this.carried.size();
+						if (count < carry) {
+							for (int i = 0; i < carry; i++) {
+								if (i >= count) this.carried.removeLast();
+							}
+						}
+					}
 				}
 				return true;
 			} else if (click == MIDDLE_CLICK) {
@@ -310,7 +360,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		this.addRenderableWidget(widget);
 
 		this.getPolyomino().add(widget);
-		this.markChanged();
+		this.addToSource(widget.getPlacedPolyomino());
 	}
 
 	public Vector2i getGridForTaking() {

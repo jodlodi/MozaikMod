@@ -6,6 +6,8 @@ import com.mod.mozaik.blocks.MortarBlock;
 import com.mod.mozaik.blocks.entities.MortarBlockEntity;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.items.ShardItem;
+import com.mod.mozaik.networking.bidirectional.AddPolyominoBidirectional;
+import com.mod.mozaik.networking.bidirectional.RemovePolyominoBidirectional;
 import com.mod.mozaik.networking.bidirectional.UpdateMozaikBidirectional;
 import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.polyomino.Polyomino;
@@ -32,13 +34,11 @@ import org.joml.Vector3i;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @NullMarked
 public class MortarMenu extends AbstractContainerMenu {
+	private final Inventory inventory;
 	private final @Nullable MortarBlockEntity mortar;
 	private final Map<FlatDirection, NeighbourMosaic> map = new HashMap<>();
 	private final ShardSource shardSource;
@@ -51,6 +51,7 @@ public class MortarMenu extends AbstractContainerMenu {
 	public MortarMenu(int containerId, Inventory inventory, @Nullable MortarBlockEntity mortar, Rotation rotation) {
 		super(ModMenus.GLUE.get(), containerId);
 		this.shardSource = new ShardSource(inventory);
+		this.inventory = inventory;
 		this.mortar = mortar;
 		this.rotation = rotation;
 
@@ -76,6 +77,16 @@ public class MortarMenu extends AbstractContainerMenu {
 				}
 			}
 		}
+	}
+
+	public void removeFromSource(UUID uuid) {
+		if (this.mortar == null) return;
+		Services.NETWORK.sendToServer(new RemovePolyominoBidirectional(uuid, this.mortar.getBlockPos(), this.inventory.player.getId()));
+	}
+
+	public void addToSource(Polyomino.PlacedPolyomino polyomino) {
+		if (this.mortar == null) return;
+		Services.NETWORK.sendToServer(new AddPolyominoBidirectional(polyomino, this.mortar.getBlockPos(), this.inventory.player.getId()));
 	}
 
 	public ShardSource getShardSource() {
@@ -188,6 +199,13 @@ public class MortarMenu extends AbstractContainerMenu {
 					}
 				}
 			}
+		}
+
+		@Override
+		public ShardCount get(Object key) {
+			ShardCount count = super.get(key);
+			if (count == null) return new ShardCount();
+			return count;
 		}
 
 		public int getCount(ResourceKey<ShardMaterial> material) {

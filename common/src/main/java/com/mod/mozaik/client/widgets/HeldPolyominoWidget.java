@@ -90,7 +90,7 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 
 	@Override
 	public void renderAboveItems(GraphicsRenderHelper graphics) {
-		if (this.screen.carried.getFirst() != this) return;
+		if (this.screen.carried.isEmpty() || this.screen.carried.getFirst() != this) return;
 		Map<HeldPolyominoWidget, Vector2i> map = this.screen.getOffsetForPlacement(this.screen.carried);
 
 		if (map == null) {
