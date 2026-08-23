@@ -57,11 +57,19 @@ public class MortarMenu extends AbstractContainerMenu {
 
 			for (FlatDirection direction : FlatDirection.values()) {
 				Vec3i diff = direction.facing(facing);
+
+				FlatDirection rotated = switch (rotation) {
+					case COUNTERCLOCKWISE_90 -> direction.counterClockWise(2);
+					case CLOCKWISE_180 -> direction.clockWise(4);
+					case CLOCKWISE_90 -> direction.clockWise(2);
+					default -> direction;
+				};
+
 				BlockPos relative = new BlockPos(pos.getX() + diff.getX(), pos.getY() + diff.getY(), pos.getZ() + diff.getZ());
 				MortarBlockEntity blockEntity = this.mortar.getLevel().getBlockEntity(relative) instanceof MortarBlockEntity entity ? entity : null;
 				if (blockEntity != null) {
 					Identifier identifier = fromBlock(blockEntity.getBlockState().getBlock());
-					this.map.put(direction, new NeighbourMosaic(identifier, blockEntity.getPolyomino()));
+					this.map.put(rotated, new NeighbourMosaic(identifier, this.getRotatedPolyomino(blockEntity.getPolyomino(), this.rotation)));
 				}
 			}
 		}
@@ -87,9 +95,12 @@ public class MortarMenu extends AbstractContainerMenu {
 
 	public Iterable<Polyomino.PlacedPolyomino> getRotatedPolyomino() {
 		if (this.mortar == null) return ImmutableList.of();
+		return this.getRotatedPolyomino(this.mortar.getPolyomino(), this.rotation);
+	}
 
+	private List<Polyomino.PlacedPolyomino> getRotatedPolyomino(List<Polyomino.PlacedPolyomino> input, Rotation rotation) {
 		List<Polyomino.PlacedPolyomino> list = new ArrayList<>();
-		this.mortar.getPolyomino().forEach(placedPolyomino -> list.add(rotate(placedPolyomino, this.rotation)));
+		input.forEach(placedPolyomino -> list.add(rotate(placedPolyomino, rotation)));
 
 		return list;
 	}
