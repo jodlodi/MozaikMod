@@ -1,36 +1,38 @@
 package com.mod.mozaik.polyomino;
 
-import com.mod.mozaik.client.screens.MortarScreen;
+import com.mod.mozaik.Constants;
+import com.mod.mozaik.reg.ModRegistries;
+import com.mod.mozaik.reg.ModShardMaterials;
+import com.mod.mozaik.reg.ResourceSupplier;
 import com.mod.mozaik.util.FlatDirection;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.UUIDUtil;
+import net.minecraft.resources.ResourceKey;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @NullMarked
-public record Polyomino(List<Tessera.PlacedTessera> placedTessera, TesseraMaterial material, long seed) {
-	public static Polyomino EMPTY = new Polyomino(List.of(), TesseraMaterial.STONE, 0L);
+public record Polyomino(List<Tessera.PlacedTessera> placedTessera, ResourceKey<ShardMaterial> material, UUID uuid) {
+	public static Polyomino EMPTY = new Polyomino(List.of(), ResourceKey.create(ModRegistries.ModKeys.SHARD_MATERIAL, Constants.prefix("")), UUID.randomUUID());
 
-	private Polyomino(List<Tessera.PlacedTessera> placedTessera, int ordinal, long seed) {
-		this(placedTessera, TesseraMaterial.values()[ordinal], seed);
-	}
-
-	public Polyomino rebuild(TesseraMaterial material) {
-		return new Polyomino(this.placedTessera(), material, MortarScreen.randomSeed());
+	public Polyomino rebuild(ResourceKey<ShardMaterial> material) {
+		return new Polyomino(this.placedTessera(),material, UUID.randomUUID());
 	}
 
 	public Polyomino copy() {
-		return new Polyomino(this.placedTessera, this.material, this.seed);
+		return new Polyomino(this.placedTessera, this.material, this.uuid);
 	}
 
 	public static final Codec<Polyomino> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
 			Tessera.PlacedTessera.CODEC.listOf().fieldOf("placedPolyomino").forGetter(Polyomino::placedTessera),
-			Codec.INT.fieldOf("material").forGetter(material -> material.material.ordinal()),
-			Codec.LONG.fieldOf("seed").forGetter(Polyomino::seed)
+			ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).fieldOf("material").forGetter(Polyomino::material),
+			UUIDUtil.LENIENT_CODEC.fieldOf("uuid").forGetter(Polyomino::uuid)
 	).apply(recordCodecBuilder, Polyomino::new));
 
 	public Vector2f getGridCenter() {
@@ -65,7 +67,7 @@ public record Polyomino(List<Tessera.PlacedTessera> placedTessera, TesseraMateri
 			return this;
 		}
 
-		public Polyomino build(TesseraMaterial material, long seed) {
+		public Polyomino build(ResourceKey<ShardMaterial> material, UUID uuid) {
 			int x = 0;
 			int y = 0;
 
@@ -104,7 +106,7 @@ public record Polyomino(List<Tessera.PlacedTessera> placedTessera, TesseraMateri
 				return new Tessera.PlacedTessera(new Tessera(TesseraShape.get(connections)), vector2i.x(), vector2i.y());
 			}).toList();
 
-			return new Polyomino(placedTessera, material, seed);
+			return new Polyomino(placedTessera, material, uuid);
 		}
 
 		public static boolean checkConnection(List<Vector2i> tessera, Vector2i voxel, FlatDirection direction) {

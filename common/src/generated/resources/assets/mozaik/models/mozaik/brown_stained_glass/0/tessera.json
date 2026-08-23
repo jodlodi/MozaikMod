@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/glass/tessera",
   "textures": {
-    "texture": "mozaik:block/mural/brown_stained_glass/block_0"
+    "texture": "mozaik:block/mozaik/brown_stained_glass/block_0"
   }
 }

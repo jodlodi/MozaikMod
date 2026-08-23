@@ -1,17 +1,32 @@
 package com.mod.mozaik.items;
 
-import com.mod.mozaik.polyomino.TesseraMaterial;
+import com.mod.mozaik.polyomino.ShardMaterial;
+import com.mod.mozaik.reg.ModRegistries;
+import com.mod.mozaik.reg.ResourceSupplier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
+import org.jspecify.annotations.NullMarked;
 
+import java.util.HashMap;
+import java.util.Map;
+
+@NullMarked
 public class ShardItem extends Item {
-	private final TesseraMaterial material;
+	public static Map<ResourceKey<ShardMaterial>, ShardItem> SHARDS = new HashMap<>();
 
-	public ShardItem(Properties properties, TesseraMaterial material) {
-		super(properties);
-		this.material = material;
+	private final ResourceKey<ShardMaterial> material;
+
+	public ShardItem(Properties properties, ResourceSupplier<ShardMaterial> material) {
+		this(properties, ResourceKey.create(ModRegistries.ModKeys.SHARD_MATERIAL, material.id()));
 	}
 
-	public TesseraMaterial getMaterial() {
+	public ShardItem(Properties properties, ResourceKey<ShardMaterial> material) {
+		super(properties);
+		this.material = material;
+		SHARDS.put(this.material, this);
+	}
+
+	public ResourceKey<ShardMaterial> getMaterial() {
 		return this.material;
 	}
 }

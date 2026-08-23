@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/full_corner",
   "textures": {
-    "texture": "mozaik:block/mural/red_sandstone/block_2"
+    "texture": "mozaik:block/mozaik/red_sandstone/block_2"
   }
 }

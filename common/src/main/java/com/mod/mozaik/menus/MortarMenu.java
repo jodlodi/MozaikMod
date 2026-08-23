@@ -6,13 +6,12 @@ import com.mod.mozaik.blocks.MortarBlock;
 import com.mod.mozaik.blocks.entities.MortarBlockEntity;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.items.ShardItem;
-import com.mod.mozaik.networking.bidirectional.UpdateGlueBidirectional;
+import com.mod.mozaik.networking.bidirectional.UpdateMozaikBidirectional;
 import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.polyomino.Polyomino;
+import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.polyomino.Tessera;
-import com.mod.mozaik.polyomino.TesseraMaterial;
 import com.mod.mozaik.reg.ModBlocks;
-import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModMenus;
 import com.mod.mozaik.reg.ResourceSupplier;
 import com.mod.mozaik.util.FlatDirection;
@@ -21,6 +20,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -32,7 +32,10 @@ import org.joml.Vector3i;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @NullMarked
 public class MortarMenu extends AbstractContainerMenu {
@@ -118,7 +121,7 @@ public class MortarMenu extends AbstractContainerMenu {
 		List<Polyomino.PlacedPolyomino> list = new ArrayList<>();
 		polyomino.forEach(placedPolyomino -> list.add(rotate(placedPolyomino.getPlacedPolyomino(), reverseRot)));
 
-		Services.NETWORK.sendToServer(new UpdateGlueBidirectional(list, this.mortar.getBlockPos()));
+		Services.NETWORK.sendToServer(new UpdateMozaikBidirectional(list, this.mortar.getBlockPos()));
 	}
 
 	public static Polyomino.PlacedPolyomino rotate(Polyomino.PlacedPolyomino polyomino, Rotation rotation) {
@@ -144,7 +147,7 @@ public class MortarMenu extends AbstractContainerMenu {
 		};
 
 		return new Polyomino.PlacedPolyomino(
-				new Polyomino(placedTessera, polyomino.polyomino().material(), polyomino.polyomino().seed()),
+				new Polyomino(placedTessera, polyomino.polyomino().material(), polyomino.polyomino().uuid()),
 				finalPos.x(),
 				finalPos.y()
 		);
@@ -168,7 +171,7 @@ public class MortarMenu extends AbstractContainerMenu {
 
 	}
 
-	public static class ShardSource extends HashMap<TesseraMaterial, ShardCount> {
+	public static class ShardSource extends HashMap<ResourceKey<ShardMaterial>, ShardCount> {
 		private final Inventory inventory;
 
 		public ShardSource(Inventory inventory) {
@@ -176,7 +179,7 @@ public class MortarMenu extends AbstractContainerMenu {
 
 			for (ItemStack stack : inventory) {
 				if (stack.getItem() instanceof ShardItem item) {
-					TesseraMaterial material = item.getMaterial();
+					ResourceKey<ShardMaterial> material = item.getMaterial();
 					if (this.containsKey(material)) this.get(material).addItem(stack);
 					else {
 						ShardCount shardCount = new ShardCount();
@@ -187,22 +190,9 @@ public class MortarMenu extends AbstractContainerMenu {
 			}
 		}
 
-		public int getCount(TesseraMaterial material) {
+		public int getCount(ResourceKey<ShardMaterial> material) {
 			if (!this.containsKey(material)) return 0;
 			return this.get(material).count();
-		}
-
-		public void add(TesseraMaterial material) {
-			if (this.containsKey(material)) {
-				ShardCount shardCount = this.get(material);
-				for (ItemStack stack : shardCount.stacks()) {
-					if (stack.getCount() < stack.getMaxStackSize()) {
-						stack.setCount(stack.getCount() + 1);
-					}
-				}
-			} else {
-				this.inventory.add(new ItemStack(ModItems.SHARDS.pick(material).get(), 1));
-			}
 		}
 
 		public boolean isCreative() {

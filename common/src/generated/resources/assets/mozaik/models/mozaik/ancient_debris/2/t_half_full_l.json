@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/t_half_full_l",
   "textures": {
-    "texture": "mozaik:block/mural/ancient_debris/block_2"
+    "texture": "mozaik:block/mozaik/ancient_debris/block_2"
   }
 }

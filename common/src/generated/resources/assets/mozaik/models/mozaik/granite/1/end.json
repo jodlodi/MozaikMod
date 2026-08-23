@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/end",
   "textures": {
-    "texture": "mozaik:block/mural/granite/block_1"
+    "texture": "mozaik:block/mozaik/granite/block_1"
   }
 }

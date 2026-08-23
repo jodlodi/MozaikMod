@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/wall",
   "textures": {
-    "texture": "mozaik:block/mural/red_nether_brick/block_0"
+    "texture": "mozaik:block/mozaik/red_nether_brick/block_0"
   }
 }

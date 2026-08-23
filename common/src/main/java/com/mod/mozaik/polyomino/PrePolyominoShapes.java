@@ -1,5 +1,7 @@
 package com.mod.mozaik.polyomino;
 
+import com.mod.mozaik.polyomino.Polyomino;
+
 public enum PrePolyominoShapes {
 	SQUARE(new Polyomino.Builder()
 			.addLine(true, true)

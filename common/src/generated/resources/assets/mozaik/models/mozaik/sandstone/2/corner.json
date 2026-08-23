@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/corner",
   "textures": {
-    "texture": "mozaik:block/mural/sandstone/block_2"
+    "texture": "mozaik:block/mozaik/sandstone/block_2"
   }
 }

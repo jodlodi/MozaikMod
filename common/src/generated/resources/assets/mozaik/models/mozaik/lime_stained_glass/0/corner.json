@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/glass/corner",
   "textures": {
-    "texture": "mozaik:block/mural/lime_stained_glass/block_0"
+    "texture": "mozaik:block/mozaik/lime_stained_glass/block_0"
   }
 }

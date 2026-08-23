@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/plus_wall",
   "textures": {
-    "texture": "mozaik:block/mural/quartz/block_1"
+    "texture": "mozaik:block/mozaik/quartz/block_1"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/glow/t_half_full_r",
   "textures": {
-    "texture": "mozaik:block/mural/sea_lantern/block_0"
+    "texture": "mozaik:block/mozaik/sea_lantern/block_0"
   }
 }

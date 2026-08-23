@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/glass/plus_dual_corner",
   "textures": {
-    "texture": "mozaik:block/mural/green_stained_glass/block_0"
+    "texture": "mozaik:block/mozaik/green_stained_glass/block_0"
   }
 }

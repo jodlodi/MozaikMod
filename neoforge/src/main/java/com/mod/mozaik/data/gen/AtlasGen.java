@@ -1,8 +1,7 @@
 package com.mod.mozaik.data.gen;
 
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.polyomino.TesseraMaterial;
-import com.mod.mozaik.reg.ModItems;
+import com.mod.mozaik.platform.NeoForgeRegistryHelper;
 import net.minecraft.client.renderer.texture.atlas.sources.SingleFile;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.AtlasIds;
@@ -19,15 +18,15 @@ public class AtlasGen extends SpriteSourceProvider {
 
 	@Override
 	protected void gather() {
-		for (TesseraMaterial material : TesseraMaterial.values()) {
+		NeoForgeRegistryHelper.SHARD_MATERIALS.getEntries().forEach(holder -> {
 			this.atlas(AtlasIds.GUI).addSource(
-					new SingleFile(Constants.prefix("item/" + ModItems.SHARDS.pick(material).id().getPath()), Optional.of(Constants.prefix(material.getSerializedName() + "/shard")))
+					new SingleFile(Constants.prefix("item/" + holder.getId().getPath() + "_shards"), Optional.of(Constants.prefix(holder.getId().getPath() + "/shard")))
 			);
-			for (int i = 0; i < material.getSpriteSheets().size(); i++) {
+			for (int i = 0; i < holder.get().shades(); i++) {
 				this.atlas(AtlasIds.GUI).addSource(
-						new SingleFile(Constants.prefix("gui/mural/" + material.getSerializedName() + "/gui_" + i), Optional.of(Constants.prefix(material.getSerializedName() + "/" + i)))
+						new SingleFile(Constants.prefix("gui/mozaik/" + holder.getId().getPath() + "/gui_" + i), Optional.of(Constants.prefix(holder.getId().getPath() + "/" + i)))
 				);
 			}
-		}
+		});
 	}
 }

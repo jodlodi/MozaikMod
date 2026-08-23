@@ -18,7 +18,7 @@ public class MortarContainerData implements ContainerData {
 			case 0 -> this.blockEntity.getBlockPos().getX();
 			case 1 -> this.blockEntity.getBlockPos().getY();
 			case 2 -> this.blockEntity.getBlockPos().getZ();
-			default -> this.blockEntity.getPolyomino().size();
+			default -> this.blockEntity.getPolyominos().size();
 		};
 	}
 

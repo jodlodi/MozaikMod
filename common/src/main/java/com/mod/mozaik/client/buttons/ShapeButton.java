@@ -14,6 +14,7 @@ import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.Locale;
+import java.util.UUID;
 
 @NullMarked
 public class ShapeButton extends ModButton implements PhaseRenderable {
@@ -52,7 +53,7 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 	@Override
 	public void onClick(MouseButtonEvent event, boolean doubleClick) {
 		PersonalPreferences.setTemplate(PersonalPreferences.minTemplate() + this.index);
-		PersonalPreferences.setShape(PrePolyominoShapes.values()[PersonalPreferences.getTemplate()].template.build(PersonalPreferences.getPrimaryColor(), MortarScreen.randomSeed()));
+		PersonalPreferences.setShape(PrePolyominoShapes.values()[PersonalPreferences.getTemplate()].template.build(PersonalPreferences.getPrimaryColor(), UUID.randomUUID()));
 	}
 
 	@Override

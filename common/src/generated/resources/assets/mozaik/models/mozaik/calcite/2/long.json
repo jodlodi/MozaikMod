@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/long",
   "textures": {
-    "texture": "mozaik:block/mural/calcite/block_2"
+    "texture": "mozaik:block/mozaik/calcite/block_2"
   }
 }

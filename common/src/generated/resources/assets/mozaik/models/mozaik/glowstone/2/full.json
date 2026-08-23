@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/glow/full",
   "textures": {
-    "texture": "mozaik:block/mural/glowstone/block_2"
+    "texture": "mozaik:block/mozaik/glowstone/block_2"
   }
 }

@@ -6,7 +6,6 @@ import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.Tessera;
 import com.mod.mozaik.util.FlatDirection;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.ArrayList;
@@ -57,7 +56,7 @@ public class PolyominoWidget extends UnclickableWidget implements PhaseRenderabl
 						tessera.y() * Tessera.TESSERA_SIZE
 				);
 
-				graphics.blitTessera(polyomino.material(), tessera.tessera(), polyomino.seed(), index.get(), color);
+				graphics.blitTessera(polyomino.material(), tessera.tessera(), polyomino.uuid().getMostSignificantBits(), index.get(), color);
 			}));
 		});
 	}

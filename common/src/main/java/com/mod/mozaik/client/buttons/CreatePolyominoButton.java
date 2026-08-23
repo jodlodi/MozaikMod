@@ -6,8 +6,8 @@ import com.mod.mozaik.client.screens.MozaikTool;
 import com.mod.mozaik.client.screens.PersonalPreferences;
 import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
+import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.polyomino.Tessera;
-import com.mod.mozaik.reg.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.gui.Font;
@@ -16,8 +16,6 @@ import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.network.chat.Component;
 import org.joml.Vector2f;
 import org.jspecify.annotations.NullMarked;
-
-import java.util.Objects;
 
 @NullMarked
 public class CreatePolyominoButton extends ModButton {
@@ -90,6 +88,6 @@ public class CreatePolyominoButton extends ModButton {
 	}
 
 	protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y) {
-		graphics.setTooltipForNextFrame(Minecraft.getInstance().font, ModItems.SHARDS.pick(PersonalPreferences.getPrimaryColor()).get().getDefaultInstance(), x, y);
+		graphics.setTooltipForNextFrame(Minecraft.getInstance().font, ShardItem.SHARDS.get(PersonalPreferences.getPrimaryColor()).getDefaultInstance(), x, y);
 	}
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/normal/wall",
+  "textures": {
+    "texture": "mozaik:block/mozaik/raw_copper/block_2"
+  }
+}

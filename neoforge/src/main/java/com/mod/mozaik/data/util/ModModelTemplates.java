@@ -1,7 +1,7 @@
 package com.mod.mozaik.data.util;
 
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.polyomino.TesseraMaterial;
+import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.polyomino.TesseraShape;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplate;
@@ -17,20 +17,20 @@ import java.util.Optional;
 
 @NullMarked
 public class ModModelTemplates extends ModelTemplates {
-	public static final Map<TesseraMaterial.Type, Map<TesseraShape.ModelReference, ModelTemplate>> TEMPLATE_MAP = new HashMap<>();
+	public static final Map<ShardMaterial.Type, Map<TesseraShape.ModelReference, ModelTemplate>> TEMPLATE_MAP = new HashMap<>();
 
 	static {
-		for (TesseraMaterial.Type type : TesseraMaterial.Type.values()) {
+		for (ShardMaterial.Type type : ShardMaterial.Type.values()) {
 			TEMPLATE_MAP.put(type, new HashMap<>());
 		}
 		for (TesseraShape.ModelReference shape : TesseraShape.ModelReference.values()) {
-			for (TesseraMaterial.Type type : TesseraMaterial.Type.values()) {
+			for (ShardMaterial.Type type : ShardMaterial.Type.values()) {
 				TEMPLATE_MAP.get(type).put(shape, create(shape.getSerializedName(), type, TextureSlot.TEXTURE));
 			}
 		}
 	}
 
-	public static ModelTemplate create(String id, TesseraMaterial.Type type, TextureSlot... slots) {
+	public static ModelTemplate create(String id, ShardMaterial.Type type, TextureSlot... slots) {
 		return create(Constants.prefix(id), slots).extend().parent(Constants.prefix("block/" + type.name().toLowerCase(Locale.ROOT) + "/" + id)).build();
 	}
 

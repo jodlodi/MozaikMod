@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "mozaik:item/block_of_raw_gold_shards"
-  }
-}

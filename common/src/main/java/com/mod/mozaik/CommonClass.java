@@ -9,5 +9,7 @@ public class CommonClass {
         if (fabric) ModBlockEntities.init();
         ModMenus.init();
         ModTabs.init();
+        ModRegistries.init();
+        ModShardMaterials.init();
     }
 }

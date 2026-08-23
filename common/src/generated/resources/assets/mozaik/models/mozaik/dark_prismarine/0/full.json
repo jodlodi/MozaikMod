@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/full",
   "textures": {
-    "texture": "mozaik:block/mural/dark_prismarine/block_0"
+    "texture": "mozaik:block/mozaik/dark_prismarine/block_0"
   }
 }

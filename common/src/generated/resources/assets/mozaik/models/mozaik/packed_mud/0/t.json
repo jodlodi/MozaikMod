@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/t",
   "textures": {
-    "texture": "mozaik:block/mural/packed_mud/block_0"
+    "texture": "mozaik:block/mozaik/packed_mud/block_0"
   }
 }

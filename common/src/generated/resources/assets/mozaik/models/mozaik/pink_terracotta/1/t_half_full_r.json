@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/t_half_full_r",
   "textures": {
-    "texture": "mozaik:block/mural/pink_terracotta/block_1"
+    "texture": "mozaik:block/mozaik/pink_terracotta/block_1"
   }
 }

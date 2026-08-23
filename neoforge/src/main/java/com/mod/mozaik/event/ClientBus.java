@@ -2,9 +2,9 @@ package com.mod.mozaik.event;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.ModKeyMappings;
-import com.mod.mozaik.polyomino.TesseraMaterial;
 import com.mod.mozaik.client.model.block.mortar.MosaicStateModel;
 import com.mod.mozaik.client.screens.MortarScreen;
+import com.mod.mozaik.platform.NeoForgeRegistryHelper;
 import com.mod.mozaik.polyomino.TesseraShape;
 import com.mod.mozaik.reg.ModMenus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -34,13 +34,13 @@ public class ClientBus {
 
 	@SubscribeEvent
 	public static void registerAdditionalModels(ModelEvent.RegisterStandalone event) {
-		for (TesseraMaterial material : TesseraMaterial.values()) {
-			for (int i = 0; i < material.getSpriteSheets().size(); i++) {
+		NeoForgeRegistryHelper.SHARD_MATERIALS.getEntries().forEach(holder -> {
+			for (int i = 0; i < holder.get().shades(); i++) {
 				for (TesseraShape.ModelReference shape : TesseraShape.ModelReference.values()) {
-					registerModel(event, "mozaik/" + material.getSerializedName() + "/" + i + "/" + shape.getSerializedName());
+					registerModel(event, "mozaik/" + holder.getId().getPath() + "/" + i + "/" + shape.getSerializedName());
 				}
 			}
-		}
+		});
 	}
 
 	private static void registerModel(ModelEvent.RegisterStandalone event, String name) {

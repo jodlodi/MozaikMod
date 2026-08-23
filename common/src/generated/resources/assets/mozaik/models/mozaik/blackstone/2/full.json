@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/full",
   "textures": {
-    "texture": "mozaik:block/mural/blackstone/block_2"
+    "texture": "mozaik:block/mozaik/blackstone/block_2"
   }
 }

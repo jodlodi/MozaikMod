@@ -4,10 +4,11 @@ import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.polyomino.Polyomino;
+import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.polyomino.Tessera;
-import com.mod.mozaik.polyomino.TesseraMaterial;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Rotation;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
@@ -77,7 +78,7 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 		Vector3i rotated = rotation.rotation().rotate(vec);
 
 		return new Polyomino.PlacedPolyomino(
-				new Polyomino(placedTessera, this.getPolyomino().material(), this.getPolyomino().seed()),
+				new Polyomino(placedTessera, this.getPolyomino().material(), this.getPolyomino().uuid()),
 				rotated.x(),
 				rotated.z()
 		);
@@ -151,11 +152,11 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 		);
 	}
 
-	public static void renderVoxels(GraphicsRenderHelper graphics, Polyomino polyomino, TesseraMaterial material, float x, float y) {
+	public static void renderVoxels(GraphicsRenderHelper graphics, Polyomino polyomino, ResourceKey<ShardMaterial> material, float x, float y) {
 		renderVoxels(graphics, polyomino, material, x, y, -1);
 	}
 
-	public static void renderVoxels(GraphicsRenderHelper graphics, Polyomino polyomino, TesseraMaterial material, float x, float y, int color) {
+	public static void renderVoxels(GraphicsRenderHelper graphics, Polyomino polyomino, ResourceKey<ShardMaterial> material, float x, float y, int color) {
 		graphics.pushPop(() -> {
 			graphics.translate(x, y);
 
@@ -167,7 +168,7 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 						tessera.y() * Tessera.TESSERA_SIZE
 				);
 
-				graphics.blitTessera(material, tessera.tessera(), polyomino.seed(), index.get(), color);
+				graphics.blitTessera(material, tessera.tessera(), polyomino.uuid().getMostSignificantBits(), index.get(), color);
 			}));
 		});
 	}

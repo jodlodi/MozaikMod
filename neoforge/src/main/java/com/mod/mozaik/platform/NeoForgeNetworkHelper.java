@@ -1,7 +1,7 @@
 package com.mod.mozaik.platform;
 
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.networking.bidirectional.UpdateGlueBidirectional;
+import com.mod.mozaik.networking.bidirectional.UpdateMozaikBidirectional;
 import com.mod.mozaik.networking.clientbound.IClientboundMessage;
 import com.mod.mozaik.networking.clientbound.OpenGlueMenuClientbound;
 import com.mod.mozaik.networking.serverbound.IServerboundMessage;
@@ -28,7 +28,7 @@ public class NeoForgeNetworkHelper implements INetworkHelper {
 	@SubscribeEvent
 	public static void onRegEvent(RegisterPayloadHandlersEvent event) {
 		PayloadRegistrar registrar = event.registrar(Constants.MOD_ID).versioned(PROTOCOL_VERSION).optional();
-		registrar.playBidirectional(UpdateGlueBidirectional.TYPE, UpdateGlueBidirectional.STREAM_CODEC, NeoForgeNetworkHelper::onServerMessage, NeoForgeNetworkHelper::onClientMessage);
+		registrar.playBidirectional(UpdateMozaikBidirectional.TYPE, UpdateMozaikBidirectional.STREAM_CODEC, NeoForgeNetworkHelper::onServerMessage, NeoForgeNetworkHelper::onClientMessage);
 		registrar.playToClient(OpenGlueMenuClientbound.TYPE, OpenGlueMenuClientbound.STREAM_CODEC, NeoForgeNetworkHelper::onClientMessage);
 	}
 

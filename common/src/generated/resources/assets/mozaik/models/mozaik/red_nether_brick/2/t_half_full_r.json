@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/t_half_full_r",
   "textures": {
-    "texture": "mozaik:block/mural/red_nether_brick/block_2"
+    "texture": "mozaik:block/mozaik/red_nether_brick/block_2"
   }
 }

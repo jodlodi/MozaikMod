@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/t_half_full_l",
   "textures": {
-    "texture": "mozaik:block/mural/diorite/block_2"
+    "texture": "mozaik:block/mozaik/diorite/block_2"
   }
 }

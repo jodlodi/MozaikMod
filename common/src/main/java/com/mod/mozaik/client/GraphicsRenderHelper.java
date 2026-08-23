@@ -1,12 +1,14 @@
 package com.mod.mozaik.client;
 
+import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.polyomino.Tessera;
-import com.mod.mozaik.polyomino.TesseraMaterial;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import org.joml.Matrix3x2f;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -19,17 +21,19 @@ public class GraphicsRenderHelper {
 	@Nullable
 	public static ModelBaker BAKER;
 	private final GuiGraphicsExtractor graphics;
+	private final RegistryAccess.Frozen registryAccess;
 
 	public GraphicsRenderHelper(GuiGraphicsExtractor graphics) {
 		this.graphics = graphics;
+		this.registryAccess = Objects.requireNonNull(Minecraft.getInstance().getConnection()).registryAccess();
 	}
 
-	public void blitTessera(TesseraMaterial material, Tessera tessera, long seed, int index, int color) {
+	public void blitTessera(ResourceKey<ShardMaterial> material, Tessera tessera, long seed, int index, int color) {
 		this.blitScaled(fromMaterial(material, seed, index), tessera.getU(), tessera.getV(), 120, 40, Tessera.TESSERA_SIZE, color);
 	}
 
-	public static Identifier fromMaterial(TesseraMaterial material, long seed, int index) {
-		return material.getGuiSheet(seed, index);
+	public Identifier fromMaterial(ResourceKey<ShardMaterial> material, long seed, int index) {
+		return this.registryAccess.get(material).orElseThrow().value().getGuiSheet(material.identifier().getPath(), seed, index);
 	}
 
 	public void blitScaled(Identifier texture, int u, int v, int textureWidth, int textureHeight, int scale, int color) {

@@ -19,8 +19,8 @@ public class NeoMortarBlockEntity extends MortarBlockEntity {
 	}
 
 	@Override
-	public void setPolyominos(List<Polyomino.PlacedPolyomino> polyominos) {
-		super.setPolyominos(polyominos);
+	public void setPolyomino(List<Polyomino.PlacedPolyomino> polyominos) {
+		super.setPolyomino(polyominos);
 		if (this.level instanceof ClientLevel clientLevel) {
 			this.requestModelDataUpdate();
 			clientLevel.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);

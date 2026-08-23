@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/corner",
   "textures": {
-    "texture": "mozaik:block/mural/cinnabar/block_0"
+    "texture": "mozaik:block/mozaik/cinnabar/block_0"
   }
 }

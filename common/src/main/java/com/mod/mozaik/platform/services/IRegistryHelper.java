@@ -1,10 +1,13 @@
 package com.mod.mozaik.platform.services;
 
+import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.reg.ResourceSupplier;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
@@ -28,19 +31,20 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@NullMarked
 public interface IRegistryHelper {
 
 	ResourceSupplier<SoundEvent> registerSoundEvent(String id, Function<Identifier, SoundEvent> soundEvent);
 
 	<T extends ParticleType<?>> ResourceSupplier<T> registerParticleType(String id, Supplier<T> particle);
 
-	@SuppressWarnings("unchecked")
 	<T extends BlockEntity, B extends Block> ResourceSupplier<BlockEntityType<T>> registerBlockEntityType(String id, BiFunction<BlockPos, BlockState, T> supplier, List<ResourceSupplier<B>> blocks);
 
 	<T extends Entity> ResourceSupplier<EntityType<T>> registerEntityType(String id, EntityType.Builder<T> builder);
@@ -64,4 +68,8 @@ public interface IRegistryHelper {
 	ResourceSupplier<Activity> registerActivity(String id);
 
 	<T> ResourceSupplier<MemoryModuleType<T>> registerMemoryModuleType(String id, @Nullable Codec<T> codec);
+
+	ResourceSupplier<ShardMaterial> registerShardMaterial(String id, Supplier<ShardMaterial> shardMaterial);
+
+	<T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey);
 }

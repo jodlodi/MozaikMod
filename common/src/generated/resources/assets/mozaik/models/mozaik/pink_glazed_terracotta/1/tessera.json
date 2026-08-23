@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/tessera",
   "textures": {
-    "texture": "mozaik:block/mural/pink_glazed_terracotta/block_1"
+    "texture": "mozaik:block/mozaik/pink_glazed_terracotta/block_1"
   }
 }

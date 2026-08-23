@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/full_corner",
   "textures": {
-    "texture": "mozaik:block/mural/cyan_glazed_terracotta/block_1"
+    "texture": "mozaik:block/mozaik/cyan_glazed_terracotta/block_1"
   }
 }

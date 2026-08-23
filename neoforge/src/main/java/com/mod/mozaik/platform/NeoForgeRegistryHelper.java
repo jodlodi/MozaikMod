@@ -2,9 +2,12 @@ package com.mod.mozaik.platform;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.platform.services.IRegistryHelper;
+import com.mod.mozaik.polyomino.ShardMaterial;
+import com.mod.mozaik.reg.ModRegistries;
 import com.mod.mozaik.reg.ResourceSupplier;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -35,6 +38,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
@@ -61,6 +65,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 	public static final DeferredRegister<Activity> ACTIVITIES = DeferredRegister.create(Registries.ACTIVITY, Constants.MOD_ID);
 	public static final DeferredRegister<MemoryModuleType<?>> MEMORY_MODULE_TYPES = DeferredRegister.create(Registries.MEMORY_MODULE_TYPE, Constants.MOD_ID);
 	public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, Constants.MOD_ID);
+	public static final DeferredRegister<ShardMaterial> SHARD_MATERIALS = DeferredRegister.create(ModRegistries.ModKeys.SHARD_MATERIAL, Constants.MOD_ID);
 
 	public static final Map<Supplier<? extends EntityType<? extends LivingEntity>>, Supplier<AttributeSupplier>> ATTRIBUTES = new HashMap<>();
 
@@ -146,5 +151,15 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 	@Override
 	public <T> ResourceSupplier<MemoryModuleType<T>> registerMemoryModuleType(String id, @Nullable Codec<T> codec) {
 		return new ResourceSupplier<>(MEMORY_MODULE_TYPES.register(id, () -> new MemoryModuleType<>(Optional.ofNullable(codec))), Constants.prefix(id));
+	}
+
+	@Override
+	public ResourceSupplier<ShardMaterial> registerShardMaterial(String id, Supplier<ShardMaterial> shardMaterial) {
+		return new ResourceSupplier<>(SHARD_MATERIALS.register(id, shardMaterial), Constants.prefix(id));
+	}
+
+	@Override
+	public <T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey) {
+		return new RegistryBuilder<>(resourceKey).sync(true).create();
 	}
 }

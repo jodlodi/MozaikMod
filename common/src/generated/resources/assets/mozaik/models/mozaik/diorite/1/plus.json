@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/plus",
   "textures": {
-    "texture": "mozaik:block/mural/diorite/block_1"
+    "texture": "mozaik:block/mozaik/diorite/block_1"
   }
 }

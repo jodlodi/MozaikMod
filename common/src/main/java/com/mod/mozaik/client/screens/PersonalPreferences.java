@@ -2,25 +2,27 @@ package com.mod.mozaik.client.screens;
 
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.PrePolyominoShapes;
-import com.mod.mozaik.polyomino.TesseraMaterial;
+import com.mod.mozaik.polyomino.ShardMaterial;
+import com.mod.mozaik.reg.ModShardMaterials;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
 public class PersonalPreferences {
-	private static TesseraMaterial primaryColor = TesseraMaterial.values()[0];
-	private static TesseraMaterial secondaryColor = TesseraMaterial.values()[1];
+	private static ResourceKey<ShardMaterial> primaryColor = ModShardMaterials.ofMaterial(ModShardMaterials.STONE);
+	private static ResourceKey<ShardMaterial> secondaryColor = ModShardMaterials.ofMaterial(ModShardMaterials.BLACKSTONE);
 
 	private static Polyomino shape = Polyomino.EMPTY;
 	private static int template = 0;
 
 	private static int[] faves = new int[9];
 
-	public static TesseraMaterial getPrimaryColor() {
+	public static ResourceKey<ShardMaterial> getPrimaryColor() {
 		return PersonalPreferences.primaryColor;
 	}
 
-	public static void setPrimaryColor(MortarScreen screen, TesseraMaterial primaryColor) {
+	public static void setPrimaryColor(MortarScreen screen, ResourceKey<ShardMaterial> primaryColor) {
 		PersonalPreferences.primaryColor = primaryColor;
 		PersonalPreferences.shape = PersonalPreferences.shape.rebuild(PersonalPreferences.primaryColor);
 
@@ -29,11 +31,11 @@ public class PersonalPreferences {
 		);
 	}
 
-	public static TesseraMaterial getSecondaryColor() {
+	public static ResourceKey<ShardMaterial> getSecondaryColor() {
 		return PersonalPreferences.secondaryColor;
 	}
 
-	public static void setSecondaryColor(TesseraMaterial secondaryColor) {
+	public static void setSecondaryColor(ResourceKey<ShardMaterial> secondaryColor) {
 		PersonalPreferences.secondaryColor = secondaryColor;
 	}
 
@@ -53,8 +55,8 @@ public class PersonalPreferences {
 		PersonalPreferences.template = template;
 	}
 
-	public static int minMaterial() {
-		return Mth.clamp(PersonalPreferences.primaryColor.ordinal() - 4, 0, TesseraMaterial.values().length - 9);
+	public static int minMaterial(MortarScreen screen) {
+		return Mth.clamp(screen.getSortedList().indexOf(PersonalPreferences.primaryColor) - 4, 0, screen.getSortedList().size() - 9);
 	}
 
 	public static int minTemplate() {

@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/plus_corner",
   "textures": {
-    "texture": "mozaik:block/mural/prismarine/block_2"
+    "texture": "mozaik:block/mozaik/prismarine/block_2"
   }
 }

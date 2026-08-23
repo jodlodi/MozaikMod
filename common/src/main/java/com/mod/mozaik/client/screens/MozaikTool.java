@@ -4,14 +4,16 @@ import com.mod.mozaik.client.ModKeyMappings;
 import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.polyomino.Polyomino;
-import com.mod.mozaik.polyomino.TesseraMaterial;
+import com.mod.mozaik.polyomino.ShardMaterial;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.StringRepresentable;
 import org.joml.Vector2i;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 @NullMarked
 public enum MozaikTool implements StringRepresentable {
@@ -75,7 +77,7 @@ public enum MozaikTool implements StringRepresentable {
 							screen,
 							widget.getX(),
 							widget.getY(),
-							new Polyomino.PlacedPolyomino(new Polyomino(widget.getPlacedPolyomino().polyomino().placedTessera(), PersonalPreferences.getPrimaryColor(), MortarScreen.randomSeed()), widget.gridX(), widget.gridY())
+							new Polyomino.PlacedPolyomino(new Polyomino(widget.getPlacedPolyomino().polyomino().placedTessera(), PersonalPreferences.getPrimaryColor(), UUID.randomUUID()), widget.gridX(), widget.gridY())
 					);
 					screen.getPolyomino().remove(widget);
 					screen.removeWidget(widget);
@@ -96,7 +98,7 @@ public enum MozaikTool implements StringRepresentable {
 			}
 			case WAND -> {
 				for (PolyominoWidget widget : list) {
-					TesseraMaterial material = widget.getPlacedPolyomino().polyomino().material();
+					ResourceKey<ShardMaterial> material = widget.getPlacedPolyomino().polyomino().material();
 					if (!shift) screen.selected.clear();
 					screen.selected.addAll(screen.getPolyomino().stream().filter(polyominoWidget ->
 							!screen.selected.contains(polyominoWidget) && polyominoWidget.getPlacedPolyomino().polyomino().material() == material

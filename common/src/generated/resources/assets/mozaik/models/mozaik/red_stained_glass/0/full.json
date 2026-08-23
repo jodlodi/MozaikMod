@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/glass/full",
   "textures": {
-    "texture": "mozaik:block/mural/red_stained_glass/block_0"
+    "texture": "mozaik:block/mozaik/red_stained_glass/block_0"
   }
 }

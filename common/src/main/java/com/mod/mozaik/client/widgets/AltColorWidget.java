@@ -2,12 +2,12 @@ package com.mod.mozaik.client.widgets;
 
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.PersonalPreferences;
-import com.mod.mozaik.polyomino.TesseraMaterial;
-import com.mod.mozaik.reg.ModItems;
+import com.mod.mozaik.items.ShardItem;
+import com.mod.mozaik.polyomino.ShardMaterial;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonInfo;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NullMarked;
 
@@ -19,11 +19,11 @@ public class AltColorWidget extends AbstractMaterialWidget {
 
 	@Override
 	protected ItemStack getItemStack() {
-		return ModItems.SHARDS.pick(PersonalPreferences.getSecondaryColor()).get().getDefaultInstance();
+		return ShardItem.SHARDS.get(PersonalPreferences.getSecondaryColor()).getDefaultInstance();
 	}
 
 	@Override
-	protected TesseraMaterial getMaterial() {
+	protected ResourceKey<ShardMaterial> getMaterial() {
 		return PersonalPreferences.getSecondaryColor();
 	}
 

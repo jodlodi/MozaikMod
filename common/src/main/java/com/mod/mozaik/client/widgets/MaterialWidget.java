@@ -3,12 +3,13 @@ package com.mod.mozaik.client.widgets;
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.PersonalPreferences;
-import com.mod.mozaik.polyomino.TesseraMaterial;
-import com.mod.mozaik.reg.ModItems;
+import com.mod.mozaik.items.ShardItem;
+import com.mod.mozaik.polyomino.ShardMaterial;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NullMarked;
 
@@ -58,13 +59,13 @@ public class MaterialWidget extends AbstractMaterialWidget {
 
 	@Override
 	protected ItemStack getItemStack() {
-		TesseraMaterial material = this.getMaterial();
+		ResourceKey<ShardMaterial> material = this.getMaterial();
 		int count = Math.max(this.screen.getShardSource().getCount(material), 1);
-		return new ItemStack(ModItems.SHARDS.pick(this.getMaterial()).get(), count);
+		return new ItemStack(ShardItem.SHARDS.get(this.getMaterial()), count);
 	}
 
 	@Override
-	protected TesseraMaterial getMaterial() {
-		return TesseraMaterial.values()[PersonalPreferences.minMaterial() + this.index];
+	protected ResourceKey<ShardMaterial> getMaterial() {
+		return this.screen.getSortedList().get(PersonalPreferences.minMaterial(this.screen) + this.index);
 	}
 }

@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/plus_wall",
   "textures": {
-    "texture": "mozaik:block/mural/deepslate/block_0"
+    "texture": "mozaik:block/mozaik/deepslate/block_0"
   }
 }

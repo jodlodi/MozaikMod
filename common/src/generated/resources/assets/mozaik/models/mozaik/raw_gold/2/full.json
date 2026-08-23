@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/normal/full",
+  "textures": {
+    "texture": "mozaik:block/mozaik/raw_gold/block_2"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/plus_wall",
   "textures": {
-    "texture": "mozaik:block/mural/white_terracotta/block_0"
+    "texture": "mozaik:block/mozaik/white_terracotta/block_0"
   }
 }

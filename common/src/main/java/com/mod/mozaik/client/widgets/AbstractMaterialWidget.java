@@ -2,7 +2,7 @@ package com.mod.mozaik.client.widgets;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.screens.MortarScreen;
-import com.mod.mozaik.polyomino.TesseraMaterial;
+import com.mod.mozaik.polyomino.ShardMaterial;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -11,6 +11,7 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NullMarked;
 
@@ -50,7 +51,7 @@ public abstract class AbstractMaterialWidget extends AbstractWidget {
 	}
 
 	protected Identifier getMaterialTexture() {
-		return Constants.prefix(this.getMaterial().getSerializedName() + "/shard");
+		return Constants.prefix(this.getMaterial().identifier().getPath() + "/shard");
 	}
 
 	protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y) {
@@ -64,5 +65,5 @@ public abstract class AbstractMaterialWidget extends AbstractWidget {
 
 	protected abstract ItemStack getItemStack();
 
-	protected abstract TesseraMaterial getMaterial();
+	protected abstract ResourceKey<ShardMaterial> getMaterial();
 }

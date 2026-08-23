@@ -1,6 +1,0 @@
-{
-  "parent": "mozaik:block/normal/tessera",
-  "textures": {
-    "texture": "mozaik:block/mural/cobblestone/block_0"
-  }
-}

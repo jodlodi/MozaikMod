@@ -3,7 +3,7 @@ package com.mod.mozaik.blocks;
 import com.mod.mozaik.blocks.entities.MortarBlockEntity;
 import com.mod.mozaik.menus.MortarMenu;
 import com.mod.mozaik.mixin.ServerPlayerAccessor;
-import com.mod.mozaik.networking.bidirectional.UpdateGlueBidirectional;
+import com.mod.mozaik.networking.bidirectional.UpdateMozaikBidirectional;
 import com.mod.mozaik.networking.clientbound.OpenGlueMenuClientbound;
 import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.reg.ModBlocks;
@@ -162,10 +162,10 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 				level.setBlock(pos, newState, Block.UPDATE_ALL);
 
 				if (level.getBlockEntity(pos) instanceof MortarBlockEntity newBlockEntity) {
-					newBlockEntity.setPolyominos(blockEntity.getPolyomino());
+					newBlockEntity.setPolyomino(blockEntity.getPolyomino());
 
 					serverLevel.getServer().schedule(new TickTask(0, () ->
-							Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(pos), new UpdateGlueBidirectional(newBlockEntity.getPolyomino(), pos))
+							Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(pos), new UpdateMozaikBidirectional(newBlockEntity.getPolyomino(), pos))
 					));
 				}
 			}

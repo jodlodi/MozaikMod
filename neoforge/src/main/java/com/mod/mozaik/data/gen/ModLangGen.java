@@ -5,6 +5,7 @@ import com.mod.mozaik.client.ModKeyMappings;
 import com.mod.mozaik.client.buttons.ToolButton;
 import com.mod.mozaik.client.screens.MozaikTool;
 import com.mod.mozaik.data.util.ModLangProvider;
+import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModTabs;
 import net.minecraft.data.PackOutput;
@@ -43,7 +44,7 @@ public class ModLangGen extends ModLangProvider {
 		this.addItem(ModItems.MORTARS.red(), "Red Mortar");
 		this.addItem(ModItems.MORTARS.black(), "Black Mortar");
 
-		ModItems.SHARDS.forEach(shard -> this.addItem(shard, identifierToTitleCase(shard.id())));
+		ShardItem.SHARDS.forEach((key, item) -> this.addItem(() -> item, toTitleCase(key.identifier().getPath() + "_shards")));
 
 		this.addCreativeTab(ModTabs.TAB, "Mozaik");
 

@@ -1,6 +1,0 @@
-{
-  "parent": "mozaik:block/normal/plus",
-  "textures": {
-    "texture": "mozaik:block/mural/block_of_raw_iron/block_1"
-  }
-}

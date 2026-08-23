@@ -1,6 +1,6 @@
 {
   "parent": "mozaik:block/normal/tessera",
   "textures": {
-    "texture": "mozaik:block/mural/brick/block_1"
+    "texture": "mozaik:block/mozaik/brick/block_1"
   }
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/normal/full_corner",
+  "textures": {
+    "texture": "mozaik:block/mozaik/raw_iron/block_2"
+  }
+}
