@@ -86,16 +86,22 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		}
 	}
 
-	private static final List<ResourceKey<ShardMaterial>> materials = new ArrayList<>();
+	private final List<ResourceKey<ShardMaterial>> materials = new ArrayList<>();
 
 	public List<ResourceKey<ShardMaterial>> getSortedList() {
-		if (materials.isEmpty()) {
+		if (this.materials.isEmpty()) {
+			List<ShardItem> shards = new ArrayList<>();
+
 			ModTabs.TAB.get().getSearchTabDisplayItems().forEach(itemStack -> {
 				if (itemStack.getItem() instanceof ShardItem item)
-					materials.add(item.getMaterial());
+					this.materials.add(item.getMaterial());
 			});
+
+			if (!this.getShardSource().isCreative()) {
+				this.materials.sort(Comparator.comparing(key -> this.getShardSource().getCount(key) == 0));
+			}
 		}
-		return materials;
+		return this.materials;
 	}
 
 	public MortarMenu.ShardSource getShardSource() {

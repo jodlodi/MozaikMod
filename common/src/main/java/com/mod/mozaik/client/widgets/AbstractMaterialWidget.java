@@ -44,7 +44,7 @@ public abstract class AbstractMaterialWidget extends AbstractWidget {
 		int color = -1;
 		if (!this.screen.getShardSource().isCreative()) {
 			int count = this.screen.getShardSource().getCount(this.getMaterial());
-			if (count == 0) color = 0x77777777;
+			if (count == 0) color = 0x44777777;
 		}
 
 		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.getMaterialTexture(), this.width, this.height, 0, 0, x - 1, y - 1, this.width, this.height, color);
