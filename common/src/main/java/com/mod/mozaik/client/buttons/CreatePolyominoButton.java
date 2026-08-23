@@ -10,6 +10,7 @@ import com.mod.mozaik.polyomino.Tessera;
 import com.mod.mozaik.reg.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.network.chat.Component;
@@ -31,7 +32,7 @@ public class CreatePolyominoButton extends ModButton {
 	@Override
 	public void onPress(InputWithModifiers inputWithModifiers) {
 		Minecraft minecraft = Minecraft.getInstance();
-		MouseHandler mouse = Objects.requireNonNull(minecraft).mouseHandler;
+		MouseHandler mouse = minecraft.mouseHandler;
 		double x = mouse.xpos() * (double) minecraft.getWindow().getGuiScaledWidth() / (double) minecraft.getWindow().getScreenWidth();
 		double y = mouse.ypos() * (double) minecraft.getWindow().getGuiScaledHeight() / (double) minecraft.getWindow().getScreenHeight();
 
@@ -48,6 +49,12 @@ public class CreatePolyominoButton extends ModButton {
 	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
 		Vector2f center = PersonalPreferences.getShape().getGridCenter();
 
+		int color = -1;
+		if (!this.screen.getShardSource().isCreative()) {
+			int count = this.screen.getShardSource().getCount(PersonalPreferences.getPrimaryColor());
+			if (count == 0) color = 0x77777777;
+		}
+
 		PolyominoWidget.fill(
 				new GraphicsRenderHelper(graphics),
 				PersonalPreferences.getShape(),
@@ -60,12 +67,26 @@ public class CreatePolyominoButton extends ModButton {
 				new GraphicsRenderHelper(graphics),
 				PersonalPreferences.getShape(),
 				(int) (-center.x * Tessera.TESSERA_SIZE + this.getX() + SIZE * 0.5F),
-				(int) (-center.y * Tessera.TESSERA_SIZE + this.getY() + SIZE * 0.5F)
+				(int) (-center.y * Tessera.TESSERA_SIZE + this.getY() + SIZE * 0.5F),
+				color
 		);
 
 		if (this.isHovered()) {
 			this.extractTooltip(graphics, mouseX, mouseY);
 		}
+
+		graphics.pose().pushMatrix();
+		this.itemCount(graphics, Minecraft.getInstance().font, this.getX(), this.getY(), this.getCount());
+		graphics.pose().popMatrix();
+	}
+
+	private void itemCount(GuiGraphicsExtractor graphics, Font font, int x, int y, String amount) {
+		Vector2f center = PersonalPreferences.getShape().getGridCenter();
+		graphics.text(font, amount, (int) (center.x) + x + 19 - 2 - font.width(amount) + 14, (int) (center.y) + y + 6 + 3 + 14, -1, true);
+	}
+
+	protected String getCount() {
+		return this.screen.getShardSource().isCreative() ? "∞" : String.valueOf(this.screen.getShardSource().getCount(PersonalPreferences.getPrimaryColor()));
 	}
 
 	protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y) {

@@ -1,40 +1,56 @@
 package com.mod.mozaik.client.widgets;
 
+import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.screens.MortarScreen;
+import com.mod.mozaik.polyomino.TesseraMaterial;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-public abstract class AbstractItemWidget extends AbstractWidget {
+public abstract class AbstractMaterialWidget extends AbstractWidget {
 	protected final MortarScreen screen;
 	protected final Minecraft minecraft;
-	private final boolean decorations;
 	private final boolean tooltip;
 
-	public AbstractItemWidget(MortarScreen screen, int x, int y, boolean decorations, boolean tooltip) {
+	public AbstractMaterialWidget(MortarScreen screen, int x, int y, boolean tooltip) {
 		super(x, y, 18, 18, Component.empty());
 		this.screen = screen;
 		this.minecraft = Minecraft.getInstance();
-		this.decorations = decorations;
 		this.tooltip = tooltip;
 	}
 
 	@Override
 	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
-		graphics.item(this.getItemStack(), this.getX(), this.getY(), 0);
-		if (this.decorations) {
-			graphics.itemDecorations(this.minecraft.font, this.getItemStack(), this.getX(), this.getY(), null);
-		}
+		this.renderMaterial(graphics);
 
 		if (this.tooltip && this.isHovered()) {
 			this.extractTooltip(graphics, mouseX, mouseY);
 		}
+	}
+
+	protected void renderMaterial(GuiGraphicsExtractor graphics) {
+		int x = this.getX();
+		int y = this.getY();
+
+		int color = -1;
+		if (!this.screen.getShardSource().isCreative()) {
+			int count = this.screen.getShardSource().getCount(this.getMaterial());
+			if (count == 0) color = 0x77777777;
+		}
+
+		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.getMaterialTexture(), this.width, this.height, 0, 0, x - 1, y - 1, this.width, this.height, color);
+	}
+
+	protected Identifier getMaterialTexture() {
+		return Constants.prefix(this.getMaterial().getSerializedName() + "/shard");
 	}
 
 	protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y) {
@@ -47,4 +63,6 @@ public abstract class AbstractItemWidget extends AbstractWidget {
 	}
 
 	protected abstract ItemStack getItemStack();
+
+	protected abstract TesseraMaterial getMaterial();
 }

@@ -44,6 +44,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private static final Identifier MORTAR_LOCATION = Constants.prefix("textures/gui/container/mortar.png");
 	private static final int BACKGROUND_WIDTH = 242;
 	private static final int BACKGROUND_HEIGHT = 256;
+
 	private static final Vector2i GRID_START = new Vector2i(41, 76);
 	private static final Vector2i BOWL_CENTER = new Vector2i(59, 25);
 	private static final Vector2i MINI_BOWL_ITEM = new Vector2i(107, 7);
@@ -83,15 +84,14 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		}
 	}
 
+	public MortarMenu.ShardSource getShardSource() {
+		return this.menu.getShardSource();
+	}
+
 	public static long randomSeed() {
 		long seed = 0L;
 		if (Minecraft.getInstance().level != null) seed = Minecraft.getInstance().level.getRandom().nextLong();
 		return seed;
-	}
-
-	@Override
-	protected void extractSlot(GuiGraphicsExtractor graphics, Slot slot, int mouseX, int mouseY) {
-		super.extractSlot(graphics, slot, mouseX, mouseY);
 	}
 
 	public void markChanged() {

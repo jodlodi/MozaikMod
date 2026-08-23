@@ -7,7 +7,6 @@
     "ServerPlayerAccessor"
   ],
   "client": [
-    "GuiGraphicsExtractorMixin"
   ],
   "server": [],
   "injectors": {
