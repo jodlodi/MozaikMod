@@ -7,6 +7,7 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public class ModTabs {
 	public static final ResourceSupplier<CreativeModeTab> TAB = Services.REGISTRY.registerCreativeTab("tab", () -> ModItems.MORTARS.black().get().getDefaultInstance(), (itemDisplayParameters, output) -> {
+		output.accept(ModItems.SHARD_BAG.get());
 		ModItems.MORTARS.forEach(supplier -> output.accept(supplier.get()));
 
 		output.accept(ModItems.STONE_SHARDS.get());

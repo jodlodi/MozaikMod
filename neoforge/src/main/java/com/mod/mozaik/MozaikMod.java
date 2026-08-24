@@ -24,5 +24,6 @@ public class MozaikMod {
         NeoForgeRegistryHelper.MEMORY_MODULE_TYPES.register(bus);
         NeoForgeRegistryHelper.MENU_TYPES.register(bus);
         NeoForgeRegistryHelper.SHARD_MATERIALS.register(bus);
+        NeoForgeRegistryHelper.DATA_COMPONENTS.register(bus);
     }
 }

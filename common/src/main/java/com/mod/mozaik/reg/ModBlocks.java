@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ColorCollection;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -20,7 +21,7 @@ import java.util.function.Supplier;
 public class ModBlocks {
 
 	public static final ColorCollection<ResourceSupplier<MortarBlock>> MORTARS = registerColoredBlocks("mortar", Services.MODLOADER::mortarBlock, () ->
-			BlockBehaviour.Properties.of().strength(0.6F).sound(SoundType.CALCITE).isViewBlocking(ModBlocks::always).isSuffocating(ModBlocks::always)
+			BlockBehaviour.Properties.of().strength(4.0F, 6.0F).sound(SoundType.CALCITE).isViewBlocking(ModBlocks::always).isSuffocating(ModBlocks::always)
 	);
 
 	public static void init() {

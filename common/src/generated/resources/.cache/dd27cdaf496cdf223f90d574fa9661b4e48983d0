@@ -1,4 +1,4 @@
-// 26.2	2026-08-23T18:48:56.9613034	Model Definitions - mozaik
+// 26.2	2026-08-24T22:07:23.8968697	Model Definitions - mozaik
 ed8070786d3c66d715ebfb34a6101b78e89f081b assets/mozaik/blockstates/black_mortar.json
 a7f780fea362b7bf47a98419e02c1053fda9c557 assets/mozaik/blockstates/blue_mortar.json
 c592853a2d94b82ac1c0bc92d83fe02b3f73dfd8 assets/mozaik/blockstates/brown_mortar.json
@@ -97,6 +97,7 @@ ac2c5a847aa116867e20091cb6d90396856c3fef assets/mozaik/items/red_stained_glass_s
 45439f28d8401eb839a785fc6e8f09ad27bcb994 assets/mozaik/items/red_terracotta_shards.json
 2a06d4505cca57315a1d0e2063c252416ab69531 assets/mozaik/items/sandstone_shards.json
 9e7846fddbc5e7da541711134423dc5f2159a691 assets/mozaik/items/sea_lantern_shards.json
+609b3d5b9f65a7099bd63b9ef152bf693c8dc95e assets/mozaik/items/shard_bag.json
 cb934cefcdf142cda416799f67147bd3f0647287 assets/mozaik/items/stone_shards.json
 450da6c42b32545419dee8f7c521a3ebb91e4dcf assets/mozaik/items/terracotta_shards.json
 869ce808e22c99a8dd61ed7a40f5890b67ce5468 assets/mozaik/items/tuff_shards.json
@@ -192,6 +193,7 @@ f85471218f9396e68bdb7a4f14505dd63dde63bf assets/mozaik/models/item/raw_copper_sh
 75d1caf039330e88cec42a227de892391030e973 assets/mozaik/models/item/red_terracotta_shards.json
 0b114f5add53e8a6ec05b07c68f02d4fd4f032f1 assets/mozaik/models/item/sandstone_shards.json
 6968ab9870a890e4f3d5873ba0bbe8693c0fe77e assets/mozaik/models/item/sea_lantern_shards.json
+4c47bba72e934424ec541fcce94657952547a7ae assets/mozaik/models/item/shard_bag.json
 b2867ad913a55adf460164d1647ad28580929e80 assets/mozaik/models/item/stone_shards.json
 409e1b5db188fd960aa9e25be88600c80722d1d9 assets/mozaik/models/item/terracotta_shards.json
 0195b9ac05a89656074f8f6d94bd62aa7747cb04 assets/mozaik/models/item/tuff_shards.json

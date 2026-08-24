@@ -5,7 +5,10 @@ import com.mod.mozaik.reg.ResourceSupplier;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
@@ -72,4 +75,6 @@ public interface IRegistryHelper {
 	ResourceSupplier<ShardMaterial> registerShardMaterial(String id, Supplier<ShardMaterial> shardMaterial);
 
 	<T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey);
+
+	<T> ResourceSupplier<DataComponentType<T>> registerDataComponent(String id, final Codec<T> codec, final StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec);
 }

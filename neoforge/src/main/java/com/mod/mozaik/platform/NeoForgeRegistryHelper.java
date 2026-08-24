@@ -8,10 +8,13 @@ import com.mod.mozaik.reg.ResourceSupplier;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
@@ -66,6 +69,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 	public static final DeferredRegister<MemoryModuleType<?>> MEMORY_MODULE_TYPES = DeferredRegister.create(Registries.MEMORY_MODULE_TYPE, Constants.MOD_ID);
 	public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, Constants.MOD_ID);
 	public static final DeferredRegister<ShardMaterial> SHARD_MATERIALS = DeferredRegister.create(ModRegistries.ModKeys.SHARD_MATERIAL, Constants.MOD_ID);
+	public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, Constants.MOD_ID);
 
 	public static final Map<Supplier<? extends EntityType<? extends LivingEntity>>, Supplier<AttributeSupplier>> ATTRIBUTES = new HashMap<>();
 
@@ -161,5 +165,10 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 	@Override
 	public <T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey) {
 		return new RegistryBuilder<>(resourceKey).sync(true).create();
+	}
+
+	@Override
+	public <T> ResourceSupplier<DataComponentType<T>> registerDataComponent(String id, final Codec<T> codec, final StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
+		return new ResourceSupplier<>(DATA_COMPONENTS.register(id, () -> DataComponentType.<T>builder().persistent(codec).networkSynchronized(streamCodec).build()), Constants.prefix(id));
 	}
 }

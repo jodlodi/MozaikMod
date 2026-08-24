@@ -27,6 +27,7 @@ public class ModLangGen extends ModLangProvider {
 
 	@Override
 	protected void addCustomTranslations() {
+		this.addItem(ModItems.SHARD_BAG, identifierToTitleCase(ModItems.SHARD_BAG.id()));
 		this.addItem(ModItems.MORTARS.white(), "White Mortar");
 		this.addItem(ModItems.MORTARS.orange(), "Orange Mortar");
 		this.addItem(ModItems.MORTARS.magenta(), "Magenta Mortar");

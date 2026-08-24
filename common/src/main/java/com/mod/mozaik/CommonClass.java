@@ -11,5 +11,6 @@ public class CommonClass {
         ModTabs.init();
         ModRegistries.init();
         ModShardMaterials.init();
+        ModDataComponents.init();
     }
 }

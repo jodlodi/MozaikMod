@@ -1,6 +1,7 @@
 package com.mod.mozaik.data.gen.model;
 
 import com.mod.mozaik.items.ShardItem;
+import com.mod.mozaik.reg.ModItems;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;
 import net.minecraft.client.data.models.model.ModelInstance;
@@ -21,6 +22,7 @@ public class ModItemModelGen extends ItemModelGenerators {
 
     @Override
     public void run() {
+        this.generateFlatItem(ModItems.SHARD_BAG.get(), ModelTemplates.FLAT_ITEM);
         ShardItem.SHARDS.values().forEach(shard -> {
             this.generateFlatItem(shard, ModelTemplates.FLAT_ITEM);
         });
