@@ -59,15 +59,13 @@ public enum MozaikTool implements StringRepresentable {
 					Polyomino.PlacedPolyomino polyomino = widget.getPlacedPolyomino();
 					screen.carried.add(new HeldPolyominoWidget(screen, widget.getX(), widget.getY(), new Polyomino.PlacedPolyomino(polyomino.polyomino(), polyomino.x() - average.x, polyomino.y() - average.y)));
 					screen.addRenderableWidget(screen.carried.getLast());
-					screen.removeFromSource(widget.getPlacedPolyomino().polyomino());
-					screen.getPolyomino().remove(widget);
+					screen.removeFromSource(widget);
 					screen.removeWidget(widget);
 				}
 			}
 			case CHISEL -> {
 				for (PolyominoWidget widget : list) {
-					screen.removeFromSource(widget.getPlacedPolyomino().polyomino());
-					screen.getPolyomino().remove(widget);
+					screen.removeFromSource(widget);
 					screen.removeWidget(widget);
 				}
 			}
@@ -83,8 +81,7 @@ public enum MozaikTool implements StringRepresentable {
 							widget.getY(),
 							new Polyomino.PlacedPolyomino(new Polyomino(widget.getPlacedPolyomino().polyomino().placedTessera(), PersonalPreferences.getPrimaryColor(), UUID.randomUUID()), widget.gridX(), widget.gridY())
 					);
-					screen.removeFromSource(widget.getPlacedPolyomino().polyomino());
-					screen.getPolyomino().remove(widget);
+					screen.removeFromSource(widget);
 					screen.removeWidget(widget);
 
 					screen.getPolyomino().add(newWidget);

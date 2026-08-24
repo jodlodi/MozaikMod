@@ -91,8 +91,6 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	public List<ResourceKey<ShardMaterial>> getSortedList() {
 		if (this.materials.isEmpty()) {
-			List<ShardItem> shards = new ArrayList<>();
-
 			ModTabs.TAB.get().getSearchTabDisplayItems().forEach(itemStack -> {
 				if (itemStack.getItem() instanceof ShardItem item)
 					this.materials.add(item.getMaterial());
@@ -119,12 +117,13 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		this.menu.setRotatedPolyomino(this.polyominos);
 	}
 
-	public void removeFromSource(Polyomino polyomino) {
+	public void removeFromSource(PolyominoWidget polyomino) {
+		this.polyominos.remove(polyomino);
 		if (this.menu.getShardSource().isCreative()) {
 			this.markChanged();
 		} else {
-			this.menu.removeFromSource(polyomino.uuid());
-			MortarMenu.ShardCount count = this.getMenu().getShardSource().get(polyomino.material());
+			this.menu.removeFromSource(polyomino.getPlacedPolyomino().polyomino().uuid());
+			MortarMenu.ShardCount count = this.getMenu().getShardSource().get(polyomino.getPlacedPolyomino().polyomino().material());
 
 			for (ItemStack stack : count.stacks()) {
 				if (stack.getCount() < stack.getMaxStackSize()) {
@@ -133,7 +132,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				}
 			}
 
-			Objects.requireNonNull(Minecraft.getInstance().player).getInventory().add(new ItemStack(ShardItem.SHARDS.get(polyomino.material())));
+			Objects.requireNonNull(Minecraft.getInstance().player).getInventory().add(new ItemStack(ShardItem.SHARDS.get(polyomino.getPlacedPolyomino().polyomino().material())));
 		}
 	}
 
