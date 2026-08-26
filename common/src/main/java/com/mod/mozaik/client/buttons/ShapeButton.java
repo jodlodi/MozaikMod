@@ -4,7 +4,11 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.PersonalPreferences;
+import com.mod.mozaik.client.widgets.MaterialWidget;
 import com.mod.mozaik.polyomino.PrePolyominoShapes;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
@@ -13,8 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.NullMarked;
 
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
 @NullMarked
 public class ShapeButton extends ModButton implements PhaseRenderable {
@@ -59,5 +62,29 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 	@Override
 	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
 		graphics.blit(RenderPipelines.GUI_TEXTURED, this.getTexture(), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
+
+		List<Integer> favSlots = new ArrayList<>();
+		for (int i = 1; i <= 9; i++) {
+			if (PersonalPreferences.getFavourite(i - 1).template().orElse(-1) == this.getShape()) {
+				graphics.blit(RenderPipelines.GUI_TEXTURED, Constants.prefix("textures/gui/container/favourite.png"), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
+				favSlots.add(i);
+			}
+		}
+
+		if (this.isHovered() && !favSlots.isEmpty()) {
+			graphics.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(
+					Component.translatable(MaterialWidget.FAVOURITE, Component.literal(favSlots.toString()).withStyle(ChatFormatting.AQUA))
+			), Optional.empty(), mouseX, mouseY);
+		}
+	}
+
+	private void numb(GuiGraphicsExtractor graphics, Font font, int x, int y, String amount) {
+		graphics.pose().pushMatrix();
+		graphics.text(font, amount, x, y, 0xFF22BB33, true);
+		graphics.pose().popMatrix();
+	}
+
+	public int getShape() {
+		return PersonalPreferences.minTemplate() + this.index;
 	}
 }

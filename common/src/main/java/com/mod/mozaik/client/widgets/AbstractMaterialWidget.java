@@ -47,7 +47,7 @@ public abstract class AbstractMaterialWidget extends AbstractWidget {
 			if (count == 0) color = 0x44777777;
 		}
 
-		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.getMaterialTexture(), this.width, this.height, 0, 0, x - 1, y - 1, this.width, this.height, color);
+		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.getMaterialTexture(), 16, 16, 0, 0, x, y, 16, 16, color);
 	}
 
 	protected Identifier getMaterialTexture() {

@@ -4,10 +4,12 @@ import com.google.common.base.Ascii;
 import com.mod.mozaik.client.ModKeyMappings;
 import com.mod.mozaik.client.buttons.ToolButton;
 import com.mod.mozaik.client.screens.MozaikTool;
+import com.mod.mozaik.client.widgets.MaterialWidget;
 import com.mod.mozaik.data.util.ModLangProvider;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModTabs;
+import com.mod.mozaik.util.NaturalDigitCollection;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
@@ -53,14 +55,27 @@ public class ModLangGen extends ModLangProvider {
 			this.add(tool.asTranslationString(), toTitleCase(tool.getSerializedName()));
 		}
 
-		this.addKeyCategory(ModKeyMappings.MOD_CATEGORY, "Mozaik");
-		this.add(ToolButton.SHORTCUT, "§8Shortcut key: [%1$s]");
+		this.add(ToolButton.SHORTCUT, "§8Shortcut key: [%1$s§8]");
+		this.add(MaterialWidget.FAVOURITE, "§8Save slots: %1$s");
+		// TOOL KEYS
+		this.addKeyCategory(ModKeyMappings.MOD_TOOLS, "Mozaik Tools");
 		this.addKeyMapping(ModKeyMappings.PICKER, "Picker Tool");
 		this.addKeyMapping(ModKeyMappings.SELECT, "Select Tool");
 		this.addKeyMapping(ModKeyMappings.WAND, "Wand Tool");
 		this.addKeyMapping(ModKeyMappings.CURSOR, "Cursor Tool");
 		this.addKeyMapping(ModKeyMappings.SWAP, "Swap Tool");
 		this.addKeyMapping(ModKeyMappings.CHISEL, "Chisel Tool");
+
+		// COMMAND KEYS
+		this.addKeyCategory(ModKeyMappings.MOD_ACTIONS, "Mozaik Actions");
+		this.addKeyMapping(ModKeyMappings.DELETE, "Delete Selected");
+		this.addKeyMapping(ModKeyMappings.SELECT_ALL, "Select All");
+
+		// FAVOURITES
+		this.addKeyCategory(ModKeyMappings.MOD_FAVOURITES, "Mozaik Favourites");
+		NaturalDigitCollection.zipApply(ModKeyMappings.FAVOURITE, NaturalDigitCollection.VALUES, (mapping, name) ->
+				this.addKeyMapping(mapping, toTitleCase("favourite_slot_" + name))
+		);
 	}
 
 	private static String identifierToTitleCase(Identifier id) {

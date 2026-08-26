@@ -30,9 +30,7 @@ public class AltColorWidget extends AbstractMaterialWidget {
 	@Override
 	protected void renderMaterial(GuiGraphicsExtractor graphics) {
 		super.renderMaterial(graphics);
-		graphics.pose().pushMatrix();
 		this.itemCount(graphics, this.minecraft.font, this.getX(), this.getY(), this.getCount());
-		graphics.pose().popMatrix();
 	}
 
 	protected String getCount() {
@@ -40,7 +38,9 @@ public class AltColorWidget extends AbstractMaterialWidget {
 	}
 
 	private void itemCount(GuiGraphicsExtractor graphics, Font font, int x, int y, String amount) {
+		graphics.pose().pushMatrix();
 		graphics.text(font, amount, x + 19 - 2 - font.width(amount), y + 6 + 3, -1, true);
+		graphics.pose().popMatrix();
 	}
 
 	@Override

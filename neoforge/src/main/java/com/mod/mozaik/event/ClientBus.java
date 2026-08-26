@@ -6,10 +6,10 @@ import com.mod.mozaik.client.ModKeyMappings;
 import com.mod.mozaik.client.model.block.mortar.MosaicStateModel;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.items.ShardBagItem;
-import com.mod.mozaik.items.components.ShardBagContents;
 import com.mod.mozaik.platform.NeoForgeRegistryHelper;
 import com.mod.mozaik.polyomino.TesseraShape;
 import com.mod.mozaik.reg.ModMenus;
+import net.minecraft.client.gui.screens.options.OptionsScreen;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.*;
@@ -53,6 +53,7 @@ public class ClientBus {
 	@SubscribeEvent
 	public static void registerKeyMappingsEvent(RegisterKeyMappingsEvent event) {
 		ModKeyMappings.KEY_MAPPINGS.forEach(event::register);
-		event.registerCategory(ModKeyMappings.MOD_CATEGORY);
+		event.registerCategory(ModKeyMappings.MOD_TOOLS);
+		event.registerCategory(ModKeyMappings.MOD_ACTIONS);
 	}
 }

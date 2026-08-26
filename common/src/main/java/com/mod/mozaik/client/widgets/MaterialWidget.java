@@ -5,16 +5,25 @@ import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.PersonalPreferences;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.polyomino.ShardMaterial;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NullMarked;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @NullMarked
 public class MaterialWidget extends AbstractMaterialWidget {
+	public static String FAVOURITE = "tooltip.mozaik.favourite";
 	private final int index;
 
 	public MaterialWidget(MortarScreen screen, int offsetX, int offsetY, int index) {
@@ -41,6 +50,28 @@ public class MaterialWidget extends AbstractMaterialWidget {
 		if (PersonalPreferences.getPrimaryColor() == this.getMaterial()) {
 			graphics.blit(RenderPipelines.GUI_TEXTURED, Constants.prefix("textures/gui/container/frame.png"), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
 		}
+		for (int i = 1; i <= 9; i++) {
+			if (PersonalPreferences.getFavourite(i - 1).material().orElse(null) == this.getMaterial()) {
+				graphics.blit(RenderPipelines.GUI_TEXTURED, Constants.prefix("textures/gui/container/favourite.png"), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
+			}
+		}
+	}
+
+	@Override
+	protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y) {
+		List<Integer> favSlots = new ArrayList<>();
+		for (int i = 1; i <= 9; i++) {
+			if (PersonalPreferences.getFavourite(i - 1).material().orElse(null) == this.getMaterial()) {
+				favSlots.add(i);
+			}
+		}
+		if (favSlots.isEmpty())super.extractTooltip(graphics, x, y);
+		else {
+			graphics.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(
+					this.getItemStack().getHoverName(),
+					Component.translatable(FAVOURITE, Component.literal(favSlots.toString()).withStyle(ChatFormatting.AQUA))
+			), Optional.empty(), x, y);
+		}
 	}
 
 	@Override
@@ -65,7 +96,7 @@ public class MaterialWidget extends AbstractMaterialWidget {
 	}
 
 	@Override
-	protected ResourceKey<ShardMaterial> getMaterial() {
+	public ResourceKey<ShardMaterial> getMaterial() {
 		return this.screen.getSortedList().get(PersonalPreferences.minMaterial(this.screen) + this.index);
 	}
 }

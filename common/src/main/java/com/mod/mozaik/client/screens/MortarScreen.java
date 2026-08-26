@@ -2,6 +2,7 @@ package com.mod.mozaik.client.screens;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.GraphicsRenderHelper;
+import com.mod.mozaik.client.ModKeyMappings;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.buttons.*;
 import com.mod.mozaik.client.widgets.AltColorWidget;
@@ -32,7 +33,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Rotation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
@@ -147,7 +147,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	@Override
 	public boolean keyPressed(KeyEvent event) {
-		if (event.isSelectAll()) {
+		if (ModKeyMappings.SELECT_ALL.matches(event)) {
 			this.selected.clear();
 			this.selected.addAll(this.getPolyomino());
 			return true;
@@ -160,7 +160,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 		}
 
-		if (InputConstants.KEY_DELETE == event.key()) {
+		if (ModKeyMappings.DELETE.matches(event)) {
 			if (this.selected.isEmpty()) {
 				Vector2i square = this.getGridForTaking();
 
@@ -184,19 +184,41 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			return true;
 		}
 
-		for (int i = 0; i < 9; ++i) { /*
-			if (this.minecraft.options.keyHotbarSlots[i].matches(event)) {
-				if (!event.hasShiftDown()) {
-					PersonalPreferences.setPrimaryColor(this, ResourceKey<ShardMaterial>.values()[PersonalPreferences.minMaterial() + i]);
-				} else {
-					PersonalPreferences.setTemplate(PersonalPreferences.minTemplate() + i);
-					PersonalPreferences.setShape(PrePolyominoShapes.values()[PersonalPreferences.getTemplate()].template.build(
-							PersonalPreferences.getPrimaryColor(),
-							MortarScreen.randomSeed()
-					));
+		for (int i = 1; i <= 9; ++i) {
+			if (ModKeyMappings.FAVOURITE.pick(i).matches(event)) {
+				Minecraft minecraft = Minecraft.getInstance();
+				MouseHandler mouse = Objects.requireNonNull(minecraft).mouseHandler;
+				float mouseX = (float) mouse.xpos() * (float) minecraft.getWindow().getGuiScaledWidth() / (float) minecraft.getWindow().getScreenWidth();
+				float mouseY = (float) mouse.ypos() * (float) minecraft.getWindow().getGuiScaledHeight() / (float) minecraft.getWindow().getScreenHeight();
+
+				Optional<GuiEventListener> child = this.getChildAt(mouseX, mouseY);
+				if (child.isPresent()) {
+					if (child.get() instanceof MaterialWidget materialWidget) {
+						if (PersonalPreferences.getFavourite(i - 1).material().orElse(null) == materialWidget.getMaterial()) {
+							PersonalPreferences.setFavouriteMaterial(i - 1, null);
+						} else {
+							PersonalPreferences.setFavouriteMaterial(i - 1, materialWidget.getMaterial());
+						}
+						return true;
+					} else if (child.get() instanceof ShapeButton button) {
+						if (PersonalPreferences.getFavourite(i - 1).template().orElse(-1) == button.getShape()) {
+							PersonalPreferences.setFavouriteShape(i - 1, null);
+						} else {
+							PersonalPreferences.setFavouriteShape(i - 1, button.getShape());
+						}
+						return true;
+					}
 				}
+
+				PersonalPreferences.Favourite favourite = PersonalPreferences.getFavourite(i - 1);
+				ResourceKey<ShardMaterial> material = favourite.material().orElse(PersonalPreferences.getPrimaryColor());
+				Integer template = favourite.template().orElse(PersonalPreferences.getTemplate());
+
+				PersonalPreferences.setTemplate(template);
+				PersonalPreferences.setPrimaryColor(this, material);
+				PersonalPreferences.setShape(PrePolyominoShapes.values()[template].template.build(material, UUID.randomUUID()));
 				return true;
-			}*/
+			}
 		}
 
 		if (InputConstants.KEY_RETURN == event.key()) {
