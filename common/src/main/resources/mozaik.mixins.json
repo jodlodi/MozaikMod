@@ -7,6 +7,7 @@
     "ServerPlayerAccessor"
   ],
   "client": [
+    "AbstractContainerScreenMixin"
   ],
   "server": [],
   "injectors": {

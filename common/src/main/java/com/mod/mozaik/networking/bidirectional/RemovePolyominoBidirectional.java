@@ -62,19 +62,7 @@ public final class RemovePolyominoBidirectional implements IBidirectionalMessage
 		if (player.level().getBlockEntity(this.pos) instanceof MortarBlockEntity blockEntity) {
 			for (Polyomino.PlacedPolyomino polyomino : blockEntity.getPolyomino()) {
 				if (polyomino.polyomino().uuid().equals(this.polyomino)) {
-					ResourceKey<ShardMaterial> material = polyomino.polyomino().material();
-
-					MortarMenu.ShardCount count = new MortarMenu.ShardSource(player.getInventory()).get(material);
-
-					for (ItemStack stack : count.stacks()) {
-						if (stack.getCount() < stack.getMaxStackSize()) {
-							stack.grow(1);
-							blockEntity.getPolyomino().remove(polyomino);
-							return;
-						}
-					}
-
-					player.getInventory().add(new ItemStack(ShardItem.SHARDS.get(material)));
+					new MortarMenu.ShardSource(player.getInventory()).giveItem(polyomino.polyomino().material());
 					blockEntity.getPolyomino().remove(polyomino);
 					return;
 				}
@@ -88,20 +76,8 @@ public final class RemovePolyominoBidirectional implements IBidirectionalMessage
 		if (player.level().getBlockEntity(this.pos) instanceof MortarBlockEntity blockEntity) {
 			blockEntity.getPolyomino().removeIf(placedPolyomino -> {
 				if (placedPolyomino.polyomino().uuid().equals(this.polyomino)) {
-					ResourceKey<ShardMaterial> material = placedPolyomino.polyomino().material();
-
-					MortarMenu.ShardCount count = new MortarMenu.ShardSource(player.getInventory()).get(material);
-
-					for (ItemStack stack : count.stacks()) {
-						if (stack.getCount() < stack.getMaxStackSize()) {
-							stack.grow(1);
-							atomicBoolean.set(true);
-							return true;
-						}
-					}
-
+					new MortarMenu.ShardSource(player.getInventory()).giveItem(placedPolyomino.polyomino().material());
 					atomicBoolean.set(true);
-					player.getInventory().add(new ItemStack(ShardItem.SHARDS.get(material)));
 					return true;
 				}
 				return false;

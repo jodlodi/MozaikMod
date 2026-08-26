@@ -123,16 +123,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			this.markChanged();
 		} else {
 			this.menu.removeFromSource(polyomino.getPlacedPolyomino().polyomino().uuid());
-			MortarMenu.ShardCount count = this.getMenu().getShardSource().get(polyomino.getPlacedPolyomino().polyomino().material());
-
-			for (ItemStack stack : count.stacks()) {
-				if (stack.getCount() < stack.getMaxStackSize()) {
-					stack.grow(1);
-					return;
-				}
-			}
-
-			Objects.requireNonNull(Minecraft.getInstance().player).getInventory().add(new ItemStack(ShardItem.SHARDS.get(polyomino.getPlacedPolyomino().polyomino().material())));
+			this.getMenu().getShardSource().giveItem(polyomino.getPlacedPolyomino().polyomino().material());
 		}
 	}
 
@@ -141,19 +132,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			this.markChanged();
 		} else {
 			this.menu.addToSource(polyomino);
-			MortarMenu.ShardCount count = this.getMenu().getShardSource().get(polyomino.polyomino().material());
-			if (count.count() <= 0) return;
-
-			int value = Integer.MAX_VALUE;
-			ItemStack smallest = ItemStack.EMPTY;
-			for (ItemStack stack : count.stacks()) {
-				if (stack.getCount() < value) {
-					value = stack.getCount();
-					smallest = stack;
-				}
-			}
-
-			smallest.shrink(1);
+			this.getMenu().getShardSource().takeItem(polyomino.polyomino().material());
 		}
 	}
 

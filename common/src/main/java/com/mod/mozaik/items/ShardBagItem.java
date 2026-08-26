@@ -1,6 +1,7 @@
 package com.mod.mozaik.items;
 
 import com.mod.mozaik.items.components.ShardBagContents;
+import com.mod.mozaik.polyomino.ShardStack;
 import com.mod.mozaik.reg.ModDataComponents;
 import com.mojang.serialization.DataResult;
 import net.minecraft.core.component.DataComponents;
@@ -47,22 +48,7 @@ public class ShardBagItem extends Item {
 		super(properties);
 	}
 
-	private static Fraction getWeightSafe(ShardBagContents contents) {
-		DataResult<Fraction> var10000 = contents.weight();
-		Fraction var5;
-		switch (var10000) {
-			case DataResult.Success<Fraction> success -> var5 = success.value();
-			case DataResult.Error<?> error -> var5 = Fraction.ONE;
-		}
-
-		return var5;
-	}
-
-	public static float getFullnessDisplay(ItemStack itemStack) {
-		ShardBagContents contents = itemStack.getOrDefault(ModDataComponents.SHARD_BAG_CONTENTS.get(), ShardBagContents.EMPTY);
-		return getWeightSafe(contents).floatValue();
-	}
-
+	@Override
 	public boolean overrideStackedOnOther(ItemStack self, Slot slot, ClickAction clickAction, Player player) {
 		ShardBagContents initialContents = self.get(ModDataComponents.SHARD_BAG_CONTENTS.get());
 		if (initialContents == null) {
@@ -100,6 +86,7 @@ public class ShardBagItem extends Item {
 		}
 	}
 
+	@Override
 	public boolean overrideOtherStackedOnMe(ItemStack self, ItemStack other, Slot slot, ClickAction clickAction, Player player, SlotAccess carriedItem) {
 		if (clickAction == ClickAction.PRIMARY && other.isEmpty()) {
 			toggleSelectedItem(self, -1);
@@ -140,6 +127,7 @@ public class ShardBagItem extends Item {
 		}
 	}
 
+	@Override
 	public InteractionResult use(Level level, Player player, InteractionHand hand) {
 		player.startUsingItem(hand);
 		return InteractionResult.SUCCESS;
@@ -153,21 +141,6 @@ public class ShardBagItem extends Item {
 
 	}
 
-	public boolean isBarVisible(ItemStack stack) {
-		ShardBagContents contents = stack.getOrDefault(ModDataComponents.SHARD_BAG_CONTENTS.get(), ShardBagContents.EMPTY);
-		return getWeightSafe(contents).compareTo(Fraction.ZERO) > 0;
-	}
-
-	public int getBarWidth(ItemStack stack) {
-		ShardBagContents contents = stack.getOrDefault(ModDataComponents.SHARD_BAG_CONTENTS.get(), ShardBagContents.EMPTY);
-		return Math.min(1 + Mth.mulAndTruncate(getWeightSafe(contents), 12), 13);
-	}
-
-	public int getBarColor(ItemStack stack) {
-		ShardBagContents contents = stack.getOrDefault(ModDataComponents.SHARD_BAG_CONTENTS.get(), ShardBagContents.EMPTY);
-		return getWeightSafe(contents).compareTo(Fraction.ONE) >= 0 ? FULL_BAR_COLOR : BAR_COLOR;
-	}
-
 	public static void toggleSelectedItem(ItemStack stack, int selectedItem) {
 		ShardBagContents initialContents = stack.get(ModDataComponents.SHARD_BAG_CONTENTS.get());
 		if (initialContents != null) {
@@ -175,14 +148,13 @@ public class ShardBagItem extends Item {
 			contents.toggleSelectedItem(selectedItem);
 			stack.set(ModDataComponents.SHARD_BAG_CONTENTS.get(), contents.toImmutable());
 		}
-
 	}
 
 	public static int getSelectedItemIndex(ItemStack stack) {
 		return stack.getOrDefault(ModDataComponents.SHARD_BAG_CONTENTS.get(), ShardBagContents.EMPTY).getSelectedItemIndex();
 	}
 
-	public static @Nullable ItemStackTemplate getSelectedItem(ItemStack stack) {
+	public static @Nullable ShardStack getSelectedItem(ItemStack stack) {
 		return stack.getOrDefault(ModDataComponents.SHARD_BAG_CONTENTS.get(), ShardBagContents.EMPTY).getSelectedItem();
 	}
 
@@ -218,6 +190,7 @@ public class ShardBagItem extends Item {
 		}
 	}
 
+	@Override
 	public void onUseTick(Level level, LivingEntity livingEntity, ItemStack itemStack, int ticksRemaining) {
 		if (livingEntity instanceof Player player) {
 			int useDuration = this.getUseDuration(itemStack, livingEntity);
@@ -229,26 +202,29 @@ public class ShardBagItem extends Item {
 
 	}
 
+	@Override
 	public int getUseDuration(ItemStack itemStack, LivingEntity entity) {
 		return 200;
 	}
 
+	@Override
 	public ItemUseAnimation getUseAnimation(ItemStack itemStack) {
 		return ItemUseAnimation.BUNDLE;
 	}
 
+	@Override
 	public Optional<TooltipComponent> getTooltipImage(ItemStack bundle) {
 		TooltipDisplay display = bundle.getOrDefault(DataComponents.TOOLTIP_DISPLAY, TooltipDisplay.DEFAULT);
 		return !display.shows(ModDataComponents.SHARD_BAG_CONTENTS.get()) ? Optional.empty() : Optional.ofNullable(bundle.get(ModDataComponents.SHARD_BAG_CONTENTS.get())).map(ShardBagTooltip::new);
 	}
 
+	@Override
 	public void onDestroyed(ItemEntity entity) {
 		ShardBagContents contents = entity.getItem().get(ModDataComponents.SHARD_BAG_CONTENTS.get());
 		if (contents != null) {
 			entity.getItem().set(ModDataComponents.SHARD_BAG_CONTENTS.get(), ShardBagContents.EMPTY);
 			ItemUtils.onContainerDestroyed(entity, contents.itemCopyStream());
 		}
-
 	}
 
 	private static void playRemoveOneSound(Entity entity) {
@@ -269,10 +245,7 @@ public class ShardBagItem extends Item {
 
 	private void broadcastChangesOnContainerMenu(Player player) {
 		AbstractContainerMenu containerMenu = player.containerMenu;
-		if (containerMenu != null) {
-			containerMenu.slotsChanged(player.getInventory());
-		}
-
+		containerMenu.slotsChanged(player.getInventory());
 	}
 
 	public record ShardBagTooltip(ShardBagContents contents) implements TooltipComponent {

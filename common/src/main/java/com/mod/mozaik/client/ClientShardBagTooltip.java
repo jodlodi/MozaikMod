@@ -2,7 +2,7 @@ package com.mod.mozaik.client;
 
 import com.mod.mozaik.items.ShardBagItem;
 import com.mod.mozaik.items.components.ShardBagContents;
-import com.mojang.serialization.DataResult;
+import com.mod.mozaik.polyomino.ShardStack;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -14,29 +14,18 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackTemplate;
-import org.apache.commons.lang3.math.Fraction;
 import org.jspecify.annotations.NullMarked;
-import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
 @NullMarked
 public class ClientShardBagTooltip implements ClientTooltipComponent {
-	private static final Identifier PROGRESSBAR_BORDER_SPRITE = Identifier.withDefaultNamespace("container/bundle/bundle_progressbar_border");
-	private static final Identifier PROGRESSBAR_FILL_SPRITE = Identifier.withDefaultNamespace("container/bundle/bundle_progressbar_fill");
-	private static final Identifier PROGRESSBAR_FULL_SPRITE = Identifier.withDefaultNamespace("container/bundle/bundle_progressbar_full");
 	private static final Identifier SLOT_HIGHLIGHT_BACK_SPRITE = Identifier.withDefaultNamespace("container/bundle/slot_highlight_back");
 	private static final Identifier SLOT_HIGHLIGHT_FRONT_SPRITE = Identifier.withDefaultNamespace("container/bundle/slot_highlight_front");
 	private static final Identifier SLOT_BACKGROUND_SPRITE = Identifier.withDefaultNamespace("container/bundle/slot_background");
 	private static final int SLOT_MARGIN = 4;
 	private static final int SLOT_SIZE = 24;
 	private static final int GRID_WIDTH = 96;
-	private static final int PROGRESSBAR_HEIGHT = 13;
-	private static final int PROGRESSBAR_WIDTH = 96;
-	private static final int PROGRESSBAR_BORDER = 1;
-	private static final int PROGRESSBAR_FILL_MAX = 94;
-	private static final int PROGRESSBAR_MARGIN_Y = 4;
 	private static final Component BUNDLE_FULL_TEXT = Component.translatable("item.minecraft.bundle.full");
 	private static final Component BUNDLE_EMPTY_TEXT = Component.translatable("item.minecraft.bundle.empty");
 	private static final Component BUNDLE_EMPTY_DESCRIPTION = Component.translatable("item.minecraft.bundle.empty.description");
@@ -53,7 +42,7 @@ public class ClientShardBagTooltip implements ClientTooltipComponent {
 
 	@Override
 	public int getWidth(Font font) {
-		return 96;
+		return GRID_WIDTH;
 	}
 
 	@Override
@@ -62,19 +51,19 @@ public class ClientShardBagTooltip implements ClientTooltipComponent {
 	}
 
 	private static int getEmptyBundleBackgroundHeight(Font font) {
-		return getEmptyBundleDescriptionTextHeight(font) + 13 + 8;
+		return getEmptyBundleDescriptionTextHeight(font) + 8;
 	}
 
 	private int backgroundHeight() {
-		return this.itemGridHeight() + 13 + 8;
+		return this.itemGridHeight() + 8;
 	}
 
 	private int itemGridHeight() {
-		return this.gridSizeY() * 24;
+		return this.gridSizeY() * SLOT_SIZE;
 	}
 
 	private static int getContentXOffset(int tooltipWidth) {
-		return (tooltipWidth - 96) / 2;
+		return (tooltipWidth - GRID_WIDTH) / 2;
 	}
 
 	private int gridSizeY() {
@@ -82,38 +71,34 @@ public class ClientShardBagTooltip implements ClientTooltipComponent {
 	}
 
 	private int slotCount() {
-		return Math.min(12, this.contents.size());
+		return Math.min(ShardBagContents.MAX_VISIBLE_SLOTS, this.contents.size());
 	}
 
 	@Override
 	public void extractImage(Font font, int x, int y, int w, int h, GuiGraphicsExtractor graphics) {
-		DataResult<Fraction> weight = this.contents.weight();
-		if (!weight.isError()) {
-			if (this.contents.isEmpty()) {
-				extractEmptyBundleTooltip(font, x, y, w, h, graphics);
-			} else {
-				this.extractBundleWithItemsTooltip(font, x, y, w, h, graphics, weight.getOrThrow());
-			}
+		if (this.contents.isEmpty()) {
+			extractEmptyBundleTooltip(font, x, y, w, h, graphics);
+		} else {
+			this.extractBundleWithItemsTooltip(font, x, y, w, h, graphics);
 		}
 	}
 
 	private static void extractEmptyBundleTooltip(Font font, int x, int y, int w, int h, GuiGraphicsExtractor graphics) {
 		int left = x + getContentXOffset(w);
 		extractEmptyBundleDescriptionText(left, y, font, graphics);
-		extractProgressbar(left, y + getEmptyBundleDescriptionTextHeight(font) + 4, font, graphics, Fraction.ZERO);
 	}
 
-	private void extractBundleWithItemsTooltip(Font font, int x, int y, int w, int h, GuiGraphicsExtractor graphics, Fraction weight) {
-		boolean isOverflowing = this.contents.size() > 12;
-		List<ItemStackTemplate> shownItems = this.getShownItems(this.contents.getNumberOfItemsToShow());
-		int xStartPos = x + getContentXOffset(w) + 96;
-		int yStartPos = y + this.gridSizeY() * 24;
+	private void extractBundleWithItemsTooltip(Font font, int x, int y, int w, int h, GuiGraphicsExtractor graphics) {
+		boolean isOverflowing = this.contents.size() > ShardBagContents.MAX_VISIBLE_SLOTS;
+		List<ShardStack> shownItems = this.getShownItems(this.contents.getNumberOfItemsToShow());
+		int xStartPos = x + getContentXOffset(w) + GRID_WIDTH;
+		int yStartPos = y + this.gridSizeY() * SLOT_SIZE;
 		int slotNumber = 1;
 
 		for (int rowNumber = 1; rowNumber <= this.gridSizeY(); rowNumber++) {
 			for (int columnNumber = 1; columnNumber <= 4; columnNumber++) {
-				int drawX = xStartPos - columnNumber * 24;
-				int drawY = yStartPos - rowNumber * 24;
+				int drawX = xStartPos - columnNumber * SLOT_SIZE;
+				int drawY = yStartPos - rowNumber * SLOT_SIZE;
 				if (shouldRenderSurplusText(isOverflowing, columnNumber, rowNumber)) {
 					extractCount(drawX, drawY, this.getAmountOfHiddenItems(shownItems), font, graphics);
 				} else if (shouldRenderItemSlot(shownItems, slotNumber)) {
@@ -124,10 +109,9 @@ public class ClientShardBagTooltip implements ClientTooltipComponent {
 		}
 
 		this.extractSelectedItemTooltip(font, graphics, x, y, w);
-		extractProgressbar(x + getContentXOffset(w), y + this.itemGridHeight() + 4, font, graphics, weight);
 	}
 
-	private List<ItemStackTemplate> getShownItems(int amountOfItemsToShow) {
+	private List<ShardStack> getShownItems(int amountOfItemsToShow) {
 		int lastToDisplay = Math.min(this.contents.size(), amountOfItemsToShow);
 		return this.contents.items().subList(0, lastToDisplay);
 	}
@@ -140,24 +124,24 @@ public class ClientShardBagTooltip implements ClientTooltipComponent {
 		return shownItems.size() >= slotNumber;
 	}
 
-	private int getAmountOfHiddenItems(List<ItemStackTemplate> shownItems) {
+	private int getAmountOfHiddenItems(List<ShardStack> shownItems) {
 		return this.contents.items().stream().skip(shownItems.size()).mapToInt(ItemInstance::count).sum();
 	}
 
-	private void extractSlot(int slotNumber, int drawX, int drawY, List<ItemStackTemplate> shownItems, int slotIndex, Font font, GuiGraphicsExtractor graphics) {
+	private void extractSlot(int slotNumber, int drawX, int drawY, List<ShardStack> shownItems, int slotIndex, Font font, GuiGraphicsExtractor graphics) {
 		int itemVisualOrderIndex = shownItems.size() - slotNumber;
 		boolean hasHighlight = itemVisualOrderIndex == this.contents.getSelectedItemIndex();
 		ItemStack item = shownItems.get(itemVisualOrderIndex).create();
 		if (hasHighlight) {
-			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_HIGHLIGHT_BACK_SPRITE, drawX, drawY, 24, 24);
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_HIGHLIGHT_BACK_SPRITE, drawX, drawY, SLOT_SIZE, SLOT_SIZE);
 		} else {
-			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_BACKGROUND_SPRITE, drawX, drawY, 24, 24);
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_BACKGROUND_SPRITE, drawX, drawY, SLOT_SIZE, SLOT_SIZE);
 		}
 
-		graphics.item(item, drawX + 4, drawY + 4, slotIndex);
-		graphics.itemDecorations(font, item, drawX + 4, drawY + 4);
+		graphics.item(item, drawX + SLOT_MARGIN, drawY + SLOT_MARGIN, slotIndex);
+		graphics.itemDecorations(font, item, drawX + SLOT_MARGIN, drawY + SLOT_MARGIN);
 		if (hasHighlight) {
-			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_HIGHLIGHT_FRONT_SPRITE, drawX, drawY, 24, 24);
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_HIGHLIGHT_FRONT_SPRITE, drawX, drawY, SLOT_SIZE, SLOT_SIZE);
 		}
 	}
 
@@ -166,7 +150,7 @@ public class ClientShardBagTooltip implements ClientTooltipComponent {
 	}
 
 	private void extractSelectedItemTooltip(Font font, GuiGraphicsExtractor graphics, int x, int y, int w) {
-		ItemStackTemplate selectedItem = this.contents.getSelectedItem();
+		ShardStack selectedItem = this.contents.getSelectedItem();
 		if (selectedItem != null) {
 			ItemStack itemStack = selectedItem.create();
 			Component selectedItemName = itemStack.getStyledHoverName();
@@ -184,36 +168,11 @@ public class ClientShardBagTooltip implements ClientTooltipComponent {
 		}
 	}
 
-	private static void extractProgressbar(int x, int y, Font font, GuiGraphicsExtractor graphics, Fraction weight) {
-		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, getProgressBarTexture(weight), x + 1, y, getProgressBarFill(weight), 13);
-		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, PROGRESSBAR_BORDER_SPRITE, x, y, 96, 13);
-		Component progressBarFillText = getProgressBarFillText(weight);
-		if (progressBarFillText != null) {
-			graphics.centeredText(font, progressBarFillText, x + 48, y + 3, -1);
-		}
-	}
-
 	private static void extractEmptyBundleDescriptionText(int x, int y, Font font, GuiGraphicsExtractor graphics) {
-		graphics.textWithWordWrap(font, BUNDLE_EMPTY_DESCRIPTION, x, y, 96, -5592406);
+		graphics.textWithWordWrap(font, BUNDLE_EMPTY_DESCRIPTION, x, y, GRID_WIDTH, 0xffaaaaaa);
 	}
 
 	private static int getEmptyBundleDescriptionTextHeight(Font font) {
-		return font.split(BUNDLE_EMPTY_DESCRIPTION, 96).size() * 9;
-	}
-
-	private static int getProgressBarFill(Fraction weight) {
-		return Mth.clamp(Mth.mulAndTruncate(weight, 94), 0, 94);
-	}
-
-	private static Identifier getProgressBarTexture(Fraction weight) {
-		return weight.compareTo(Fraction.ONE) >= 0 ? PROGRESSBAR_FULL_SPRITE : PROGRESSBAR_FILL_SPRITE;
-	}
-
-	private static @Nullable Component getProgressBarFillText(Fraction weight) {
-		if (weight.compareTo(Fraction.ZERO) == 0) {
-			return BUNDLE_EMPTY_TEXT;
-		} else {
-			return weight.compareTo(Fraction.ONE) >= 0 ? BUNDLE_FULL_TEXT : null;
-		}
+		return font.split(BUNDLE_EMPTY_DESCRIPTION, GRID_WIDTH).size() * 9;
 	}
 }

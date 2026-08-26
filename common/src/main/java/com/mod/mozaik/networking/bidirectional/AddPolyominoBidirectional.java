@@ -57,24 +57,8 @@ public final class AddPolyominoBidirectional implements IBidirectionalMessage {
 	@Override
 	public void executeClientbound(LocalPlayer player) {
 		if (player.level().getBlockEntity(this.pos) instanceof MortarBlockEntity blockEntity) {
-			for (Polyomino.PlacedPolyomino polyomino : blockEntity.getPolyomino()) {
-				if (polyomino.polyomino().uuid().equals(this.polyomino)) {
-					ResourceKey<ShardMaterial> material = polyomino.polyomino().material();
-
-					MortarMenu.ShardCount count = new MortarMenu.ShardSource(player.getInventory()).get(material);
-
-					for (ItemStack stack : count.stacks()) {
-						if (stack.getCount() < stack.getMaxStackSize()) {
-							stack.grow(1);
-							blockEntity.getPolyomino().remove(polyomino);
-							return;
-						}
-					}
-
-					player.getInventory().add(new ItemStack(ShardItem.SHARDS.get(material)));
-					blockEntity.getPolyomino().remove(polyomino);
-					return;
-				}
+			if (new MortarMenu.ShardSource(player.getInventory()).takeItem(polyomino.polyomino().material())) {
+				blockEntity.getPolyomino().add(this.polyomino);
 			}
 		}
 	}
@@ -82,22 +66,10 @@ public final class AddPolyominoBidirectional implements IBidirectionalMessage {
 	@Override
 	public void executeServerbound(ServerPlayer player) {
 		if (player.level().getBlockEntity(this.pos) instanceof MortarBlockEntity blockEntity) {
-			ResourceKey<ShardMaterial> material = this.polyomino.polyomino().material();
-			MortarMenu.ShardCount count = new MortarMenu.ShardSource(player.getInventory()).get(material);
-			if (count.count() <= 0) return;
-
-			int value = Integer.MAX_VALUE;
-			ItemStack smallest = ItemStack.EMPTY;
-			for (ItemStack stack : count.stacks()) {
-				if (stack.getCount() < value) {
-					value = stack.getCount();
-					smallest = stack;
-				}
+			if (new MortarMenu.ShardSource(player.getInventory()).takeItem(polyomino.polyomino().material())) {
+				blockEntity.getPolyomino().add(this.polyomino);
+				Services.NETWORK.sendToPlayersTrackingChunk(player.level(), ChunkPos.containing(this.pos), new UpdateMozaikBidirectional(blockEntity.getPolyomino(), this.pos));
 			}
-
-			smallest.shrink(1);
-			blockEntity.getPolyomino().add(this.polyomino);
-			Services.NETWORK.sendToPlayersTrackingChunk(player.level(), ChunkPos.containing(this.pos), new UpdateMozaikBidirectional(blockEntity.getPolyomino(), this.pos));
 		}
 	}
 

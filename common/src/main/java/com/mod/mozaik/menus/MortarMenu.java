@@ -5,15 +5,19 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.blocks.MortarBlock;
 import com.mod.mozaik.blocks.entities.MortarBlockEntity;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
+import com.mod.mozaik.items.ShardBagItem;
 import com.mod.mozaik.items.ShardItem;
+import com.mod.mozaik.items.components.ShardBagContents;
 import com.mod.mozaik.networking.bidirectional.AddPolyominoBidirectional;
 import com.mod.mozaik.networking.bidirectional.RemovePolyominoBidirectional;
 import com.mod.mozaik.networking.bidirectional.UpdateMozaikBidirectional;
 import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.ShardMaterial;
+import com.mod.mozaik.polyomino.ShardStack;
 import com.mod.mozaik.polyomino.Tessera;
 import com.mod.mozaik.reg.ModBlocks;
+import com.mod.mozaik.reg.ModDataComponents;
 import com.mod.mozaik.reg.ModMenus;
 import com.mod.mozaik.reg.ResourceSupplier;
 import com.mod.mozaik.util.FlatDirection;
@@ -86,7 +90,15 @@ public class MortarMenu extends AbstractContainerMenu {
 
 	public void addToSource(Polyomino.PlacedPolyomino polyomino) {
 		if (this.mortar == null) return;
-		Services.NETWORK.sendToServer(new AddPolyominoBidirectional(polyomino, this.mortar.getBlockPos(), this.inventory.player.getId()));
+
+		Rotation reverseRot = switch (this.rotation) {
+			case NONE -> Rotation.NONE;
+			case CLOCKWISE_90 -> Rotation.COUNTERCLOCKWISE_90;
+			case CLOCKWISE_180 -> Rotation.CLOCKWISE_180;
+			case COUNTERCLOCKWISE_90 -> Rotation.CLOCKWISE_90;
+		};
+
+		Services.NETWORK.sendToServer(new AddPolyominoBidirectional(rotate(polyomino, reverseRot), this.mortar.getBlockPos(), this.inventory.player.getId()));
 	}
 
 	public ShardSource getShardSource() {
@@ -182,63 +194,76 @@ public class MortarMenu extends AbstractContainerMenu {
 
 	}
 
-	public static class ShardSource extends HashMap<ResourceKey<ShardMaterial>, ShardCount> {
+	public static class ShardSource {
 		private final Inventory inventory;
 
 		public ShardSource(Inventory inventory) {
 			this.inventory = inventory;
-
-			for (ItemStack stack : inventory) {
-				if (stack.getItem() instanceof ShardItem item) {
-					ResourceKey<ShardMaterial> material = item.getMaterial();
-					if (this.containsKey(material)) this.get(material).addItem(stack);
-					else {
-						ShardCount shardCount = new ShardCount();
-						shardCount.addItem(stack);
-						this.put(material, shardCount);
-					}
-				}
-			}
-		}
-
-		@Override
-		public ShardCount get(Object key) {
-			ShardCount count = super.get(key);
-			if (count == null) return new ShardCount();
-			return count;
 		}
 
 		public int getCount(ResourceKey<ShardMaterial> material) {
-			if (!this.containsKey(material)) return 0;
-			return this.get(material).count();
+			int count = 0;
+			for (ItemStack stack : this.inventory) {
+				if (stack.getItem() instanceof ShardItem item && item.getMaterial().identifier().equals(material.identifier())) {
+					count += stack.getCount();
+				} else if (stack.getItem() instanceof ShardBagItem) {
+					ShardBagContents initialContents = stack.get(ModDataComponents.SHARD_BAG_CONTENTS.get());
+					if (initialContents == null) continue;
+					for (ShardStack shardStack : initialContents.items()) {
+						if (shardStack.material().identifier().equals(material.identifier())) {
+							count += shardStack.count();
+							break;
+						}
+					}
+				}
+			}
+			return count;
+		}
+
+		public void giveItem(ResourceKey<ShardMaterial> material) {
+			for (ItemStack stack : this.inventory) {
+				if (stack.getItem() instanceof ShardItem item && item.getMaterial().identifier().equals(material.identifier()) && stack.getCount() < stack.getMaxStackSize()) {
+					stack.grow(1);
+					return;
+				} else if (stack.getItem() instanceof ShardBagItem) {
+					ShardBagContents initialContents = stack.get(ModDataComponents.SHARD_BAG_CONTENTS.get());
+					if (initialContents == null) continue;
+					ShardBagContents.Mutable contents = new ShardBagContents.Mutable(initialContents);
+					contents.tryInsert(new ItemStack(ShardItem.SHARDS.get(material)));
+					stack.set(ModDataComponents.SHARD_BAG_CONTENTS.get(), contents.toImmutable());
+					return;
+				}
+			}
+
+			this.inventory.add(new ItemStack(ShardItem.SHARDS.get(material)));
+		}
+
+		public boolean takeItem(ResourceKey<ShardMaterial> material) {
+			int value = Integer.MAX_VALUE;
+			ItemStack smallest = ItemStack.EMPTY;
+			for (ItemStack stack : this.inventory) {
+				if (stack.getItem() instanceof ShardItem item && item.getMaterial().identifier().equals(material.identifier()) && stack.getCount() < value) {
+					value = stack.getCount();
+					smallest = stack;
+				} else if (stack.getItem() instanceof ShardBagItem) {
+					ShardBagContents initialContents = stack.get(ModDataComponents.SHARD_BAG_CONTENTS.get());
+					if (initialContents == null) continue;
+
+					ShardBagContents.Mutable contents = new ShardBagContents.Mutable(initialContents);
+					if (contents.remove(material) != null) {
+						stack.set(ModDataComponents.SHARD_BAG_CONTENTS.get(), contents.toImmutable());
+						return true;
+					}
+				}
+			}
+
+			if (smallest == ItemStack.EMPTY) return false;
+			smallest.shrink(1);
+			return true;
 		}
 
 		public boolean isCreative() {
 			return this.inventory.player.isCreative();
-		}
-	}
-
-	public static class ShardCount {
-		private final List<ItemStack> stacks = new ArrayList<>();
-
-		public ShardCount() {
-
-		}
-
-		private static int getCount(List<ItemStack> stacks) {
-			return stacks.stream().mapToInt(ItemStack::getCount).sum();
-		}
-
-		public void addItem(ItemStack itemStack) {
-			this.stacks.add(itemStack);
-		}
-
-		public List<ItemStack> stacks() {
-			return this.stacks;
-		}
-
-		public int count() {
-			return getCount(this.stacks());
 		}
 	}
 }

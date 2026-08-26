@@ -7,6 +7,7 @@ import com.mod.mozaik.networking.bidirectional.UpdateMozaikBidirectional;
 import com.mod.mozaik.networking.clientbound.IClientboundMessage;
 import com.mod.mozaik.networking.clientbound.OpenGlueMenuClientbound;
 import com.mod.mozaik.networking.serverbound.IServerboundMessage;
+import com.mod.mozaik.networking.serverbound.SelectShardBagItemPacket;
 import com.mod.mozaik.platform.services.INetworkHelper;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.server.level.ServerLevel;
@@ -34,6 +35,7 @@ public class NeoForgeNetworkHelper implements INetworkHelper {
 		registrar.playBidirectional(RemovePolyominoBidirectional.TYPE, RemovePolyominoBidirectional.STREAM_CODEC, NeoForgeNetworkHelper::onServerMessage, NeoForgeNetworkHelper::onClientMessage);
 		registrar.playBidirectional(AddPolyominoBidirectional.TYPE, AddPolyominoBidirectional.STREAM_CODEC, NeoForgeNetworkHelper::onServerMessage, NeoForgeNetworkHelper::onClientMessage);
 		registrar.playToClient(OpenGlueMenuClientbound.TYPE, OpenGlueMenuClientbound.STREAM_CODEC, NeoForgeNetworkHelper::onClientMessage);
+		registrar.playToServer(SelectShardBagItemPacket.TYPE, SelectShardBagItemPacket.STREAM_CODEC, NeoForgeNetworkHelper::onServerMessage);
 	}
 
 	@Override
