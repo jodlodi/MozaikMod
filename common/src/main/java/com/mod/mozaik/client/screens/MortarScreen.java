@@ -17,6 +17,7 @@ import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.polyomino.Tessera;
 import com.mod.mozaik.reg.ModTabs;
 import com.mod.mozaik.util.FlatDirection;
+import com.mod.mozaik.util.IMozaikKeyMapping;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
@@ -147,20 +148,20 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	@Override
 	public boolean keyPressed(KeyEvent event) {
-		if (ModKeyMappings.SELECT_ALL.matches(event)) {
+		if (IMozaikKeyMapping.matches(ModKeyMappings.SELECT_ALL, event)) {
 			this.selected.clear();
 			this.selected.addAll(this.getPolyomino());
 			return true;
 		}
 
 		for (MozaikTool tool : MozaikTool.values()) {
-			if (tool.getKeyMapping().matches(event)) {
+			if (IMozaikKeyMapping.matches(tool.getKeyMapping(), event)) {
 				this.tool = tool;
 				return true;
 			}
 		}
 
-		if (ModKeyMappings.DELETE.matches(event)) {
+		if (IMozaikKeyMapping.matches(ModKeyMappings.DELETE, event)) {
 			if (this.selected.isEmpty()) {
 				Vector2i square = this.getGridForTaking();
 
@@ -185,7 +186,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		}
 
 		for (int i = 1; i <= 9; ++i) {
-			if (ModKeyMappings.FAVOURITE.pick(i).matches(event)) {
+			if (IMozaikKeyMapping.matches(ModKeyMappings.FAVOURITE.pick(i), event)) {
 				Minecraft minecraft = Minecraft.getInstance();
 				MouseHandler mouse = Objects.requireNonNull(minecraft).mouseHandler;
 				float mouseX = (float) mouse.xpos() * (float) minecraft.getWindow().getGuiScaledWidth() / (float) minecraft.getWindow().getScreenWidth();

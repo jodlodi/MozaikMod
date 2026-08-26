@@ -113,26 +113,6 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
 		this.shard(ModShardMaterials.TUFF, Items.POLISHED_TUFF_STAIRS, PER_STAIR);
 		this.shard(ModShardMaterials.TUFF, Items.POLISHED_TUFF_SLAB, PER_SLAB);
 
-		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_COBBLESTONE, PER_BLOCK);
-		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_COBBLESTONE_STAIRS, PER_STAIR);
-		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_COBBLESTONE_SLAB, PER_SLAB);
-		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_COBBLESTONE_WALL, PER_WALL);
-		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_STONE_BRICKS, PER_BLOCK);
-		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_STONE_BRICK_STAIRS, PER_STAIR);
-		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_STONE_BRICK_SLAB, PER_SLAB);
-		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_STONE_BRICK_WALL, PER_WALL);
-
-		this.shard(ModShardMaterials.BRICK, Items.BRICKS, PER_BLOCK);
-		this.shard(ModShardMaterials.BRICK, Items.BRICK_STAIRS, PER_STAIR);
-		this.shard(ModShardMaterials.BRICK, Items.BRICK_SLAB, PER_SLAB);
-		this.shard(ModShardMaterials.BRICK, Items.BRICK_WALL, PER_WALL);
-
-		this.shard(ModShardMaterials.PACKED_MUD, Items.PACKED_MUD, PER_BLOCK);
-		this.shard(ModShardMaterials.PACKED_MUD, Items.MUD_BRICKS, PER_BLOCK);
-		this.shard(ModShardMaterials.PACKED_MUD, Items.MUD_BRICK_STAIRS, PER_STAIR);
-		this.shard(ModShardMaterials.PACKED_MUD, Items.MUD_BRICK_SLAB, PER_SLAB);
-		this.shard(ModShardMaterials.PACKED_MUD, Items.MUD_BRICK_WALL, PER_WALL);
-
 		this.shard(ModShardMaterials.CALCITE, Items.CALCITE, PER_BLOCK);
 
 		this.shard(ModShardMaterials.CINNABAR, Items.CHISELED_CINNABAR, PER_BLOCK);
@@ -148,6 +128,52 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
 		this.shard(ModShardMaterials.CINNABAR, Items.POLISHED_CINNABAR_STAIRS, PER_STAIR);
 		this.shard(ModShardMaterials.CINNABAR, Items.POLISHED_CINNABAR_SLAB, PER_SLAB);
 		this.shard(ModShardMaterials.CINNABAR, Items.POLISHED_CINNABAR_WALL, PER_WALL);
+
+		this.shard(ModShardMaterials.SULFUR, Items.POTENT_SULFUR, PER_BLOCK);
+		this.shard(ModShardMaterials.SULFUR, Items.SULFUR, PER_BLOCK);
+		this.shard(ModShardMaterials.SULFUR, Items.SULFUR_STAIRS, PER_STAIR);
+		this.shard(ModShardMaterials.SULFUR, Items.SULFUR_SLAB, PER_SLAB);
+		this.shard(ModShardMaterials.SULFUR, Items.SULFUR_WALL, PER_WALL);
+		this.shard(ModShardMaterials.SULFUR, Items.SULFUR_BRICKS, PER_BLOCK);
+		this.shard(ModShardMaterials.SULFUR, Items.SULFUR_BRICK_STAIRS, PER_STAIR);
+		this.shard(ModShardMaterials.SULFUR, Items.SULFUR_BRICK_SLAB, PER_SLAB);
+		this.shard(ModShardMaterials.SULFUR, Items.SULFUR_BRICK_WALL, PER_WALL);
+		this.shard(ModShardMaterials.SULFUR, Items.POLISHED_SULFUR, PER_BLOCK);
+		this.shard(ModShardMaterials.SULFUR, Items.POLISHED_SULFUR_STAIRS, PER_STAIR);
+		this.shard(ModShardMaterials.SULFUR, Items.POLISHED_SULFUR_SLAB, PER_SLAB);
+		this.shard(ModShardMaterials.SULFUR, Items.POLISHED_SULFUR_WALL, PER_WALL);
+
+		this.shard(ModShardMaterials.DRIPSTONE, Items.DRIPSTONE_BLOCK, PER_BLOCK);
+
+		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_COBBLESTONE, PER_BLOCK);
+		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_COBBLESTONE_STAIRS, PER_STAIR);
+		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_COBBLESTONE_SLAB, PER_SLAB);
+		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_COBBLESTONE_WALL, PER_WALL);
+		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_STONE_BRICKS, PER_BLOCK);
+		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_STONE_BRICK_STAIRS, PER_STAIR);
+		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_STONE_BRICK_SLAB, PER_SLAB);
+		this.shard(ModShardMaterials.MOSSY, Items.MOSSY_STONE_BRICK_WALL, PER_WALL);
+
+		this.shard(ModShardMaterials.RESIN, Items.RESIN_BLOCK, PER_BLOCK);
+		this.shard(ModShardMaterials.RESIN, Items.RESIN_BRICKS, PER_BLOCK);
+		this.shard(ModShardMaterials.RESIN, Items.RESIN_BRICK_STAIRS, PER_STAIR);
+		this.shard(ModShardMaterials.RESIN, Items.RESIN_BRICK_SLAB, PER_SLAB);
+		this.shard(ModShardMaterials.RESIN, Items.RESIN_BRICK_WALL, PER_WALL);
+		this.shard(ModShardMaterials.RESIN, Items.CHISELED_RESIN_BRICKS, PER_BLOCK);
+
+		this.shard(ModShardMaterials.AMETHYST, Items.AMETHYST_BLOCK, PER_BLOCK);
+		this.shard(ModShardMaterials.AMETHYST, Items.BUDDING_AMETHYST, PER_BLOCK);
+
+		this.shard(ModShardMaterials.BRICK, Items.BRICKS, PER_BLOCK);
+		this.shard(ModShardMaterials.BRICK, Items.BRICK_STAIRS, PER_STAIR);
+		this.shard(ModShardMaterials.BRICK, Items.BRICK_SLAB, PER_SLAB);
+		this.shard(ModShardMaterials.BRICK, Items.BRICK_WALL, PER_WALL);
+
+		this.shard(ModShardMaterials.PACKED_MUD, Items.PACKED_MUD, PER_BLOCK);
+		this.shard(ModShardMaterials.PACKED_MUD, Items.MUD_BRICKS, PER_BLOCK);
+		this.shard(ModShardMaterials.PACKED_MUD, Items.MUD_BRICK_STAIRS, PER_STAIR);
+		this.shard(ModShardMaterials.PACKED_MUD, Items.MUD_BRICK_SLAB, PER_SLAB);
+		this.shard(ModShardMaterials.PACKED_MUD, Items.MUD_BRICK_WALL, PER_WALL);
 
 		this.shard(ModShardMaterials.SANDSTONE, Items.CHISELED_SANDSTONE, PER_BLOCK);
 		this.shard(ModShardMaterials.SANDSTONE, Items.CUT_SANDSTONE, PER_BLOCK);

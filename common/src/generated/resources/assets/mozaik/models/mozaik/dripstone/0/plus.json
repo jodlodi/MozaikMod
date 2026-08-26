@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/normal/plus",
+  "textures": {
+    "texture": "mozaik:block/mozaik/dripstone/block_0"
+  }
+}

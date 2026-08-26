@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/normal/t_half_full_r",
+  "textures": {
+    "texture": "mozaik:block/mozaik/resin/block_0"
+  }
+}

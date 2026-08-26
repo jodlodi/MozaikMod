@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/normal/t",
+  "textures": {
+    "texture": "mozaik:block/mozaik/sulfur/block_1"
+  }
+}

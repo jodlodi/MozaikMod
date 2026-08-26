@@ -147,61 +147,6 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/mossy_shards",
-      "sprite": "mozaik:mossy/shard"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/mossy/gui_0",
-      "sprite": "mozaik:mossy/0"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/mossy/gui_1",
-      "sprite": "mozaik:mossy/1"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/mossy/gui_2",
-      "sprite": "mozaik:mossy/2"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:item/brick_shards",
-      "sprite": "mozaik:brick/shard"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/brick/gui_0",
-      "sprite": "mozaik:brick/0"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/brick/gui_1",
-      "sprite": "mozaik:brick/1"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:item/packed_mud_shards",
-      "sprite": "mozaik:packed_mud/shard"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/packed_mud/gui_0",
-      "sprite": "mozaik:packed_mud/0"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/packed_mud/gui_1",
-      "sprite": "mozaik:packed_mud/1"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/packed_mud/gui_2",
-      "sprite": "mozaik:packed_mud/2"
-    },
-    {
-      "type": "minecraft:single",
       "resource": "mozaik:item/calcite_shards",
       "sprite": "mozaik:calcite/shard"
     },
@@ -239,6 +184,141 @@
       "type": "minecraft:single",
       "resource": "mozaik:gui/mozaik/cinnabar/gui_2",
       "sprite": "mozaik:cinnabar/2"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:item/sulfur_shards",
+      "sprite": "mozaik:sulfur/shard"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/sulfur/gui_0",
+      "sprite": "mozaik:sulfur/0"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/sulfur/gui_1",
+      "sprite": "mozaik:sulfur/1"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/sulfur/gui_2",
+      "sprite": "mozaik:sulfur/2"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:item/dripstone_shards",
+      "sprite": "mozaik:dripstone/shard"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/dripstone/gui_0",
+      "sprite": "mozaik:dripstone/0"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/dripstone/gui_1",
+      "sprite": "mozaik:dripstone/1"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/dripstone/gui_2",
+      "sprite": "mozaik:dripstone/2"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:item/mossy_shards",
+      "sprite": "mozaik:mossy/shard"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/mossy/gui_0",
+      "sprite": "mozaik:mossy/0"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/mossy/gui_1",
+      "sprite": "mozaik:mossy/1"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/mossy/gui_2",
+      "sprite": "mozaik:mossy/2"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:item/resin_shards",
+      "sprite": "mozaik:resin/shard"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/resin/gui_0",
+      "sprite": "mozaik:resin/0"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/resin/gui_1",
+      "sprite": "mozaik:resin/1"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/resin/gui_2",
+      "sprite": "mozaik:resin/2"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:item/amethyst_shards",
+      "sprite": "mozaik:amethyst/shard"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/amethyst/gui_0",
+      "sprite": "mozaik:amethyst/0"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/amethyst/gui_1",
+      "sprite": "mozaik:amethyst/1"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/amethyst/gui_2",
+      "sprite": "mozaik:amethyst/2"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:item/brick_shards",
+      "sprite": "mozaik:brick/shard"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/brick/gui_0",
+      "sprite": "mozaik:brick/0"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/brick/gui_1",
+      "sprite": "mozaik:brick/1"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:item/packed_mud_shards",
+      "sprite": "mozaik:packed_mud/shard"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/packed_mud/gui_0",
+      "sprite": "mozaik:packed_mud/0"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/packed_mud/gui_1",
+      "sprite": "mozaik:packed_mud/1"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/packed_mud/gui_2",
+      "sprite": "mozaik:packed_mud/2"
     },
     {
       "type": "minecraft:single",
