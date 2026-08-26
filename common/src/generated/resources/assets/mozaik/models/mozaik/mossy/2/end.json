@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/normal/end",
+  "textures": {
+    "texture": "mozaik:block/mozaik/mossy/block_2"
+  }
+}

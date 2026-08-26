@@ -17,12 +17,14 @@ public class ModTabs {
 		output.accept(ModItems.ANDESITE_SHARDS.get());
 		output.accept(ModItems.DEEPSLATE_SHARDS.get());
 		output.accept(ModItems.TUFF_SHARDS.get());
+		output.accept(ModItems.MOSSY_SHARDS.get());
 		output.accept(ModItems.BRICK_SHARDS.get());
 		output.accept(ModItems.PACKED_MUD_SHARDS.get());
 		output.accept(ModItems.CALCITE_SHARDS.get());
+		output.accept(ModItems.CINNABAR_SHARDS.get());
 		output.accept(ModItems.SANDSTONE_SHARDS.get());
 		output.accept(ModItems.RED_SANDSTONE_SHARDS.get());
-		output.accept(ModItems.CINNABAR_SHARDS.get());
+		output.accept(ModItems.BONE_SHARDS.get());
 		output.accept(ModItems.NETHERRACK_SHARDS.get());
 		output.accept(ModItems.NETHER_BRICK_SHARDS.get());
 		output.accept(ModItems.RED_NETHER_BRICK_SHARDS.get());
@@ -30,6 +32,8 @@ public class ModTabs {
 		output.accept(ModItems.GLOWSTONE_SHARDS.get());
 		output.accept(ModItems.ANCIENT_DEBRIS_SHARDS.get());
 		output.accept(ModItems.BASALT_SHARDS.get());
+		output.accept(ModItems.OBSIDIAN_SHARDS.get());
+		output.accept(ModItems.CRYING_OBSIDIAN_SHARDS.get());
 		output.accept(ModItems.END_STONE_SHARDS.get());
 		output.accept(ModItems.PURPUR_SHARDS.get());
 		output.accept(ModItems.RAW_IRON_SHARDS.get());

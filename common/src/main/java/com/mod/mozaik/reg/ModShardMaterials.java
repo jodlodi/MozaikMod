@@ -15,12 +15,14 @@ public class ModShardMaterials {
 	public static final ResourceSupplier<ShardMaterial> ANDESITE = Services.REGISTRY.registerShardMaterial("andesite", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> DEEPSLATE = Services.REGISTRY.registerShardMaterial("deepslate", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 4));
 	public static final ResourceSupplier<ShardMaterial> TUFF = Services.REGISTRY.registerShardMaterial("tuff", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
+	public static final ResourceSupplier<ShardMaterial> MOSSY = Services.REGISTRY.registerShardMaterial("mossy", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> BRICK = Services.REGISTRY.registerShardMaterial("brick", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 2));
 	public static final ResourceSupplier<ShardMaterial> PACKED_MUD = Services.REGISTRY.registerShardMaterial("packed_mud", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> CALCITE = Services.REGISTRY.registerShardMaterial("calcite", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
+	public static final ResourceSupplier<ShardMaterial> CINNABAR = Services.REGISTRY.registerShardMaterial("cinnabar", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> SANDSTONE = Services.REGISTRY.registerShardMaterial("sandstone", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> RED_SANDSTONE = Services.REGISTRY.registerShardMaterial("red_sandstone", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
-	public static final ResourceSupplier<ShardMaterial> CINNABAR = Services.REGISTRY.registerShardMaterial("cinnabar", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
+	public static final ResourceSupplier<ShardMaterial> BONE = Services.REGISTRY.registerShardMaterial("bone", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> NETHERRACK = Services.REGISTRY.registerShardMaterial("netherrack", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> NETHER_BRICK = Services.REGISTRY.registerShardMaterial("nether_brick", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> RED_NETHER_BRICK = Services.REGISTRY.registerShardMaterial("red_nether_brick", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
@@ -28,6 +30,8 @@ public class ModShardMaterials {
 	public static final ResourceSupplier<ShardMaterial> GLOWSTONE = Services.REGISTRY.registerShardMaterial("glowstone", () -> new ShardMaterial(ShardMaterial.Type.GLOW, 3));
 	public static final ResourceSupplier<ShardMaterial> ANCIENT_DEBRIS = Services.REGISTRY.registerShardMaterial("ancient_debris", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> BASALT = Services.REGISTRY.registerShardMaterial("basalt", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
+	public static final ResourceSupplier<ShardMaterial> OBSIDIAN = Services.REGISTRY.registerShardMaterial("obsidian", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
+	public static final ResourceSupplier<ShardMaterial> CRYING_OBSIDIAN = Services.REGISTRY.registerShardMaterial("crying_obsidian", () -> new ShardMaterial(ShardMaterial.Type.GLOW, 3));
 	public static final ResourceSupplier<ShardMaterial> END_STONE = Services.REGISTRY.registerShardMaterial("end_stone", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> PURPUR = Services.REGISTRY.registerShardMaterial("purpur", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> RAW_IRON = Services.REGISTRY.registerShardMaterial("raw_iron", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));

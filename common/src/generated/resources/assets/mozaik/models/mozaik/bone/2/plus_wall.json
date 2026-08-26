@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/normal/plus_wall",
+  "textures": {
+    "texture": "mozaik:block/mozaik/bone/block_2"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/glow/full_corner",
+  "textures": {
+    "texture": "mozaik:block/mozaik/crying_obsidian/block_1"
+  }
+}

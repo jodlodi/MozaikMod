@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/glow/plus",
+  "textures": {
+    "texture": "mozaik:block/mozaik/crying_obsidian/block_0"
+  }
+}

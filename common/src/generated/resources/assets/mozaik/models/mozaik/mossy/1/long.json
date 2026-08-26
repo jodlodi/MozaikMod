@@ -1,0 +1,6 @@
+{
+  "parent": "mozaik:block/normal/long",
+  "textures": {
+    "texture": "mozaik:block/mozaik/mossy/block_1"
+  }
+}

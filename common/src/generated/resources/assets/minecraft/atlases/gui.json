@@ -147,6 +147,26 @@
     },
     {
       "type": "minecraft:single",
+      "resource": "mozaik:item/mossy_shards",
+      "sprite": "mozaik:mossy/shard"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/mossy/gui_0",
+      "sprite": "mozaik:mossy/0"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/mossy/gui_1",
+      "sprite": "mozaik:mossy/1"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/mossy/gui_2",
+      "sprite": "mozaik:mossy/2"
+    },
+    {
+      "type": "minecraft:single",
       "resource": "mozaik:item/brick_shards",
       "sprite": "mozaik:brick/shard"
     },
@@ -202,6 +222,26 @@
     },
     {
       "type": "minecraft:single",
+      "resource": "mozaik:item/cinnabar_shards",
+      "sprite": "mozaik:cinnabar/shard"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/cinnabar/gui_0",
+      "sprite": "mozaik:cinnabar/0"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/cinnabar/gui_1",
+      "sprite": "mozaik:cinnabar/1"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/cinnabar/gui_2",
+      "sprite": "mozaik:cinnabar/2"
+    },
+    {
+      "type": "minecraft:single",
       "resource": "mozaik:item/sandstone_shards",
       "sprite": "mozaik:sandstone/shard"
     },
@@ -242,23 +282,23 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/cinnabar_shards",
-      "sprite": "mozaik:cinnabar/shard"
+      "resource": "mozaik:item/bone_shards",
+      "sprite": "mozaik:bone/shard"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/cinnabar/gui_0",
-      "sprite": "mozaik:cinnabar/0"
+      "resource": "mozaik:gui/mozaik/bone/gui_0",
+      "sprite": "mozaik:bone/0"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/cinnabar/gui_1",
-      "sprite": "mozaik:cinnabar/1"
+      "resource": "mozaik:gui/mozaik/bone/gui_1",
+      "sprite": "mozaik:bone/1"
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/cinnabar/gui_2",
-      "sprite": "mozaik:cinnabar/2"
+      "resource": "mozaik:gui/mozaik/bone/gui_2",
+      "sprite": "mozaik:bone/2"
     },
     {
       "type": "minecraft:single",
@@ -394,6 +434,46 @@
       "type": "minecraft:single",
       "resource": "mozaik:gui/mozaik/basalt/gui_2",
       "sprite": "mozaik:basalt/2"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:item/obsidian_shards",
+      "sprite": "mozaik:obsidian/shard"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/obsidian/gui_0",
+      "sprite": "mozaik:obsidian/0"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/obsidian/gui_1",
+      "sprite": "mozaik:obsidian/1"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/obsidian/gui_2",
+      "sprite": "mozaik:obsidian/2"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:item/crying_obsidian_shards",
+      "sprite": "mozaik:crying_obsidian/shard"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/crying_obsidian/gui_0",
+      "sprite": "mozaik:crying_obsidian/0"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/crying_obsidian/gui_1",
+      "sprite": "mozaik:crying_obsidian/1"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "mozaik:gui/mozaik/crying_obsidian/gui_2",
+      "sprite": "mozaik:crying_obsidian/2"
     },
     {
       "type": "minecraft:single",
