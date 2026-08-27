@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 512814683,
+    "separation": 5,
+    "spacing": 7
+  },
+  "structures": [
+    {
+      "structure": "mozaik:end_test",
+      "weight": 1
+    }
+  ]
+}

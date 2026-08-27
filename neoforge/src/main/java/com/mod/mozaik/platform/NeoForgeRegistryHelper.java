@@ -6,6 +6,7 @@ import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.reg.ModRegistries;
 import com.mod.mozaik.reg.ResourceSupplier;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
@@ -40,6 +41,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.Nullable;
@@ -70,6 +75,8 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 	public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, Constants.MOD_ID);
 	public static final DeferredRegister<ShardMaterial> SHARD_MATERIALS = DeferredRegister.create(ModRegistries.ModKeys.SHARD_MATERIAL, Constants.MOD_ID);
 	public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, Constants.MOD_ID);
+	public static final DeferredRegister<StructurePieceType> STRUCTURE_PIECE_TYPES = DeferredRegister.create(Registries.STRUCTURE_PIECE, Constants.MOD_ID);
+	public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(Registries.STRUCTURE_TYPE, Constants.MOD_ID);
 
 	public static final Map<Supplier<? extends EntityType<? extends LivingEntity>>, Supplier<AttributeSupplier>> ATTRIBUTES = new HashMap<>();
 
@@ -155,6 +162,16 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 	@Override
 	public <T> ResourceSupplier<MemoryModuleType<T>> registerMemoryModuleType(String id, @Nullable Codec<T> codec) {
 		return new ResourceSupplier<>(MEMORY_MODULE_TYPES.register(id, () -> new MemoryModuleType<>(Optional.ofNullable(codec))), Constants.prefix(id));
+	}
+
+	@Override
+	public ResourceSupplier<StructurePieceType> registerStructurePieceType(String id, StructurePieceType typeSupplier) {
+		return new ResourceSupplier<>(STRUCTURE_PIECE_TYPES.register(id, () -> typeSupplier), Constants.prefix(id));
+	}
+
+	@Override
+	public <T extends StructureType<?>> ResourceSupplier<T> registerStructureType(String id, Supplier<T> structureType) {
+		return new ResourceSupplier<>(STRUCTURE_TYPES.register(id, structureType), Constants.prefix(id));
 	}
 
 	@Override

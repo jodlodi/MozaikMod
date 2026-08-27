@@ -1,0 +1,18 @@
+{
+  "type": "mozaik:custom_template",
+  "biomes": "#minecraft:is_end",
+  "setups": [
+    {
+      "air_pocket_probability": 1.0,
+      "keep_liquids": false,
+      "placement": "in_land_surface",
+      "structure_locations": [
+        "mozaik:end_test"
+      ],
+      "weight": 1.0
+    }
+  ],
+  "spawn_overrides": {},
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin"
+}

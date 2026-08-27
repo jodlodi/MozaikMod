@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 254884681,
+    "separation": 5,
+    "spacing": 7
+  },
+  "structures": [
+    {
+      "structure": "mozaik:coralosaur_nest",
+      "weight": 1
+    }
+  ]
+}

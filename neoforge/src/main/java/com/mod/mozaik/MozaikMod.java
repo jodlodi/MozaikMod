@@ -1,8 +1,12 @@
 package com.mod.mozaik;
 
 import com.mod.mozaik.platform.NeoForgeRegistryHelper;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 @Mod(Constants.MOD_ID)
 public class MozaikMod {
@@ -25,5 +29,7 @@ public class MozaikMod {
         NeoForgeRegistryHelper.MENU_TYPES.register(bus);
         NeoForgeRegistryHelper.SHARD_MATERIALS.register(bus);
         NeoForgeRegistryHelper.DATA_COMPONENTS.register(bus);
+        NeoForgeRegistryHelper.STRUCTURE_PIECE_TYPES.register(bus);
+        NeoForgeRegistryHelper.STRUCTURE_TYPES.register(bus);
     }
 }

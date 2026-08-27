@@ -27,9 +27,6 @@ neoForge {
             programArguments.addAll '--mod', project.mod_id, '--all',
                     '--output', rootProject.project(':common').file('src/generated/resources/').getAbsolutePath(),
                     '--existing', rootProject.project(':common').file('src/main/resources/').getAbsolutePath()
-
-            systemProperty 'archies.forge.datagen.path', rootProject.project(':neoforge').file('src/generated/resources/').getAbsolutePath()
-            systemProperty 'archies.fabric.datagen.path', rootProject.project(':fabric').file('src/generated/resources/').getAbsolutePath()
         }
         server {
             server()

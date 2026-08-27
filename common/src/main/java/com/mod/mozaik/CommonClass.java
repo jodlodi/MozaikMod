@@ -1,6 +1,8 @@
 package com.mod.mozaik;
 
 import com.mod.mozaik.reg.*;
+import com.mod.mozaik.structure.ModStructureTypes;
+import com.mod.mozaik.structure.piece.ModStructurePieces;
 
 public class CommonClass {
     public static void init(boolean fabric) {
@@ -12,5 +14,7 @@ public class CommonClass {
         ModRegistries.init();
         ModShardMaterials.init();
         ModDataComponents.init();
+        ModStructurePieces.init();
+        ModStructureTypes.init();
     }
 }

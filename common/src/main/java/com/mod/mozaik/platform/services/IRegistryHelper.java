@@ -33,6 +33,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
@@ -71,6 +74,10 @@ public interface IRegistryHelper {
 	ResourceSupplier<Activity> registerActivity(String id);
 
 	<T> ResourceSupplier<MemoryModuleType<T>> registerMemoryModuleType(String id, @Nullable Codec<T> codec);
+
+	ResourceSupplier<StructurePieceType> registerStructurePieceType(String id, StructurePieceType typeSupplier);
+
+	<T extends StructureType<?>> ResourceSupplier<T> registerStructureType(String id, Supplier<T> structureType);
 
 	ResourceSupplier<ShardMaterial> registerShardMaterial(String id, Supplier<ShardMaterial> shardMaterial);
 

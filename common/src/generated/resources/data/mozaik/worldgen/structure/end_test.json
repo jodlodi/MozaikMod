@@ -1,0 +1,19 @@
+{
+  "type": "mozaik:custom_template",
+  "biomes": "#minecraft:has_structure/end_city",
+  "setups": [
+    {
+      "air_pocket_probability": 1.0,
+      "ground_level_delta": 2,
+      "keep_liquids": false,
+      "placement": "on_land_surface",
+      "structure_locations": [
+        "mozaik:end_test"
+      ],
+      "weight": 1.0
+    }
+  ],
+  "spawn_overrides": {},
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin"
+}
