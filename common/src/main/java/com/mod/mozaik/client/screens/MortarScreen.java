@@ -84,7 +84,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 		if (PersonalPreferences.getShape() == Polyomino.EMPTY) {
-			PersonalPreferences.setShape(PrePolyominoShapes.SQUARE.template.build(PersonalPreferences.getPrimaryColor(), UUID.randomUUID()));
+			PersonalPreferences.setShape(PrePolyominoShapes.values()[PersonalPreferences.getTemplate()].template.build(PersonalPreferences.getPrimaryColor(), UUID.randomUUID()));
 		}
 	}
 

@@ -1,34 +1,92 @@
 package com.mod.mozaik.client.screens;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mod.mozaik.Constants;
+import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.PrePolyominoShapes;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.reg.ModRegistries;
 import com.mod.mozaik.reg.ModShardMaterials;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
-import java.util.*;
+import java.io.BufferedWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @NullMarked
 public class PersonalPreferences {
-	private static final PersonalPreferences INSTANCE = new PersonalPreferences();
+	public static final Codec<PersonalPreferences> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
+			ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).fieldOf("primary_color").forGetter(pref -> pref.primaryColor),
+			ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).fieldOf("secondary_color").forGetter(pref -> pref.secondaryColor),
+			Codec.INT.fieldOf("template").forGetter(pref -> pref.template),
+			Favourite.CODEC.listOf().fieldOf("faves").forGetter(pref -> pref.faves)
+	).apply(recordCodecBuilder, PersonalPreferences::new));
+
+	private static final PersonalPreferences INSTANCE = getOrCreate();
 
 	private ResourceKey<ShardMaterial> primaryColor = ModShardMaterials.ofMaterial(ModShardMaterials.STONE);
 	private ResourceKey<ShardMaterial> secondaryColor = ModShardMaterials.ofMaterial(ModShardMaterials.BLACKSTONE);
+	private int template = 0;
+	private final List<Favourite> faves = new ArrayList<>();
 
 	private Polyomino shape = Polyomino.EMPTY;
-	private int template = 0;
 
-	private final List<Favourite> faves = new ArrayList<>();
 
 	public PersonalPreferences() {
 		for (int i = 0; i < 9; i++) {
 			this.faves.add(new Favourite(Optional.empty(), Optional.empty()));
+		}
+	}
+
+	public PersonalPreferences(ResourceKey<ShardMaterial> primaryColor, ResourceKey<ShardMaterial> secondaryColor, int template, List<Favourite> faves) {
+		this.primaryColor = primaryColor;
+		this.secondaryColor = secondaryColor;
+		this.template = template;
+		this.faves.addAll(faves);
+	}
+
+	private static final Gson GSON = new Gson().newBuilder().setPrettyPrinting().create();
+
+	private static PersonalPreferences getOrCreate() {
+		try {
+			Path filePath = Services.PLATFORM.getConfigDir().resolve(Constants.MOD_ID).resolve("personal_preferences.json");
+			if (Files.exists(filePath)) {
+				JsonObject json = new Gson().newBuilder().setPrettyPrinting().create().fromJson(Files.readString(filePath), JsonObject.class);
+				return CODEC.decode(JsonOps.INSTANCE, json).getOrThrow().getFirst();
+			}
+		} catch (Exception _) {
+
+		}
+
+		return new PersonalPreferences();
+	}
+
+	private void save() {
+		try {
+			JsonElement encoded = CODEC.encodeStart(JsonOps.INSTANCE, this).getOrThrow();
+
+			Path configDir = Services.PLATFORM.getConfigDir().resolve(Constants.MOD_ID);
+			Files.createDirectories(configDir);
+			Path filePath = configDir.resolve("personal_preferences.json");
+
+			try (BufferedWriter writer = com.google.common.io.Files.newWriter(filePath.toFile(), StandardCharsets.UTF_8)) {
+				GSON.toJson(encoded, GSON.newJsonWriter(writer));
+			}
+		} catch (Exception _) {
+
 		}
 	}
 
@@ -39,11 +97,13 @@ public class PersonalPreferences {
 	public static void setFavouriteMaterial(int i, @Nullable ResourceKey<ShardMaterial> material) {
 		Favourite favourite = INSTANCE.faves.get(i);
 		INSTANCE.faves.set(i, new Favourite(Optional.ofNullable(material), favourite.template()));
+		INSTANCE.save();
 	}
 
 	public static void setFavouriteShape(int i, @Nullable Integer template) {
 		Favourite favourite = INSTANCE.faves.get(i);
 		INSTANCE.faves.set(i, new Favourite(favourite.material(), Optional.ofNullable(template)));
+		INSTANCE.save();
 	}
 
 	public static ResourceKey<ShardMaterial> getPrimaryColor() {
@@ -57,6 +117,7 @@ public class PersonalPreferences {
 		screen.carried.forEach(heldPolyominoWidget ->
 				heldPolyominoWidget.setPolyomino(heldPolyominoWidget.getPolyomino().rebuild(primaryColor))
 		);
+		INSTANCE.save();
 	}
 
 	public static ResourceKey<ShardMaterial> getSecondaryColor() {
@@ -65,6 +126,7 @@ public class PersonalPreferences {
 
 	public static void setSecondaryColor(ResourceKey<ShardMaterial> secondaryColor) {
 		INSTANCE.secondaryColor = secondaryColor;
+		INSTANCE.save();
 	}
 
 	public static Polyomino getShape() {
@@ -73,6 +135,7 @@ public class PersonalPreferences {
 
 	public static void setShape(Polyomino shape) {
 		INSTANCE.shape = shape;
+		INSTANCE.save();
 	}
 
 	public static int getTemplate() {
@@ -81,6 +144,7 @@ public class PersonalPreferences {
 
 	public static void setTemplate(int template) {
 		INSTANCE.template = template;
+		INSTANCE.save();
 	}
 
 	public static int minMaterial(MortarScreen screen) {
