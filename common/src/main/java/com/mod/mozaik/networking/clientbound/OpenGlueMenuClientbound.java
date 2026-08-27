@@ -56,7 +56,7 @@ public final class OpenGlueMenuClientbound implements IClientboundMessage {
 		Minecraft minecraft = Minecraft.getInstance();
 		Inventory inventory = Objects.requireNonNull(minecraft.player).getInventory();
 		MortarBlockEntity blockEntity = (MortarBlockEntity) minecraft.player.level().getBlockEntity(this.pos);
-		Direction facing = Objects.requireNonNull(blockEntity).getBlockState().getValue(MortarBlock.FACING);
+		Direction facing = Objects.requireNonNull(blockEntity).getBlockState().getValue(MortarBlock.FACING_ROTATED).getDirection();
 
 		Rotation fromYRot = switch (facing) {
 			case DOWN -> switch (Direction.fromYRot(minecraft.player.getVisualRotationYInDegrees())) {

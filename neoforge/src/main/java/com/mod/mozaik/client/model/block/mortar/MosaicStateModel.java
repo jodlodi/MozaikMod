@@ -5,6 +5,7 @@ import com.mod.mozaik.blocks.MortarBlock;
 import com.mod.mozaik.blocks.entities.NeoMortarBlockEntity;
 import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.model.TesseraHelper;
+import com.mod.mozaik.menus.MortarMenu;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.Tessera;
 import com.mojang.serialization.MapCodec;
@@ -20,6 +21,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.DynamicBlockStateModel;
 import net.neoforged.neoforge.client.model.block.CustomUnbakedBlockStateModel;
@@ -64,15 +66,18 @@ public final class MosaicStateModel implements DynamicBlockStateModel {
 
 	@Override
 	public void collectParts(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, List<BlockStateModelPart> parts) {
-		Direction facing = state.getValue(MortarBlock.FACING);
+		Direction facing = state.getValue(MortarBlock.FACING_ROTATED).getDirection();
 		parts.add(this.mortarMap.get(facing));
 
 		if (GraphicsRenderHelper.BAKER == null) return;
 
 		ModelData data = level.getModelData(pos);
-		List<Polyomino.PlacedPolyomino> colorMap = data.get(NeoMortarBlockEntity.PROPERTY);
-		if (colorMap == null) return;
-		List<Polyomino.PlacedPolyomino> copy = new ArrayList<>(colorMap);
+		List<Polyomino.PlacedPolyomino> input = data.get(NeoMortarBlockEntity.PROPERTY);
+		if (input == null) return;
+		List<Polyomino.PlacedPolyomino> copy = new ArrayList<>();
+
+		Rotation blockRotation = state.getValue(MortarBlock.FACING_ROTATED).getRotation();
+		input.forEach(placedPolyomino -> copy.add(MortarMenu.rotate(placedPolyomino, blockRotation)));
 
 		ClientLevel clientLevel = Minecraft.getInstance().level;
 		if (clientLevel == null) return;

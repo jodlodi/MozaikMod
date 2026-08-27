@@ -60,7 +60,7 @@ public class MortarMenu extends AbstractContainerMenu {
 		this.rotation = rotation;
 
 		if (this.mortar != null && this.mortar.getLevel() != null) {
-			Direction facing = this.mortar.getBlockState().getValue(MortarBlock.FACING);
+			Direction facing = this.mortar.getBlockState().getValue(MortarBlock.FACING_ROTATED).getDirection();
 			BlockPos pos = this.mortar.getBlockPos();
 
 			for (FlatDirection direction : FlatDirection.values()) {
@@ -76,8 +76,13 @@ public class MortarMenu extends AbstractContainerMenu {
 				BlockPos relative = new BlockPos(pos.getX() + diff.getX(), pos.getY() + diff.getY(), pos.getZ() + diff.getZ());
 				MortarBlockEntity blockEntity = this.mortar.getLevel().getBlockEntity(relative) instanceof MortarBlockEntity entity ? entity : null;
 				if (blockEntity != null) {
+					List<Polyomino.PlacedPolyomino> copy = new ArrayList<>();
+
+					Rotation blockRotation = blockEntity.getBlockState().getValue(MortarBlock.FACING_ROTATED).getRotation();
+					blockEntity.getPolyomino().forEach(placedPolyomino -> copy.add(MortarMenu.rotate(placedPolyomino, Rotation.values()[(rotation.ordinal() + blockRotation.ordinal()) % 4])));
+
 					Identifier identifier = fromBlock(blockEntity.getBlockState().getBlock());
-					this.map.put(rotated, new NeighbourMosaic(identifier, this.getRotatedPolyomino(blockEntity.getPolyomino(), this.rotation)));
+					this.map.put(rotated, new NeighbourMosaic(identifier, copy));
 				}
 			}
 		}
@@ -90,8 +95,9 @@ public class MortarMenu extends AbstractContainerMenu {
 
 	public void addToSource(Polyomino.PlacedPolyomino polyomino) {
 		if (this.mortar == null) return;
+		Rotation blockRotation = this.mortar.getBlockState().getValue(MortarBlock.FACING_ROTATED).getRotation();
 
-		Rotation reverseRot = switch (this.rotation) {
+		Rotation reverseRot = switch (Rotation.values()[(this.rotation.ordinal() + blockRotation.ordinal()) % 4]) {
 			case NONE -> Rotation.NONE;
 			case CLOCKWISE_90 -> Rotation.COUNTERCLOCKWISE_90;
 			case CLOCKWISE_180 -> Rotation.CLOCKWISE_180;
@@ -126,15 +132,17 @@ public class MortarMenu extends AbstractContainerMenu {
 
 	private List<Polyomino.PlacedPolyomino> getRotatedPolyomino(List<Polyomino.PlacedPolyomino> input, Rotation rotation) {
 		List<Polyomino.PlacedPolyomino> list = new ArrayList<>();
-		input.forEach(placedPolyomino -> list.add(rotate(placedPolyomino, rotation)));
-
+		if (this.mortar == null) return input;
+		Rotation blockRotation = this.mortar.getBlockState().getValue(MortarBlock.FACING_ROTATED).getRotation();
+		input.forEach(placedPolyomino -> list.add(rotate(placedPolyomino, Rotation.values()[(rotation.ordinal() + blockRotation.ordinal()) % 4])));
 		return list;
 	}
 
 	public void setRotatedPolyomino(List<PolyominoWidget> polyomino) {
 		if (this.mortar == null) return;
+		Rotation blockRotation = this.mortar.getBlockState().getValue(MortarBlock.FACING_ROTATED).getRotation();
 
-		Rotation reverseRot = switch (this.rotation) {
+		Rotation reverseRot = switch (Rotation.values()[(this.rotation.ordinal() + blockRotation.ordinal()) % 4]) {
 			case NONE -> Rotation.NONE;
 			case CLOCKWISE_90 -> Rotation.COUNTERCLOCKWISE_90;
 			case CLOCKWISE_180 -> Rotation.CLOCKWISE_180;

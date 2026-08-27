@@ -82,7 +82,7 @@ public abstract class GenericTemplateStructure extends Structure {
 
 			StructureTemplate template = context.structureTemplateManager().getOrCreate(location);
 			Rotation rotation = Util.getRandom(Rotation.values(), random);
-			Mirror mirror = random.nextFloat() < 0.5F ? Mirror.NONE : Mirror.FRONT_BACK;
+			Mirror mirror = Mirror.NONE;
 			BlockPos pivot = new BlockPos(template.getSize().getX() / 2, 0, template.getSize().getZ() / 2);
 			BoundingBox boundingBox = template.getBoundingBox(context.chunkPos().getWorldPosition(), rotation, pivot, mirror);
 			BlockPos finalPos = this.adjustPos(finalSetup, context, properties, boundingBox);

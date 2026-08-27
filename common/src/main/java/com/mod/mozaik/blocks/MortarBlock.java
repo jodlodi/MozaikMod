@@ -49,7 +49,7 @@ import java.util.Map;
 public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
 	private static final Map<Direction, VoxelShape> SHAPES = Shapes.rotateAll(Block.box(0.0D, 0.0D, 0.5D, 16.0D, 16.0D, 16.0D));
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-	public static final EnumProperty<Direction> FACING = DirectionalBlock.FACING;
+	public static final EnumProperty<DirectionAndRotation> FACING_ROTATED = EnumProperty.create("facing_rotated", DirectionAndRotation.class);
 
 	public static final MapCodec<MortarBlock> CODEC = RecordCodecBuilder.mapCodec(
 			instance -> instance.group(
@@ -63,7 +63,7 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 	public MortarBlock(DyeColor color, Properties properties) {
 		super(properties);
 		this.color = color;
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING_ROTATED, DirectionAndRotation.UP_0).setValue(WATERLOGGED, false));
 	}
 
 	public DyeColor getColor() {
@@ -77,7 +77,7 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 
 	@Override
 	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		return SHAPES.get(state.getValue(FACING));
+		return SHAPES.get(state.getValue(FACING_ROTATED).getDirection());
 	}
 
 	@Override
@@ -87,48 +87,65 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 
 	@Override
 	protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		return SHAPES.get(state.getValue(FACING));
+		return SHAPES.get(state.getValue(FACING_ROTATED).getDirection());
 	}
 
 	@Override
 	protected BlockState rotate(BlockState state, Rotation rotation) {
-		return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+		return state.setValue(FACING_ROTATED, state.getValue(FACING_ROTATED).rotate(rotation));
 	}
 
 	@Override
 	protected BlockState mirror(BlockState state, Mirror mirror) {
-		return state.setValue(FACING, mirror.mirror(state.getValue(FACING)));
+		return state.setValue(FACING_ROTATED, state.getValue(FACING_ROTATED).mirror(mirror));
 	}
 
 	@Override
 	protected VoxelShape getOcclusionShape(BlockState state) {
-		return SHAPES.get(state.getValue(FACING));
+		return SHAPES.get(state.getValue(FACING_ROTATED).getDirection());
 	}
 
 	@Override
 	protected VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos) {
-		return SHAPES.get(state.getValue(FACING));
+		return SHAPES.get(state.getValue(FACING_ROTATED).getDirection());
 	}
 
 	@Override
 	protected VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		return SHAPES.get(state.getValue(FACING));
+		return SHAPES.get(state.getValue(FACING_ROTATED).getDirection());
 	}
 
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		FluidState replacedFluidState = context.getLevel().getFluidState(context.getClickedPos());
 
-		Direction clickedFace = context.getClickedFace();
-		BlockState blockState = context.getLevel().getBlockState(context.getClickedPos().relative(clickedFace.getOpposite()));
-		return blockState.is(this) && blockState.getValue(FACING) == clickedFace
-				? this.defaultBlockState().setValue(FACING, clickedFace.getOpposite()).setValue(WATERLOGGED, replacedFluidState.is(Fluids.WATER))
-				: this.defaultBlockState().setValue(FACING, clickedFace).setValue(WATERLOGGED, replacedFluidState.is(Fluids.WATER));
+		DirectionAndRotation directionAndRotation = switch (context.getClickedFace()) {
+			case DOWN ->
+					switch (context.getHorizontalDirection()) {
+						case Direction.NORTH -> DirectionAndRotation.DOWN_90;
+						case Direction.WEST -> DirectionAndRotation.DOWN_180;
+						case Direction.SOUTH -> DirectionAndRotation.DOWN_270;
+						default -> DirectionAndRotation.DOWN_0;
+					};
+			case UP ->
+					switch (context.getHorizontalDirection()) {
+						case Direction.NORTH -> DirectionAndRotation.UP_270;
+						case Direction.WEST -> DirectionAndRotation.UP_180;
+						case Direction.SOUTH -> DirectionAndRotation.UP_90;
+						default -> DirectionAndRotation.UP_0;
+					};
+			case NORTH -> DirectionAndRotation.NORTH;
+			case SOUTH -> DirectionAndRotation.SOUTH;
+			case WEST -> DirectionAndRotation.WEST;
+			case EAST -> DirectionAndRotation.EAST;
+		};
+
+		return this.defaultBlockState().setValue(FACING_ROTATED, directionAndRotation).setValue(WATERLOGGED, replacedFluidState.is(Fluids.WATER));
 	}
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(FACING, WATERLOGGED);
+		builder.add(FACING_ROTATED, WATERLOGGED);
 	}
 
 	@Override
@@ -157,7 +174,7 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 			if (level instanceof ServerLevel serverLevel && !state.is(mortar.get()) && level.getBlockEntity(pos) instanceof MortarBlockEntity blockEntity) {
 				BlockState newState = mortar.get().defaultBlockState()
 						.setValue(WATERLOGGED, state.getValue(WATERLOGGED))
-						.setValue(FACING, state.getValue(FACING));
+						.setValue(FACING_ROTATED, state.getValue(FACING_ROTATED));
 
 				level.setBlock(pos, newState, Block.UPDATE_ALL);
 
