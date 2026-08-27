@@ -114,5 +114,50 @@ public abstract class SpriteButton extends ModButton implements PhaseRenderable 
 				20,
 				20
 		);
+
+		public static final SpriteSet FLIP_VERTICAL = new SpriteSet(
+				Constants.prefix("textures/gui/container/flip_vertical/unselected.png"),
+				Constants.prefix("textures/gui/container/flip_vertical/hovered.png"),
+				Constants.prefix("textures/gui/container/flip_vertical/pressed.png"),
+				null,
+				18,
+				18
+		);
+
+		public static final SpriteSet FLIP_HORIZONTAL = new SpriteSet(
+				Constants.prefix("textures/gui/container/flip_horizontal/unselected.png"),
+				Constants.prefix("textures/gui/container/flip_horizontal/hovered.png"),
+				Constants.prefix("textures/gui/container/flip_horizontal/pressed.png"),
+				null,
+				18,
+				18
+		);
+
+		public static final SpriteSet ROTATE_180 = new SpriteSet(
+				Constants.prefix("textures/gui/container/rotate_180/unselected.png"),
+				Constants.prefix("textures/gui/container/rotate_180/hovered.png"),
+				Constants.prefix("textures/gui/container/rotate_180/pressed.png"),
+				null,
+				18,
+				18
+		);
+
+		public static final SpriteSet ROTATE_270 = new SpriteSet(
+				Constants.prefix("textures/gui/container/rotate_270/unselected.png"),
+				Constants.prefix("textures/gui/container/rotate_270/hovered.png"),
+				Constants.prefix("textures/gui/container/rotate_270/pressed.png"),
+				null,
+				18,
+				18
+		);
+
+		public static final SpriteSet ROTATE_90 = new SpriteSet(
+				Constants.prefix("textures/gui/container/rotate_90/unselected.png"),
+				Constants.prefix("textures/gui/container/rotate_90/hovered.png"),
+				Constants.prefix("textures/gui/container/rotate_90/pressed.png"),
+				null,
+				18,
+				18
+		);
 	}
 }

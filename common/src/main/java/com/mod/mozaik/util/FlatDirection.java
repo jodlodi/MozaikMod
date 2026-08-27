@@ -3,6 +3,7 @@ package com.mod.mozaik.util;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.block.Mirror;
 import org.jetbrains.annotations.Unmodifiable;
 import org.jspecify.annotations.NullMarked;
 
@@ -20,7 +21,7 @@ public enum FlatDirection implements StringRepresentable {
 	LEFT(true, -1, 0, 270.0F),
 	UP_LEFT(false, -1, -1, 315.0F);
 
-	public static final StringRepresentable.EnumCodec<FlatDirection> CODEC = StringRepresentable.fromEnum(FlatDirection::values);
+	public static final EnumCodec<FlatDirection> CODEC = StringRepresentable.fromEnum(FlatDirection::values);
 
 	private final boolean isCardinal;
 	private final int relativeX;
@@ -68,6 +69,32 @@ public enum FlatDirection implements StringRepresentable {
 
 	public FlatDirection counterClockWise(int steps) {
 		return values()[(this.ordinal() + values().length - steps) % values().length];
+	}
+
+	public FlatDirection mirror(Mirror mirror) {
+		return switch (mirror) {
+			case NONE -> this;
+			case LEFT_RIGHT -> switch (this) {
+				case UP -> UP;
+				case UP_RIGHT -> UP_LEFT;
+				case RIGHT -> LEFT;
+				case DOWN_RIGHT -> DOWN_LEFT;
+				case DOWN -> DOWN;
+				case DOWN_LEFT -> DOWN_RIGHT;
+				case LEFT -> RIGHT;
+				case UP_LEFT -> UP_RIGHT;
+			};
+			case FRONT_BACK -> switch (this) {
+				case UP -> DOWN;
+				case UP_RIGHT -> DOWN_RIGHT;
+				case RIGHT -> RIGHT;
+				case DOWN_RIGHT -> UP_RIGHT;
+				case DOWN -> UP;
+				case DOWN_LEFT -> UP_LEFT;
+				case LEFT -> LEFT;
+				case UP_LEFT -> DOWN_LEFT;
+			};
+		};
 	}
 
 	public Vec3i facing(Direction direction) {

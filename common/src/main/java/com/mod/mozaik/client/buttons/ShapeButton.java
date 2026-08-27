@@ -8,7 +8,6 @@ import com.mod.mozaik.client.widgets.MaterialWidget;
 import com.mod.mozaik.polyomino.PrePolyominoShapes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
@@ -76,12 +75,6 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 					Component.translatable(MaterialWidget.FAVOURITE, Component.literal(favSlots.toString()).withStyle(ChatFormatting.AQUA))
 			), Optional.empty(), mouseX, mouseY);
 		}
-	}
-
-	private void numb(GuiGraphicsExtractor graphics, Font font, int x, int y, String amount) {
-		graphics.pose().pushMatrix();
-		graphics.text(font, amount, x, y, 0xFF22BB33, true);
-		graphics.pose().popMatrix();
 	}
 
 	public int getShape() {

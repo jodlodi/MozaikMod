@@ -2,6 +2,7 @@ package com.mod.mozaik.polyomino;
 
 import com.mod.mozaik.util.FlatDirection;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import org.jspecify.annotations.NullMarked;
 
@@ -109,6 +110,10 @@ public enum TesseraShape implements StringRepresentable {
 		};
 
 		return get(this.check.stream().map(flatDirection -> flatDirection.clockWise(steps)).toList());
+	}
+
+	public TesseraShape mirror(Mirror mirror) {
+		return get(this.check.stream().map(flatDirection -> flatDirection.mirror(mirror)).toList());
 	}
 
 	public List<FlatDirection> getCheck() {

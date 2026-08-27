@@ -2,7 +2,9 @@ package com.mod.mozaik.data.gen;
 
 import com.google.common.base.Ascii;
 import com.mod.mozaik.client.ModKeyMappings;
+import com.mod.mozaik.client.buttons.EditButtons;
 import com.mod.mozaik.client.buttons.ToolButton;
+import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.MozaikTool;
 import com.mod.mozaik.client.widgets.MaterialWidget;
 import com.mod.mozaik.data.util.ModLangProvider;
@@ -53,6 +55,12 @@ public class ModLangGen extends ModLangProvider {
 
 		for (MozaikTool tool : MozaikTool.values()) {
 			this.add(tool.asTranslationString(), toTitleCase(tool.getSerializedName()));
+		}
+		for (EditButtons.Edition edition : EditButtons.Edition.values()) {
+			this.add(edition.asTranslationString(), toTitleCase(edition.getSerializedName()));
+		}
+		for (MortarScreen.Mode mode : MortarScreen.Mode.values()) {
+			this.add(mode.asTranslationString(), toTitleCase(mode.getSerializedName()));
 		}
 
 		this.add(ToolButton.SHORTCUT, "§8Shortcut key: [%1$s§8]");

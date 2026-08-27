@@ -33,6 +33,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.block.Rotation;
 import org.jetbrains.annotations.Nullable;
@@ -45,12 +46,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @NullMarked
 public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
-	private static final Identifier MORTAR_LOCATION = Constants.prefix("textures/gui/container/mortar.png");
 	private static final int BACKGROUND_WIDTH = 242;
 	private static final int BACKGROUND_HEIGHT = 256;
 
-	private static final Vector2i GRID_START = new Vector2i(41, 76);
-	private static final Vector2i BOWL_CENTER = new Vector2i(59, 25);
+	public static final Vector2i GRID_START = new Vector2i(41, 76);
+	public static final Vector2i BOWL_CENTER = new Vector2i(59, 25);
 	private static final Vector2i MINI_BOWL_ITEM = new Vector2i(107, 7);
 
 	private static final Vector2i MATERIAL_BAR = new Vector2i(4, 75);
@@ -68,13 +68,24 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private static final Vector2i WAND = new Vector2i(196, 11);
 	private static final Vector2i CHISEL = new Vector2i(196, 32);
 
+	private static final Vector2i SETTINGS = new Vector2i(221, 15);
+	private static final Vector2i EDIT = new Vector2i(221, 30);
+	private static final Vector2i LOCK = new Vector2i(221, 45);
+
+	private static final Vector2i FLIP_VERTICAL = new Vector2i(153, 12);
+	private static final Vector2i FLIP_HORIZONTAL = new Vector2i(174, 12);
+	private static final Vector2i ROTATE_180 = new Vector2i(153, 33);
+	private static final Vector2i ROTATE_270 = new Vector2i(174, 33);
+	private static final Vector2i ROTATE_90 = new Vector2i(195, 33);
+
 	public static final int LEFT_CLICK = 0;
 	public static final int MIDDLE_CLICK = 2;
 	public static final int RIGHT_CLICK = 1;
 
 	public MozaikTool tool = MozaikTool.CURSOR;
+	public Mode mode = Mode.MORTAR;
 
-	public List<PolyominoWidget> polyominos = new ArrayList<>();
+	public List<PolyominoWidget> polyomino = new ArrayList<>();
 	public List<PolyominoWidget> selected = new ArrayList<>();
 	public List<HeldPolyominoWidget> carried = new ArrayList<>();
 	private final List<PhaseRenderable> renderableWidgets = new ArrayList<>();
@@ -115,11 +126,11 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	public void markChanged() {
-		this.menu.setRotatedPolyomino(this.polyominos);
+		this.menu.setRotatedPolyomino(this.polyomino);
 	}
 
 	public void removeFromSource(PolyominoWidget polyomino) {
-		this.polyominos.remove(polyomino);
+		this.polyomino.remove(polyomino);
 		if (this.menu.getShardSource().isCreative()) {
 			this.markChanged();
 		} else {
@@ -143,7 +154,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	public List<PolyominoWidget> getPolyomino() {
-		return this.polyominos;
+		return this.polyomino;
 	}
 
 	@Override
@@ -645,10 +656,45 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	@Override
+	public void rebuildWidgets() {
+		super.rebuildWidgets();
+	}
+
+	@Override
 	protected void init() {
 		super.init();
 
-		this.addRenderableWidget(new CreatePolyominoButton(this.leftPos + BOWL_CENTER.x, this.topPos + BOWL_CENTER.y, this));
+		switch (this.mode) {
+			case MORTAR -> {
+				this.addRenderableWidget(new CreatePolyominoButton(this.leftPos + BOWL_CENTER.x, this.topPos + BOWL_CENTER.y, this));
+				this.addRenderableWidget(new AltColorWidget(this, this.leftPos + MINI_BOWL_ITEM.x, this.topPos + MINI_BOWL_ITEM.y));
+
+				this.addRenderableWidget(new ToolButton(this, CHISEL, SpriteButton.SpriteSet.CHISEL, MozaikTool.CHISEL));
+				this.addRenderableWidget(new ToolButton(this, CURSOR, SpriteButton.SpriteSet.CURSOR, MozaikTool.CURSOR));
+				this.addRenderableWidget(new ToolButton(this, SWAP, SpriteButton.SpriteSet.SWAP, MozaikTool.SWAP));
+				this.addRenderableWidget(new ToolButton(this, PICKER, SpriteButton.SpriteSet.PICKER, MozaikTool.PICKER));
+				this.addRenderableWidget(new ToolButton(this, WAND, SpriteButton.SpriteSet.WAND, MozaikTool.WAND));
+				this.addRenderableWidget(new ToolButton(this, SELECT, SpriteButton.SpriteSet.SELECT, MozaikTool.SELECT));
+			}
+			case SETTINGS -> {
+			}
+			case EDIT -> {
+				this.addRenderableWidget(new CreatePolyominoButton(this.leftPos + BOWL_CENTER.x, this.topPos + BOWL_CENTER.y, this));
+				this.addRenderableWidget(new AltColorWidget(this, this.leftPos + MINI_BOWL_ITEM.x, this.topPos + MINI_BOWL_ITEM.y));
+
+				this.addRenderableWidget(new EditButtons(this, FLIP_VERTICAL, SpriteButton.SpriteSet.FLIP_VERTICAL, EditButtons.Edition.FLIP_VERTICAL));
+				this.addRenderableWidget(new EditButtons(this, FLIP_HORIZONTAL, SpriteButton.SpriteSet.FLIP_HORIZONTAL, EditButtons.Edition.FLIP_HORIZONTAL));
+				this.addRenderableWidget(new EditButtons(this, ROTATE_180, SpriteButton.SpriteSet.ROTATE_180, EditButtons.Edition.ROTATE_180));
+				this.addRenderableWidget(new EditButtons(this, ROTATE_270, SpriteButton.SpriteSet.ROTATE_270, EditButtons.Edition.ROTATE_270));
+				this.addRenderableWidget(new EditButtons(this, ROTATE_90, SpriteButton.SpriteSet.ROTATE_90, EditButtons.Edition.ROTATE_90));
+			}
+			case LOCK -> {
+			}
+		}
+
+		this.addRenderableWidget(new TabButton(this, SETTINGS, Mode.SETTINGS));
+		this.addRenderableWidget(new TabButton(this, EDIT, Mode.EDIT));
+		this.addRenderableWidget(new TabButton(this, LOCK, Mode.LOCK));
 
 		this.addRenderableWidget(new ClickableButton(this, MATERIAL_BAR_UP, SpriteButton.SpriteSet.UP_ARROW) {
 			@Override
@@ -698,13 +744,6 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 		});
 
-		this.addRenderableWidget(new ToolButton(this, CHISEL, SpriteButton.SpriteSet.CHISEL, MozaikTool.CHISEL));
-		this.addRenderableWidget(new ToolButton(this, CURSOR, SpriteButton.SpriteSet.CURSOR, MozaikTool.CURSOR));
-		this.addRenderableWidget(new ToolButton(this, SWAP, SpriteButton.SpriteSet.SWAP, MozaikTool.SWAP));
-		this.addRenderableWidget(new ToolButton(this, PICKER, SpriteButton.SpriteSet.PICKER, MozaikTool.PICKER));
-		this.addRenderableWidget(new ToolButton(this, WAND, SpriteButton.SpriteSet.WAND, MozaikTool.WAND));
-		this.addRenderableWidget(new ToolButton(this, SELECT, SpriteButton.SpriteSet.SELECT, MozaikTool.SELECT));
-
 		this.menu.getRotatedPolyomino().forEach(placedPolyomino -> {
 			int gridX = this.leftPos + GRID_START.x;
 			int gridY = this.topPos + GRID_START.y;
@@ -721,8 +760,6 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		for (int i = 0; i < 9; i++) {
 			this.addRenderableWidget(new ShapeButton(this, this.leftPos + SHAPE_BAR.x, this.topPos + SHAPE_BAR.y + i * 18, i));
 		}
-
-		this.addRenderableWidget(new AltColorWidget(this, this.leftPos + MINI_BOWL_ITEM.x, this.topPos + MINI_BOWL_ITEM.y));
 	}
 
 	@Override
@@ -745,8 +782,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		super.extractBackground(graphics, mouseX, mouseY, a);
 		int xo = (this.width - this.imageWidth) / 2;
 		int yo = (this.height - this.imageHeight) / 2;
-		graphics.blit(RenderPipelines.GUI_TEXTURED, MORTAR_LOCATION, xo, yo, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
-
+		graphics.blit(RenderPipelines.GUI_TEXTURED, this.mode.getTexture(), xo, yo, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
 		graphics.blit(RenderPipelines.GUI_TEXTURED, this.menu.getTexture(), xo + GRID_START.x, yo + GRID_START.y, 0.0F, 0.0F, 160, 160, 160, 160);
 
 		this.menu.getMap().forEach((flatDirection, mosaic) -> {
@@ -770,5 +806,33 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 					0, 0, width, height, width, height, 160, 160, 0xFF777777
 			);
 		});
+	}
+
+	public enum Mode implements StringRepresentable {
+		MORTAR,
+		SETTINGS,
+		EDIT,
+		LOCK;
+
+		private final Identifier texture;
+
+		Mode() {
+			this.texture = Constants.prefix("textures/gui/container/")
+					.withSuffix(this.getSerializedName())
+					.withSuffix(".png");
+		}
+
+		public Identifier getTexture() {
+			return this.texture;
+		}
+
+		public String asTranslationString() {
+			return "tooltip.mozaik.mode." + this.getSerializedName();
+		}
+
+		@Override
+		public String getSerializedName() {
+			return this.name().toLowerCase(Locale.ROOT);
+		}
 	}
 }

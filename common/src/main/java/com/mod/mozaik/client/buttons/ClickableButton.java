@@ -50,7 +50,9 @@ public abstract class ClickableButton extends SpriteButton {
 		return this.isPressed > 0;
 	}
 
-	public abstract boolean isBlocked();
+	public boolean isBlocked() {
+		return false;
+	}
 
 	public abstract void onUnblockedPress(InputWithModifiers inputWithModifiers);
 }

@@ -2,13 +2,12 @@ package com.mod.mozaik.polyomino;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.reg.ModRegistries;
-import com.mod.mozaik.reg.ModShardMaterials;
-import com.mod.mozaik.reg.ResourceSupplier;
 import com.mod.mozaik.util.FlatDirection;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.block.Mirror;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.jspecify.annotations.NullMarked;
@@ -53,6 +52,26 @@ public record Polyomino(List<Tessera.PlacedTessera> placedTessera, ResourceKey<S
 				Codec.INT.fieldOf("x").forGetter(PlacedPolyomino::x),
 				Codec.INT.fieldOf("y").forGetter(PlacedPolyomino::y)
 		).apply(recordCodecBuilder, PlacedPolyomino::new));
+
+		public PlacedPolyomino mirror(Mirror mirror) {
+			if (mirror == Mirror.NONE) return this;
+
+			List<Tessera.PlacedTessera> placedTessera = new ArrayList<>();
+
+			this.polyomino().placedTessera().forEach(voxel -> {
+						Vector2i rotated = mirror == Mirror.FRONT_BACK ? new Vector2i(voxel.x(), -voxel.y()) : new Vector2i(-voxel.x(), voxel.y());
+						placedTessera.add(new Tessera.PlacedTessera(new Tessera(voxel.tessera().shape().mirror(mirror)), rotated.x(), rotated.y()));
+					}
+			);
+
+			Vector2i finalPos = mirror == Mirror.FRONT_BACK ? new Vector2i(this.x(), -this.y() + 15) : new Vector2i(-this.x() + 15, this.y());
+
+			return new Polyomino.PlacedPolyomino(
+					new Polyomino(placedTessera, this.polyomino().material(), this.polyomino().uuid()),
+					finalPos.x(),
+					finalPos.y()
+			);
+		}
 	}
 
 	public static class Builder {
