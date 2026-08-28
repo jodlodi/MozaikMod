@@ -1,5 +1,6 @@
 package com.mod.mozaik.reg;
 
+import com.mod.mozaik.items.MortarBlockItem;
 import com.mod.mozaik.items.ShardBagItem;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.items.components.ShardBagContents;
@@ -14,7 +15,7 @@ import java.util.function.Function;
 
 @NullMarked
 public class ModItems {
-	public static final ColorCollection<ResourceSupplier<BlockItem>> MORTARS = registerColoredBlockItems(ModBlocks.MORTARS, properties -> properties);
+	public static final ColorCollection<ResourceSupplier<MortarBlockItem>> MORTARS = registerColoredMosaicItems(ModBlocks.MORTARS, properties -> properties);
 	
 	public static final ResourceSupplier<ShardItem> STONE_SHARDS = Services.REGISTRY.registerItem("stone_shards", properties -> new ShardItem(properties, ModShardMaterials.STONE));
 	public static final ResourceSupplier<ShardItem> BLACKSTONE_SHARDS = Services.REGISTRY.registerItem("blackstone_shards", properties -> new ShardItem(properties, ModShardMaterials.BLACKSTONE));
@@ -64,15 +65,15 @@ public class ModItems {
 
 	}
 
-	private static <T extends Block> ResourceSupplier<BlockItem> registerBlockItem(ResourceSupplier<T> block, Function<Item.Properties, Item.Properties> propertiesFunction) {
-		return Services.REGISTRY.registerItem(block.id().getPath(), properties -> new BlockItem(block.get(), propertiesFunction.apply(properties)));
+	private static <T extends Block> ResourceSupplier<MortarBlockItem> registerMosaicItem(ResourceSupplier<T> block, Function<Item.Properties, Item.Properties> propertiesFunction) {
+		return Services.REGISTRY.registerItem(block.id().getPath(), properties -> new MortarBlockItem(block.get(), propertiesFunction.apply(properties)));
 	}
 
-	public static <T extends Block> ColorCollection<ResourceSupplier<BlockItem>> registerColoredBlockItems(ColorCollection<ResourceSupplier<T>> blocks, Function<Item.Properties, Item.Properties> propertiesFunction) {
+	public static <T extends Block> ColorCollection<ResourceSupplier<MortarBlockItem>> registerColoredMosaicItems(ColorCollection<ResourceSupplier<T>> blocks, Function<Item.Properties, Item.Properties> propertiesFunction) {
 		return ColorCollection.zipMap(
 				ColorCollection.VALUES,
 				blocks,
-				(color , supplier) -> registerBlockItem(supplier, propertiesFunction)
+				(color , supplier) -> registerMosaicItem(supplier, propertiesFunction)
 		);
 	}
 }

@@ -167,11 +167,15 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 			return InteractionResult.PASS;
 		}
 
+		if (!(level.getBlockEntity(pos) instanceof MortarBlockEntity blockEntity) || blockEntity.isSigned()) {
+			return InteractionResult.PASS;
+		}
+
 		DyeColor dye = itemStack.get(DataComponents.DYE);
 		if (dye != null) {
 			ResourceSupplier<MortarBlock> mortar = ModBlocks.MORTARS.pick(dye);
 
-			if (level instanceof ServerLevel serverLevel && !state.is(mortar.get()) && level.getBlockEntity(pos) instanceof MortarBlockEntity blockEntity) {
+			if (level instanceof ServerLevel serverLevel && !state.is(mortar.get())) {
 				BlockState newState = mortar.get().defaultBlockState()
 						.setValue(WATERLOGGED, state.getValue(WATERLOGGED))
 						.setValue(FACING_ROTATED, state.getValue(FACING_ROTATED));
@@ -195,7 +199,11 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 
 	@Override
 	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-		if (player instanceof ServerPlayer serverPlayer && level.getBlockEntity(pos) instanceof MortarBlockEntity blockEntity) {
+		if (!(level.getBlockEntity(pos) instanceof MortarBlockEntity blockEntity) || blockEntity.isSigned()) {
+			return InteractionResult.PASS;
+		}
+
+		if (player instanceof ServerPlayer serverPlayer) {
 			if (serverPlayer.containerMenu != serverPlayer.inventoryMenu) {
 				serverPlayer.closeContainer();
 			}

@@ -11,6 +11,8 @@ import com.mod.mozaik.client.widgets.MaterialWidget;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.menus.MortarMenu;
+import com.mod.mozaik.networking.bidirectional.RemovePolyominoBidirectional;
+import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.PrePolyominoShapes;
 import com.mod.mozaik.polyomino.ShardMaterial;
@@ -19,12 +21,18 @@ import com.mod.mozaik.reg.ModTabs;
 import com.mod.mozaik.util.FlatDirection;
 import com.mod.mozaik.util.IMozaikKeyMapping;
 import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
+import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.gui.navigation.FocusNavigationEvent;
+import net.minecraft.client.gui.navigation.ScreenDirection;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.input.KeyEvent;
@@ -35,6 +43,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Rotation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
@@ -91,6 +100,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private final List<PhaseRenderable> renderableWidgets = new ArrayList<>();
 
 	private @Nullable Vector2i selectionStart = null;
+	private @Nullable EditBox titleBox = null;
 
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
@@ -159,6 +169,22 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	@Override
 	public boolean keyPressed(KeyEvent event) {
+		if (event.isEscape() && this.shouldCloseOnEsc()) {
+			this.onClose();
+			return true;
+		}
+
+		if (this.getFocused() != null && this.getFocused().keyPressed(event)) {
+			return true;
+		}
+
+		if (this.titleBox != null && this.titleBox.isFocused() && !this.titleBox.getValue().isEmpty() && event.isConfirmation()) {
+			//this.saveChanges();
+			this.menu.sign(this.titleBox.getValue());
+			this.minecraft.gui.setScreen(null);
+			return true;
+		}
+
 		if (IMozaikKeyMapping.matches(ModKeyMappings.SELECT_ALL, event)) {
 			this.selected.clear();
 			this.selected.addAll(this.getPolyomino());
@@ -236,8 +262,28 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		if (InputConstants.KEY_RETURN == event.key()) {
 			this.selected.clear();
 		}
+		FocusNavigationEvent navigationEvent = switch (event.key()) {
+			case 258 -> new FocusNavigationEvent.TabNavigation(!event.hasShiftDown());
+			case 262 -> new FocusNavigationEvent.ArrowNavigation(ScreenDirection.RIGHT);
+			case 263 -> new FocusNavigationEvent.ArrowNavigation(ScreenDirection.LEFT);
+			case 264 -> new FocusNavigationEvent.ArrowNavigation(ScreenDirection.DOWN);
+			case 265 -> new FocusNavigationEvent.ArrowNavigation(ScreenDirection.UP);
+			default -> null;
+		};
 
-		return super.keyPressed(event);
+		if (navigationEvent != null) {
+			ComponentPath focusPath = super.nextFocusPath(navigationEvent);
+			if (focusPath == null && navigationEvent instanceof FocusNavigationEvent.TabNavigation) {
+				this.clearFocus();
+				focusPath = super.nextFocusPath(navigationEvent);
+			}
+
+			if (focusPath != null) {
+				this.changeFocus(focusPath);
+			}
+		}
+
+		return false;
 	}
 
 	@Override
@@ -663,6 +709,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	@Override
 	protected void init() {
 		super.init();
+		MortarScreen.this.titleBox = null;
 
 		switch (this.mode) {
 			case MORTAR -> {
@@ -689,6 +736,24 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				this.addRenderableWidget(new EditButtons(this, ROTATE_90, SpriteButton.SpriteSet.ROTATE_90, EditButtons.Edition.ROTATE_90));
 			}
 			case LOCK -> {
+				int xo = (this.width - this.imageWidth) / 2;
+				int yo = (this.height - this.imageHeight) / 2;
+				MortarScreen.this.titleBox = this.addRenderableWidget(new EditBox(
+						this.minecraft.font,
+						xo + 64,
+						yo + 28,
+						114,
+						20,
+						Component.translatable("book.sign.titlebox")
+				));
+				MortarScreen.this.titleBox.setMaxLength(15);
+				MortarScreen.this.titleBox.setBordered(false);
+				MortarScreen.this.titleBox.setCentered(true);
+				MortarScreen.this.titleBox.setTextShadow(true);
+				MortarScreen.this.titleBox.setTextColor(0xFFFFFFFF);
+				//titleBox.setResponder((value) -> finalizeButton.active = !StringUtil.isBlank(value));
+				MortarScreen.this.titleBox.setValue("");
+				MortarScreen.this.setFocused(MortarScreen.this.titleBox);
 			}
 		}
 
@@ -763,6 +828,26 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	@Override
+	public void setFocused(@Nullable GuiEventListener focused) {
+		if (focused instanceof TabButton button && button.getMode() == Mode.LOCK && this.mode == Mode.LOCK) {
+			super.setFocused(this.titleBox);
+			return;
+		}
+		super.setFocused(focused);
+	}
+
+	@Override
+	public boolean isInGameUi() {
+		return true;
+	}
+
+	@Override
+	protected void setInitialFocus() {
+		if (this.titleBox != null) this.setInitialFocus(this.titleBox);
+		else super.setInitialFocus();
+	}
+
+	@Override
 	protected void clearWidgets() {
 		this.getPolyomino().clear();
 		this.renderableWidgets.clear();
@@ -806,6 +891,25 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 					0, 0, width, height, width, height, 160, 160, 0xFF777777
 			);
 		});
+
+		if (this.mode == Mode.LOCK) {
+			graphics.text(
+					this.font,
+					Component.literal("Enter Mosaic Title:").withStyle(ChatFormatting.GRAY),
+					xo + this.imageWidth / 2 - this.font.width(Component.literal("Enter Mosaic Title:").withStyle(ChatFormatting.GRAY)) / 2,
+					yo + 16,
+					-1,
+					true
+			);
+			graphics.text(
+					this.font,
+					Component.translatable("book.byAuthor", Objects.requireNonNull(Minecraft.getInstance().player).getName()).withStyle(ChatFormatting.GRAY),
+					xo + this.imageWidth / 2 - this.font.width(Component.translatable("book.byAuthor", Minecraft.getInstance().player.getName()).withStyle(ChatFormatting.GRAY)) / 2,
+					yo + 40,
+					-1,
+					true
+			);
+		}
 	}
 
 	public enum Mode implements StringRepresentable {

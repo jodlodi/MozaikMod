@@ -22,6 +22,10 @@ public class TabButton extends ModButton {
 		this.mode = mode;
 	}
 
+	public MortarScreen.Mode getMode() {
+		return this.mode;
+	}
+
 	@Override
 	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
 		if (this.isHovered()) {

@@ -10,6 +10,7 @@ import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.items.components.ShardBagContents;
 import com.mod.mozaik.networking.bidirectional.AddPolyominoBidirectional;
 import com.mod.mozaik.networking.bidirectional.RemovePolyominoBidirectional;
+import com.mod.mozaik.networking.bidirectional.SignedMozaikBidirectional;
 import com.mod.mozaik.networking.bidirectional.UpdateMozaikBidirectional;
 import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.polyomino.Polyomino;
@@ -91,6 +92,11 @@ public class MortarMenu extends AbstractContainerMenu {
 	public void removeFromSource(UUID uuid) {
 		if (this.mortar == null) return;
 		Services.NETWORK.sendToServer(new RemovePolyominoBidirectional(uuid, this.mortar.getBlockPos(), this.inventory.player.getId()));
+	}
+
+	public void sign(@Nullable String title) {
+		if (this.mortar == null) return;
+		Services.NETWORK.sendToServer(new SignedMozaikBidirectional(Optional.ofNullable(title), Optional.of(this.inventory.player.getPlainTextName()), this.mortar.getBlockPos()));
 	}
 
 	public void addToSource(Polyomino.PlacedPolyomino polyomino) {

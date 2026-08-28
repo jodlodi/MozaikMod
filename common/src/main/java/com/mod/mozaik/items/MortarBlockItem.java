@@ -1,0 +1,36 @@
+package com.mod.mozaik.items;
+
+import com.mod.mozaik.blocks.entities.MortarBlockEntity;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.component.TypedEntityData;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import org.jspecify.annotations.NullMarked;
+
+import java.util.function.Consumer;
+
+@NullMarked
+public class MortarBlockItem extends BlockItem {
+	public MortarBlockItem(Block block, Properties properties) {
+		super(block, properties);
+	}
+
+	@Override
+	@SuppressWarnings("deprecation")
+	public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> consumer, TooltipFlag flag) {
+		TypedEntityData<BlockEntityType<?>> component = itemStack.get(DataComponents.BLOCK_ENTITY_DATA);
+		if (component != null) {
+			CompoundTag tag = component.getUnsafe();
+			if (tag.getBooleanOr(MortarBlockEntity.SIGNED_ID, false)) tag.getString(MortarBlockEntity.AUTHOR_NAME).ifPresent(author ->
+					consumer.accept(Component.translatable("book.byAuthor", author).withStyle(ChatFormatting.GRAY))
+			);
+		}
+	}
+}
