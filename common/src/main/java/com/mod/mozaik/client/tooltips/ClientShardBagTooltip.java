@@ -1,4 +1,4 @@
-package com.mod.mozaik.client;
+package com.mod.mozaik.client.tooltips;
 
 import com.mod.mozaik.items.ShardBagItem;
 import com.mod.mozaik.items.components.ShardBagContents;

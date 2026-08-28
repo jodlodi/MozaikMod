@@ -4,15 +4,21 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.PersonalPreferences;
+import com.mod.mozaik.items.ShardBagItem;
+import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.PrePolyominoShapes;
+import com.mod.mozaik.reg.ModDataComponents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.component.TooltipDisplay;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.*;
@@ -71,14 +77,26 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 			}
 		}
 
-		if (this.isHovered() && !favSlots.isEmpty()) {
-			graphics.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(
-					Component.translatable(MaterialButton.FAVOURITE, Component.literal(favSlots.toString()).withStyle(ChatFormatting.AQUA))
-			), Optional.empty(), mouseX, mouseY);
+		if (this.isHovered()) {
+			Optional<TooltipComponent> component = PersonalPreferences.getShapeTooltip().get()
+					? Optional.of(new ShapeTooltip(PrePolyominoShapes.values()[this.getShape()].template.build(PersonalPreferences.getPrimaryColor(), PersonalPreferences.getShape().uuid())))
+					: Optional.empty();
+
+			if (!favSlots.isEmpty()) {
+				graphics.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(
+						Component.translatable(MaterialButton.FAVOURITE, Component.literal(favSlots.toString()).withStyle(ChatFormatting.AQUA))
+				), component, mouseX, mouseY);
+			} else if (component.isPresent()) {
+				graphics.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(), component, mouseX, mouseY);
+			}
 		}
 	}
 
 	public int getShape() {
 		return PersonalPreferences.minTemplate() + this.index;
+	}
+
+	public record ShapeTooltip(Polyomino polyomino) implements TooltipComponent {
+
 	}
 }

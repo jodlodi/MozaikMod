@@ -42,7 +42,8 @@ public class PersonalPreferences {
 			Codec.BOOL.fieldOf("tool_button_hotkey").forGetter(pref -> pref.toolButtonHotkey.get()),
 			Codec.BOOL.fieldOf("reverse_scroll_direction_bars").forGetter(pref -> pref.reverseScrollDirectionBars.get()),
 			Codec.BOOL.fieldOf("picker_tool_tooltip").forGetter(pref -> pref.pickerToolTooltip.get()),
-			Codec.BOOL.fieldOf("wand_tool_tooltip").forGetter(pref -> pref.wandToolTooltip.get())
+			Codec.BOOL.fieldOf("wand_tool_tooltip").forGetter(pref -> pref.wandToolTooltip.get()),
+			Codec.BOOL.fieldOf("shape_tooltip").forGetter(pref -> pref.shapeTooltip.get())
 	).apply(recordCodecBuilder, PersonalPreferences::new));
 
 	private static final PersonalPreferences INSTANCE = getOrCreate();
@@ -71,8 +72,10 @@ public class PersonalPreferences {
 	));
 
 	private final ToggleOption reverseScrollDirectionBars = new ToggleOption("reverse_scroll_direction_bars", false);
+	private final ToggleOption shapeTooltip = new ToggleOption("shape_tooltip", false);
 	private final SettingCategory misc = new SettingCategory("tooltip.mozaik.setting.category.misc", List.of(
-			this.reverseScrollDirectionBars
+			this.reverseScrollDirectionBars,
+			this.shapeTooltip
 	));
 
 	private Polyomino shape = Polyomino.EMPTY;
@@ -94,7 +97,8 @@ public class PersonalPreferences {
 			boolean toolButtonHotkey,
 			boolean reverseScrollDirectionBars,
 			boolean pickerToolTooltip,
-			boolean wandToolTooltip
+			boolean wandToolTooltip,
+			boolean shapeTooltip
 	) {
 		this.primaryColor = primaryColor;
 		this.secondaryColor = secondaryColor;
@@ -108,6 +112,7 @@ public class PersonalPreferences {
 		this.reverseScrollDirectionBars.set(reverseScrollDirectionBars);
 		this.pickerToolTooltip.set(pickerToolTooltip);
 		this.wandToolTooltip.set(wandToolTooltip);
+		this.shapeTooltip.set(shapeTooltip);
 	}
 
 	@Contract(value = " -> new", pure = true)
@@ -157,6 +162,10 @@ public class PersonalPreferences {
 
 	public static ToggleOption getWandToolTooltip() {
 		return INSTANCE.wandToolTooltip;
+	}
+
+	public static ToggleOption getShapeTooltip() {
+		return INSTANCE.shapeTooltip;
 	}
 
 	private static final Gson GSON = new Gson().newBuilder().setPrettyPrinting().create();

@@ -100,6 +100,7 @@ public class ModLangGen extends ModLangProvider {
 
 		this.add(PersonalPreferences.getMisc().name(), "  Miscellaneous");
 		this.add(PersonalPreferences.getReverseScrollDirectionBars().name(), "Reverse Scrolling Direction");
+		this.add(PersonalPreferences.getShapeTooltip().name(), "Polyomino Tooltip");
 	}
 
 	private static String identifierToTitleCase(Identifier id) {

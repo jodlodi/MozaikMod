@@ -199,7 +199,6 @@ public class ShardBagItem extends Item {
 				this.dropContent(level, player, itemStack);
 			}
 		}
-
 	}
 
 	@Override
@@ -249,6 +248,6 @@ public class ShardBagItem extends Item {
 	}
 
 	public record ShardBagTooltip(ShardBagContents contents) implements TooltipComponent {
-	}
 
+	}
 }
