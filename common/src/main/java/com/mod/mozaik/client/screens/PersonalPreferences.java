@@ -40,7 +40,9 @@ public class PersonalPreferences {
 			Codec.BOOL.fieldOf("shard_bar_tooltip_count").forGetter(pref -> pref.shardBarTooltipCount.get()),
 			Codec.BOOL.fieldOf("shard_bar_display_count").forGetter(pref -> pref.shardBarDisplayCount.get()),
 			Codec.BOOL.fieldOf("tool_button_hotkey").forGetter(pref -> pref.toolButtonHotkey.get()),
-			Codec.BOOL.fieldOf("reverse_scroll_direction_bars").forGetter(pref -> pref.reverseScrollDirectionBars.get())
+			Codec.BOOL.fieldOf("reverse_scroll_direction_bars").forGetter(pref -> pref.reverseScrollDirectionBars.get()),
+			Codec.BOOL.fieldOf("picker_tool_tooltip").forGetter(pref -> pref.pickerToolTooltip.get()),
+			Codec.BOOL.fieldOf("wand_tool_tooltip").forGetter(pref -> pref.wandToolTooltip.get())
 	).apply(recordCodecBuilder, PersonalPreferences::new));
 
 	private static final PersonalPreferences INSTANCE = getOrCreate();
@@ -53,8 +55,25 @@ public class PersonalPreferences {
 	private final ToggleOption shardBarTooltipName = new ToggleOption("shard_bar_tooltip_name", true);
 	private final ToggleOption shardBarTooltipCount = new ToggleOption("shard_bar_tooltip_count", true);
 	private final ToggleOption shardBarDisplayCount = new ToggleOption("shard_bar_display_count", false);
+	private final SettingCategory shardBar = new SettingCategory("tooltip.mozaik.setting.category.shard_bar", List.of(
+			this.shardBarTooltipName,
+			this.shardBarTooltipCount,
+			this.shardBarDisplayCount
+	));
+
 	private final ToggleOption toolButtonHotkey = new ToggleOption("tool_button_hotkey", false);
+	private final ToggleOption pickerToolTooltip = new ToggleOption("picker_tool_tooltip", true);
+	private final ToggleOption wandToolTooltip = new ToggleOption("wand_tool_tooltip", true);
+	private final SettingCategory tools = new SettingCategory("tooltip.mozaik.setting.category.tools", List.of(
+			this.toolButtonHotkey,
+			this.pickerToolTooltip,
+			this.wandToolTooltip
+	));
+
 	private final ToggleOption reverseScrollDirectionBars = new ToggleOption("reverse_scroll_direction_bars", false);
+	private final SettingCategory misc = new SettingCategory("tooltip.mozaik.setting.category.misc", List.of(
+			this.reverseScrollDirectionBars
+	));
 
 	private Polyomino shape = Polyomino.EMPTY;
 
@@ -73,28 +92,43 @@ public class PersonalPreferences {
 			boolean shardBarTooltipCount,
 			boolean shardBarDisplayCount,
 			boolean toolButtonHotkey,
-			boolean reverseScrollDirectionBars
-			) {
+			boolean reverseScrollDirectionBars,
+			boolean pickerToolTooltip,
+			boolean wandToolTooltip
+	) {
 		this.primaryColor = primaryColor;
 		this.secondaryColor = secondaryColor;
 		this.template = template;
 		this.faves.addAll(faves);
+
 		this.shardBarTooltipName.set(shardBarTooltipName);
 		this.shardBarTooltipCount.set(shardBarTooltipCount);
 		this.shardBarDisplayCount.set(shardBarDisplayCount);
 		this.toolButtonHotkey.set(toolButtonHotkey);
 		this.reverseScrollDirectionBars.set(reverseScrollDirectionBars);
+		this.pickerToolTooltip.set(pickerToolTooltip);
+		this.wandToolTooltip.set(wandToolTooltip);
 	}
 
 	@Contract(value = " -> new", pure = true)
-	public static @Unmodifiable List<ToggleOption> getOptions() {
+	public static @Unmodifiable List<SettingCategory> getOptions() {
 		return List.of(
-				INSTANCE.shardBarTooltipName,
-				INSTANCE.shardBarTooltipCount,
-				INSTANCE.shardBarDisplayCount,
-				INSTANCE.toolButtonHotkey,
-				INSTANCE.reverseScrollDirectionBars
+				INSTANCE.shardBar,
+				INSTANCE.tools,
+				INSTANCE.misc
 		);
+	}
+
+	public static SettingCategory getShardBar() {
+		return INSTANCE.shardBar;
+	}
+
+	public static SettingCategory getTools() {
+		return INSTANCE.tools;
+	}
+
+	public static SettingCategory getMisc() {
+		return INSTANCE.misc;
 	}
 
 	public static ToggleOption getShardBarTooltipName() {
@@ -115,6 +149,14 @@ public class PersonalPreferences {
 
 	public static ToggleOption getReverseScrollDirectionBars() {
 		return INSTANCE.reverseScrollDirectionBars;
+	}
+
+	public static ToggleOption getPickerToolTooltip() {
+		return INSTANCE.pickerToolTooltip;
+	}
+
+	public static ToggleOption getWandToolTooltip() {
+		return INSTANCE.wandToolTooltip;
 	}
 
 	private static final Gson GSON = new Gson().newBuilder().setPrettyPrinting().create();
@@ -221,9 +263,13 @@ public class PersonalPreferences {
 		).apply(recordCodecBuilder, Favourite::new));
 	}
 
-	public record ToggleOption(String name, String tooltip, AtomicBoolean setting) {
+	public record SettingCategory(String name, List<ToggleOption> options) {
+
+	}
+
+	public record ToggleOption(String name, AtomicBoolean setting) {
 		public ToggleOption(String string, boolean setting) {
-			this("name.mozaik.setting." + string, "tooltip.mozaik.setting." + string, new AtomicBoolean(setting));
+			this("name.mozaik.setting." + string, new AtomicBoolean(setting));
 		}
 
 		public boolean get() {

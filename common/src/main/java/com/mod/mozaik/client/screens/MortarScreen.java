@@ -25,6 +25,7 @@ import net.minecraft.client.MouseHandler;
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -40,6 +41,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Rotation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
@@ -419,6 +421,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	public Vector2i getGridForTaking() {
+		if (this.mode == Mode.SETTINGS) return new Vector2i(-16, -16);
+
 		Minecraft minecraft = Minecraft.getInstance();
 		MouseHandler mouse = Objects.requireNonNull(minecraft).mouseHandler;
 		float mouseX = (float) mouse.xpos() * (float) minecraft.getWindow().getGuiScaledWidth() / (float) minecraft.getWindow().getScreenWidth();
@@ -614,6 +618,26 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		this.renderSelection(graphicsExtractor);
 		this.renderableWidgets.forEach(renderable -> renderable.renderAboveItems(graphics));
 		this.renderableWidgets.forEach(renderable -> renderable.renderOnTop(graphics));
+
+		if ((this.tool == MozaikTool.PICKER && PersonalPreferences.getPickerToolTooltip().get())
+				|| (this.tool == MozaikTool.WAND && PersonalPreferences.getWandToolTooltip().get())) {
+			Vector2i square = this.getGridForTaking();
+
+			for (PolyominoWidget widget : this.getPolyomino()) {
+				int widgetX = widget.gridX();
+				int widgetY = widget.gridY();
+				for (Tessera.PlacedTessera tessera : widget.getPlacedPolyomino().polyomino().placedTessera()) {
+					int rX = widgetX + tessera.x();
+					int rY = widgetY + tessera.y();
+					if (rX == square.x && rY == square.y) {
+						graphicsExtractor.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(
+								new ItemStack(ShardItem.SHARDS.get(widget.getPlacedPolyomino().polyomino().material()), 1).getHoverName()
+						), Optional.empty(), mouseX, mouseY);
+						return;
+					}
+				}
+			}
+		}
 	}
 
 	protected void renderNeighbourTessera(GuiGraphicsExtractor graphicsExtractor) {
@@ -723,8 +747,16 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 			case SETTINGS -> {
 				int i = 0;
-				for (PersonalPreferences.ToggleOption toggleOption : PersonalPreferences.getOptions()) {
-					this.addRenderableWidget(new ToggleButton(this, new Vector2i(TOGGLE_OPTION_START.x, TOGGLE_OPTION_START.y + 16 * i++), toggleOption));
+				for (PersonalPreferences.SettingCategory category : PersonalPreferences.getOptions()) {
+					this.addRenderableWidget(new MultiLineTextWidget(
+							this.getLeftPos() + TOGGLE_OPTION_START.x,
+							this.getTopPos() + TOGGLE_OPTION_START.y + 16 * i++ + 2,
+							Component.translatable(category.name()).withStyle(ChatFormatting.BOLD),
+							Minecraft.getInstance().font
+					));
+					for (PersonalPreferences.ToggleOption option : category.options()) {
+						this.addRenderableWidget(new ToggleButton(this, new Vector2i(TOGGLE_OPTION_START.x, TOGGLE_OPTION_START.y + 16 * i++), option));
+					}
 				}
 			}
 			case EDIT -> {

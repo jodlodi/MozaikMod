@@ -54,13 +54,17 @@ public class ToggleButton extends ModButton implements PhaseRenderable {
 	@Override
 	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
 		graphics.blit(RenderPipelines.GUI_TEXTURED, this.getTexture(), this.getX(), this.getY(), 0, 0, SpriteButton.SpriteSet.TOGGLE.width(), this.getHeight(), SpriteButton.SpriteSet.TOGGLE.width(), this.getHeight());
-		graphics.text(Minecraft.getInstance().font, Component.translatable(this.setting.name()), this.getX() + SpriteButton.SpriteSet.TOGGLE.width() + 2, this.getY() + this.getHeight() - Minecraft.getInstance().font.lineHeight, 0xFFFFFFFF, true);
 
-		if (this.isHovered()) {
-			graphics.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(
-					Component.translatable(this.setting.tooltip()).withStyle(ChatFormatting.WHITE)
-			), Optional.empty(), mouseX, mouseY);
-		}
+		int color = this.isHovered() ? 0xFFFFFFFF : 0xFFD0D0D0;
+
+		graphics.text(
+				Minecraft.getInstance().font,
+				Component.translatable(this.setting.name()),
+				this.getX() + SpriteButton.SpriteSet.TOGGLE.width() + 2,
+				this.getY() + this.getHeight() - Minecraft.getInstance().font.lineHeight,
+				color,
+				true
+		);
 	}
 
 	@Override

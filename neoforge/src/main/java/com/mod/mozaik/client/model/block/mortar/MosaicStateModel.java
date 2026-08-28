@@ -74,15 +74,16 @@ public final class MosaicStateModel implements DynamicBlockStateModel {
 		ModelData data = level.getModelData(pos);
 		List<Polyomino.PlacedPolyomino> input = data.get(NeoMortarBlockEntity.PROPERTY);
 		if (input == null) return;
-		List<Polyomino.PlacedPolyomino> copy = new ArrayList<>();
+		List<Polyomino.PlacedPolyomino> copy = new ArrayList<>(input);
+		List<Polyomino.PlacedPolyomino> list = new ArrayList<>();
 
 		Rotation blockRotation = state.getValue(MortarBlock.FACING_ROTATED).getRotation();
-		input.forEach(placedPolyomino -> copy.add(MortarMenu.rotate(placedPolyomino, blockRotation)));
+		copy.forEach(placedPolyomino -> list.add(MortarMenu.rotate(placedPolyomino, blockRotation)));
 
 		ClientLevel clientLevel = Minecraft.getInstance().level;
 		if (clientLevel == null) return;
 
-		copy.forEach((@Nullable Polyomino.PlacedPolyomino polyomino) -> {
+		list.forEach((@Nullable Polyomino.PlacedPolyomino polyomino) -> {
 			if (polyomino == null) return;
 			int x = polyomino.x();
 			int y = polyomino.y();

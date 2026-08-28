@@ -88,16 +88,18 @@ public class ModLangGen extends ModLangProvider {
 				this.addKeyMapping(mapping, toTitleCase("favourite_slot_" + name))
 		);
 
-		this.add(PersonalPreferences.getShardBarTooltipName().name(), "Shard Bar Tooltip Name");
-		this.add(PersonalPreferences.getShardBarTooltipName().tooltip(), "Displays the name of the shard when hovering a shard type in the shard bar.");
-		this.add(PersonalPreferences.getShardBarTooltipCount().name(), "Shard Bar Tooltip Count");
-		this.add(PersonalPreferences.getShardBarTooltipCount().tooltip(), "Displays the amount of shards you posses when hovering a shard type in the shard bar.");
-		this.add(PersonalPreferences.getShardBarDisplayCount().name(), "Shard Bar Display Count");
-		this.add(PersonalPreferences.getShardBarDisplayCount().tooltip(), "Displays the amount of shards you posses in the shard bar.");
+		this.add(PersonalPreferences.getShardBar().name(), "  Shard Bar");
+		this.add(PersonalPreferences.getShardBarTooltipName().name(), "Show Name in Tooltip");
+		this.add(PersonalPreferences.getShardBarTooltipCount().name(), "Show Count in Tooltip");
+		this.add(PersonalPreferences.getShardBarDisplayCount().name(), "Show Count on ItemStack");
+
+		this.add(PersonalPreferences.getTools().name(), "  Tools");
 		this.add(PersonalPreferences.getToolButtonHotkey().name(), "Display Tool Key Bind");
-		this.add(PersonalPreferences.getToolButtonHotkey().tooltip(), "Displays the corresponding Key Bind next to the tool icons.");
+		this.add(PersonalPreferences.getPickerToolTooltip().name(), "Picker Material Tooltip");
+		this.add(PersonalPreferences.getWandToolTooltip().name(), "Wand Material Tooltip");
+
+		this.add(PersonalPreferences.getMisc().name(), "  Miscellaneous");
 		this.add(PersonalPreferences.getReverseScrollDirectionBars().name(), "Reverse Scrolling Direction");
-		this.add(PersonalPreferences.getReverseScrollDirectionBars().tooltip(), "Reverses the direction of the scroll wheel.");
 	}
 
 	private static String identifierToTitleCase(Identifier id) {
