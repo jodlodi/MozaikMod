@@ -1,4 +1,4 @@
-package com.mod.mozaik.client.widgets;
+package com.mod.mozaik.client.buttons;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.screens.MortarScreen;
@@ -22,18 +22,20 @@ import java.util.List;
 import java.util.Optional;
 
 @NullMarked
-public class MaterialWidget extends AbstractMaterialWidget {
+public class MaterialButton extends AbstractMaterialButton {
 	public static String FAVOURITE = "tooltip.mozaik.favourite";
 	public static String COUNT = "tooltip.mozaik.count";
 	private final int index;
 
-	public MaterialWidget(MortarScreen screen, int offsetX, int offsetY, int index) {
+	public MaterialButton(MortarScreen screen, int offsetX, int offsetY, int index) {
 		super(screen, offsetX, offsetY, true);
 		this.index = index;
 	}
 
 	@Override
 	public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
+		if (PersonalPreferences.getReverseScrollDirectionBars().get()) scrollY *= -1;
+
 		if (scrollY > 0) {
 			this.screen.materialUpBy((int) scrollY);
 			return true;
@@ -46,8 +48,8 @@ public class MaterialWidget extends AbstractMaterialWidget {
 	}
 
 	@Override
-	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
-		super.extractWidgetRenderState(graphics, mouseX, mouseY, a);
+	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+		super.extractContents(graphics, mouseX, mouseY, partialTick);
 		if (PersonalPreferences.getPrimaryColor() == this.getMaterial()) {
 			graphics.blit(RenderPipelines.GUI_TEXTURED, Constants.prefix("textures/gui/container/frame.png"), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
 		}
@@ -69,14 +71,15 @@ public class MaterialWidget extends AbstractMaterialWidget {
 			components.add(Component.translatable(COUNT, Component.literal(this.getCount()).withStyle(ChatFormatting.GOLD)));
 		}
 
-		List<Integer> favSlots = new ArrayList<>();
+		StringBuilder favSlots = null;
 		for (int i = 1; i <= 9; i++) {
 			if (PersonalPreferences.getFavourite(i - 1).material().orElse(null) == this.getMaterial()) {
-				favSlots.add(i);
+				if (favSlots == null) favSlots = new StringBuilder(Integer.toString(i));
+				else favSlots.append(", ").append(i);
 			}
 		}
 
-		if (!favSlots.isEmpty()) {
+		if (favSlots != null) {
 			components.add(Component.translatable(FAVOURITE, Component.literal(favSlots.toString()).withStyle(ChatFormatting.AQUA)));
 		}
 

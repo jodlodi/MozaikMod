@@ -4,7 +4,6 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.PersonalPreferences;
-import com.mod.mozaik.client.widgets.MaterialWidget;
 import com.mod.mozaik.polyomino.PrePolyominoShapes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -36,6 +35,8 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 
 	@Override
 	public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
+		if (PersonalPreferences.getReverseScrollDirectionBars().get()) scrollY *= -1;
+
 		if (scrollY > 0) {
 			MortarScreen.templateUpBy((int) scrollY);
 			return true;
@@ -72,7 +73,7 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 
 		if (this.isHovered() && !favSlots.isEmpty()) {
 			graphics.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(
-					Component.translatable(MaterialWidget.FAVOURITE, Component.literal(favSlots.toString()).withStyle(ChatFormatting.AQUA))
+					Component.translatable(MaterialButton.FAVOURITE, Component.literal(favSlots.toString()).withStyle(ChatFormatting.AQUA))
 			), Optional.empty(), mouseX, mouseY);
 		}
 	}

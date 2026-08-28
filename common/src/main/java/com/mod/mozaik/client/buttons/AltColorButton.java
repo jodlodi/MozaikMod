@@ -1,4 +1,4 @@
-package com.mod.mozaik.client.widgets;
+package com.mod.mozaik.client.buttons;
 
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.PersonalPreferences;
@@ -12,8 +12,8 @@ import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-public class AltColorWidget extends AbstractMaterialWidget {
-	public AltColorWidget(MortarScreen screen, int offsetX, int offsetY) {
+public class AltColorButton extends AbstractMaterialButton {
+	public AltColorButton(MortarScreen screen, int offsetX, int offsetY) {
 		super(screen, offsetX, offsetY, true);
 	}
 

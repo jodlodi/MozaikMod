@@ -36,10 +36,11 @@ public class PersonalPreferences {
 			ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).fieldOf("secondary_color").forGetter(pref -> pref.secondaryColor),
 			Codec.INT.fieldOf("template").forGetter(pref -> pref.template),
 			Favourite.CODEC.listOf().fieldOf("faves").forGetter(pref -> pref.faves),
-			Codec.BOOL.fieldOf("shard_bar_tooltip_name").forGetter(pref -> pref.shardBarDisplayCount.get()),
+			Codec.BOOL.fieldOf("shard_bar_tooltip_name").forGetter(pref -> pref.shardBarTooltipName.get()),
 			Codec.BOOL.fieldOf("shard_bar_tooltip_count").forGetter(pref -> pref.shardBarTooltipCount.get()),
 			Codec.BOOL.fieldOf("shard_bar_display_count").forGetter(pref -> pref.shardBarDisplayCount.get()),
-			Codec.BOOL.fieldOf("show_tool_hotkey").forGetter(pref -> pref.toolHotkey.get())
+			Codec.BOOL.fieldOf("tool_button_hotkey").forGetter(pref -> pref.toolButtonHotkey.get()),
+			Codec.BOOL.fieldOf("reverse_scroll_direction_bars").forGetter(pref -> pref.reverseScrollDirectionBars.get())
 	).apply(recordCodecBuilder, PersonalPreferences::new));
 
 	private static final PersonalPreferences INSTANCE = getOrCreate();
@@ -52,7 +53,8 @@ public class PersonalPreferences {
 	private final ToggleOption shardBarTooltipName = new ToggleOption("shard_bar_tooltip_name", true);
 	private final ToggleOption shardBarTooltipCount = new ToggleOption("shard_bar_tooltip_count", true);
 	private final ToggleOption shardBarDisplayCount = new ToggleOption("shard_bar_display_count", false);
-	private final ToggleOption toolHotkey = new ToggleOption("show_tool_hotkey", false);
+	private final ToggleOption toolButtonHotkey = new ToggleOption("tool_button_hotkey", false);
+	private final ToggleOption reverseScrollDirectionBars = new ToggleOption("reverse_scroll_direction_bars", false);
 
 	private Polyomino shape = Polyomino.EMPTY;
 
@@ -70,7 +72,8 @@ public class PersonalPreferences {
 			boolean shardBarTooltipName,
 			boolean shardBarTooltipCount,
 			boolean shardBarDisplayCount,
-			boolean toolHotkey
+			boolean toolButtonHotkey,
+			boolean reverseScrollDirectionBars
 			) {
 		this.primaryColor = primaryColor;
 		this.secondaryColor = secondaryColor;
@@ -79,7 +82,8 @@ public class PersonalPreferences {
 		this.shardBarTooltipName.set(shardBarTooltipName);
 		this.shardBarTooltipCount.set(shardBarTooltipCount);
 		this.shardBarDisplayCount.set(shardBarDisplayCount);
-		this.toolHotkey.set(toolHotkey);
+		this.toolButtonHotkey.set(toolButtonHotkey);
+		this.reverseScrollDirectionBars.set(reverseScrollDirectionBars);
 	}
 
 	@Contract(value = " -> new", pure = true)
@@ -88,7 +92,8 @@ public class PersonalPreferences {
 				INSTANCE.shardBarTooltipName,
 				INSTANCE.shardBarTooltipCount,
 				INSTANCE.shardBarDisplayCount,
-				INSTANCE.toolHotkey
+				INSTANCE.toolButtonHotkey,
+				INSTANCE.reverseScrollDirectionBars
 		);
 	}
 
@@ -104,8 +109,12 @@ public class PersonalPreferences {
 		return INSTANCE.shardBarDisplayCount;
 	}
 
-	public static ToggleOption getToolHotkey() {
-		return INSTANCE.toolHotkey;
+	public static ToggleOption getToolButtonHotkey() {
+		return INSTANCE.toolButtonHotkey;
+	}
+
+	public static ToggleOption getReverseScrollDirectionBars() {
+		return INSTANCE.reverseScrollDirectionBars;
 	}
 
 	private static final Gson GSON = new Gson().newBuilder().setPrettyPrinting().create();

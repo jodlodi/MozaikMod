@@ -10,7 +10,6 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import org.jetbrains.annotations.UnknownNullability;
 import org.joml.Vector2i;
 import org.jspecify.annotations.NullMarked;
 
@@ -31,7 +30,7 @@ public class ToolButton extends SpriteButton {
 	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
 		super.extractContents(graphics, mouseX, mouseY, partialTick);
 
-		if (PersonalPreferences.getToolHotkey().get()) {
+		if (PersonalPreferences.getToolButtonHotkey().get()) {
 			this.hotkey(graphics, Minecraft.getInstance().font, this.getX(), this.getY(), Component.empty().append(this.tool.getKeyMapping().getTranslatedKeyMessage()));
 		}
 

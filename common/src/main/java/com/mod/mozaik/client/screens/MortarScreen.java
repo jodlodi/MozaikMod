@@ -5,9 +5,9 @@ import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.ModKeyMappings;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.buttons.*;
-import com.mod.mozaik.client.widgets.AltColorWidget;
+import com.mod.mozaik.client.buttons.AltColorButton;
 import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
-import com.mod.mozaik.client.widgets.MaterialWidget;
+import com.mod.mozaik.client.buttons.MaterialButton;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.menus.MortarMenu;
@@ -228,7 +228,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 				Optional<GuiEventListener> child = this.getChildAt(mouseX, mouseY);
 				if (child.isPresent()) {
-					if (child.get() instanceof MaterialWidget materialWidget) {
+					if (child.get() instanceof MaterialButton materialWidget) {
 						if (PersonalPreferences.getFavourite(i - 1).material().orElse(null) == materialWidget.getMaterial()) {
 							PersonalPreferences.setFavouriteMaterial(i - 1, null);
 						} else {
@@ -617,6 +617,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	protected void renderNeighbourTessera(GuiGraphicsExtractor graphicsExtractor) {
+		if (this.mode == Mode.SETTINGS) return;
 		GraphicsRenderHelper graphics = new GraphicsRenderHelper(graphicsExtractor);
 		int gridX = this.leftPos + GRID_START.x;
 		int gridY = this.topPos + GRID_START.y;
@@ -711,7 +712,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		switch (this.mode) {
 			case MORTAR -> {
 				this.addRenderableWidget(new CreatePolyominoButton(this.leftPos + BOWL_CENTER.x, this.topPos + BOWL_CENTER.y, this));
-				this.addRenderableWidget(new AltColorWidget(this, this.leftPos + MINI_BOWL_ITEM.x, this.topPos + MINI_BOWL_ITEM.y));
+				this.addRenderableWidget(new AltColorButton(this, this.leftPos + MINI_BOWL_ITEM.x, this.topPos + MINI_BOWL_ITEM.y));
 
 				this.addRenderableWidget(new ToolButton(this, CHISEL, SpriteButton.SpriteSet.CHISEL, MozaikTool.CHISEL));
 				this.addRenderableWidget(new ToolButton(this, CURSOR, SpriteButton.SpriteSet.CURSOR, MozaikTool.CURSOR));
@@ -728,7 +729,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 			case EDIT -> {
 				this.addRenderableWidget(new CreatePolyominoButton(this.leftPos + BOWL_CENTER.x, this.topPos + BOWL_CENTER.y, this));
-				this.addRenderableWidget(new AltColorWidget(this, this.leftPos + MINI_BOWL_ITEM.x, this.topPos + MINI_BOWL_ITEM.y));
+				this.addRenderableWidget(new AltColorButton(this, this.leftPos + MINI_BOWL_ITEM.x, this.topPos + MINI_BOWL_ITEM.y));
 
 				this.addRenderableWidget(new EditButtons(this, FLIP_VERTICAL, SpriteButton.SpriteSet.FLIP_VERTICAL, EditButtons.Edition.FLIP_VERTICAL));
 				this.addRenderableWidget(new EditButtons(this, FLIP_HORIZONTAL, SpriteButton.SpriteSet.FLIP_HORIZONTAL, EditButtons.Edition.FLIP_HORIZONTAL));
@@ -811,7 +812,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		});
 
 		for (int i = 0; i < 9; i++) {
-			this.addRenderableWidget(new MaterialWidget(this, this.leftPos + MATERIAL_BAR.x, this.topPos + MATERIAL_BAR.y + i * 18, i));
+			this.addRenderableWidget(new MaterialButton(this, this.leftPos + MATERIAL_BAR.x, this.topPos + MATERIAL_BAR.y + i * 18, i));
 		}
 
 		for (int i = 0; i < 9; i++) {
