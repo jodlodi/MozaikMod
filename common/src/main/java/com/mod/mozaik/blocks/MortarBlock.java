@@ -122,16 +122,16 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 		DirectionAndRotation directionAndRotation = switch (context.getClickedFace()) {
 			case DOWN ->
 					switch (context.getHorizontalDirection()) {
-						case Direction.NORTH -> DirectionAndRotation.DOWN_90;
-						case Direction.WEST -> DirectionAndRotation.DOWN_180;
-						case Direction.SOUTH -> DirectionAndRotation.DOWN_270;
+						case Direction.WEST -> DirectionAndRotation.DOWN_90;
+						case Direction.SOUTH -> DirectionAndRotation.DOWN_180;
+						case Direction.EAST -> DirectionAndRotation.DOWN_270;
 						default -> DirectionAndRotation.DOWN_0;
 					};
 			case UP ->
 					switch (context.getHorizontalDirection()) {
-						case Direction.NORTH -> DirectionAndRotation.UP_270;
-						case Direction.WEST -> DirectionAndRotation.UP_180;
-						case Direction.SOUTH -> DirectionAndRotation.UP_90;
+						case Direction.WEST -> DirectionAndRotation.UP_270;
+						case Direction.SOUTH -> DirectionAndRotation.UP_180;
+						case Direction.EAST -> DirectionAndRotation.UP_90;
 						default -> DirectionAndRotation.UP_0;
 					};
 			case NORTH -> DirectionAndRotation.NORTH;

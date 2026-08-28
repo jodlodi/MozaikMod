@@ -179,7 +179,6 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		}
 
 		if (this.titleBox != null && this.titleBox.isFocused() && !this.titleBox.getValue().isEmpty() && event.isConfirmation()) {
-			//this.saveChanges();
 			this.menu.sign(this.titleBox.getValue());
 			this.minecraft.gui.setScreen(null);
 			return true;

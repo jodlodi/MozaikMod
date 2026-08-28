@@ -62,9 +62,14 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 	public void setPolyomino(List<Polyomino.PlacedPolyomino> polyomino) {
 		this.polyomino.clear();
 		this.polyomino.addAll(polyomino);
+		this.markChanged();
+	}
+
+	public void markChanged() {
 		if (this.level instanceof ServerLevel serverLevel) {
 			Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(this.getBlockPos()), new UpdateMozaikBidirectional(this.polyomino, this.getBlockPos()));
 		}
+
 	}
 
 	public void setCustomName(@Nullable Component name) {
