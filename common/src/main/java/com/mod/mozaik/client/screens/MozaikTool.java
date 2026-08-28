@@ -5,8 +5,15 @@ import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.ShardMaterial;
+import com.mod.mozaik.reg.ModSounds;
+import com.mod.mozaik.reg.ResourceSupplier;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.StringRepresentable;
 import org.joml.Vector2i;
 import org.jspecify.annotations.NullMarked;
@@ -48,6 +55,7 @@ public enum MozaikTool implements StringRepresentable {
 		if (list.isEmpty()) return;
 		switch (tool) {
 			case CURSOR -> {
+				playButtonClickSound(ModSounds.PICK_SHARD);
 				screen.carried.clear();
 				Vector2i average = new Vector2i();
 				for (PolyominoWidget widget : list) {
@@ -64,6 +72,7 @@ public enum MozaikTool implements StringRepresentable {
 				}
 			}
 			case CHISEL -> {
+				playButtonClickSound(ModSounds.REMOVE_SHARD);
 				for (PolyominoWidget widget : list) {
 					screen.removeFromSource(widget);
 					screen.removeWidget(widget);
@@ -110,6 +119,10 @@ public enum MozaikTool implements StringRepresentable {
 			case SELECT -> {
 			}
 		}
+	}
+
+	public static void playButtonClickSound(ResourceSupplier<SoundEvent> soundEvent) {
+		Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(Holder.direct(soundEvent.get()), 1.0F));
 	}
 
 	public String asTranslationString() {

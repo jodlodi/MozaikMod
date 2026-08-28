@@ -1,0 +1,97 @@
+{
+  "shard.pick": {
+    "sounds": [
+      {
+        "name": "block/decorated_pot/insert1",
+        "pitch": 1.89
+      },
+      {
+        "name": "block/decorated_pot/insert2",
+        "pitch": 1.89
+      },
+      {
+        "name": "block/decorated_pot/insert3",
+        "pitch": 1.89
+      },
+      {
+        "name": "block/decorated_pot/insert4",
+        "pitch": 1.89
+      }
+    ]
+  },
+  "shard.place": {
+    "sounds": [
+      {
+        "name": "block/decorated_pot/break1",
+        "pitch": 1.99
+      },
+      {
+        "name": "block/decorated_pot/break2",
+        "pitch": 1.99
+      },
+      {
+        "name": "block/decorated_pot/break3",
+        "pitch": 1.99
+      },
+      {
+        "name": "block/decorated_pot/break4",
+        "pitch": 1.99
+      }
+    ]
+  },
+  "shard.remove": {
+    "sounds": [
+      {
+        "name": "block/decorated_pot/step1",
+        "pitch": 1.99
+      },
+      {
+        "name": "block/decorated_pot/step2",
+        "pitch": 1.99
+      },
+      {
+        "name": "block/decorated_pot/step3",
+        "pitch": 1.99
+      },
+      {
+        "name": "block/decorated_pot/step4",
+        "pitch": 1.99
+      },
+      {
+        "name": "block/decorated_pot/step5",
+        "pitch": 1.99
+      }
+    ]
+  },
+  "tab.edit": {
+    "sounds": [
+      "item/book/open_flip1",
+      "item/book/open_flip2",
+      "item/book/open_flip3"
+    ]
+  },
+  "tab.save": {
+    "sounds": [
+      {
+        "name": "ui/cartography_table/drawmap1",
+        "pitch": 0.89
+      },
+      {
+        "name": "ui/cartography_table/drawmap2",
+        "pitch": 0.89
+      },
+      {
+        "name": "ui/cartography_table/drawmap3",
+        "pitch": 0.89
+      }
+    ]
+  },
+  "tab.settings": {
+    "sounds": [
+      {
+        "name": "item/spyglass/use",
+        "pitch": 0.65
+      }
+    ]
+  }
+}

@@ -15,6 +15,7 @@ import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.PrePolyominoShapes;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.polyomino.Tessera;
+import com.mod.mozaik.reg.ModSounds;
 import com.mod.mozaik.reg.ModTabs;
 import com.mod.mozaik.util.FlatDirection;
 import com.mod.mozaik.util.IMozaikKeyMapping;
@@ -309,6 +310,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			if (click == LEFT_CLICK) {
 				Map<HeldPolyominoWidget, Vector2i> map = this.getOffsetForPlacement(this.carried);
 				if (map != null) {
+					MozaikTool.playButtonClickSound(ModSounds.PLACE_SHARD);
 					this.carried.forEach(heldPolyominoWidget -> {
 						Vector2i vector2i = map.get(heldPolyominoWidget);
 						this.placePolyomino(heldPolyominoWidget, vector2i);

@@ -33,6 +33,7 @@ public class ModDataGen {
 
 		generator.addProvider(true, new AtlasGen(output, lookupProvider));
 		generator.addProvider(true, new ModelGen(output));
+		generator.addProvider(true, new SoundGen(output));
 		generator.addProvider(true, new ModLangGen(output));
 	}
 }

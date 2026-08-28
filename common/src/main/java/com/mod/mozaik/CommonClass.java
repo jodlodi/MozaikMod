@@ -11,6 +11,7 @@ public class CommonClass {
         if (fabric) ModBlockEntities.init();
         ModMenus.init();
         ModTabs.init();
+        ModSounds.init();
         ModRegistries.init();
         ModShardMaterials.init();
         ModDataComponents.init();

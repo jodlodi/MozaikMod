@@ -20,11 +20,14 @@ import net.minecraft.world.item.Item;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @NullMarked
 public class ModLangGen extends ModLangProvider {
+	public static final Map<String, String> SUBTITLE_GENERATOR = new HashMap<>();
 
 	public ModLangGen(PackOutput output) {
 		super(output);
@@ -101,6 +104,8 @@ public class ModLangGen extends ModLangProvider {
 		this.add(PersonalPreferences.getMisc().name(), "  Miscellaneous");
 		this.add(PersonalPreferences.getReverseScrollDirectionBars().name(), "Reverse Scrolling Direction");
 		this.add(PersonalPreferences.getShapeTooltip().name(), "Polyomino Tooltip");
+
+		SUBTITLE_GENERATOR.forEach(this::add);
 	}
 
 	private static String identifierToTitleCase(Identifier id) {
