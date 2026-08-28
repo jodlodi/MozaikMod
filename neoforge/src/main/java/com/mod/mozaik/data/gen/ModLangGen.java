@@ -6,6 +6,7 @@ import com.mod.mozaik.client.buttons.EditButtons;
 import com.mod.mozaik.client.buttons.ToolButton;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.MozaikTool;
+import com.mod.mozaik.client.screens.PersonalPreferences;
 import com.mod.mozaik.client.widgets.MaterialWidget;
 import com.mod.mozaik.data.util.ModLangProvider;
 import com.mod.mozaik.items.ShardItem;
@@ -65,6 +66,8 @@ public class ModLangGen extends ModLangProvider {
 
 		this.add(ToolButton.SHORTCUT, "§8Shortcut key: [%1$s§8]");
 		this.add(MaterialWidget.FAVOURITE, "§8Save slots: %1$s");
+		this.add(MaterialWidget.COUNT, "§8Shard count: [%1$s§8]");
+
 		// TOOL KEYS
 		this.addKeyCategory(ModKeyMappings.MOD_TOOLS, "Mozaik Tools");
 		this.addKeyMapping(ModKeyMappings.PICKER, "Picker Tool");
@@ -84,6 +87,15 @@ public class ModLangGen extends ModLangProvider {
 		NaturalDigitCollection.zipApply(ModKeyMappings.FAVOURITE, NaturalDigitCollection.VALUES, (mapping, name) ->
 				this.addKeyMapping(mapping, toTitleCase("favourite_slot_" + name))
 		);
+
+		this.add(PersonalPreferences.getShardBarTooltipName().name(), "Shard Bar Tooltip Name");
+		this.add(PersonalPreferences.getShardBarTooltipName().tooltip(), "Displays the name of the shard when hovering a shard type in the shard bar.");
+		this.add(PersonalPreferences.getShardBarTooltipCount().name(), "Shard Bar Tooltip Count");
+		this.add(PersonalPreferences.getShardBarTooltipCount().tooltip(), "Displays the amount of shards you posses when hovering a shard type in the shard bar.");
+		this.add(PersonalPreferences.getShardBarDisplayCount().name(), "Shard Bar Display Count");
+		this.add(PersonalPreferences.getShardBarDisplayCount().tooltip(), "Displays the amount of shards you posses in the shard bar.");
+		this.add(PersonalPreferences.getToolHotkey().name(), "Display Tool Key Bind");
+		this.add(PersonalPreferences.getToolHotkey().tooltip(), "Displays the corresponding Key Bind next to the tool icons.");
 	}
 
 	private static String identifierToTitleCase(Identifier id) {

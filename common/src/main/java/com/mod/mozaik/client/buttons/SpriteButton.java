@@ -42,7 +42,7 @@ public abstract class SpriteButton extends ModButton implements PhaseRenderable 
 
 	public abstract boolean isPressed();
 
-	public record SpriteSet(Identifier normal, Identifier hover, Identifier pressed, @Nullable Identifier unable, int width, int height) {
+	public record SpriteSet(Identifier normal, Identifier hover, Identifier pressed, @Nullable Identifier alt, int width, int height) {
 		public static final SpriteSet UP_ARROW = new SpriteSet(
 				Constants.prefix("textures/gui/container/up_arrow/unselected.png"),
 				Constants.prefix("textures/gui/container/up_arrow/hovered.png"),
@@ -158,6 +158,15 @@ public abstract class SpriteButton extends ModButton implements PhaseRenderable 
 				null,
 				18,
 				18
+		);
+
+		public static final SpriteSet TOGGLE = new SpriteSet(
+				Constants.prefix("textures/gui/container/toggle/unselected.png"),
+				Constants.prefix("textures/gui/container/toggle/hovered.png"),
+				Constants.prefix("textures/gui/container/toggle/pressed.png"),
+				Constants.prefix("textures/gui/container/toggle/pressed_hovered.png"),
+				12,
+				12
 		);
 	}
 }

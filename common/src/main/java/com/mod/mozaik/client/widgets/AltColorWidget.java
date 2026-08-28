@@ -33,14 +33,12 @@ public class AltColorWidget extends AbstractMaterialWidget {
 		this.itemCount(graphics, this.minecraft.font, this.getX(), this.getY(), this.getCount());
 	}
 
-	protected String getCount() {
-		return this.screen.getShardSource().isCreative() ? "∞" : String.valueOf(this.screen.getShardSource().getCount(this.getMaterial()));
+	private void itemCount(GuiGraphicsExtractor graphics, Font font, int x, int y, String amount) {
+		graphics.text(font, amount, x + 19 - 2 - font.width(amount), y + 6 + 3, -1, true);
 	}
 
-	private void itemCount(GuiGraphicsExtractor graphics, Font font, int x, int y, String amount) {
-		graphics.pose().pushMatrix();
-		graphics.text(font, amount, x + 19 - 2 - font.width(amount), y + 6 + 3, -1, true);
-		graphics.pose().popMatrix();
+	protected String getCount() {
+		return this.screen.getShardSource().isCreative() ? "∞" : String.valueOf(this.screen.getShardSource().getCount(this.getMaterial()));
 	}
 
 	@Override

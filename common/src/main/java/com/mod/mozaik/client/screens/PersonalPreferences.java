@@ -15,6 +15,8 @@ import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Unmodifiable;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -25,6 +27,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @NullMarked
 public class PersonalPreferences {
@@ -32,7 +35,11 @@ public class PersonalPreferences {
 			ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).fieldOf("primary_color").forGetter(pref -> pref.primaryColor),
 			ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).fieldOf("secondary_color").forGetter(pref -> pref.secondaryColor),
 			Codec.INT.fieldOf("template").forGetter(pref -> pref.template),
-			Favourite.CODEC.listOf().fieldOf("faves").forGetter(pref -> pref.faves)
+			Favourite.CODEC.listOf().fieldOf("faves").forGetter(pref -> pref.faves),
+			Codec.BOOL.fieldOf("shard_bar_tooltip_name").forGetter(pref -> pref.shardBarDisplayCount.get()),
+			Codec.BOOL.fieldOf("shard_bar_tooltip_count").forGetter(pref -> pref.shardBarTooltipCount.get()),
+			Codec.BOOL.fieldOf("shard_bar_display_count").forGetter(pref -> pref.shardBarDisplayCount.get()),
+			Codec.BOOL.fieldOf("show_tool_hotkey").forGetter(pref -> pref.toolHotkey.get())
 	).apply(recordCodecBuilder, PersonalPreferences::new));
 
 	private static final PersonalPreferences INSTANCE = getOrCreate();
@@ -42,8 +49,12 @@ public class PersonalPreferences {
 	private int template = 0;
 	private final List<Favourite> faves = new ArrayList<>();
 
-	private Polyomino shape = Polyomino.EMPTY;
+	private final ToggleOption shardBarTooltipName = new ToggleOption("shard_bar_tooltip_name", true);
+	private final ToggleOption shardBarTooltipCount = new ToggleOption("shard_bar_tooltip_count", true);
+	private final ToggleOption shardBarDisplayCount = new ToggleOption("shard_bar_display_count", false);
+	private final ToggleOption toolHotkey = new ToggleOption("show_tool_hotkey", false);
 
+	private Polyomino shape = Polyomino.EMPTY;
 
 	public PersonalPreferences() {
 		for (int i = 0; i < 9; i++) {
@@ -51,11 +62,50 @@ public class PersonalPreferences {
 		}
 	}
 
-	public PersonalPreferences(ResourceKey<ShardMaterial> primaryColor, ResourceKey<ShardMaterial> secondaryColor, int template, List<Favourite> faves) {
+	public PersonalPreferences(
+			ResourceKey<ShardMaterial> primaryColor,
+			ResourceKey<ShardMaterial> secondaryColor,
+			int template,
+			List<Favourite> faves,
+			boolean shardBarTooltipName,
+			boolean shardBarTooltipCount,
+			boolean shardBarDisplayCount,
+			boolean toolHotkey
+			) {
 		this.primaryColor = primaryColor;
 		this.secondaryColor = secondaryColor;
 		this.template = template;
 		this.faves.addAll(faves);
+		this.shardBarTooltipName.set(shardBarTooltipName);
+		this.shardBarTooltipCount.set(shardBarTooltipCount);
+		this.shardBarDisplayCount.set(shardBarDisplayCount);
+		this.toolHotkey.set(toolHotkey);
+	}
+
+	@Contract(value = " -> new", pure = true)
+	public static @Unmodifiable List<ToggleOption> getOptions() {
+		return List.of(
+				INSTANCE.shardBarTooltipName,
+				INSTANCE.shardBarTooltipCount,
+				INSTANCE.shardBarDisplayCount,
+				INSTANCE.toolHotkey
+		);
+	}
+
+	public static ToggleOption getShardBarTooltipName() {
+		return INSTANCE.shardBarTooltipName;
+	}
+
+	public static ToggleOption getShardBarTooltipCount() {
+		return INSTANCE.shardBarTooltipCount;
+	}
+
+	public static ToggleOption getShardBarDisplayCount() {
+		return INSTANCE.shardBarDisplayCount;
+	}
+
+	public static ToggleOption getToolHotkey() {
+		return INSTANCE.toolHotkey;
 	}
 
 	private static final Gson GSON = new Gson().newBuilder().setPrettyPrinting().create();
@@ -160,5 +210,19 @@ public class PersonalPreferences {
 				ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).optionalFieldOf("material").forGetter(Favourite::material),
 				Codec.INT.optionalFieldOf("template").forGetter(Favourite::template)
 		).apply(recordCodecBuilder, Favourite::new));
+	}
+
+	public record ToggleOption(String name, String tooltip, AtomicBoolean setting) {
+		public ToggleOption(String string, boolean setting) {
+			this("name.mozaik.setting." + string, "tooltip.mozaik.setting." + string, new AtomicBoolean(setting));
+		}
+
+		public boolean get() {
+			return this.setting.get();
+		}
+
+		public void set(boolean b) {
+			this.setting.set(b);
+		}
 	}
 }

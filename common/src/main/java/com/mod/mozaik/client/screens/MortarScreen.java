@@ -11,8 +11,6 @@ import com.mod.mozaik.client.widgets.MaterialWidget;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.menus.MortarMenu;
-import com.mod.mozaik.networking.bidirectional.RemovePolyominoBidirectional;
-import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.PrePolyominoShapes;
 import com.mod.mozaik.polyomino.ShardMaterial;
@@ -32,7 +30,6 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.navigation.ScreenDirection;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.input.KeyEvent;
@@ -43,7 +40,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Rotation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
@@ -86,6 +82,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private static final Vector2i ROTATE_180 = new Vector2i(153, 33);
 	private static final Vector2i ROTATE_270 = new Vector2i(174, 33);
 	private static final Vector2i ROTATE_90 = new Vector2i(195, 33);
+
+	private static final Vector2i TOGGLE_OPTION_START = new Vector2i(27, 12);
 
 	public static final int LEFT_CLICK = 0;
 	public static final int MIDDLE_CLICK = 2;
@@ -723,6 +721,10 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				this.addRenderableWidget(new ToolButton(this, SELECT, SpriteButton.SpriteSet.SELECT, MozaikTool.SELECT));
 			}
 			case SETTINGS -> {
+				int i = 0;
+				for (PersonalPreferences.ToggleOption toggleOption : PersonalPreferences.getOptions()) {
+					this.addRenderableWidget(new ToggleButton(this, new Vector2i(TOGGLE_OPTION_START.x, TOGGLE_OPTION_START.y + 16 * i++), toggleOption));
+				}
 			}
 			case EDIT -> {
 				this.addRenderableWidget(new CreatePolyominoButton(this.leftPos + BOWL_CENTER.x, this.topPos + BOWL_CENTER.y, this));
@@ -808,6 +810,16 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 		});
 
+		for (int i = 0; i < 9; i++) {
+			this.addRenderableWidget(new MaterialWidget(this, this.leftPos + MATERIAL_BAR.x, this.topPos + MATERIAL_BAR.y + i * 18, i));
+		}
+
+		for (int i = 0; i < 9; i++) {
+			this.addRenderableWidget(new ShapeButton(this, this.leftPos + SHAPE_BAR.x, this.topPos + SHAPE_BAR.y + i * 18, i));
+		}
+
+		if (this.mode == Mode.SETTINGS) return;
+
 		this.menu.getRotatedPolyomino().forEach(placedPolyomino -> {
 			int gridX = this.leftPos + GRID_START.x;
 			int gridY = this.topPos + GRID_START.y;
@@ -816,14 +828,6 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			this.getPolyomino().add(polyominoWidget);
 			this.addRenderableWidget(polyominoWidget);
 		});
-
-		for (int i = 0; i < 9; i++) {
-			this.addRenderableWidget(new MaterialWidget(this, this.leftPos + MATERIAL_BAR.x, this.topPos + MATERIAL_BAR.y + i * 18, i));
-		}
-
-		for (int i = 0; i < 9; i++) {
-			this.addRenderableWidget(new ShapeButton(this, this.leftPos + SHAPE_BAR.x, this.topPos + SHAPE_BAR.y + i * 18, i));
-		}
 	}
 
 	@Override
@@ -867,6 +871,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		int xo = (this.width - this.imageWidth) / 2;
 		int yo = (this.height - this.imageHeight) / 2;
 		graphics.blit(RenderPipelines.GUI_TEXTURED, this.mode.getTexture(), xo, yo, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
+
+		if (this.mode == Mode.SETTINGS) return;
 		graphics.blit(RenderPipelines.GUI_TEXTURED, this.menu.getTexture(), xo + GRID_START.x, yo + GRID_START.y, 0.0F, 0.0F, 160, 160, 160, 160);
 
 		this.menu.getMap().forEach((flatDirection, mosaic) -> {

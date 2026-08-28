@@ -24,6 +24,7 @@ import java.util.Optional;
 @NullMarked
 public class MaterialWidget extends AbstractMaterialWidget {
 	public static String FAVOURITE = "tooltip.mozaik.favourite";
+	public static String COUNT = "tooltip.mozaik.count";
 	private final int index;
 
 	public MaterialWidget(MortarScreen screen, int offsetX, int offsetY, int index) {
@@ -59,24 +60,48 @@ public class MaterialWidget extends AbstractMaterialWidget {
 
 	@Override
 	protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y) {
+		List<Component> components = new ArrayList<>();
+		if (PersonalPreferences.getShardBarTooltipName().get()) {
+			components.add(this.getItemStack().getHoverName());
+		}
+
+		if (PersonalPreferences.getShardBarTooltipCount().get()) {
+			components.add(Component.translatable(COUNT, Component.literal(this.getCount()).withStyle(ChatFormatting.GOLD)));
+		}
+
 		List<Integer> favSlots = new ArrayList<>();
 		for (int i = 1; i <= 9; i++) {
 			if (PersonalPreferences.getFavourite(i - 1).material().orElse(null) == this.getMaterial()) {
 				favSlots.add(i);
 			}
 		}
-		if (favSlots.isEmpty())super.extractTooltip(graphics, x, y);
-		else {
-			graphics.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(
-					this.getItemStack().getHoverName(),
-					Component.translatable(FAVOURITE, Component.literal(favSlots.toString()).withStyle(ChatFormatting.AQUA))
-			), Optional.empty(), x, y);
+
+		if (!favSlots.isEmpty()) {
+			components.add(Component.translatable(FAVOURITE, Component.literal(favSlots.toString()).withStyle(ChatFormatting.AQUA)));
 		}
+
+		graphics.setTooltipForNextFrame(Minecraft.getInstance().font, components, Optional.empty(), x, y);
 	}
 
 	@Override
 	protected boolean isValidClickButton(MouseButtonInfo buttonInfo) {
 		return buttonInfo.button() == MortarScreen.LEFT_CLICK || buttonInfo.button() == MortarScreen.RIGHT_CLICK;
+	}
+
+	@Override
+	protected void renderMaterial(GuiGraphicsExtractor graphics) {
+		super.renderMaterial(graphics);
+		if (PersonalPreferences.getShardBarDisplayCount().get()) {
+			this.itemCount(graphics, this.minecraft.font, this.getX(), this.getY(), this.getCount());
+		}
+	}
+
+	private void itemCount(GuiGraphicsExtractor graphics, Font font, int x, int y, String amount) {
+		graphics.text(font, amount, x + 19 - 2 - font.width(amount), y + 6 + 3, -1, true);
+	}
+
+	protected String getCount() {
+		return this.screen.getShardSource().isCreative() ? "∞" : String.valueOf(this.screen.getShardSource().getCount(this.getMaterial()));
 	}
 
 	@Override

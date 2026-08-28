@@ -18,7 +18,7 @@ public abstract class ClickableButton extends SpriteButton {
 	@Override
 	protected Identifier getTexture() {
 		if (this.isPressed()) return this.spriteSet.pressed();
-		if (this.isBlocked() && this.spriteSet.unable() != null) return this.spriteSet.unable();
+		if (this.isBlocked() && this.spriteSet.alt() != null) return this.spriteSet.alt();
 		return this.isHovered() ? this.spriteSet.hover() : this.spriteSet.normal();
 	}
 
