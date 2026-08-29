@@ -37,6 +37,7 @@ public class PersonalPreferences {
 			ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).fieldOf("secondary_color").forGetter(pref -> pref.secondaryColor),
 			ResourceKey.codec(ModRegistries.ModKeys.POLYOMINO_SHAPE).fieldOf("polyomino_shape").forGetter(pref -> pref.polyominoShape),
 			Favourite.CODEC.listOf().fieldOf("faves").forGetter(pref -> pref.faves),
+			Codec.FLOAT.fieldOf("volume").forGetter(pref -> pref.volume),
 			Codec.BOOL.fieldOf("shard_bar_tooltip_name").forGetter(pref -> pref.shardBarTooltipName.get()),
 			Codec.BOOL.fieldOf("shard_bar_tooltip_count").forGetter(pref -> pref.shardBarTooltipCount.get()),
 			Codec.BOOL.fieldOf("shard_bar_display_count").forGetter(pref -> pref.shardBarDisplayCount.get()),
@@ -54,6 +55,7 @@ public class PersonalPreferences {
 	private ResourceKey<ShardMaterial> secondaryColor = ModShardMaterials.ofMaterial(ModShardMaterials.BLACKSTONE);
 	private ResourceKey<PolyominoShape> polyominoShape = ModPolyominoShapes.ofShape(ModPolyominoShapes.SUN);
 	private final List<Favourite> faves = new ArrayList<>();
+	private float volume = 1.0F;
 
 	private final ToggleOption shardBarTooltipName = new ToggleOption("shard_bar_tooltip_name", true);
 	private final ToggleOption shardBarTooltipCount = new ToggleOption("shard_bar_tooltip_count", true);
@@ -95,6 +97,7 @@ public class PersonalPreferences {
 			ResourceKey<ShardMaterial> secondaryColor,
 			ResourceKey<PolyominoShape> polyominoShape,
 			List<Favourite> faves,
+			float volume,
 			boolean shardBarTooltipName,
 			boolean shardBarTooltipCount,
 			boolean shardBarDisplayCount,
@@ -109,6 +112,7 @@ public class PersonalPreferences {
 		this.secondaryColor = secondaryColor;
 		this.polyominoShape = polyominoShape;
 		this.faves.addAll(faves);
+		this.volume = volume;
 
 		this.shardBarTooltipName.set(shardBarTooltipName);
 		this.shardBarTooltipCount.set(shardBarTooltipCount);
@@ -214,6 +218,15 @@ public class PersonalPreferences {
 		return INSTANCE.faves.get(i);
 	}
 
+	public static float getVolume() {
+		return INSTANCE.volume;
+	}
+
+	public static void voidSetVolume(float volume) {
+		INSTANCE.volume = volume;
+		INSTANCE.save();
+	}
+
 	public static void setFavouriteMaterial(int i, @Nullable ResourceKey<ShardMaterial> material) {
 		Favourite favourite = INSTANCE.faves.get(i);
 		INSTANCE.faves.set(i, new Favourite(Optional.ofNullable(material), favourite.polyomino()));
@@ -275,7 +288,8 @@ public class PersonalPreferences {
 		return Mth.clamp(screen.getSortedShapes().indexOf(INSTANCE.polyominoShape) - 4, 0, screen.getSortedShapes().size() - 9);
 	}
 
-	public record Favourite(Optional<ResourceKey<ShardMaterial>> material, Optional<ResourceKey<PolyominoShape>> polyomino) {
+	public record Favourite(Optional<ResourceKey<ShardMaterial>> material,
+							Optional<ResourceKey<PolyominoShape>> polyomino) {
 		public static final Codec<Favourite> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
 				ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).optionalFieldOf("material").forGetter(Favourite::material),
 				ResourceKey.codec(ModRegistries.ModKeys.POLYOMINO_SHAPE).optionalFieldOf("polyomino").forGetter(Favourite::polyomino)
@@ -297,6 +311,7 @@ public class PersonalPreferences {
 
 		public void set(boolean b) {
 			this.setting.set(b);
+			INSTANCE.save();
 		}
 	}
 }

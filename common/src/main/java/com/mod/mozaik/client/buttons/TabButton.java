@@ -1,6 +1,7 @@
 package com.mod.mozaik.client.buttons;
 
 import com.mod.mozaik.client.screens.MortarScreen;
+import com.mod.mozaik.client.screens.PersonalPreferences;
 import com.mod.mozaik.reg.ModSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -42,7 +43,7 @@ public class TabButton extends ModButton {
 	}
 
 	public static void playButtonClickSound(SoundManager soundManager, Holder<SoundEvent> soundEvent) {
-		soundManager.play(SimpleSoundInstance.forUI(soundEvent, 1.0F));
+		soundManager.play(SimpleSoundInstance.forUI(soundEvent.value(), 1.0F, PersonalPreferences.getVolume()));
 	}
 
 	@Override

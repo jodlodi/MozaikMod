@@ -33,10 +33,6 @@ public abstract class SpriteButton extends ModButton implements PhaseRenderable 
 		graphics.blit(RenderPipelines.GUI_TEXTURED, this.getTexture(), this.getX(), this.getY(), 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
 	}
 
-	public void tick() {
-
-	}
-
 	@Override
 	public abstract void onPress(InputWithModifiers inputWithModifiers);
 

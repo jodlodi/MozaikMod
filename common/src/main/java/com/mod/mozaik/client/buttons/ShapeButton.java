@@ -67,7 +67,7 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 	}
 
 	public static void playButtonClickSound(SoundManager soundManager, Holder<SoundEvent> soundEvent) {
-		soundManager.play(SimpleSoundInstance.forUI(soundEvent, 1.0F));
+		soundManager.play(SimpleSoundInstance.forUI(soundEvent.value(), 1.0F, PersonalPreferences.getVolume()));
 	}
 
 	@Override

@@ -94,6 +94,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private static final Vector2i ROTATE_90 = new Vector2i(195, 33);
 
 	private static final Vector2i TOGGLE_OPTION_START = new Vector2i(27, 12);
+	private static final Vector2i VOLUME_SLIDER = new Vector2i(3, 3);
 
 	public static final int LEFT_CLICK = 0;
 	public static final int MIDDLE_CLICK = 2;
@@ -165,7 +166,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	public boolean noPoly(Identifier identifier) {
-		if (ModPolyominoShapes.alwaysShapes().stream().map(ResourceSupplier::id).toList().contains(identifier)) return false;
+		if (ModPolyominoShapes.alwaysShapes().stream().map(ResourceSupplier::id).toList().contains(identifier))
+			return false;
 
 		try {
 			ClientAdvancements advancements = Objects.requireNonNull(Minecraft.getInstance().getConnection()).getAdvancements();
@@ -655,9 +657,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		super.containerTick();
 		List<HeldPolyominoWidget> wrong = new ArrayList<>();
 		this.renderableWidgets.forEach(phaseRenderable -> {
-			if (phaseRenderable instanceof SpriteButton button) {
-				button.tick();
-			} else if (phaseRenderable instanceof HeldPolyominoWidget widget && !this.carried.contains(widget)) {
+			phaseRenderable.tick();
+			if (phaseRenderable instanceof HeldPolyominoWidget widget && !this.carried.contains(widget)) {
 				wrong.add(widget);
 			}
 		});
@@ -815,6 +816,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 						this.addRenderableWidget(new ToggleButton(this, new Vector2i(TOGGLE_OPTION_START.x, TOGGLE_OPTION_START.y + 16 * i++), option));
 					}
 				}
+				this.addRenderableWidget(new VolumeSliderButton(this.leftPos + VOLUME_SLIDER.x, this.topPos + VOLUME_SLIDER.y));
 			}
 			case EDIT -> {
 				this.addRenderableWidget(new CreatePolyominoButton(this.leftPos + BOWL_CENTER.x, this.topPos + BOWL_CENTER.y, this));

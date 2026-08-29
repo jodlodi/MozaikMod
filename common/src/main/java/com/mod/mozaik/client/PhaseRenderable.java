@@ -12,4 +12,8 @@ public interface PhaseRenderable {
 	default void renderOnTop(GraphicsRenderHelper graphics) {
 
 	}
+
+	default void tick() {
+
+	}
 }
