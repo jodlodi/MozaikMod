@@ -125,6 +125,6 @@ public class MaterialButton extends AbstractMaterialButton {
 
 	@Override
 	public ResourceKey<ShardMaterial> getMaterial() {
-		return this.screen.getSortedList().get(PersonalPreferences.minMaterial(this.screen) + this.index);
+		return this.screen.getSortedMaterials().get(PersonalPreferences.minMaterial(this.screen) + this.index);
 	}
 }

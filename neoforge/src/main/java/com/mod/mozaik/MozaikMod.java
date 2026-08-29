@@ -28,6 +28,7 @@ public class MozaikMod {
         NeoForgeRegistryHelper.MEMORY_MODULE_TYPES.register(bus);
         NeoForgeRegistryHelper.MENU_TYPES.register(bus);
         NeoForgeRegistryHelper.SHARD_MATERIALS.register(bus);
+        NeoForgeRegistryHelper.POLYOMINO_SHAPES.register(bus);
         NeoForgeRegistryHelper.DATA_COMPONENTS.register(bus);
         NeoForgeRegistryHelper.STRUCTURE_PIECE_TYPES.register(bus);
         NeoForgeRegistryHelper.STRUCTURE_TYPES.register(bus);

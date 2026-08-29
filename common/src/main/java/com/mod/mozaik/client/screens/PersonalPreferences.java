@@ -6,8 +6,9 @@ import com.google.gson.JsonObject;
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.polyomino.Polyomino;
-import com.mod.mozaik.polyomino.PrePolyominoShapes;
+import com.mod.mozaik.polyomino.PolyominoShape;
 import com.mod.mozaik.polyomino.ShardMaterial;
+import com.mod.mozaik.reg.ModPolyominoShapes;
 import com.mod.mozaik.reg.ModRegistries;
 import com.mod.mozaik.reg.ModShardMaterials;
 import com.mojang.serialization.Codec;
@@ -34,7 +35,7 @@ public class PersonalPreferences {
 	public static final Codec<PersonalPreferences> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
 			ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).fieldOf("primary_color").forGetter(pref -> pref.primaryColor),
 			ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).fieldOf("secondary_color").forGetter(pref -> pref.secondaryColor),
-			Codec.INT.fieldOf("template").forGetter(pref -> pref.template),
+			ResourceKey.codec(ModRegistries.ModKeys.POLYOMINO_SHAPE).fieldOf("polyomino_shape").forGetter(pref -> pref.polyominoShape),
 			Favourite.CODEC.listOf().fieldOf("faves").forGetter(pref -> pref.faves),
 			Codec.BOOL.fieldOf("shard_bar_tooltip_name").forGetter(pref -> pref.shardBarTooltipName.get()),
 			Codec.BOOL.fieldOf("shard_bar_tooltip_count").forGetter(pref -> pref.shardBarTooltipCount.get()),
@@ -50,7 +51,7 @@ public class PersonalPreferences {
 
 	private ResourceKey<ShardMaterial> primaryColor = ModShardMaterials.ofMaterial(ModShardMaterials.STONE);
 	private ResourceKey<ShardMaterial> secondaryColor = ModShardMaterials.ofMaterial(ModShardMaterials.BLACKSTONE);
-	private int template = 0;
+	private ResourceKey<PolyominoShape> polyominoShape = ModPolyominoShapes.ofShape(ModPolyominoShapes.SMASHBOY);
 	private final List<Favourite> faves = new ArrayList<>();
 
 	private final ToggleOption shardBarTooltipName = new ToggleOption("shard_bar_tooltip_name", true);
@@ -89,7 +90,7 @@ public class PersonalPreferences {
 	public PersonalPreferences(
 			ResourceKey<ShardMaterial> primaryColor,
 			ResourceKey<ShardMaterial> secondaryColor,
-			int template,
+			ResourceKey<PolyominoShape> polyominoShape,
 			List<Favourite> faves,
 			boolean shardBarTooltipName,
 			boolean shardBarTooltipCount,
@@ -102,7 +103,7 @@ public class PersonalPreferences {
 	) {
 		this.primaryColor = primaryColor;
 		this.secondaryColor = secondaryColor;
-		this.template = template;
+		this.polyominoShape = polyominoShape;
 		this.faves.addAll(faves);
 
 		this.shardBarTooltipName.set(shardBarTooltipName);
@@ -206,11 +207,11 @@ public class PersonalPreferences {
 
 	public static void setFavouriteMaterial(int i, @Nullable ResourceKey<ShardMaterial> material) {
 		Favourite favourite = INSTANCE.faves.get(i);
-		INSTANCE.faves.set(i, new Favourite(Optional.ofNullable(material), favourite.template()));
+		INSTANCE.faves.set(i, new Favourite(Optional.ofNullable(material), favourite.polyomino()));
 		INSTANCE.save();
 	}
 
-	public static void setFavouriteShape(int i, @Nullable Integer template) {
+	public static void setFavouriteShape(int i, @Nullable ResourceKey<PolyominoShape> template) {
 		Favourite favourite = INSTANCE.faves.get(i);
 		INSTANCE.faves.set(i, new Favourite(favourite.material(), Optional.ofNullable(template)));
 		INSTANCE.save();
@@ -248,27 +249,27 @@ public class PersonalPreferences {
 		INSTANCE.save();
 	}
 
-	public static int getTemplate() {
-		return INSTANCE.template;
+	public static ResourceKey<PolyominoShape> getPolyominoShape() {
+		return INSTANCE.polyominoShape;
 	}
 
-	public static void setTemplate(int template) {
-		INSTANCE.template = template;
+	public static void setPolyominoShape(ResourceKey<PolyominoShape> polyominoShape) {
+		INSTANCE.polyominoShape = polyominoShape;
 		INSTANCE.save();
 	}
 
 	public static int minMaterial(MortarScreen screen) {
-		return Mth.clamp(screen.getSortedList().indexOf(INSTANCE.primaryColor) - 4, 0, screen.getSortedList().size() - 9);
+		return Mth.clamp(screen.getSortedMaterials().indexOf(INSTANCE.primaryColor) - 4, 0, screen.getSortedMaterials().size() - 9);
 	}
 
-	public static int minTemplate() {
-		return Mth.clamp(INSTANCE.template - 4, 0, PrePolyominoShapes.values().length - 9);
+	public static int minTemplate(MortarScreen screen) {
+		return Mth.clamp(screen.getSortedShapes().indexOf(INSTANCE.polyominoShape) - 4, 0, screen.getSortedShapes().size() - 9);
 	}
 
-	public record Favourite(Optional<ResourceKey<ShardMaterial>> material, Optional<Integer> template) {
+	public record Favourite(Optional<ResourceKey<ShardMaterial>> material, Optional<ResourceKey<PolyominoShape>> polyomino) {
 		public static final Codec<Favourite> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
 				ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).optionalFieldOf("material").forGetter(Favourite::material),
-				Codec.INT.optionalFieldOf("template").forGetter(Favourite::template)
+				ResourceKey.codec(ModRegistries.ModKeys.POLYOMINO_SHAPE).optionalFieldOf("polyomino").forGetter(Favourite::polyomino)
 		).apply(recordCodecBuilder, Favourite::new));
 	}
 

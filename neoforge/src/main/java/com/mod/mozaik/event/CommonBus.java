@@ -35,5 +35,6 @@ public class CommonBus {
 	@SubscribeEvent
 	public static void registryEvent(NewRegistryEvent event) {
 		event.register(ModRegistries.SHARD_MATERIALS);
+		event.register(ModRegistries.POLYOMINO_SHAPES);
 	}
 }

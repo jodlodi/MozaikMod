@@ -14,6 +14,7 @@ public class CommonClass {
         ModSounds.init();
         ModRegistries.init();
         ModShardMaterials.init();
+        ModPolyominoShapes.init();
         ModDataComponents.init();
         ModStructurePieces.init();
         ModStructureTypes.init();

@@ -1,5 +1,6 @@
 package com.mod.mozaik.platform.services;
 
+import com.mod.mozaik.polyomino.PolyominoShape;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.reg.ResourceSupplier;
 import com.mojang.serialization.Codec;
@@ -80,6 +81,8 @@ public interface IRegistryHelper {
 	<T extends StructureType<?>> ResourceSupplier<T> registerStructureType(String id, Supplier<T> structureType);
 
 	ResourceSupplier<ShardMaterial> registerShardMaterial(String id, Supplier<ShardMaterial> shardMaterial);
+
+	ResourceSupplier<PolyominoShape> registerPolyominoShape(String id, Supplier<PolyominoShape> shardMaterial);
 
 	<T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey);
 

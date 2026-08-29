@@ -9,12 +9,14 @@ import com.mod.mozaik.client.buttons.AltColorButton;
 import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.buttons.MaterialButton;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
+import com.mod.mozaik.items.PolyominoItem;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.menus.MortarMenu;
 import com.mod.mozaik.polyomino.Polyomino;
-import com.mod.mozaik.polyomino.PrePolyominoShapes;
+import com.mod.mozaik.polyomino.PolyominoShape;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.polyomino.Tessera;
+import com.mod.mozaik.reg.ModPolyominoShapes;
 import com.mod.mozaik.reg.ModSounds;
 import com.mod.mozaik.reg.ModTabs;
 import com.mod.mozaik.util.FlatDirection;
@@ -106,13 +108,13 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 		if (PersonalPreferences.getShape() == Polyomino.EMPTY) {
-			PersonalPreferences.setShape(PrePolyominoShapes.values()[PersonalPreferences.getTemplate()].template.build(PersonalPreferences.getPrimaryColor(), UUID.randomUUID()));
+			PersonalPreferences.setShape(PolyominoShape.tryBuild(PersonalPreferences.getPolyominoShape()).orElseThrow());
 		}
 	}
 
 	private final List<ResourceKey<ShardMaterial>> materials = new ArrayList<>();
 
-	public List<ResourceKey<ShardMaterial>> getSortedList() {
+	public List<ResourceKey<ShardMaterial>> getSortedMaterials() {
 		if (this.materials.isEmpty()) {
 			ModTabs.TAB.get().getSearchTabDisplayItems().forEach(itemStack -> {
 				if (itemStack.getItem() instanceof ShardItem item)
@@ -124,6 +126,20 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 		}
 		return this.materials;
+	}
+
+	private final List<ResourceKey<PolyominoShape>> shapes = new ArrayList<>();
+
+	public List<ResourceKey<PolyominoShape>> getSortedShapes() {
+		if (this.shapes.isEmpty()) {
+			ModPolyominoShapes.baseModOrder().forEach(shape -> this.shapes.add(ModPolyominoShapes.ofShape(shape)));
+
+			ModTabs.TAB.get().getSearchTabDisplayItems().forEach(itemStack -> {
+				if (itemStack.getItem() instanceof PolyominoItem item)
+					this.shapes.add(item.getPolyominoShape());
+			});
+		}
+		return this.shapes;
 	}
 
 	public MortarMenu.ShardSource getShardSource() {
@@ -239,7 +255,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 						}
 						return true;
 					} else if (child.get() instanceof ShapeButton button) {
-						if (PersonalPreferences.getFavourite(i - 1).template().orElse(-1) == button.getShape()) {
+						if (PersonalPreferences.getFavourite(i - 1).polyomino().orElse(null) == button.getShape()) {
 							PersonalPreferences.setFavouriteShape(i - 1, null);
 						} else {
 							PersonalPreferences.setFavouriteShape(i - 1, button.getShape());
@@ -250,11 +266,11 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 				PersonalPreferences.Favourite favourite = PersonalPreferences.getFavourite(i - 1);
 				ResourceKey<ShardMaterial> material = favourite.material().orElse(PersonalPreferences.getPrimaryColor());
-				Integer template = favourite.template().orElse(PersonalPreferences.getTemplate());
+				ResourceKey<PolyominoShape> template = favourite.polyomino().orElse(PersonalPreferences.getPolyominoShape());
 
-				PersonalPreferences.setTemplate(template);
+				PersonalPreferences.setPolyominoShape(template);
 				PersonalPreferences.setPrimaryColor(this, material);
-				PersonalPreferences.setShape(PrePolyominoShapes.values()[template].template.build(material, UUID.randomUUID()));
+				PersonalPreferences.setShape(PolyominoShape.tryBuild(template, material).orElseThrow());
 				return true;
 			}
 		}
@@ -706,23 +722,25 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	public void materialUpBy(int by) {
-		int ordinal = Math.max(this.getSortedList().indexOf(PersonalPreferences.getPrimaryColor()) - by, 0);
-		PersonalPreferences.setPrimaryColor(this, this.getSortedList().get(ordinal));
+		int ordinal = Math.max(this.getSortedMaterials().indexOf(PersonalPreferences.getPrimaryColor()) - by, 0);
+		PersonalPreferences.setPrimaryColor(this, this.getSortedMaterials().get(ordinal));
 	}
 
 	public void materialDownBy(int by) {
-		int ordinal = Math.min(this.getSortedList().indexOf(PersonalPreferences.getPrimaryColor()) + by, this.getSortedList().size() - 1);
-		PersonalPreferences.setPrimaryColor(this, this.getSortedList().get(ordinal));
+		int ordinal = Math.min(this.getSortedMaterials().indexOf(PersonalPreferences.getPrimaryColor()) + by, this.getSortedMaterials().size() - 1);
+		PersonalPreferences.setPrimaryColor(this, this.getSortedMaterials().get(ordinal));
 	}
 
-	public static void templateUpBy(int by) {
-		PersonalPreferences.setTemplate(Math.max(PersonalPreferences.getTemplate() - by, 0));
-		PersonalPreferences.setShape(PrePolyominoShapes.values()[PersonalPreferences.getTemplate()].template.build(PersonalPreferences.getPrimaryColor(), UUID.randomUUID()));
+	public void templateUpBy(int by) {
+		int ordinal = Math.max(this.getSortedShapes().indexOf(PersonalPreferences.getPolyominoShape()) - by, 0);
+		PersonalPreferences.setPolyominoShape(this.getSortedShapes().get(ordinal));
+		PersonalPreferences.setShape(PolyominoShape.tryBuild(this.getSortedShapes().get(ordinal)).orElseThrow());
 	}
 
-	public static void templateDownBy(int by) {
-		PersonalPreferences.setTemplate(Math.min(PersonalPreferences.getTemplate() + by, PrePolyominoShapes.values().length - 1));
-		PersonalPreferences.setShape(PrePolyominoShapes.values()[PersonalPreferences.getTemplate()].template.build(PersonalPreferences.getPrimaryColor(), UUID.randomUUID()));
+	public void templateDownBy(int by) {
+		int ordinal = Math.min(this.getSortedShapes().indexOf(PersonalPreferences.getPolyominoShape()) + by, this.getSortedShapes().size() - 1);
+		PersonalPreferences.setPolyominoShape(this.getSortedShapes().get(ordinal));
+		PersonalPreferences.setShape(PolyominoShape.tryBuild(this.getSortedShapes().get(ordinal)).orElseThrow());
 	}
 
 	@Override
@@ -800,7 +818,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		this.addRenderableWidget(new ClickableButton(this, MATERIAL_BAR_UP, SpriteButton.SpriteSet.UP_ARROW) {
 			@Override
 			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				materialUpBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedList().size() : 9);
+				materialUpBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedMaterials().size() : 9);
 			}
 
 			@Override
@@ -812,36 +830,36 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		this.addRenderableWidget(new ClickableButton(this, MATERIAL_BAR_DOWN, SpriteButton.SpriteSet.DOWN_ARROW) {
 			@Override
 			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				materialDownBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedList().size() : 9);
+				materialDownBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedMaterials().size() : 9);
 			}
 
 			@Override
 			public boolean isBlocked() {
-				return PersonalPreferences.minMaterial(MortarScreen.this) + 9 == MortarScreen.this.getSortedList().size();
+				return PersonalPreferences.minMaterial(MortarScreen.this) + 9 == MortarScreen.this.getSortedMaterials().size();
 			}
 		});
 
 		this.addRenderableWidget(new ClickableButton(this, SHAPE_BAR_UP, SpriteButton.SpriteSet.UP_ARROW) {
 			@Override
 			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				templateUpBy(inputWithModifiers.hasShiftDown() ? PrePolyominoShapes.values().length : 9);
+				templateUpBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedShapes().size() : 9);
 			}
 
 			@Override
 			public boolean isBlocked() {
-				return PersonalPreferences.minTemplate() == 0;
+				return PersonalPreferences.minTemplate(this.screen) == 0;
 			}
 		});
 
 		this.addRenderableWidget(new ClickableButton(this, SHAPE_BAR_DOWN, SpriteButton.SpriteSet.DOWN_ARROW) {
 			@Override
 			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				templateDownBy(inputWithModifiers.hasShiftDown() ? PrePolyominoShapes.values().length : 9);
+				templateDownBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedShapes().size() : 9);
 			}
 
 			@Override
 			public boolean isBlocked() {
-				return PersonalPreferences.minTemplate() + 9 == PrePolyominoShapes.values().length;
+				return PersonalPreferences.minTemplate(this.screen) + 9 == MortarScreen.this.getSortedShapes().size();
 			}
 		});
 

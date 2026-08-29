@@ -3,12 +3,7 @@ package com.mod.mozaik.blocks.entities;
 import com.mod.mozaik.networking.bidirectional.UpdateMozaikBidirectional;
 import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.polyomino.Polyomino;
-import com.mod.mozaik.polyomino.ShardMaterial;
-import com.mod.mozaik.polyomino.deprecated.OldPolyomino;
 import com.mod.mozaik.reg.ModBlockEntities;
-import com.mod.mozaik.reg.ModRegistries;
-import com.mod.mozaik.reg.ResourceSupplier;
-import com.mod.mozaik.util.MortarContainerData;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentGetter;
@@ -16,9 +11,7 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.level.ChunkPos;
@@ -36,23 +29,15 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 	private static final String CUSTOM_NAME = "custom_name";
 	public static final String AUTHOR_NAME = "author_name";
 	public static final String SIGNED_ID = "signed";
-	private static final String POLYOMINOS = "polyominos";
 	private static final String POLYOMINO_ID = "polyomino";
-	private final List<OldPolyomino.PlacedPolyomino> polyominos = new ArrayList<>();
 	private final List<Polyomino.PlacedPolyomino> polyomino = new ArrayList<>();
 	private LockCode lockKey = LockCode.NO_LOCK;
-	public final MortarContainerData dataAccess;
 	private @Nullable Component title;
 	private @Nullable String name;
 	private boolean signed = false;
 
 	public MortarBlockEntity(BlockPos pos, BlockState blockState) {
 		super(ModBlockEntities.MORTAR.get(), pos, blockState);
-		this.dataAccess = new MortarContainerData(this);
-	}
-
-	public List<OldPolyomino.PlacedPolyomino> getPolyominos() {
-		return this.polyominos;
 	}
 
 	public List<Polyomino.PlacedPolyomino> getPolyomino() {
@@ -129,26 +114,6 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 		this.name = input.read(AUTHOR_NAME, Codec.STRING).orElse(null);
 		this.signed = input.read(SIGNED_ID, Codec.BOOL).orElse(false);
 		this.lockKey = LockCode.fromTag(input);
-
-		Optional<List<OldPolyomino.PlacedPolyomino>> list = input.read(POLYOMINOS, OldPolyomino.PlacedPolyomino.CODEC.listOf());
-
-		list.ifPresent(polyominoList -> polyominoList.forEach(placedPolyomino -> {
-			ResourceSupplier<ShardMaterial> other =	placedPolyomino.polyomino().material().getOther();
-			ResourceKey<ShardMaterial> a = ResourceKey.create(ModRegistries.ModKeys.SHARD_MATERIAL, other.id());
-			RandomSource randomSource = RandomSource.createThreadLocalInstance(placedPolyomino.polyomino().seed());
-
-			Polyomino.PlacedPolyomino newPoly = new Polyomino.PlacedPolyomino(
-					new Polyomino(
-							placedPolyomino.polyomino().placedTessera(),
-							a,
-							new UUID(placedPolyomino.polyomino().seed(), randomSource.nextLong())
-					),
-					placedPolyomino.x(),
-					placedPolyomino.y()
-			);
-			this.polyomino.add(newPoly);
-		}));
-
 		input.read(POLYOMINO_ID, Polyomino.PlacedPolyomino.CODEC.listOf()).ifPresent(this::setPolyomino);
 	}
 
@@ -157,7 +122,6 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 		output.storeNullable(CUSTOM_NAME, ComponentSerialization.CODEC, this.title);
 		output.storeNullable(AUTHOR_NAME, Codec.STRING, this.name);
 		output.store(SIGNED_ID, Codec.BOOL, this.signed);
-		output.store(POLYOMINOS, OldPolyomino.PlacedPolyomino.CODEC.listOf(), this.getPolyominos());
 		output.store(POLYOMINO_ID, Polyomino.PlacedPolyomino.CODEC.listOf(), this.polyomino);
 		this.lockKey.addToTag(output);
 	}

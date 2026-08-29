@@ -4,21 +4,18 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.PersonalPreferences;
-import com.mod.mozaik.items.ShardBagItem;
 import com.mod.mozaik.polyomino.Polyomino;
-import com.mod.mozaik.polyomino.PrePolyominoShapes;
-import com.mod.mozaik.reg.ModDataComponents;
+import com.mod.mozaik.polyomino.PolyominoShape;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
-import net.minecraft.world.item.component.TooltipDisplay;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.*;
@@ -35,8 +32,8 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 	}
 
 	protected Identifier getTexture() {
-		int dis = PersonalPreferences.minTemplate() + this.index;
-		return Constants.prefix("textures/gui/container/shapes/" + PrePolyominoShapes.values()[dis].name().toLowerCase(Locale.ROOT) + "/" + (dis == PersonalPreferences.getTemplate() ? "pressed" : "unselected") + ".png");
+		ResourceKey<PolyominoShape> dis = this.getShape();
+		return Constants.prefix("textures/gui/container/shapes/" + dis.identifier().getPath() + "/" + (dis == PersonalPreferences.getPolyominoShape() ? "pressed" : "unselected") + ".png");
 	}
 
 	@Override
@@ -44,10 +41,10 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 		if (PersonalPreferences.getReverseScrollDirectionBars().get()) scrollY *= -1;
 
 		if (scrollY > 0) {
-			MortarScreen.templateUpBy((int) scrollY);
+			this.screen.templateUpBy((int) scrollY);
 			return true;
 		} else if (scrollY < 0) {
-			MortarScreen.templateDownBy((int) -scrollY);
+			this.screen.templateDownBy((int) -scrollY);
 			return true;
 		}
 
@@ -61,8 +58,9 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 
 	@Override
 	public void onClick(MouseButtonEvent event, boolean doubleClick) {
-		PersonalPreferences.setTemplate(PersonalPreferences.minTemplate() + this.index);
-		PersonalPreferences.setShape(PrePolyominoShapes.values()[PersonalPreferences.getTemplate()].template.build(PersonalPreferences.getPrimaryColor(), UUID.randomUUID()));
+		ResourceKey<PolyominoShape> key = this.getShape();
+		PersonalPreferences.setPolyominoShape(key);
+		PolyominoShape.tryBuild(key).ifPresent(PersonalPreferences::setShape);
 	}
 
 	@Override
@@ -71,7 +69,7 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 
 		List<Integer> favSlots = new ArrayList<>();
 		for (int i = 1; i <= 9; i++) {
-			if (PersonalPreferences.getFavourite(i - 1).template().orElse(-1) == this.getShape()) {
+			if (PersonalPreferences.getFavourite(i - 1).polyomino().orElse(null) == this.getShape()) {
 				graphics.blit(RenderPipelines.GUI_TEXTURED, Constants.prefix("textures/gui/container/favourite.png"), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
 				favSlots.add(i);
 			}
@@ -79,7 +77,7 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 
 		if (this.isHovered()) {
 			Optional<TooltipComponent> component = PersonalPreferences.getShapeTooltip().get()
-					? Optional.of(new ShapeTooltip(PrePolyominoShapes.values()[this.getShape()].template.build(PersonalPreferences.getPrimaryColor(), PersonalPreferences.getShape().uuid())))
+					? Optional.ofNullable(PolyominoShape.tryBuild(this.getShape(), PersonalPreferences.getPrimaryColor(), PersonalPreferences.getShape().uuid()).map(ShapeTooltip::new).orElse(null))
 					: Optional.empty();
 
 			if (!favSlots.isEmpty()) {
@@ -92,8 +90,12 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 		}
 	}
 
-	public int getShape() {
-		return PersonalPreferences.minTemplate() + this.index;
+	public ResourceKey<PolyominoShape> getShape() {
+		return this.screen.getSortedShapes().get(this.getShapeIndex());
+	}
+
+	public int getShapeIndex() {
+		return PersonalPreferences.minTemplate(this.screen) + this.index;
 	}
 
 	public record ShapeTooltip(Polyomino polyomino) implements TooltipComponent {

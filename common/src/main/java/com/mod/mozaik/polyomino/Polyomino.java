@@ -2,7 +2,6 @@ package com.mod.mozaik.polyomino;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.reg.ModRegistries;
-import com.mod.mozaik.util.FlatDirection;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.UUIDUtil;
@@ -74,66 +73,4 @@ public record Polyomino(List<Tessera.PlacedTessera> placedTessera, ResourceKey<S
 		}
 	}
 
-	public static class Builder {
-		private final List<List<Boolean>> grid = new ArrayList<>();
-
-		public Builder() {
-
-		}
-
-		public Builder addLine(Boolean... line) {
-			this.grid.add(List.of(line));
-			return this;
-		}
-
-		public Polyomino build(ResourceKey<ShardMaterial> material, UUID uuid) {
-			int x = 0;
-			int y = 0;
-
-			List<Vector2i> tessera = new ArrayList<>();
-
-			for (List<Boolean> horizontal : this.grid) {
-				for (Boolean here : horizontal) {
-					if (here) tessera.add(new Vector2i(x, y));
-					x++;
-				}
-				x = 0;
-				y++;
-			}
-
-			List<Tessera.PlacedTessera> placedTessera = tessera.stream().map(vector2i -> {
-				List<FlatDirection> connections = new ArrayList<>();
-
-				for (FlatDirection direction : FlatDirection.cardinalClockwise()) {
-					if (checkConnection(tessera, vector2i, direction)) {
-						connections.add(direction);
-					}
-				}
-
-				for (FlatDirection direction : FlatDirection.subClockwise()) {
-					if (checkConnection(tessera, vector2i, direction)) {
-						boolean shouldExist = true;
-						for (FlatDirection related : direction.getRelated()) {
-							if (!checkConnection(tessera, vector2i, related)) shouldExist = false;
-						}
-						if (!shouldExist) continue;
-
-						connections.add(direction);
-					}
-				}
-
-				return new Tessera.PlacedTessera(new Tessera(TesseraShape.get(connections)), vector2i.x(), vector2i.y());
-			}).toList();
-
-			return new Polyomino(placedTessera, material, uuid);
-		}
-
-		public static boolean checkConnection(List<Vector2i> tessera, Vector2i voxel, FlatDirection direction) {
-			return tessera.stream().anyMatch(relative -> {
-				int diffX = relative.x() - voxel.x();
-				int diffY = relative.y() - voxel.y();
-				return diffX == direction.getRelativeX() && diffY == direction.getRelativeY();
-			});
-		}
-	}
 }

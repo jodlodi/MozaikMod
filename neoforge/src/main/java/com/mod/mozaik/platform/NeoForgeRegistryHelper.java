@@ -2,6 +2,7 @@ package com.mod.mozaik.platform;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.platform.services.IRegistryHelper;
+import com.mod.mozaik.polyomino.PolyominoShape;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.reg.ModRegistries;
 import com.mod.mozaik.reg.ResourceSupplier;
@@ -74,6 +75,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 	public static final DeferredRegister<MemoryModuleType<?>> MEMORY_MODULE_TYPES = DeferredRegister.create(Registries.MEMORY_MODULE_TYPE, Constants.MOD_ID);
 	public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, Constants.MOD_ID);
 	public static final DeferredRegister<ShardMaterial> SHARD_MATERIALS = DeferredRegister.create(ModRegistries.ModKeys.SHARD_MATERIAL, Constants.MOD_ID);
+	public static final DeferredRegister<PolyominoShape> POLYOMINO_SHAPES = DeferredRegister.create(ModRegistries.ModKeys.POLYOMINO_SHAPE, Constants.MOD_ID);
 	public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, Constants.MOD_ID);
 	public static final DeferredRegister<StructurePieceType> STRUCTURE_PIECE_TYPES = DeferredRegister.create(Registries.STRUCTURE_PIECE, Constants.MOD_ID);
 	public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(Registries.STRUCTURE_TYPE, Constants.MOD_ID);
@@ -177,6 +179,11 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 	@Override
 	public ResourceSupplier<ShardMaterial> registerShardMaterial(String id, Supplier<ShardMaterial> shardMaterial) {
 		return new ResourceSupplier<>(SHARD_MATERIALS.register(id, shardMaterial), Constants.prefix(id));
+	}
+
+	@Override
+	public ResourceSupplier<PolyominoShape> registerPolyominoShape(String id, Supplier<PolyominoShape> shapeSupplier) {
+		return new ResourceSupplier<>(POLYOMINO_SHAPES.register(id, shapeSupplier), Constants.prefix(id));
 	}
 
 	@Override
