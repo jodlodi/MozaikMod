@@ -12,6 +12,7 @@ import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.items.PolyominoItem;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.menus.MortarMenu;
+import com.mod.mozaik.mixin.ClientAdvancementsAccessor;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.PolyominoShape;
 import com.mod.mozaik.polyomino.ShardMaterial;
@@ -19,10 +20,13 @@ import com.mod.mozaik.polyomino.Tessera;
 import com.mod.mozaik.reg.ModPolyominoShapes;
 import com.mod.mozaik.reg.ModSounds;
 import com.mod.mozaik.reg.ModTabs;
+import com.mod.mozaik.reg.ResourceSupplier;
 import com.mod.mozaik.util.FlatDirection;
 import com.mod.mozaik.util.IMozaikKeyMapping;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
+import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.gui.ComponentPath;
@@ -38,6 +42,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.multiplayer.ClientAdvancements;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -136,12 +141,42 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		if (this.shapes.isEmpty()) {
 			ModPolyominoShapes.alwaysShapes().forEach(shape -> this.shapes.add(ModPolyominoShapes.ofShape(shape)));
 
+			List<PolyominoItem> others = new ArrayList<>();
+
 			ModTabs.TAB.get().getSearchTabDisplayItems().forEach(itemStack -> {
-				if (itemStack.getItem() instanceof PolyominoItem item)
-					this.shapes.add(item.getPolyominoShape());
+				if (itemStack.getItem() instanceof PolyominoItem item) others.add(item);
 			});
+
+			if (!this.getShardSource().isCreative()) {
+				others.sort(Comparator.comparing(this::noPoly));
+			}
+
+			this.shapes.addAll(others.stream().map(PolyominoItem::getPolyominoShape).toList());
 		}
 		return this.shapes;
+	}
+
+	public boolean noPoly(PolyominoItem item) {
+		return this.noPoly(item.advancement);
+	}
+
+	public boolean noPoly(ResourceKey<PolyominoShape> shape) {
+		return this.noPoly(shape.identifier());
+	}
+
+	public boolean noPoly(Identifier identifier) {
+		if (ModPolyominoShapes.alwaysShapes().stream().map(ResourceSupplier::id).toList().contains(identifier)) return false;
+
+		try {
+			ClientAdvancements advancements = Objects.requireNonNull(Minecraft.getInstance().getConnection()).getAdvancements();
+			ClientAdvancementsAccessor accessed = (ClientAdvancementsAccessor) advancements;
+			AdvancementHolder adv = advancements.get(identifier);
+			if (adv == null) return false;
+			AdvancementProgress progress = accessed.getProgress().get(adv);
+			return progress != null && !progress.isDone();
+		} catch (Exception _) {
+			return true;
+		}
 	}
 
 	public MortarMenu.ShardSource getShardSource() {

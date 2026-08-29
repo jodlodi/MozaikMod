@@ -8,12 +8,17 @@ import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.polyomino.Tessera;
+import com.mod.mozaik.reg.ModSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.InputWithModifiers;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
 import org.joml.Vector2f;
 import org.jspecify.annotations.NullMarked;
 
@@ -27,8 +32,15 @@ public class CreatePolyominoButton extends ModButton {
 		this.screen = screen;
 	}
 
+	public boolean canPress() {
+		if (this.screen.getShardSource().isCreative()) return true;
+		if (this.screen.getShardSource().getCount(PersonalPreferences.getPrimaryColor()) <= 0) return false;
+		return !this.screen.noPoly(PersonalPreferences.getPolyominoShape());
+	}
+
 	@Override
 	public void onPress(InputWithModifiers inputWithModifiers) {
+		if (!this.canPress()) return;
 		Minecraft minecraft = Minecraft.getInstance();
 		MouseHandler mouse = minecraft.mouseHandler;
 		double x = mouse.xpos() * (double) minecraft.getWindow().getGuiScaledWidth() / (double) minecraft.getWindow().getScreenWidth();
@@ -44,14 +56,19 @@ public class CreatePolyominoButton extends ModButton {
 	}
 
 	@Override
+	public void playDownSound(SoundManager soundManager) {
+		if (this.canPress()) playButtonClickSound(soundManager, Holder.direct(ModSounds.PICK_SHARD.get()));
+	}
+
+	public static void playButtonClickSound(SoundManager soundManager, Holder<SoundEvent> soundEvent) {
+		soundManager.play(SimpleSoundInstance.forUI(soundEvent, 1.0F));
+	}
+
+	@Override
 	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
 		Vector2f center = PersonalPreferences.getShape().getGridCenter();
 
-		int color = -1;
-		if (!this.screen.getShardSource().isCreative()) {
-			int count = this.screen.getShardSource().getCount(PersonalPreferences.getPrimaryColor());
-			if (count == 0) color = 0x77777777;
-		}
+		int color = this.canPress() ? -1 : 0x77777777;
 
 		PolyominoWidget.fill(
 				new GraphicsRenderHelper(graphics),
@@ -84,7 +101,9 @@ public class CreatePolyominoButton extends ModButton {
 	}
 
 	protected String getCount() {
-		return this.screen.getShardSource().isCreative() ? "∞" : String.valueOf(this.screen.getShardSource().getCount(PersonalPreferences.getPrimaryColor()));
+		if (this.screen.getShardSource().isCreative()) return "∞";
+		if (this.screen.noPoly(PersonalPreferences.getPolyominoShape())) return "✕";
+		return String.valueOf(this.screen.getShardSource().getCount(PersonalPreferences.getPrimaryColor()));
 	}
 
 	protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y) {

@@ -5,6 +5,7 @@ import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.PersonalPreferences;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.polyomino.ShardMaterial;
+import com.mod.mozaik.reg.ModSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -12,8 +13,12 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NullMarked;
 
@@ -30,6 +35,15 @@ public class MaterialButton extends AbstractMaterialButton {
 	public MaterialButton(MortarScreen screen, int offsetX, int offsetY, int index) {
 		super(screen, offsetX, offsetY, true);
 		this.index = index;
+	}
+
+	@Override
+	public void playDownSound(SoundManager soundManager) {
+		playButtonClickSound(soundManager, Holder.direct(ModSounds.PICK_SHARD.get()));
+	}
+
+	public static void playButtonClickSound(SoundManager soundManager, Holder<SoundEvent> soundEvent) {
+		soundManager.play(SimpleSoundInstance.forUI(soundEvent, 1.0F));
 	}
 
 	@Override

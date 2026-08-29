@@ -1,0 +1,31 @@
+{
+  "parent": "mozaik:root",
+  "criteria": {
+    "has_template": {
+      "conditions": {
+        "item": {
+          "items": "mozaik:bubble_template"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.mozaik.bubble.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "mozaik:bubble_template"
+    },
+    "title": {
+      "translate": "advancement.mozaik.bubble"
+    }
+  },
+  "requirements": [
+    [
+      "has_template"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

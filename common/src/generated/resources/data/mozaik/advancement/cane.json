@@ -1,0 +1,31 @@
+{
+  "parent": "mozaik:root",
+  "criteria": {
+    "has_template": {
+      "conditions": {
+        "item": {
+          "items": "mozaik:cane_template"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.mozaik.cane.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "mozaik:cane_template"
+    },
+    "title": {
+      "translate": "advancement.mozaik.cane"
+    }
+  },
+  "requirements": [
+    [
+      "has_template"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

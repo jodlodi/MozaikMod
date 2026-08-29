@@ -1,0 +1,31 @@
+{
+  "parent": "mozaik:root",
+  "criteria": {
+    "has_template": {
+      "conditions": {
+        "item": {
+          "items": "mozaik:worm_template"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.mozaik.worm.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "mozaik:worm_template"
+    },
+    "title": {
+      "translate": "advancement.mozaik.worm"
+    }
+  },
+  "requirements": [
+    [
+      "has_template"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

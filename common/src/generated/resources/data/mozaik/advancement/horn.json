@@ -1,0 +1,31 @@
+{
+  "parent": "mozaik:root",
+  "criteria": {
+    "has_template": {
+      "conditions": {
+        "item": {
+          "items": "mozaik:horn_template"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.mozaik.horn.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "mozaik:horn_template"
+    },
+    "title": {
+      "translate": "advancement.mozaik.horn"
+    }
+  },
+  "requirements": [
+    [
+      "has_template"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

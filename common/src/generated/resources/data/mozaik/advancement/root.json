@@ -1,0 +1,44 @@
+{
+  "criteria": {
+    "has_mortar": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#mozaik:mortars"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#mozaik:shards"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "mozaik:block/black_mortar",
+    "description": {
+      "translate": "advancement.mozaik.root.desc"
+    },
+    "icon": {
+      "id": "mozaik:dark_prismarine_shards"
+    },
+    "title": {
+      "translate": "advancement.mozaik.root"
+    }
+  },
+  "requirements": [
+    [
+      "has_shard",
+      "has_mortar"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

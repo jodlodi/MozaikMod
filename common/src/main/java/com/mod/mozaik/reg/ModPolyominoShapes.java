@@ -11,60 +11,60 @@ import java.util.List;
 
 @NullMarked
 public class ModPolyominoShapes {
-	public static final ResourceSupplier<PolyominoShape> SMASHBOY = Services.REGISTRY.registerPolyominoShape("smashboy", () -> new PolyominoShape()
+	public static final ResourceSupplier<PolyominoShape> SUN = Services.REGISTRY.registerPolyominoShape("sun", () -> new PolyominoShape()
 			.addLine(true, true)
 			.addLine(true, true)
 	);
-	public static final ResourceSupplier<PolyominoShape> CONWAY_X = Services.REGISTRY.registerPolyominoShape("conway_x", () -> new PolyominoShape()
+	public static final ResourceSupplier<PolyominoShape> PLUS = Services.REGISTRY.registerPolyominoShape("plus", () -> new PolyominoShape()
 			.addLine(false, true, false)
 			.addLine(true, true, true)
 			.addLine(false, true, false)
 	);
-	public static final ResourceSupplier<PolyominoShape> REFLECTED_HEPTOMINO = Services.REGISTRY.registerPolyominoShape("reflected_heptomino", () -> new PolyominoShape()
+	public static final ResourceSupplier<PolyominoShape> LEAF = Services.REGISTRY.registerPolyominoShape("leaf", () -> new PolyominoShape()
 			.addLine(true, true, false)
 			.addLine(true, true, true)
 			.addLine(false, true, true)
 	);
-	public static final ResourceSupplier<PolyominoShape> CONWAY_P_LEFT = Services.REGISTRY.registerPolyominoShape("conway_p_left", () -> new PolyominoShape()
+	public static final ResourceSupplier<PolyominoShape> THUMB = Services.REGISTRY.registerPolyominoShape("thumb", () -> new PolyominoShape()
 			.addLine(true, false)
 			.addLine(true, true)
 			.addLine(true, true)
 	);
-	public static final ResourceSupplier<PolyominoShape> CONWAY_P_RIGHT = Services.REGISTRY.registerPolyominoShape("conway_p_right", () -> new PolyominoShape()
+	public static final ResourceSupplier<PolyominoShape> STEM = Services.REGISTRY.registerPolyominoShape("stem", () -> new PolyominoShape()
 			.addLine(false, true)
 			.addLine(true, true)
 			.addLine(true, true)
 	);
-	public static final ResourceSupplier<PolyominoShape> L_TROMINO = Services.REGISTRY.registerPolyominoShape("l_tromino", () -> new PolyominoShape()
+	public static final ResourceSupplier<PolyominoShape> HEART = Services.REGISTRY.registerPolyominoShape("heart", () -> new PolyominoShape()
 			.addLine(false, true)
 			.addLine(true, true)
 	);
-	public static final ResourceSupplier<PolyominoShape> MIDDLE_FINGER = Services.REGISTRY.registerPolyominoShape("middle_finger", () -> new PolyominoShape()
+	public static final ResourceSupplier<PolyominoShape> HELMET = Services.REGISTRY.registerPolyominoShape("helmet", () -> new PolyominoShape()
 			.addLine(false, true, false)
 			.addLine(true, true, true)
 			.addLine(true, true, true)
 	);
-	public static final ResourceSupplier<PolyominoShape> I_TROMINO = Services.REGISTRY.registerPolyominoShape("i_tromino", () -> new PolyominoShape()
+	public static final ResourceSupplier<PolyominoShape> LOG = Services.REGISTRY.registerPolyominoShape("log", () -> new PolyominoShape()
 			.addLine(true)
 			.addLine(true)
 			.addLine(true)
 	);
-	public static final ResourceSupplier<PolyominoShape> TEEWEE = Services.REGISTRY.registerPolyominoShape("teewee", () -> new PolyominoShape()
+	public static final ResourceSupplier<PolyominoShape> LEVER = Services.REGISTRY.registerPolyominoShape("lever", () -> new PolyominoShape()
 			.addLine(false, true)
 			.addLine(true, true)
 			.addLine(false, true)
 	);
-	public static final ResourceSupplier<PolyominoShape> CLEVELAND_Z = Services.REGISTRY.registerPolyominoShape("cleveland_z", () -> new PolyominoShape()
+	public static final ResourceSupplier<PolyominoShape> SNAKE = Services.REGISTRY.registerPolyominoShape("snake", () -> new PolyominoShape()
 			.addLine(false, true)
 			.addLine(true, true)
 			.addLine(true, false)
 	);
-	public static final ResourceSupplier<PolyominoShape> RHODE_ISLAND_Z = Services.REGISTRY.registerPolyominoShape("rhode_island_z", () -> new PolyominoShape()
+	public static final ResourceSupplier<PolyominoShape> LIZARD = Services.REGISTRY.registerPolyominoShape("lizard", () -> new PolyominoShape()
 			.addLine(true, false)
 			.addLine(true, true)
 			.addLine(false, true)
 	);
-	public static final ResourceSupplier<PolyominoShape> CONWAY_U = Services.REGISTRY.registerPolyominoShape("conway_u", () -> new PolyominoShape()
+	public static final ResourceSupplier<PolyominoShape> MOON = Services.REGISTRY.registerPolyominoShape("moon", () -> new PolyominoShape()
 			.addLine(true, true)
 			.addLine(true, false)
 			.addLine(true, true)
@@ -117,18 +117,18 @@ public class ModPolyominoShapes {
 	@Contract(pure = true)
 	public static @Unmodifiable List<ResourceSupplier<PolyominoShape>> alwaysShapes() {
 		return List.of(
-				SMASHBOY,
-				CONWAY_X,
-				REFLECTED_HEPTOMINO,
-				CONWAY_P_LEFT,
-				CONWAY_P_RIGHT,
-				L_TROMINO,
-				MIDDLE_FINGER,
-				I_TROMINO,
-				TEEWEE,
-				CLEVELAND_Z,
-				RHODE_ISLAND_Z,
-				CONWAY_U
+				SUN,
+				PLUS,
+				LEAF,
+				THUMB,
+				STEM,
+				HEART,
+				HELMET,
+				LOG,
+				LEVER,
+				SNAKE,
+				LIZARD,
+				MOON
 		);
 	}
 

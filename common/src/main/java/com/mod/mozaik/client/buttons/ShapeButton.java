@@ -6,15 +6,20 @@ import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.PersonalPreferences;
 import com.mod.mozaik.items.PolyominoItem;
 import com.mod.mozaik.polyomino.PolyominoShape;
+import com.mod.mozaik.reg.ModSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import org.jspecify.annotations.NullMarked;
 
@@ -57,15 +62,29 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 	}
 
 	@Override
+	public void playDownSound(SoundManager soundManager) {
+		playButtonClickSound(soundManager, Holder.direct(ModSounds.PICK_SHARD.get()));
+	}
+
+	public static void playButtonClickSound(SoundManager soundManager, Holder<SoundEvent> soundEvent) {
+		soundManager.play(SimpleSoundInstance.forUI(soundEvent, 1.0F));
+	}
+
+	@Override
 	public void onClick(MouseButtonEvent event, boolean doubleClick) {
 		ResourceKey<PolyominoShape> key = this.getShape();
 		PersonalPreferences.setPolyominoShape(key);
 		PolyominoShape.tryBuild(key).ifPresent(PersonalPreferences::setShape);
 	}
 
+	public boolean playerHas() {
+		return this.screen.getShardSource().isCreative() || !this.screen.noPoly(this.getShape().identifier());
+	}
+
 	@Override
 	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-		graphics.blit(RenderPipelines.GUI_TEXTURED, this.getTexture(), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
+		int color = this.playerHas() ? -1 : 0x44777777;
+		graphics.blit(RenderPipelines.GUI_TEXTURED, this.getTexture(), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18, color);
 
 		List<Integer> favSlots = new ArrayList<>();
 		for (int i = 1; i <= 9; i++) {

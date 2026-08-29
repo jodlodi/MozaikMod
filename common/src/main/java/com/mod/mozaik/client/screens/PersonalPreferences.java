@@ -51,7 +51,7 @@ public class PersonalPreferences {
 
 	private ResourceKey<ShardMaterial> primaryColor = ModShardMaterials.ofMaterial(ModShardMaterials.STONE);
 	private ResourceKey<ShardMaterial> secondaryColor = ModShardMaterials.ofMaterial(ModShardMaterials.BLACKSTONE);
-	private ResourceKey<PolyominoShape> polyominoShape = ModPolyominoShapes.ofShape(ModPolyominoShapes.SMASHBOY);
+	private ResourceKey<PolyominoShape> polyominoShape = ModPolyominoShapes.ofShape(ModPolyominoShapes.SUN);
 	private final List<Favourite> faves = new ArrayList<>();
 
 	private final ToggleOption shardBarTooltipName = new ToggleOption("shard_bar_tooltip_name", true);

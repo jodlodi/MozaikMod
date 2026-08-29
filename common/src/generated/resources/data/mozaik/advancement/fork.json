@@ -1,0 +1,31 @@
+{
+  "parent": "mozaik:root",
+  "criteria": {
+    "has_template": {
+      "conditions": {
+        "item": {
+          "items": "mozaik:fork_template"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.mozaik.fork.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "mozaik:fork_template"
+    },
+    "title": {
+      "translate": "advancement.mozaik.fork"
+    }
+  },
+  "requirements": [
+    [
+      "has_template"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
