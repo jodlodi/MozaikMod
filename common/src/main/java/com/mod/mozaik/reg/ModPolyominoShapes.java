@@ -70,8 +70,47 @@ public class ModPolyominoShapes {
 			.addLine(true, true)
 	);
 
+	public static final ResourceSupplier<PolyominoShape> BUTTON = Services.REGISTRY.registerPolyominoShape("button", () -> new PolyominoShape()
+			.addLine(true)
+	);
+	public static final ResourceSupplier<PolyominoShape> BONE = Services.REGISTRY.registerPolyominoShape("bone", () -> new PolyominoShape()
+			.addLine(true, true, true)
+			.addLine(false, true, false)
+			.addLine(true, true, true)
+	);
+	public static final ResourceSupplier<PolyominoShape> BUBBLE = Services.REGISTRY.registerPolyominoShape("bubble", () -> new PolyominoShape()
+			.addLine(true, true, true)
+			.addLine(true, false, true)
+			.addLine(true, true, true)
+	);
+	public static final ResourceSupplier<PolyominoShape> WORM = Services.REGISTRY.registerPolyominoShape("worm", () -> new PolyominoShape()
+			.addLine(false, true, true)
+			.addLine(true, true, false)
+			.addLine(true, false, false)
+	);
+	public static final ResourceSupplier<PolyominoShape> CANE = Services.REGISTRY.registerPolyominoShape("cane", () -> new PolyominoShape()
+			.addLine(true, false)
+			.addLine(true, false)
+			.addLine(true, true)
+	);
+	public static final ResourceSupplier<PolyominoShape> POINT = Services.REGISTRY.registerPolyominoShape("point", () -> new PolyominoShape()
+			.addLine(false, true)
+			.addLine(false, true)
+			.addLine(true, true)
+	);
+	public static final ResourceSupplier<PolyominoShape> HORN = Services.REGISTRY.registerPolyominoShape("horn", () -> new PolyominoShape()
+			.addLine(false, false, true)
+			.addLine(true, true, true)
+			.addLine(false, true, false)
+	);
+	public static final ResourceSupplier<PolyominoShape> TREE = Services.REGISTRY.registerPolyominoShape("tree", () -> new PolyominoShape()
+			.addLine(true, false, false)
+			.addLine(true, true, true)
+			.addLine(false, true, false)
+	);
+
 	@Contract(pure = true)
-	public static @Unmodifiable List<ResourceSupplier<PolyominoShape>> baseModOrder() {
+	public static @Unmodifiable List<ResourceSupplier<PolyominoShape>> alwaysShapes() {
 		return List.of(
 				SMASHBOY,
 				CONWAY_X,

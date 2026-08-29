@@ -51,6 +51,15 @@ public class ModTabs {
 		ModItems.DYED_TERRACOTTA_SHARDS.forEach(supplier -> output.accept(supplier.get()));
 		ModItems.GLAZED_TERRACOTTA_SHARDS.forEach(supplier -> output.accept(supplier.get()));
 		ModItems.STAINED_GLASS_SHARDS.forEach(supplier -> output.accept(supplier.get()));
+
+		output.accept(ModItems.BUTTON_TEMPLATE.get());
+		output.accept(ModItems.BONE_TEMPLATE.get());
+		output.accept(ModItems.BUBBLE_TEMPLATE.get());
+		output.accept(ModItems.WORM_TEMPLATE.get());
+		output.accept(ModItems.CANE_TEMPLATE.get());
+		output.accept(ModItems.POINT_TEMPLATE.get());
+		output.accept(ModItems.HORN_TEMPLATE.get());
+		output.accept(ModItems.TREE_TEMPLATE.get());
 	});
 
 	public static void init() {

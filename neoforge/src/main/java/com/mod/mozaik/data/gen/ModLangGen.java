@@ -55,6 +55,15 @@ public class ModLangGen extends ModLangProvider {
 
 		ShardItem.SHARDS.forEach((key, item) -> this.addItem(() -> item, toTitleCase(key.identifier().getPath() + "_shards")));
 
+		this.addItem(ModItems.BUTTON_TEMPLATE, identifierToTitleCase(ModItems.BUTTON_TEMPLATE.id()));
+		this.addItem(ModItems.BONE_TEMPLATE, identifierToTitleCase(ModItems.BONE_TEMPLATE.id()));
+		this.addItem(ModItems.BUBBLE_TEMPLATE, identifierToTitleCase(ModItems.BUBBLE_TEMPLATE.id()));
+		this.addItem(ModItems.WORM_TEMPLATE, identifierToTitleCase(ModItems.WORM_TEMPLATE.id()));
+		this.addItem(ModItems.CANE_TEMPLATE, identifierToTitleCase(ModItems.CANE_TEMPLATE.id()));
+		this.addItem(ModItems.POINT_TEMPLATE, identifierToTitleCase(ModItems.POINT_TEMPLATE.id()));
+		this.addItem(ModItems.HORN_TEMPLATE, identifierToTitleCase(ModItems.HORN_TEMPLATE.id()));
+		this.addItem(ModItems.TREE_TEMPLATE, identifierToTitleCase(ModItems.TREE_TEMPLATE.id()));
+
 		this.addCreativeTab(ModTabs.TAB, "Mozaik");
 
 		for (MozaikTool tool : MozaikTool.values()) {

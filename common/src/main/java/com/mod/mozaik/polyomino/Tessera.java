@@ -8,7 +8,7 @@ import org.jspecify.annotations.NullMarked;
 public record Tessera(TesseraShape shape) {
 	public static final int TESSERA_SIZE = 10;
 
-	private Tessera(int ordinal) {
+	public Tessera(int ordinal) {
 		this(TesseraShape.values()[ordinal]);
 	}
 

@@ -1,11 +1,11 @@
 package com.mod.mozaik.reg;
 
 import com.mod.mozaik.items.MortarBlockItem;
+import com.mod.mozaik.items.PolyominoItem;
 import com.mod.mozaik.items.ShardBagItem;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.items.components.ShardBagContents;
 import com.mod.mozaik.platform.Services;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ColorCollection;
@@ -60,6 +60,15 @@ public class ModItems {
 	public static final ColorCollection<ResourceSupplier<ShardItem>> STAINED_GLASS_SHARDS = ColorCollection.zipMap(ModShardMaterials.STAINED_GLASS, ColorCollection.NAMES, (material, name) -> Services.REGISTRY.registerItem(name + "_stained_glass_shards", (Item.Properties properties) -> new ShardItem(properties, material)));
 
 	public static final ResourceSupplier<ShardBagItem> SHARD_BAG = Services.REGISTRY.registerItem("shard_bag", properties -> new ShardBagItem(properties.component(ModDataComponents.SHARD_BAG_CONTENTS.get(), ShardBagContents.EMPTY)));
+
+	public static final ResourceSupplier<PolyominoItem> BUTTON_TEMPLATE = Services.REGISTRY.registerItem("button_template", properties -> new PolyominoItem(properties, ModPolyominoShapes.BUTTON));
+	public static final ResourceSupplier<PolyominoItem> BONE_TEMPLATE = Services.REGISTRY.registerItem("bone_template", properties -> new PolyominoItem(properties, ModPolyominoShapes.BONE));
+	public static final ResourceSupplier<PolyominoItem> BUBBLE_TEMPLATE = Services.REGISTRY.registerItem("bubble_template", properties -> new PolyominoItem(properties, ModPolyominoShapes.BUBBLE));
+	public static final ResourceSupplier<PolyominoItem> WORM_TEMPLATE = Services.REGISTRY.registerItem("worm_template", properties -> new PolyominoItem(properties, ModPolyominoShapes.WORM));
+	public static final ResourceSupplier<PolyominoItem> CANE_TEMPLATE = Services.REGISTRY.registerItem("cane_template", properties -> new PolyominoItem(properties, ModPolyominoShapes.CANE));
+	public static final ResourceSupplier<PolyominoItem> POINT_TEMPLATE = Services.REGISTRY.registerItem("point_template", properties -> new PolyominoItem(properties, ModPolyominoShapes.POINT));
+	public static final ResourceSupplier<PolyominoItem> HORN_TEMPLATE = Services.REGISTRY.registerItem("horn_template", properties -> new PolyominoItem(properties, ModPolyominoShapes.HORN));
+	public static final ResourceSupplier<PolyominoItem> TREE_TEMPLATE = Services.REGISTRY.registerItem("tree_template", properties -> new PolyominoItem(properties, ModPolyominoShapes.TREE));
 
 	public static void init() {
 

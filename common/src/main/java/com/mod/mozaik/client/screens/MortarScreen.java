@@ -108,7 +108,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 		if (PersonalPreferences.getShape() == Polyomino.EMPTY) {
-			PersonalPreferences.setShape(PolyominoShape.tryBuild(PersonalPreferences.getPolyominoShape()).orElseThrow());
+			PersonalPreferences.setShape(PolyominoShape.tryBuild(PersonalPreferences.getPolyominoShape()).orElse(Polyomino.EMPTY));
 		}
 	}
 
@@ -132,7 +132,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	public List<ResourceKey<PolyominoShape>> getSortedShapes() {
 		if (this.shapes.isEmpty()) {
-			ModPolyominoShapes.baseModOrder().forEach(shape -> this.shapes.add(ModPolyominoShapes.ofShape(shape)));
+			ModPolyominoShapes.alwaysShapes().forEach(shape -> this.shapes.add(ModPolyominoShapes.ofShape(shape)));
 
 			ModTabs.TAB.get().getSearchTabDisplayItems().forEach(itemStack -> {
 				if (itemStack.getItem() instanceof PolyominoItem item)

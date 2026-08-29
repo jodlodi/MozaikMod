@@ -26,5 +26,13 @@ public class ModItemModelGen extends ItemModelGenerators {
         ShardItem.SHARDS.values().forEach(shard -> {
             this.generateFlatItem(shard, ModelTemplates.FLAT_ITEM);
         });
+        this.generateFlatItem(ModItems.BUTTON_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
+        this.generateFlatItem(ModItems.BONE_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
+        this.generateFlatItem(ModItems.BUBBLE_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
+        this.generateFlatItem(ModItems.WORM_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
+        this.generateFlatItem(ModItems.CANE_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
+        this.generateFlatItem(ModItems.POINT_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
+        this.generateFlatItem(ModItems.HORN_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
+        this.generateFlatItem(ModItems.TREE_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
     }
 }
