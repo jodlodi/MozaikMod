@@ -44,7 +44,8 @@ public class PersonalPreferences {
 			Codec.BOOL.fieldOf("reverse_scroll_direction_bars").forGetter(pref -> pref.reverseScrollDirectionBars.get()),
 			Codec.BOOL.fieldOf("picker_tool_tooltip").forGetter(pref -> pref.pickerToolTooltip.get()),
 			Codec.BOOL.fieldOf("wand_tool_tooltip").forGetter(pref -> pref.wandToolTooltip.get()),
-			Codec.BOOL.fieldOf("shape_tooltip").forGetter(pref -> pref.shapeTooltip.get())
+			Codec.BOOL.fieldOf("shape_tooltip").forGetter(pref -> pref.shapeTooltip.get()),
+			Codec.BOOL.fieldOf("creative_infinity").forGetter(pref -> pref.creativeInfinity.get())
 	).apply(recordCodecBuilder, PersonalPreferences::new));
 
 	private static final PersonalPreferences INSTANCE = getOrCreate();
@@ -74,9 +75,11 @@ public class PersonalPreferences {
 
 	private final ToggleOption reverseScrollDirectionBars = new ToggleOption("reverse_scroll_direction_bars", false);
 	private final ToggleOption shapeTooltip = new ToggleOption("shape_tooltip", false);
+	private final ToggleOption creativeInfinity = new ToggleOption("creative_infinity", true);
 	private final SettingCategory misc = new SettingCategory("tooltip.mozaik.setting.category.misc", List.of(
 			this.reverseScrollDirectionBars,
-			this.shapeTooltip
+			this.shapeTooltip,
+			this.creativeInfinity
 	));
 
 	private Polyomino shape = Polyomino.EMPTY;
@@ -99,7 +102,8 @@ public class PersonalPreferences {
 			boolean reverseScrollDirectionBars,
 			boolean pickerToolTooltip,
 			boolean wandToolTooltip,
-			boolean shapeTooltip
+			boolean shapeTooltip,
+			boolean creativeInfinity
 	) {
 		this.primaryColor = primaryColor;
 		this.secondaryColor = secondaryColor;
@@ -114,6 +118,7 @@ public class PersonalPreferences {
 		this.pickerToolTooltip.set(pickerToolTooltip);
 		this.wandToolTooltip.set(wandToolTooltip);
 		this.shapeTooltip.set(shapeTooltip);
+		this.creativeInfinity.set(creativeInfinity);
 	}
 
 	@Contract(value = " -> new", pure = true)
@@ -167,6 +172,10 @@ public class PersonalPreferences {
 
 	public static ToggleOption getShapeTooltip() {
 		return INSTANCE.shapeTooltip;
+	}
+
+	public static ToggleOption getCreativeInfinity() {
+		return INSTANCE.creativeInfinity;
 	}
 
 	private static final Gson GSON = new Gson().newBuilder().setPrettyPrinting().create();

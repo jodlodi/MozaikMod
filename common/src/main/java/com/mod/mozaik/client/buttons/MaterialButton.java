@@ -118,6 +118,7 @@ public class MaterialButton extends AbstractMaterialButton {
 	}
 
 	protected String getCount() {
+		if (this.screen.getShardSource().isCreative() && !PersonalPreferences.getCreativeInfinity().get()) return "";
 		return this.screen.getShardSource().isCreative() ? "∞" : String.valueOf(this.screen.getShardSource().getCount(this.getMaterial()));
 	}
 

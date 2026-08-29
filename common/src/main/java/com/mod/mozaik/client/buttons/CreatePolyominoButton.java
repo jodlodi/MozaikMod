@@ -101,6 +101,7 @@ public class CreatePolyominoButton extends ModButton {
 	}
 
 	protected String getCount() {
+		if (this.screen.getShardSource().isCreative() && !PersonalPreferences.getCreativeInfinity().get()) return "";
 		if (this.screen.getShardSource().isCreative()) return "∞";
 		if (this.screen.noPoly(PersonalPreferences.getPolyominoShape())) return "✕";
 		return String.valueOf(this.screen.getShardSource().getCount(PersonalPreferences.getPrimaryColor()));
