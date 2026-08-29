@@ -1,10 +1,8 @@
 package com.mod.mozaik.polyomino;
 
-import com.mod.mozaik.items.components.ShardBagContents;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
 import java.util.List;

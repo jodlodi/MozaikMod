@@ -41,6 +41,8 @@ public class ModBlockLootGen extends BlockLootSubProvider {
 				.include(DataComponents.LOCK)
 				.include(DataComponents.BLOCK_ENTITY_DATA)
 				.include(ModDataComponents.MOZAIK.get())
+				.include(ModDataComponents.AUTHOR.get())
+				.include(ModDataComponents.SIGNED.get())
 		)))));
 	}
 

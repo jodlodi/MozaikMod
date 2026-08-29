@@ -1,6 +1,7 @@
 package com.mod.mozaik.items;
 
 import com.mod.mozaik.blocks.entities.MortarBlockEntity;
+import com.mod.mozaik.reg.ModDataComponents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -30,12 +31,9 @@ public class MortarBlockItem extends BlockItem {
 	@Override
 	@SuppressWarnings("deprecation")
 	public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> consumer, TooltipFlag flag) {
-		TypedEntityData<BlockEntityType<?>> component = itemStack.get(DataComponents.BLOCK_ENTITY_DATA);
-		if (component != null) {
-			CompoundTag tag = component.getUnsafe();
-			if (tag.getBooleanOr(MortarBlockEntity.SIGNED_ID, false)) tag.getString(MortarBlockEntity.AUTHOR_NAME).ifPresent(author ->
-					consumer.accept(Component.translatable("book.byAuthor", author).withStyle(ChatFormatting.GRAY))
-			);
+		String author = itemStack.get(ModDataComponents.AUTHOR.get());
+		if (author != null) {
+			consumer.accept(Component.translatable("book.byAuthor", author).withStyle(ChatFormatting.GRAY));
 		}
 	}
 

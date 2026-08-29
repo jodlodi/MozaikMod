@@ -18,7 +18,9 @@
                 "minecraft:container",
                 "minecraft:lock",
                 "minecraft:block_entity_data",
-                "mozaik:mozaik"
+                "mozaik:mozaik",
+                "mozaik:author",
+                "mozaik:signed"
               ],
               "source": "block_entity"
             }

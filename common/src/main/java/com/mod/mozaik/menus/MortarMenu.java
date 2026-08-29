@@ -96,6 +96,7 @@ public class MortarMenu extends AbstractContainerMenu {
 
 	public void sign(@Nullable String title) {
 		if (this.mortar == null) return;
+		this.mortar.setSigned(true);
 		Services.NETWORK.sendToServer(new SignedMozaikBidirectional(Optional.ofNullable(title), Optional.of(this.inventory.player.getPlainTextName()), this.mortar.getBlockPos()));
 	}
 

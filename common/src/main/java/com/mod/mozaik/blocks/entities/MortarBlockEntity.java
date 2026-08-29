@@ -11,8 +11,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.Nameable;
@@ -37,6 +39,16 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 	private @Nullable Component title;
 	private @Nullable String name;
 	private boolean signed = false;
+
+	public static final StreamCodec<RegistryFriendlyByteBuf, String> STREAM_STRING_CODEC = StreamCodec.ofMember(
+			(stack, byteBuf) -> byteBuf.writeJsonWithCodec(Codec.STRING, stack),
+			byteBuf -> byteBuf.readLenientJsonWithCodec(Codec.STRING)
+	);
+
+	public static final StreamCodec<RegistryFriendlyByteBuf, Boolean> STREAM_BOOL_CODEC = StreamCodec.ofMember(
+			(stack, byteBuf) -> byteBuf.writeJsonWithCodec(Codec.BOOL, stack),
+			byteBuf -> byteBuf.readLenientJsonWithCodec(Codec.BOOL)
+	);
 
 	public MortarBlockEntity(BlockPos pos, BlockState blockState) {
 		super(ModBlockEntities.MORTAR.get(), pos, blockState);
@@ -105,6 +117,11 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 			this.polyomino.clear();
 			this.polyomino.addAll(mozaik.placedPolyomino());
 		}
+
+		String author = components.get(ModDataComponents.AUTHOR.get());
+		if (author != null) this.setAuthorName(author);
+
+		this.signed = components.getOrDefault(ModDataComponents.SIGNED.get(), false);
 	}
 
 	@Override
@@ -113,6 +130,8 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 		components.set(DataComponents.CUSTOM_NAME, this.title);
 		if (!this.lockKey.equals(LockCode.NO_LOCK)) components.set(DataComponents.LOCK, this.lockKey);
 		components.set(ModDataComponents.MOZAIK.get(), new Mozaik(this.polyomino));
+		components.set(ModDataComponents.AUTHOR.get(), this.getAuthorName());
+		components.set(ModDataComponents.SIGNED.get(), this.signed);
 	}
 
 	@Override
