@@ -69,6 +69,7 @@ public class ModItems {
 	public static final ResourceSupplier<PolyominoItem> POINT_TEMPLATE = Services.REGISTRY.registerItem("point_template", properties -> new PolyominoItem(properties, ModPolyominoShapes.POINT));
 	public static final ResourceSupplier<PolyominoItem> HORN_TEMPLATE = Services.REGISTRY.registerItem("horn_template", properties -> new PolyominoItem(properties, ModPolyominoShapes.HORN));
 	public static final ResourceSupplier<PolyominoItem> TREE_TEMPLATE = Services.REGISTRY.registerItem("tree_template", properties -> new PolyominoItem(properties, ModPolyominoShapes.TREE));
+	public static final ResourceSupplier<PolyominoItem> FORK_TEMPLATE = Services.REGISTRY.registerItem("fork_template", properties -> new PolyominoItem(properties, ModPolyominoShapes.FORK));
 
 	public static void init() {
 

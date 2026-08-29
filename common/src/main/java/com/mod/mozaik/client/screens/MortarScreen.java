@@ -107,6 +107,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+		this.getSortedShapes();
+		this.getSortedMaterials();
 		if (PersonalPreferences.getShape() == Polyomino.EMPTY) {
 			PersonalPreferences.setShape(PolyominoShape.tryBuild(PersonalPreferences.getPolyominoShape()).orElse(Polyomino.EMPTY));
 		}
@@ -815,60 +817,64 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		this.addRenderableWidget(new TabButton(this, EDIT, Mode.EDIT));
 		this.addRenderableWidget(new TabButton(this, LOCK, Mode.LOCK));
 
-		this.addRenderableWidget(new ClickableButton(this, MATERIAL_BAR_UP, SpriteButton.SpriteSet.UP_ARROW) {
-			@Override
-			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				materialUpBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedMaterials().size() : 9);
-			}
+		if (!this.materials.isEmpty()) {
+			this.addRenderableWidget(new ClickableButton(this, MATERIAL_BAR_UP, SpriteButton.SpriteSet.UP_ARROW) {
+				@Override
+				public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
+					materialUpBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedMaterials().size() : 9);
+				}
 
-			@Override
-			public boolean isBlocked() {
-				return PersonalPreferences.minMaterial(MortarScreen.this) == 0;
-			}
-		});
+				@Override
+				public boolean isBlocked() {
+					return PersonalPreferences.minMaterial(MortarScreen.this) == 0;
+				}
+			});
 
-		this.addRenderableWidget(new ClickableButton(this, MATERIAL_BAR_DOWN, SpriteButton.SpriteSet.DOWN_ARROW) {
-			@Override
-			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				materialDownBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedMaterials().size() : 9);
-			}
+			this.addRenderableWidget(new ClickableButton(this, MATERIAL_BAR_DOWN, SpriteButton.SpriteSet.DOWN_ARROW) {
+				@Override
+				public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
+					materialDownBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedMaterials().size() : 9);
+				}
 
-			@Override
-			public boolean isBlocked() {
-				return PersonalPreferences.minMaterial(MortarScreen.this) + 9 == MortarScreen.this.getSortedMaterials().size();
-			}
-		});
+				@Override
+				public boolean isBlocked() {
+					return PersonalPreferences.minMaterial(MortarScreen.this) + 9 == MortarScreen.this.getSortedMaterials().size();
+				}
+			});
 
-		this.addRenderableWidget(new ClickableButton(this, SHAPE_BAR_UP, SpriteButton.SpriteSet.UP_ARROW) {
-			@Override
-			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				templateUpBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedShapes().size() : 9);
+			for (int i = 0; i < 9; i++) {
+				this.addRenderableWidget(new MaterialButton(this, this.leftPos + MATERIAL_BAR.x, this.topPos + MATERIAL_BAR.y + i * 18, i));
 			}
-
-			@Override
-			public boolean isBlocked() {
-				return PersonalPreferences.minTemplate(this.screen) == 0;
-			}
-		});
-
-		this.addRenderableWidget(new ClickableButton(this, SHAPE_BAR_DOWN, SpriteButton.SpriteSet.DOWN_ARROW) {
-			@Override
-			public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-				templateDownBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedShapes().size() : 9);
-			}
-
-			@Override
-			public boolean isBlocked() {
-				return PersonalPreferences.minTemplate(this.screen) + 9 == MortarScreen.this.getSortedShapes().size();
-			}
-		});
-
-		for (int i = 0; i < 9; i++) {
-			this.addRenderableWidget(new MaterialButton(this, this.leftPos + MATERIAL_BAR.x, this.topPos + MATERIAL_BAR.y + i * 18, i));
 		}
 
-		for (int i = 0; i < 9; i++) {
-			this.addRenderableWidget(new ShapeButton(this, this.leftPos + SHAPE_BAR.x, this.topPos + SHAPE_BAR.y + i * 18, i));
+		if (!this.shapes.isEmpty()) {
+			this.addRenderableWidget(new ClickableButton(this, SHAPE_BAR_UP, SpriteButton.SpriteSet.UP_ARROW) {
+				@Override
+				public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
+					templateUpBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedShapes().size() : 9);
+				}
+
+				@Override
+				public boolean isBlocked() {
+					return PersonalPreferences.minTemplate(this.screen) == 0;
+				}
+			});
+
+			this.addRenderableWidget(new ClickableButton(this, SHAPE_BAR_DOWN, SpriteButton.SpriteSet.DOWN_ARROW) {
+				@Override
+				public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
+					templateDownBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedShapes().size() : 9);
+				}
+
+				@Override
+				public boolean isBlocked() {
+					return PersonalPreferences.minTemplate(this.screen) + 9 == MortarScreen.this.getSortedShapes().size();
+				}
+			});
+
+			for (int i = 0; i < 9; i++) {
+				this.addRenderableWidget(new ShapeButton(this, this.leftPos + SHAPE_BAR.x, this.topPos + SHAPE_BAR.y + i * 18, i));
+			}
 		}
 
 		if (this.mode == Mode.SETTINGS) return;

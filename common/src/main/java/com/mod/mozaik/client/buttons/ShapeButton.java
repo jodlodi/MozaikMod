@@ -4,7 +4,7 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.PersonalPreferences;
-import com.mod.mozaik.polyomino.Polyomino;
+import com.mod.mozaik.items.PolyominoItem;
 import com.mod.mozaik.polyomino.PolyominoShape;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -77,7 +77,7 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 
 		if (this.isHovered()) {
 			Optional<TooltipComponent> component = PersonalPreferences.getShapeTooltip().get()
-					? Optional.ofNullable(PolyominoShape.tryBuild(this.getShape(), PersonalPreferences.getPrimaryColor(), PersonalPreferences.getShape().uuid()).map(ShapeTooltip::new).orElse(null))
+					? Optional.ofNullable(PolyominoShape.tryBuild(this.getShape(), PersonalPreferences.getPrimaryColor(), PersonalPreferences.getShape().uuid()).map(PolyominoItem.ShapeTooltip::new).orElse(null))
 					: Optional.empty();
 
 			if (!favSlots.isEmpty()) {
@@ -96,9 +96,5 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 
 	public int getShapeIndex() {
 		return PersonalPreferences.minTemplate(this.screen) + this.index;
-	}
-
-	public record ShapeTooltip(Polyomino polyomino) implements TooltipComponent {
-
 	}
 }

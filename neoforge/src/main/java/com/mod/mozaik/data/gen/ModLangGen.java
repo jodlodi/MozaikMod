@@ -63,6 +63,7 @@ public class ModLangGen extends ModLangProvider {
 		this.addItem(ModItems.POINT_TEMPLATE, identifierToTitleCase(ModItems.POINT_TEMPLATE.id()));
 		this.addItem(ModItems.HORN_TEMPLATE, identifierToTitleCase(ModItems.HORN_TEMPLATE.id()));
 		this.addItem(ModItems.TREE_TEMPLATE, identifierToTitleCase(ModItems.TREE_TEMPLATE.id()));
+		this.addItem(ModItems.FORK_TEMPLATE, identifierToTitleCase(ModItems.FORK_TEMPLATE.id()));
 
 		this.addCreativeTab(ModTabs.TAB, "Mozaik");
 

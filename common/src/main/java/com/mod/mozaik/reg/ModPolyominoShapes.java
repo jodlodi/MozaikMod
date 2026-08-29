@@ -108,6 +108,11 @@ public class ModPolyominoShapes {
 			.addLine(true, true, true)
 			.addLine(false, true, false)
 	);
+	public static final ResourceSupplier<PolyominoShape> FORK = Services.REGISTRY.registerPolyominoShape("fork", () -> new PolyominoShape()
+			.addLine(true, false, true)
+			.addLine(true, true, true)
+			.addLine(false, true, false)
+	);
 
 	@Contract(pure = true)
 	public static @Unmodifiable List<ResourceSupplier<PolyominoShape>> alwaysShapes() {

@@ -1,26 +1,14 @@
 package com.mod.mozaik.client.tooltips;
 
 import com.mod.mozaik.client.GraphicsRenderHelper;
-import com.mod.mozaik.client.buttons.ShapeButton;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
-import com.mod.mozaik.items.components.ShardBagContents;
+import com.mod.mozaik.items.PolyominoItem;
 import com.mod.mozaik.polyomino.Polyomino;
-import com.mod.mozaik.polyomino.ShardStack;
 import com.mod.mozaik.polyomino.Tessera;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
-import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
-import net.minecraft.util.Mth;
-import net.minecraft.world.item.ItemInstance;
-import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NullMarked;
-
-import java.util.List;
 
 @NullMarked
 public class PolyominoTooltip implements ClientTooltipComponent {
@@ -28,7 +16,7 @@ public class PolyominoTooltip implements ClientTooltipComponent {
 	private final int height;
 	private final int width;
 
-	public PolyominoTooltip(ShapeButton.ShapeTooltip contents) {
+	public PolyominoTooltip(PolyominoItem.ShapeTooltip contents) {
 		this.polyomino = contents.polyomino();
 
 		int maxX = 0, maxY = 0;
@@ -38,7 +26,7 @@ public class PolyominoTooltip implements ClientTooltipComponent {
 		}
 
 		this.width = (maxX + 1) * Tessera.TESSERA_SIZE;
-		this.height = (maxY + 1) * Tessera.TESSERA_SIZE;
+		this.height = (maxY + 1) * Tessera.TESSERA_SIZE + 2; //Too short otherwise, with this there's 3 pixels of tooltip in each direction
 	}
 
 	@Override

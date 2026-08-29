@@ -60,6 +60,7 @@ public class ModTabs {
 		output.accept(ModItems.POINT_TEMPLATE.get());
 		output.accept(ModItems.HORN_TEMPLATE.get());
 		output.accept(ModItems.TREE_TEMPLATE.get());
+		output.accept(ModItems.FORK_TEMPLATE.get());
 	});
 
 	public static void init() {

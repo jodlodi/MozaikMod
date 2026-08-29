@@ -1,4 +1,4 @@
-// 26.2	2026-08-29T14:25:43.1952776	Model Definitions - mozaik
+// 26.2	2026-08-29T16:31:20.5203613	Model Definitions - mozaik
 ed8070786d3c66d715ebfb34a6101b78e89f081b assets/mozaik/blockstates/black_mortar.json
 a7f780fea362b7bf47a98419e02c1053fda9c557 assets/mozaik/blockstates/blue_mortar.json
 c592853a2d94b82ac1c0bc92d83fe02b3f73dfd8 assets/mozaik/blockstates/brown_mortar.json
@@ -50,6 +50,7 @@ fa20d29191bc12cbd9da0cf0bfb529adcccf2784 assets/mozaik/items/deepslate_shards.js
 c56d011387d509400a2570ac50507658e8b5b28d assets/mozaik/items/diorite_shards.json
 70168bc22fddd924ff9fe3b84bd6fd69dafbe776 assets/mozaik/items/dripstone_shards.json
 795515922366061820f1b81f89fb0ed0b19aea9c assets/mozaik/items/end_stone_shards.json
+18122da02af7b31a2dbf6ea5633427fe4a89c853 assets/mozaik/items/fork_template.json
 f7baf9c438a2256f8a67341502df0aa96336b80c assets/mozaik/items/glowstone_shards.json
 3adcc2c3efae65050dac5bf237c5c869cbcb4541 assets/mozaik/items/granite_shards.json
 4f468b4e29138c017165ac3f73ae3efd7c616f4a assets/mozaik/items/gray_glazed_terracotta_shards.json
@@ -172,6 +173,7 @@ d1c462d938faed34c99a31f0e27d21570f3b2c9d assets/mozaik/models/item/cyan_stained_
 e2e517d525eac304657a91e7d1dbf456e284c71b assets/mozaik/models/item/diorite_shards.json
 4df38ccf5be8133c6bc6e1f0d2135d1af6d4de8d assets/mozaik/models/item/dripstone_shards.json
 b8b0f662ad19235c25e67fb0c35d1c8774f1ba42 assets/mozaik/models/item/end_stone_shards.json
+c6110661c1808657e1e0b1e71c74fbb532bb9c94 assets/mozaik/models/item/fork_template.json
 a6a0527f5f872d60b132049df7fd1354a08ff45d assets/mozaik/models/item/glowstone_shards.json
 d5301a252bacea3b5daf31083afb2e49df918b32 assets/mozaik/models/item/granite_shards.json
 ebed6beae4d1ac4f0e35675d5f343d12fa486cfb assets/mozaik/models/item/gray_glazed_terracotta_shards.json

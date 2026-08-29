@@ -1,12 +1,12 @@
 package com.mod.mozaik.event;
 
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.client.buttons.ShapeButton;
 import com.mod.mozaik.client.tooltips.ClientShardBagTooltip;
 import com.mod.mozaik.client.ModKeyMappings;
 import com.mod.mozaik.client.model.block.mortar.MosaicStateModel;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.tooltips.PolyominoTooltip;
+import com.mod.mozaik.items.PolyominoItem;
 import com.mod.mozaik.items.ShardBagItem;
 import com.mod.mozaik.platform.NeoForgeRegistryHelper;
 import com.mod.mozaik.polyomino.TesseraShape;
@@ -29,7 +29,7 @@ public class ClientBus {
 	@SubscribeEvent
 	public static void registerTooltips(RegisterClientTooltipComponentFactoriesEvent event) {
 		event.register(ShardBagItem.ShardBagTooltip.class, ClientShardBagTooltip::new);
-		event.register(ShapeButton.ShapeTooltip.class, PolyominoTooltip::new);
+		event.register(PolyominoItem.ShapeTooltip.class, PolyominoTooltip::new);
 	}
 
 	@SubscribeEvent
