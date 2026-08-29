@@ -20,6 +20,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DyeColor;
@@ -28,6 +30,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -36,6 +39,8 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -43,6 +48,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
+import java.util.List;
 import java.util.Map;
 
 @NullMarked
@@ -120,20 +126,18 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 		FluidState replacedFluidState = context.getLevel().getFluidState(context.getClickedPos());
 
 		DirectionAndRotation directionAndRotation = switch (context.getClickedFace()) {
-			case DOWN ->
-					switch (context.getHorizontalDirection()) {
-						case Direction.WEST -> DirectionAndRotation.DOWN_90;
-						case Direction.SOUTH -> DirectionAndRotation.DOWN_180;
-						case Direction.EAST -> DirectionAndRotation.DOWN_270;
-						default -> DirectionAndRotation.DOWN_0;
-					};
-			case UP ->
-					switch (context.getHorizontalDirection()) {
-						case Direction.WEST -> DirectionAndRotation.UP_270;
-						case Direction.SOUTH -> DirectionAndRotation.UP_180;
-						case Direction.EAST -> DirectionAndRotation.UP_90;
-						default -> DirectionAndRotation.UP_0;
-					};
+			case DOWN -> switch (context.getHorizontalDirection()) {
+				case Direction.WEST -> DirectionAndRotation.DOWN_90;
+				case Direction.SOUTH -> DirectionAndRotation.DOWN_180;
+				case Direction.EAST -> DirectionAndRotation.DOWN_270;
+				default -> DirectionAndRotation.DOWN_0;
+			};
+			case UP -> switch (context.getHorizontalDirection()) {
+				case Direction.WEST -> DirectionAndRotation.UP_270;
+				case Direction.SOUTH -> DirectionAndRotation.UP_180;
+				case Direction.EAST -> DirectionAndRotation.UP_90;
+				default -> DirectionAndRotation.UP_0;
+			};
 			case NORTH -> DirectionAndRotation.NORTH;
 			case SOUTH -> DirectionAndRotation.SOUTH;
 			case WEST -> DirectionAndRotation.WEST;
@@ -156,6 +160,11 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 	@Override
 	public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState blockState) {
 		return Services.MODLOADER.mortarBlockEntity(pos, blockState);
+	}
+
+	@Override
+	protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+		return super.getCloneItemStack(level, pos, state, includeData);
 	}
 
 	@Override

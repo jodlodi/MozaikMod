@@ -2,6 +2,7 @@ package com.mod.mozaik.data;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.data.gen.*;
+import com.mod.mozaik.data.gen.tag.ModBlockTagGen;
 import com.mod.mozaik.data.gen.tag.ModItemTagGen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -31,7 +32,7 @@ public class ModDataGen {
 		generator.addProvider(true, datapackProvider);
 		generator.addProvider(true, new ModLootGen(output, lookupProvider));
 		generator.addProvider(true, new ModRecipeProvider.ModRecipeRunner(output, registryProvider));
-		//ModBlockTagGen
+		generator.addProvider(true, new ModBlockTagGen(output, lookupProvider));
 		generator.addProvider(true, new ModItemTagGen(output, lookupProvider));
 
 		generator.addProvider(true, new ModAdvancementProvider(output, registryProvider));

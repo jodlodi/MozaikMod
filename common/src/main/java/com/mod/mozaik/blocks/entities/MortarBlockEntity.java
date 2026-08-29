@@ -2,8 +2,10 @@ package com.mod.mozaik.blocks.entities;
 
 import com.mod.mozaik.networking.bidirectional.UpdateMozaikBidirectional;
 import com.mod.mozaik.platform.Services;
+import com.mod.mozaik.polyomino.Mozaik;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.reg.ModBlockEntities;
+import com.mod.mozaik.reg.ModDataComponents;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentGetter;
@@ -54,7 +56,6 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 		if (this.level instanceof ServerLevel serverLevel) {
 			Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(this.getBlockPos()), new UpdateMozaikBidirectional(this.polyomino, this.getBlockPos()));
 		}
-
 	}
 
 	public void setCustomName(@Nullable Component name) {
@@ -98,6 +99,12 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 		super.applyImplicitComponents(components);
 		this.title = components.get(DataComponents.CUSTOM_NAME);
 		this.lockKey = components.getOrDefault(DataComponents.LOCK, LockCode.NO_LOCK);
+
+		Mozaik mozaik = components.get(ModDataComponents.MOZAIK.get());
+		if (mozaik != null) {
+			this.polyomino.clear();
+			this.polyomino.addAll(mozaik.placedPolyomino());
+		}
 	}
 
 	@Override
@@ -105,6 +112,7 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 		super.collectImplicitComponents(components);
 		components.set(DataComponents.CUSTOM_NAME, this.title);
 		if (!this.lockKey.equals(LockCode.NO_LOCK)) components.set(DataComponents.LOCK, this.lockKey);
+		components.set(ModDataComponents.MOZAIK.get(), new Mozaik(this.polyomino));
 	}
 
 	@Override
