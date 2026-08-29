@@ -164,5 +164,23 @@ public abstract class SpriteButton extends ModButton implements PhaseRenderable 
 				12,
 				12
 		);
+
+		public static final SpriteSet LOCK_ACCEPT = new SpriteSet(
+				Constants.prefix("textures/gui/container/lock_accept/unselected.png"),
+				Constants.prefix("textures/gui/container/lock_accept/hovered.png"),
+				Constants.prefix("textures/gui/container/lock_accept/pressed.png"),
+				null,
+				18,
+				18
+		);
+
+		public static final SpriteSet LOCK_CANCEL = new SpriteSet(
+				Constants.prefix("textures/gui/container/lock_cancel/unselected.png"),
+				Constants.prefix("textures/gui/container/lock_cancel/hovered.png"),
+				Constants.prefix("textures/gui/container/lock_cancel/pressed.png"),
+				null,
+				18,
+				18
+		);
 	}
 }

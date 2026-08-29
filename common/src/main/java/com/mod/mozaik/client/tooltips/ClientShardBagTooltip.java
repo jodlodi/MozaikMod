@@ -26,9 +26,7 @@ public class ClientShardBagTooltip implements ClientTooltipComponent {
 	private static final int SLOT_MARGIN = 4;
 	private static final int SLOT_SIZE = 24;
 	private static final int GRID_WIDTH = 96;
-	private static final Component BUNDLE_FULL_TEXT = Component.translatable("item.minecraft.bundle.full");
-	private static final Component BUNDLE_EMPTY_TEXT = Component.translatable("item.minecraft.bundle.empty");
-	private static final Component BUNDLE_EMPTY_DESCRIPTION = Component.translatable("item.minecraft.bundle.empty.description");
+	private static final Component BUNDLE_EMPTY_DESCRIPTION = Component.translatable("item.mozaik.bag.empty.description");
 	private final ShardBagContents contents;
 
 	public ClientShardBagTooltip(ShardBagItem.ShardBagTooltip contents) {

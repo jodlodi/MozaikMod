@@ -96,6 +96,9 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private static final Vector2i TOGGLE_OPTION_START = new Vector2i(27, 12);
 	private static final Vector2i VOLUME_SLIDER = new Vector2i(3, 3);
 
+	private static final Vector2i LOCK_CANCEL = new Vector2i(55, 23);
+	private static final Vector2i LOCK_ACCEPT = new Vector2i(171, 23);
+
 	public static final int LEFT_CLICK = 0;
 	public static final int MIDDLE_CLICK = 2;
 	public static final int RIGHT_CLICK = 1;
@@ -183,12 +186,6 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 	public MortarMenu.ShardSource getShardSource() {
 		return this.menu.getShardSource();
-	}
-
-	public static long randomSeed() {
-		long seed = 0L;
-		if (Minecraft.getInstance().level != null) seed = Minecraft.getInstance().level.getRandom().nextLong();
-		return seed;
 	}
 
 	public void markChanged() {
@@ -833,10 +830,10 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				int yo = (this.height - this.imageHeight) / 2;
 				MortarScreen.this.titleBox = this.addRenderableWidget(new EditBox(
 						this.minecraft.font,
-						xo + 64,
+						xo + 72,
 						yo + 28,
-						114,
-						20,
+						98,
+						14,
 						Component.translatable("book.sign.titlebox")
 				));
 				MortarScreen.this.titleBox.setMaxLength(15);
@@ -844,9 +841,26 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				MortarScreen.this.titleBox.setCentered(true);
 				MortarScreen.this.titleBox.setTextShadow(true);
 				MortarScreen.this.titleBox.setTextColor(0xFFFFFFFF);
-				//titleBox.setResponder((value) -> finalizeButton.active = !StringUtil.isBlank(value));
 				MortarScreen.this.titleBox.setValue("");
 				MortarScreen.this.setFocused(MortarScreen.this.titleBox);
+
+				this.addRenderableWidget(new ClickableButton(this, LOCK_CANCEL, SpriteButton.SpriteSet.LOCK_CANCEL) {
+					@Override
+					public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
+						this.screen.mode = Mode.MORTAR;
+						this.screen.rebuildWidgets();
+					}
+				});
+
+				this.addRenderableWidget(new ClickableButton(this, LOCK_ACCEPT, SpriteButton.SpriteSet.LOCK_ACCEPT) {
+					@Override
+					public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
+						if (this.screen.titleBox != null) {
+							this.screen.menu.sign(this.screen.titleBox.getValue().isEmpty() ? null : this.screen.titleBox.getValue());
+							this.screen.minecraft.gui.setScreen(null);
+						}
+					}
+				});
 			}
 		}
 

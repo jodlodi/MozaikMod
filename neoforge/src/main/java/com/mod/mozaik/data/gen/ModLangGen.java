@@ -115,6 +115,7 @@ public class ModLangGen extends ModLangProvider {
 		this.add(PersonalPreferences.getReverseScrollDirectionBars().name(), "Reverse Scrolling Direction");
 		this.add(PersonalPreferences.getShapeTooltip().name(), "Polyomino Tooltip");
 		this.add(PersonalPreferences.getCreativeInfinity().name(), "Creative Mode Infinity Sign");
+		this.add("item.mozaik.bag.empty.description", "Can hold many various shards.");
 
 		SUBTITLE_GENERATOR.forEach(this::add);
 	}
