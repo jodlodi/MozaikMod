@@ -195,6 +195,7 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 							Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(pos), new UpdateMozaikBidirectional(newBlockEntity.getPolyomino(), pos))
 					));
 				}
+				itemStack.shrink(1);
 			}
 
 			return InteractionResult.SUCCESS;
