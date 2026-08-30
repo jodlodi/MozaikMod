@@ -3,15 +3,17 @@ package com.mod.mozaik.data.gen;
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.polyomino.ShardMaterial;
-import com.mod.mozaik.reg.ModItems;
-import com.mod.mozaik.reg.ModShardMaterials;
-import com.mod.mozaik.reg.ResourceSupplier;
+import com.mod.mozaik.reg.*;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -34,6 +36,16 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
 
 	@Override
 	protected void buildRecipes() {
+		this.shaped(RecipeCategory.DECORATIONS, ModItems.SHARD_BAG.get(), 1)
+				.pattern(" S ")
+				.pattern("LVL")
+				.pattern(" L ")
+				.define('S', Items.STRING)
+				.define('L', Items.LEATHER)
+				.define('V', ModTags.Items.SHARDS)
+				.unlockedBy("has_item", has(ModTags.Items.SHARDS))
+				.save(this.output);
+
 		for (DyeColor color : DyeColor.values()) {
 			this.mortar(color);
 		}

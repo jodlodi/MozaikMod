@@ -1,4 +1,12 @@
-// 26.2	2026-08-30T13:52:04.1317682	Registries
+// 26.2	2026-08-30T16:46:04.166534	Registries
+35de82af1018999fc1fd55e5f22dab869cd12971 data/mozaik/worldgen/structure/bone_monument.json
+676924bfdb212be17c65b0c26f30578fb7096dbf data/mozaik/worldgen/structure/bubble_monument.json
+60b364f8803497a0e1cb30790786e711e91c9eea data/mozaik/worldgen/structure/button_monument.json
+3dcdffb1eef0688e6e6762cf2a0432313a3285df data/mozaik/worldgen/structure/cane_monument.json
+9447e7b8b60dfc83b02c46067148081932c74bfd data/mozaik/worldgen/structure/fork_monument.json
+e5a1bd71bfbd3b435c3e31245c0700f3d96b2c00 data/mozaik/worldgen/structure/horn_monument.json
+9a7ded2999bfabf0287c79a3177ff1ab25a69f54 data/mozaik/worldgen/structure/point_monument.json
+45b44db755a4d1e9cff285334045455d4e6226d5 data/mozaik/worldgen/structure/tree_monument.json
 ea2f9a5a79757654aa0ff3ff5dfd2947e368c073 data/mozaik/worldgen/structure/unknown_badlands_mosaic.json
 0ab7f69f04bc5088659cfed413378f6de44e1c7b data/mozaik/worldgen/structure/unknown_cold_mosaic.json
 03e8650bfb98aeb3f69e978002fba68d9cdb45c3 data/mozaik/worldgen/structure/unknown_desert_mosaic.json
@@ -10,4 +18,6 @@ d9d181d24cf0405485af8d841cedf0ef984a7550 data/mozaik/worldgen/structure/unknown_
 094a3a81919c86c3b696176b95763ad2e367bf2a data/mozaik/worldgen/structure/unknown_snowy_taiga_mosaic.json
 0dbbdab5dae2f5bcc70fccff2cea020b6aeb3fcb data/mozaik/worldgen/structure/unknown_warped_mosaic.json
 730f25478e4ffeb63757b79806b976331bd026e8 data/mozaik/worldgen/structure/unknown_wastes_mosaic.json
-09382e3cbea9480499c202855c8138f069bbcd82 data/mozaik/worldgen/structure_set/mosaics.json
+63c2773457d48d94160984b6f51632c89936d04e data/mozaik/worldgen/structure/worm_monument.json
+b0b525c16a69ed7f04e779b5c30b1c4fbfb1b1fe data/mozaik/worldgen/structure_set/monuments.json
+eb97bd82cc0d3887461942dfb4dd4bd2adf67943 data/mozaik/worldgen/structure_set/mosaics.json

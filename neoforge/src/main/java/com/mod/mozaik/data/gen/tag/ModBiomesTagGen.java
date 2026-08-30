@@ -10,6 +10,8 @@ import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
@@ -61,6 +63,34 @@ public class ModBiomesTagGen extends BiomeTagsProvider {
 		this.tag(ModTags.Biomes.HAS_COLD_MOSAIC).add(
 				Biomes.COLD_OCEAN,
 				Biomes.DEEP_COLD_OCEAN
+		);
+
+		this.tag(ModTags.Biomes.HAS_BUTTON_MONUMENT).addTag(
+				BiomeTags.HAS_END_CITY
+		);
+		this.tag(ModTags.Biomes.HAS_BONE_MONUMENT).addTag(
+				BiomeTags.HAS_DESERT_PYRAMID
+		);
+		this.tag(ModTags.Biomes.HAS_BUBBLE_MONUMENT).addTag(
+				BiomeTags.IS_DEEP_OCEAN
+		);
+		this.tag(ModTags.Biomes.HAS_WORM_MONUMENT).addTag(
+				BiomeTags.IS_JUNGLE
+		);
+		this.tag(ModTags.Biomes.HAS_CANE_MONUMENT).addTag(
+				BiomeTags.IS_OVERWORLD
+		);
+		this.tag(ModTags.Biomes.HAS_POINT_MONUMENT).addTag(
+				BiomeTags.IS_OVERWORLD
+		);
+		this.tag(ModTags.Biomes.HAS_HORN_MONUMENT).addTag(
+				BiomeTags.IS_NETHER
+		);
+		this.tag(ModTags.Biomes.HAS_TREE_MONUMENT).addTag(
+				BiomeTags.HAS_SWAMP_HUT
+		);
+		this.tag(ModTags.Biomes.HAS_FORK_MONUMENT).addTag(
+				BiomeTags.HAS_VILLAGE_PLAINS
 		);
 	}
 }

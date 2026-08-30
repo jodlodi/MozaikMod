@@ -1,4 +1,4 @@
-// 26.2	2026-08-30T13:52:04.1297643	Loot Tables
+// 26.2	2026-08-30T15:40:21.0257318	Loot Tables
 b33913db92e9a2af9f5d5a421e8789d42daec7c9 data/mozaik/loot_table/archaeology/cold_mosaic.json
 00bbd16e26f9b697e58675c0c6e97dc4d5948564 data/mozaik/loot_table/archaeology/desert_mosaic.json
 60f840fe1fd10c4b9ae7109dde2c1a6be610ed30 data/mozaik/loot_table/archaeology/lukewarm_mosaic.json
@@ -18,6 +18,15 @@ fde60b4373e9859a40afc18a3f8c2a5b44d2844c data/mozaik/loot_table/blocks/purple_mo
 1a5f17dfc2903bd159cdc3520b50a25168fddd04 data/mozaik/loot_table/blocks/red_mortar.json
 b21b7d2bcba0bbe69894f188ad4807b7dee1565c data/mozaik/loot_table/blocks/white_mortar.json
 141473d14354a0594e5e6fc63d79fc6221fefef4 data/mozaik/loot_table/blocks/yellow_mortar.json
+f3fa3f0f5330ed4be5d0ef66c95d228938e838a9 data/mozaik/loot_table/chests/bone_template.json
+9a40c60cb1349be5768ff5299d9e89d166450747 data/mozaik/loot_table/chests/bubble_template.json
+55ee4e1dd61abd46b79ca5742623dc5b9f6f917e data/mozaik/loot_table/chests/button_template.json
+4d9f9212a38f7031b42e93c14f488525200d2959 data/mozaik/loot_table/chests/cane_template.json
 4a96288c525696e80f70f9b56b141d74ddab1917 data/mozaik/loot_table/chests/cold_mosaic.json
+fdfa6fbd979d8fcd6b4a9f5e87311c967f414d9b data/mozaik/loot_table/chests/fork_template.json
+1e346052d27072ab066e115ec85eec725371aef7 data/mozaik/loot_table/chests/horn_template.json
 fe9120bf1ccac238edcfa56ef0029f098ed48d72 data/mozaik/loot_table/chests/lukewarm_mosaic.json
+c0f67f50438377f442edf459645e6bee07603d38 data/mozaik/loot_table/chests/point_template.json
+6423e25df961aa421ceef9e9d88c94043ea02e57 data/mozaik/loot_table/chests/tree_template.json
 b6d0e152ad3d689a4193e200eaa24191cc84fbeb data/mozaik/loot_table/chests/warped_mosaic.json
+1c8ae3c788a61cd8fd1e7169bae66c5198dd24c3 data/mozaik/loot_table/chests/worm_template.json

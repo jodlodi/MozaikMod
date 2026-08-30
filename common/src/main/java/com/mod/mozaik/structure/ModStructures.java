@@ -48,6 +48,16 @@ public class ModStructures {
 	public static final ResourceKey<Structure> UNKNOWN_BADLANDS_MOSAIC = registerKey("unknown_badlands_mosaic");
 	public static final ResourceKey<Structure> UNKNOWN_COLD_MOSAIC = registerKey("unknown_cold_mosaic");
 
+	public static final ResourceKey<Structure> BUTTON_MONUMENT = registerKey("button_monument");
+	public static final ResourceKey<Structure> BONE_MONUMENT = registerKey("bone_monument");
+	public static final ResourceKey<Structure> BUBBLE_MONUMENT = registerKey("bubble_monument");
+	public static final ResourceKey<Structure> WORM_MONUMENT = registerKey("worm_monument");
+	public static final ResourceKey<Structure> CANE_MONUMENT = registerKey("cane_monument");
+	public static final ResourceKey<Structure> POINT_MONUMENT = registerKey("point_monument");
+	public static final ResourceKey<Structure> HORN_MONUMENT = registerKey("horn_monument");
+	public static final ResourceKey<Structure> TREE_MONUMENT = registerKey("tree_monument");
+	public static final ResourceKey<Structure> FORK_MONUMENT = registerKey("fork_monument");
+
 	public static ResourceKey<Structure> registerKey(String name) {
 		return ResourceKey.create(Registries.STRUCTURE, Constants.prefix(name));
 	}
@@ -188,6 +198,107 @@ public class ModStructures {
 						1,
 						Optional.empty(),
 						Optional.of(archyRuleProcessor(Blocks.GRAVEL, Blocks.SUSPICIOUS_GRAVEL, ModLootTables.COLD_MOSAIC_ARCHAEOLOGY))
+				)
+		));
+
+		// TEMPLATES
+		context.register(BUTTON_MONUMENT, new CustomTemplateStructure(
+				structure(holdergetter.getOrThrow(ModTags.Biomes.HAS_BUTTON_MONUMENT), GenerationStep.Decoration.SURFACE_STRUCTURES, TerrainAdjustment.BEARD_THIN),
+				new CustomTemplateStructure.Setup(
+						CustomStructurePiece.VerticalPlacement.ON_END_SURFACE,
+						asResourceList("template/button_monument"),
+						AIR_IS_AIR,
+						1.0F,
+						true,
+						2
+				)
+		));
+		context.register(BONE_MONUMENT, new CustomTemplateStructure(
+				structure(holdergetter.getOrThrow(ModTags.Biomes.HAS_BONE_MONUMENT), GenerationStep.Decoration.SURFACE_STRUCTURES, TerrainAdjustment.BEARD_THIN),
+				new CustomTemplateStructure.Setup(
+						CustomStructurePiece.VerticalPlacement.ON_LAND_SURFACE,
+						asResourceList("template/bone_monument"),
+						AIR_IS_AIR,
+						1.0F,
+						true,
+						2
+				)
+		));
+		context.register(BUBBLE_MONUMENT, new CustomTemplateStructure(
+				structure(holdergetter.getOrThrow(ModTags.Biomes.HAS_BUBBLE_MONUMENT), GenerationStep.Decoration.SURFACE_STRUCTURES, TerrainAdjustment.BEARD_THIN),
+				new CustomTemplateStructure.Setup(
+						CustomStructurePiece.VerticalPlacement.ON_OCEAN_FLOOR,
+						asResourceList("template/bubble_monument"),
+						AIR_IS_AIR,
+						1.0F,
+						true,
+						2
+				)
+		));
+		context.register(WORM_MONUMENT, new CustomTemplateStructure(
+				structure(holdergetter.getOrThrow(ModTags.Biomes.HAS_WORM_MONUMENT), GenerationStep.Decoration.SURFACE_STRUCTURES, TerrainAdjustment.BEARD_THIN),
+				new CustomTemplateStructure.Setup(
+						CustomStructurePiece.VerticalPlacement.ON_LAND_SURFACE,
+						asResourceList("template/worm_monument"),
+						AIR_IS_AIR,
+						1.0F,
+						true,
+						2
+				)
+		));
+		context.register(CANE_MONUMENT, new CustomTemplateStructure(
+				structure(holdergetter.getOrThrow(ModTags.Biomes.HAS_CANE_MONUMENT), GenerationStep.Decoration.SURFACE_STRUCTURES, TerrainAdjustment.BEARD_THIN),
+				new CustomTemplateStructure.Setup(
+						CustomStructurePiece.VerticalPlacement.UNDERGROUND,
+						asResourceList("template/cane_monument"),
+						AIR_IS_AIR,
+						1.0F,
+						true,
+						2
+				)
+		));
+		context.register(POINT_MONUMENT, new CustomTemplateStructure(
+				structure(holdergetter.getOrThrow(ModTags.Biomes.HAS_POINT_MONUMENT), GenerationStep.Decoration.SURFACE_STRUCTURES, TerrainAdjustment.BEARD_THIN),
+				new CustomTemplateStructure.Setup(
+						CustomStructurePiece.VerticalPlacement.UNDERGROUND,
+						asResourceList("template/point_monument"),
+						AIR_IS_AIR,
+						1.0F,
+						true,
+						2
+				)
+		));
+		context.register(HORN_MONUMENT, new CustomTemplateStructure(
+				structure(holdergetter.getOrThrow(ModTags.Biomes.HAS_HORN_MONUMENT), GenerationStep.Decoration.SURFACE_STRUCTURES, TerrainAdjustment.BEARD_THIN),
+				new CustomTemplateStructure.Setup(
+						CustomStructurePiece.VerticalPlacement.IN_NETHER,
+						asResourceList("template/horn_monument"),
+						AIR_IS_AIR,
+						1.0F,
+						true,
+						2
+				)
+		));
+		context.register(TREE_MONUMENT, new CustomTemplateStructure(
+				structure(holdergetter.getOrThrow(ModTags.Biomes.HAS_TREE_MONUMENT), GenerationStep.Decoration.SURFACE_STRUCTURES, TerrainAdjustment.BEARD_THIN),
+				new CustomTemplateStructure.Setup(
+						CustomStructurePiece.VerticalPlacement.ON_LAND_SURFACE,
+						asResourceList("template/tree_monument"),
+						AIR_IS_AIR,
+						1.0F,
+						true,
+						2
+				)
+		));
+		context.register(FORK_MONUMENT, new CustomTemplateStructure(
+				structure(holdergetter.getOrThrow(ModTags.Biomes.HAS_FORK_MONUMENT), GenerationStep.Decoration.SURFACE_STRUCTURES, TerrainAdjustment.BEARD_THIN),
+				new CustomTemplateStructure.Setup(
+						CustomStructurePiece.VerticalPlacement.ON_LAND_SURFACE,
+						asResourceList("template/fork_monument"),
+						AIR_IS_AIR,
+						1.0F,
+						true,
+						2
 				)
 		));
 	}

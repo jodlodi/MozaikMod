@@ -1,0 +1,46 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 1898254337,
+    "separation": 18,
+    "spacing": 40
+  },
+  "structures": [
+    {
+      "structure": "mozaik:button_monument",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:bone_monument",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:bubble_monument",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:worm_monument",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:cane_monument",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:point_monument",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:horn_monument",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:tree_monument",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:fork_monument",
+      "weight": 1
+    }
+  ]
+}

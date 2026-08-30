@@ -65,7 +65,7 @@ public class ModLangGen extends ModLangProvider {
 		this.addItem(ModItems.TREE_TEMPLATE, identifierToTitleCase(ModItems.TREE_TEMPLATE.id()));
 		this.addItem(ModItems.FORK_TEMPLATE, identifierToTitleCase(ModItems.FORK_TEMPLATE.id()));
 
-		this.addCreativeTab(ModTabs.TAB, "Mozaik");
+		this.addCreativeTab(ModTabs.TAB, "mozaik");
 
 		for (MozaikTool tool : MozaikTool.values()) {
 			this.add(tool.asTranslationString(), toTitleCase(tool.getSerializedName()));
@@ -82,7 +82,7 @@ public class ModLangGen extends ModLangProvider {
 		this.add(MaterialButton.COUNT, "§8Shard count: [%1$s§8]");
 
 		// TOOL KEYS
-		this.addKeyCategory(ModKeyMappings.MOD_TOOLS, "Mozaik Tools");
+		this.addKeyCategory(ModKeyMappings.MOD_TOOLS, "mozaik Tools");
 		this.addKeyMapping(ModKeyMappings.PICKER, "Picker Tool");
 		this.addKeyMapping(ModKeyMappings.SELECT, "Select Tool");
 		this.addKeyMapping(ModKeyMappings.WAND, "Wand Tool");
@@ -91,12 +91,12 @@ public class ModLangGen extends ModLangProvider {
 		this.addKeyMapping(ModKeyMappings.CHISEL, "Chisel Tool");
 
 		// COMMAND KEYS
-		this.addKeyCategory(ModKeyMappings.MOD_ACTIONS, "Mozaik Actions");
+		this.addKeyCategory(ModKeyMappings.MOD_ACTIONS, "mozaik Actions");
 		this.addKeyMapping(ModKeyMappings.DELETE, "Delete Selected");
 		this.addKeyMapping(ModKeyMappings.SELECT_ALL, "Select All");
 
 		// FAVOURITES
-		this.addKeyCategory(ModKeyMappings.MOD_FAVOURITES, "Mozaik Favourites");
+		this.addKeyCategory(ModKeyMappings.MOD_FAVOURITES, "mozaik Favourites");
 		NaturalDigitCollection.zipApply(ModKeyMappings.FAVOURITE, NaturalDigitCollection.VALUES, (mapping, name) ->
 				this.addKeyMapping(mapping, toTitleCase("favourite_slot_" + name))
 		);

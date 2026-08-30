@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 @NullMarked
 public class Constants {
 	public static final String MOD_ID = "mozaik";
-	public static final String MOD_NAME = "Mozaik";
+	public static final String MOD_NAME = "mozaik";
 	public static final Logger LOG = LoggerFactory.getLogger(MOD_NAME);
 
 	public static Identifier prefix(String path) {

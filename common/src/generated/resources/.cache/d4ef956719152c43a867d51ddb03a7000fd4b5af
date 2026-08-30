@@ -1,4 +1,4 @@
-// 26.2	2026-08-26T21:20:00.2881002	Mozaik recipes
+// 26.2	2026-08-30T15:16:26.41663	mozaik recipes
 690c02b6a8d666ff3544aa3f94c3f985bd8a3f84 data/minecraft/advancement/recipes/decorations/amethyst_shards_from_amethyst_block_stonecutting.json
 18280baa4bfeac9185ca62f58ad7a6dd4a4ac626 data/minecraft/advancement/recipes/decorations/amethyst_shards_from_budding_amethyst_stonecutting.json
 ad39bd9a78fbaf41c5d696f9f92e0256c2a5ef85 data/minecraft/advancement/recipes/decorations/ancient_debris_shards_from_ancient_debris_stonecutting.json
@@ -495,6 +495,7 @@ f7040b67f17fbb57bad530ff34f5446b9b89ae54 data/mozaik/advancement/recipes/decorat
 295057ade06721dc7d15756f0b4d6af30f2861ad data/mozaik/advancement/recipes/decorations/pink_mortar.json
 5d7df7c7807c6aada8b1a43a8b3ec82fdb3683bc data/mozaik/advancement/recipes/decorations/purple_mortar.json
 1717e9f7800e5edd3fbbb3c1412d2f3a5e2ac8b8 data/mozaik/advancement/recipes/decorations/red_mortar.json
+968851741578388435bc159505484848860ecbce data/mozaik/advancement/recipes/decorations/shard_bag.json
 30f397f17bce5dacc58d8aa222c095d7b01adc0f data/mozaik/advancement/recipes/decorations/white_mortar.json
 bb838e8a70aafc644f91d0b723a4b50b61ddd114 data/mozaik/advancement/recipes/decorations/yellow_mortar.json
 112374db3c5dfba9e87742103f8f2aec19573a28 data/mozaik/recipe/black_mortar.json
@@ -511,5 +512,6 @@ d0f588b7d0fef615e72a6ad9bdbd8026a497cd3d data/mozaik/recipe/lime_mortar.json
 d732e76ed05065514434fb249d5a8a05e81b6d0a data/mozaik/recipe/pink_mortar.json
 b78ee5d8dbbf11d54e98df157a6f9cef3db735bc data/mozaik/recipe/purple_mortar.json
 f930e573c7fa8d270f11651be81b91ebd72e17d1 data/mozaik/recipe/red_mortar.json
+5f4ed30eb0dc9a510607b6060cefd5cacf4bf3a0 data/mozaik/recipe/shard_bag.json
 ee0de3cbb772b2869073cc6ae0c844b7df2d925a data/mozaik/recipe/white_mortar.json
 2d1a0a3075f5449b9091612d8ca38121fa7b8684 data/mozaik/recipe/yellow_mortar.json

@@ -19,6 +19,7 @@ import java.util.Optional;
 @NullMarked
 public class ModStructureSets {
 	public static final ResourceKey<StructureSet> MOSAICS = registerKey("mosaics");
+	public static final ResourceKey<StructureSet> MONUMENTS = registerKey("monuments");
 
 	private static ResourceKey<StructureSet> registerKey(String name) {
 		return ResourceKey.create(Registries.STRUCTURE_SET, Constants.prefix(name));
@@ -39,7 +40,19 @@ public class ModStructureSets {
 				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.UNKNOWN_SNOWY_TAIGA_MOSAIC), 1),
 				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.UNKNOWN_WARPED_MOSAIC), 1),
 				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.UNKNOWN_WASTES_MOSAIC), 1)
-		), createRandomSpread(120, 30, RandomSpreadType.LINEAR, 512814683, Optional.empty())));
+		), createRandomSpread(120, 54, RandomSpreadType.LINEAR, 512814683, Optional.empty())));
+
+		context.register(MONUMENTS, new StructureSet(List.of(
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.BUTTON_MONUMENT), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.BONE_MONUMENT), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.BUBBLE_MONUMENT), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.WORM_MONUMENT), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.CANE_MONUMENT), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.POINT_MONUMENT), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.HORN_MONUMENT), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.TREE_MONUMENT), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.FORK_MONUMENT), 1)
+		), createRandomSpread(40, 18, RandomSpreadType.LINEAR, 1898254337, Optional.empty())));
 	}
 
 	@SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "deprecation"})

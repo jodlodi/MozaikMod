@@ -1,12 +1,21 @@
-// 26.2	2026-08-30T00:29:56.9443093	Tags for minecraft:worldgen/biome mod id mozaik
+// 26.2	2026-08-30T16:30:56.7597993	Tags for minecraft:worldgen/biome mod id mozaik
 61f6f7c6337b98ddc2724fe2fc7b568c11a9d89f data/mozaik/tags/worldgen/biome/has_badlands_mosaic.json
+c5a1d1f549aa560e8567a646e7f83db4a2f39405 data/mozaik/tags/worldgen/biome/has_bone_monument.json
+ec7bbb0c9b5fc5378f8716f54862806404f04360 data/mozaik/tags/worldgen/biome/has_bubble_monument.json
+ee8a1f775306bc5dc9975a636d64f4eb3c22ddb6 data/mozaik/tags/worldgen/biome/has_button_monument.json
+b020f6cdcd2d955793278b2f89a178a1d31e599a data/mozaik/tags/worldgen/biome/has_cane_monument.json
 73f5e897538b380822605ca137e9b71fe09e3aa0 data/mozaik/tags/worldgen/biome/has_cold_mosaic.json
 f3ef2895c49e29111297e950661e5bc71a79989e data/mozaik/tags/worldgen/biome/has_desert_mosaic.json
 ee8a1f775306bc5dc9975a636d64f4eb3c22ddb6 data/mozaik/tags/worldgen/biome/has_end_mosaic.json
+d6783d12ab7a6a9e0ac23e0b13956fe67eaa50bf data/mozaik/tags/worldgen/biome/has_fork_monument.json
+a24545b58f3f91c6c033586e2b2ae12f1e8131b1 data/mozaik/tags/worldgen/biome/has_horn_monument.json
 563db5a42c71059864eba50ba13173816ae6f529 data/mozaik/tags/worldgen/biome/has_ice_spikes_mosaic.json
 ccdce9dd4afe23a6f16276382821fec6a8d1fe6d data/mozaik/tags/worldgen/biome/has_jagged_peak_mosaic.json
 e2e1677b4fcae4afcf03328c1a9c235328d0c516 data/mozaik/tags/worldgen/biome/has_lukewarm_mosaic.json
+b020f6cdcd2d955793278b2f89a178a1d31e599a data/mozaik/tags/worldgen/biome/has_point_monument.json
 d0700d316a229c4f2b2bea5f22b15945fce6ec87 data/mozaik/tags/worldgen/biome/has_river_mosaic.json
 ba88e23e2234b0ec008692a68db03a13bb92b548 data/mozaik/tags/worldgen/biome/has_snowy_taiga_mosaic.json
+dba74becb77ca28a612e57b564076517380f9820 data/mozaik/tags/worldgen/biome/has_tree_monument.json
 45a7fce7990fceb93e22529d0a7ef778bfac4a99 data/mozaik/tags/worldgen/biome/has_warped_mosaic.json
 d21d8724c64ca2951c94153e75131af8dce21c67 data/mozaik/tags/worldgen/biome/has_wastes_mosaic.json
+6b35771c8d400b0921c04386d79e88b834c282ad data/mozaik/tags/worldgen/biome/has_worm_monument.json

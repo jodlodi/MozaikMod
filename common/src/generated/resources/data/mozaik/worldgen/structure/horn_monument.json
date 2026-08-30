@@ -1,0 +1,19 @@
+{
+  "type": "mozaik:custom_template",
+  "biomes": "#mozaik:has_horn_monument",
+  "setups": [
+    {
+      "air_pocket_probability": 1.0,
+      "ground_level_delta": 2,
+      "keep_liquids": true,
+      "placement": "in_nether",
+      "structure_locations": [
+        "mozaik:template/horn_monument"
+      ],
+      "weight": 1.0
+    }
+  ],
+  "spawn_overrides": {},
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin"
+}

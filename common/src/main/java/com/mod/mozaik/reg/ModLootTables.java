@@ -2,6 +2,8 @@ package com.mod.mozaik.reg;
 
 import com.google.common.collect.Sets;
 import com.mod.mozaik.Constants;
+import com.mod.mozaik.items.PolyominoItem;
+import com.mod.mozaik.platform.Services;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -35,6 +37,16 @@ public class ModLootTables {
 	public static final ResourceKey<LootTable> WARPED_MOSAIC_CHEST = register("chests/warped_mosaic");
 	public static final ResourceKey<LootTable> LUKEWARM_MOSAIC_CHEST = register("chests/lukewarm_mosaic");
 	public static final ResourceKey<LootTable> COLD_MOSAIC_CHEST = register("chests/cold_mosaic");
+
+	public static final ResourceKey<LootTable> BUTTON_TEMPLATE_CHEST = register("chests/button_template");
+	public static final ResourceKey<LootTable> BONE_TEMPLATE_CHEST = register("chests/bone_template");
+	public static final ResourceKey<LootTable> BUBBLE_TEMPLATE_CHEST = register("chests/bubble_template");
+	public static final ResourceKey<LootTable> WORM_TEMPLATE_CHEST = register("chests/worm_template");
+	public static final ResourceKey<LootTable> CANE_TEMPLATE_CHEST = register("chests/cane_template");
+	public static final ResourceKey<LootTable> POINT_TEMPLATE_CHEST = register("chests/point_template");
+	public static final ResourceKey<LootTable> HORN_TEMPLATE_CHEST = register("chests/horn_template");
+	public static final ResourceKey<LootTable> TREE_TEMPLATE_CHEST = register("chests/tree_template");
+	public static final ResourceKey<LootTable> FORK_TEMPLATE_CHEST = register("chests/fork_template");
 
 	// Archaeology drops
 	public static final ResourceKey<LootTable> DESERT_ARCHAEOLOGY = register("archaeology/desert_mosaic");

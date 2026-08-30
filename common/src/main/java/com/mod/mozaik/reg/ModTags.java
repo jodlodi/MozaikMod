@@ -2,10 +2,12 @@ package com.mod.mozaik.reg;
 
 import com.mod.mozaik.Constants;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
@@ -31,5 +33,15 @@ public class ModTags {
 		public static final TagKey<Biome> HAS_WARPED_MOSAIC = TagKey.create(Registries.BIOME, Constants.prefix("has_warped_mosaic"));
 		public static final TagKey<Biome> HAS_BADLANDS_MOSAIC = TagKey.create(Registries.BIOME, Constants.prefix("has_badlands_mosaic"));
 		public static final TagKey<Biome> HAS_COLD_MOSAIC = TagKey.create(Registries.BIOME, Constants.prefix("has_cold_mosaic"));
+		
+		public static final TagKey<Biome> HAS_BUTTON_MONUMENT = TagKey.create(Registries.BIOME, Constants.prefix("has_button_monument"));
+		public static final TagKey<Biome> HAS_BONE_MONUMENT = TagKey.create(Registries.BIOME, Constants.prefix("has_bone_monument"));
+		public static final TagKey<Biome> HAS_BUBBLE_MONUMENT = TagKey.create(Registries.BIOME, Constants.prefix("has_bubble_monument"));
+		public static final TagKey<Biome> HAS_WORM_MONUMENT = TagKey.create(Registries.BIOME, Constants.prefix("has_worm_monument"));
+		public static final TagKey<Biome> HAS_CANE_MONUMENT = TagKey.create(Registries.BIOME, Constants.prefix("has_cane_monument"));
+		public static final TagKey<Biome> HAS_POINT_MONUMENT = TagKey.create(Registries.BIOME, Constants.prefix("has_point_monument"));
+		public static final TagKey<Biome> HAS_HORN_MONUMENT = TagKey.create(Registries.BIOME, Constants.prefix("has_horn_monument"));
+		public static final TagKey<Biome> HAS_TREE_MONUMENT = TagKey.create(Registries.BIOME, Constants.prefix("has_tree_monument"));
+		public static final TagKey<Biome> HAS_FORK_MONUMENT = TagKey.create(Registries.BIOME, Constants.prefix("has_fork_monument"));
 	}
 }

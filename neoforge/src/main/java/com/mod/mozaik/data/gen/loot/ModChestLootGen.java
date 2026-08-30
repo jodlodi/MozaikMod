@@ -1,7 +1,9 @@
 package com.mod.mozaik.data.gen.loot;
 
+import com.mod.mozaik.items.PolyominoItem;
 import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModLootTables;
+import com.mod.mozaik.reg.ResourceSupplier;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.network.chat.Component;
@@ -126,6 +128,62 @@ public record ModChestLootGen(HolderLookup.Provider registries) implements LootT
 						.add(LootItem.lootTableItem(Items.IRON_NAUTILUS_ARMOR).setWeight(10).apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))))
 						.add(LootItem.lootTableItem(Items.GOLDEN_NAUTILUS_ARMOR).setWeight(5).apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))))
 						.add(LootItem.lootTableItem(Items.DIAMOND_NAUTILUS_ARMOR).setWeight(2).apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))))
+				)
+		);
+
+		this.generateTemplate(register, ModLootTables.BUTTON_TEMPLATE_CHEST, ModItems.BUTTON_TEMPLATE);
+		this.generateTemplate(register, ModLootTables.BONE_TEMPLATE_CHEST, ModItems.BONE_TEMPLATE);
+		this.generateTemplate(register, ModLootTables.BUBBLE_TEMPLATE_CHEST, ModItems.BUBBLE_TEMPLATE);
+		this.generateTemplate(register, ModLootTables.WORM_TEMPLATE_CHEST, ModItems.WORM_TEMPLATE);
+		this.generateTemplate(register, ModLootTables.CANE_TEMPLATE_CHEST, ModItems.CANE_TEMPLATE);
+		this.generateTemplate(register, ModLootTables.POINT_TEMPLATE_CHEST, ModItems.POINT_TEMPLATE);
+		this.generateTemplate(register, ModLootTables.HORN_TEMPLATE_CHEST, ModItems.HORN_TEMPLATE);
+		this.generateTemplate(register, ModLootTables.TREE_TEMPLATE_CHEST, ModItems.TREE_TEMPLATE);
+		this.generateTemplate(register, ModLootTables.FORK_TEMPLATE_CHEST, ModItems.FORK_TEMPLATE);
+	}
+
+	public void generateTemplate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> register, ResourceKey<LootTable> key, ResourceSupplier<PolyominoItem> supplier) {
+		register.accept(key, LootTable.lootTable()
+				.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+						.add(LootItem.lootTableItem(supplier.get()))
+				)
+				.withPool(LootPool.lootPool().setRolls(UniformGenerator.between(2.0F, 4.0F))
+						.add(LootItem.lootTableItem(ModItems.STONE_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
+						.add(LootItem.lootTableItem(ModItems.SEA_LANTERN_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
+						.add(LootItem.lootTableItem(ModItems.SANDSTONE_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
+						.add(LootItem.lootTableItem(ModItems.RESIN_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
+						.add(LootItem.lootTableItem(ModItems.BONE_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
+						.add(LootItem.lootTableItem(ModItems.QUARTZ_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
+						.add(LootItem.lootTableItem(ModItems.MOSSY_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
+						.add(LootItem.lootTableItem(ModItems.CINNABAR_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
+						.add(LootItem.lootTableItem(ModItems.RAW_GOLD_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
+						.add(LootItem.lootTableItem(ModItems.TUFF_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
+				).withPool(LootPool.lootPool().setRolls(UniformGenerator.between(2.0F, 8.0F))
+						.add(LootItem.lootTableItem(Items.COAL).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 4.0F))))
+						.add(LootItem.lootTableItem(Items.CHARCOAL).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 4.0F))))
+						.add(LootItem.lootTableItem(Items.ROTTEN_FLESH).setWeight(5))
+						.add(LootItem.lootTableItem(Items.EMERALD))
+						.add(LootItem.lootTableItem(Items.WHEAT).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F))))
+						.add(LootItem.lootTableItem(Items.LEATHER).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F))))
+						.add(LootItem.lootTableItem(Items.STICK).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F))))
+						.add(LootItem.lootTableItem(Items.STRING).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F))))
+				).withPool(LootPool.lootPool().setRolls(UniformGenerator.between(2.0F, 3.0F))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.white().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.orange().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.magenta().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.lightBlue().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.yellow().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.lime().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.pink().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.gray().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.lightGray().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.cyan().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.purple().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.blue().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.brown().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.green().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.red().get()))
+						.add(LootItem.lootTableItem(ModItems.MORTARS.black().get()))
 				)
 		);
 	}
