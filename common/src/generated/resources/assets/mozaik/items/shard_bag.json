@@ -1,6 +1,39 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "mozaik:item/shard_bag"
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:condition",
+          "on_false": {
+            "type": "minecraft:model",
+            "model": "mozaik:item/shard_bag"
+          },
+          "on_true": {
+            "type": "minecraft:composite",
+            "models": [
+              {
+                "type": "minecraft:model",
+                "model": "mozaik:item/shard_bag_open_back"
+              },
+              {
+                "type": "mozaik:shard_bag/selected_item"
+              },
+              {
+                "type": "minecraft:model",
+                "model": "mozaik:item/shard_bag_open_front"
+              }
+            ]
+          },
+          "property": "mozaik:shard_bag/has_selected_item"
+        },
+        "when": "gui"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "mozaik:item/shard_bag"
+    },
+    "property": "minecraft:display_context"
   }
 }

@@ -3,13 +3,14 @@ package com.mod.mozaik.items;
 import com.mod.mozaik.items.components.ShardBagContents;
 import com.mod.mozaik.polyomino.ShardStack;
 import com.mod.mozaik.reg.ModDataComponents;
-import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperty;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ARGB;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -20,13 +21,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.inventory.tooltip.BundleTooltip;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
-import org.apache.commons.lang3.math.Fraction;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -249,5 +247,17 @@ public class ShardBagItem extends Item {
 
 	public record ShardBagTooltip(ShardBagContents contents) implements TooltipComponent {
 
+	}
+
+	public record ShardBagHasSelectedItem() implements ConditionalItemModelProperty {
+		public static final MapCodec<ShardBagHasSelectedItem> MAP_CODEC = MapCodec.unit(new ShardBagHasSelectedItem());
+
+		public boolean get(ItemStack itemStack, @Nullable ClientLevel level, @Nullable LivingEntity owner, int seed, ItemDisplayContext displayContext) {
+			return ShardBagItem.getSelectedItem(itemStack) != null;
+		}
+
+		public MapCodec<ShardBagHasSelectedItem> type() {
+			return MAP_CODEC;
+		}
 	}
 }
