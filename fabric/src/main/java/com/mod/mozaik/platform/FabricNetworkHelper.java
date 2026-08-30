@@ -2,7 +2,6 @@ package com.mod.mozaik.platform;
 
 import com.mod.mozaik.networking.clientbound.IClientboundMessage;
 import com.mod.mozaik.networking.serverbound.IServerboundMessage;
-import com.mod.mozaik.networking.serverbound.OpenGlueMenuServerbound;
 import com.mod.mozaik.platform.services.INetworkHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -29,6 +28,11 @@ public class FabricNetworkHelper implements INetworkHelper {
 		for (CustomPacketPayload packet : payloads) {
 			ClientPlayNetworking.send(packet);
 		}
+	}
+
+	@Override
+	public void sendToClient(ServerPlayer player, IClientboundMessage payload, IClientboundMessage... payloads) {
+
 	}
 
 	@Override

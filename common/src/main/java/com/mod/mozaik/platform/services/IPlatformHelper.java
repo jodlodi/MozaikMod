@@ -10,6 +10,8 @@ public interface IPlatformHelper {
 
     boolean isDevelopmentEnvironment();
 
+    boolean isServerSide();
+
     default String getEnvironmentName() {
         return isDevelopmentEnvironment() ? "development" : "production";
     }

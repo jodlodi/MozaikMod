@@ -21,6 +21,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -62,8 +63,6 @@ public class NeoForgeNetworkHelper implements INetworkHelper {
 	}
 
 	public static void onClientMessage(IClientboundMessage message, IPayloadContext ctx) {
-		ctx.enqueueWork(() -> {
-			if (ctx.player() instanceof LocalPlayer localPlayer) message.executeClientbound(localPlayer);
-		});
+		ctx.enqueueWork(() -> message.executeClientbound(ctx.player()));
 	}
 }

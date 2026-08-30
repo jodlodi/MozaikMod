@@ -11,6 +11,7 @@ import com.mod.mozaik.items.ShardBagItem;
 import com.mod.mozaik.platform.NeoForgeRegistryHelper;
 import com.mod.mozaik.polyomino.TesseraShape;
 import com.mod.mozaik.reg.ModMenus;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.*;
@@ -19,7 +20,7 @@ import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-@EventBusSubscriber(modid = Constants.MOD_ID)
+@EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT)
 public class ClientBus {
 	@SubscribeEvent
 	public static void registerScreens(RegisterMenuScreensEvent event) {

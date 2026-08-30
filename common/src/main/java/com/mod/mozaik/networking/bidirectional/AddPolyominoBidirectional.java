@@ -2,27 +2,25 @@ package com.mod.mozaik.networking.bidirectional;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.blocks.entities.MortarBlockEntity;
-import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.menus.MortarMenu;
 import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.polyomino.Polyomino;
-import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
-import org.jspecify.annotations.NonNull;
+import org.jetbrains.annotations.Contract;
+import org.jspecify.annotations.NullMarked;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@NullMarked
 @ParametersAreNonnullByDefault
 public final class AddPolyominoBidirectional implements IBidirectionalMessage {
 	public static final Type<AddPolyominoBidirectional> TYPE = new Type<>(Constants.prefix("add_polyomino"));
@@ -55,7 +53,7 @@ public final class AddPolyominoBidirectional implements IBidirectionalMessage {
 	}
 
 	@Override
-	public void executeClientbound(LocalPlayer player) {
+	public void executeClientbound(Player player) {
 		if (player.level().getBlockEntity(this.pos) instanceof MortarBlockEntity blockEntity) {
 			if (new MortarMenu.ShardSource(player.getInventory()).takeItem(polyomino.polyomino().material())) {
 				blockEntity.getPolyomino().add(this.polyomino);
@@ -74,7 +72,7 @@ public final class AddPolyominoBidirectional implements IBidirectionalMessage {
 	}
 
 	@Override
-	public @NonNull Type<? extends CustomPacketPayload> type() {
+	public Type<? extends CustomPacketPayload> type() {
 		return TYPE;
 	}
 }

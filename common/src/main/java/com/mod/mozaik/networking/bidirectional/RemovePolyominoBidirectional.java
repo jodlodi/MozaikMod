@@ -2,30 +2,27 @@ package com.mod.mozaik.networking.bidirectional;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.blocks.entities.MortarBlockEntity;
-import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.menus.MortarMenu;
 import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.polyomino.Polyomino;
-import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@NullMarked
 @ParametersAreNonnullByDefault
 public final class RemovePolyominoBidirectional implements IBidirectionalMessage {
 	public static final Type<RemovePolyominoBidirectional> TYPE = new Type<>(Constants.prefix("remove_polyomino"));
@@ -58,7 +55,7 @@ public final class RemovePolyominoBidirectional implements IBidirectionalMessage
 	}
 
 	@Override
-	public void executeClientbound(LocalPlayer player) {
+	public void executeClientbound(Player player) {
 		if (player.level().getBlockEntity(this.pos) instanceof MortarBlockEntity blockEntity) {
 			for (Polyomino.PlacedPolyomino polyomino : blockEntity.getPolyomino()) {
 				if (polyomino.polyomino().uuid().equals(this.polyomino)) {
@@ -89,7 +86,7 @@ public final class RemovePolyominoBidirectional implements IBidirectionalMessage
 	}
 
 	@Override
-	public @NonNull Type<? extends CustomPacketPayload> type() {
+	public Type<? extends CustomPacketPayload> type() {
 		return TYPE;
 	}
 }

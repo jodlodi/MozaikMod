@@ -8,7 +8,6 @@ import com.mod.mozaik.menus.MortarMenu;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
@@ -16,13 +15,14 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Rotation;
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
+@NullMarked
 @ParametersAreNonnullByDefault
 public final class OpenGlueMenuClientbound implements IClientboundMessage {
 	public static final Type<OpenGlueMenuClientbound> TYPE = new Type<>(Constants.prefix("open_glue"));
@@ -52,36 +52,40 @@ public final class OpenGlueMenuClientbound implements IClientboundMessage {
 	}
 
 	@Override
-	public void executeClientbound(LocalPlayer player) {
-		Minecraft minecraft = Minecraft.getInstance();
-		Inventory inventory = Objects.requireNonNull(minecraft.player).getInventory();
-		MortarBlockEntity blockEntity = (MortarBlockEntity) minecraft.player.level().getBlockEntity(this.pos);
-		Direction facing = Objects.requireNonNull(blockEntity).getBlockState().getValue(MortarBlock.FACING_ROTATED).getDirection();
-
-		Rotation fromYRot = switch (facing) {
-			case DOWN -> switch (Direction.fromYRot(minecraft.player.getVisualRotationYInDegrees())) {
-				case Direction.EAST -> Rotation.CLOCKWISE_90;
-				case Direction.SOUTH -> Rotation.CLOCKWISE_180;
-				case Direction.WEST -> Rotation.COUNTERCLOCKWISE_90;
-				default -> Rotation.NONE;
-			};
-			case UP -> switch (Direction.fromYRot(minecraft.player.getVisualRotationYInDegrees())) {
-				case Direction.EAST -> Rotation.COUNTERCLOCKWISE_90;
-				case Direction.SOUTH -> Rotation.CLOCKWISE_180;
-				case Direction.WEST -> Rotation.CLOCKWISE_90;
-				default -> Rotation.NONE;
-			};
-			default -> Rotation.NONE;
-		};
-
-		MortarMenu menu = new MortarMenu(this.containerId, inventory, blockEntity, fromYRot);
-		MortarScreen screen = new MortarScreen(menu, inventory, Component.literal("Glue"));
-		minecraft.player.containerMenu = screen.getMenu();
-		minecraft.gui.setScreen(screen);
+	public void executeClientbound(Player player) {
+		Handler.handle(this, player);
 	}
 
 	@Override
-	public @NonNull Type<? extends CustomPacketPayload> type() {
+	public Type<? extends CustomPacketPayload> type() {
 		return TYPE;
+	}
+
+	public static class Handler {
+		public static void handle(OpenGlueMenuClientbound packet, Player player) {
+			MortarBlockEntity blockEntity = (MortarBlockEntity) player.level().getBlockEntity(packet.pos);
+			Direction facing = Objects.requireNonNull(blockEntity).getBlockState().getValue(MortarBlock.FACING_ROTATED).getDirection();
+
+			Rotation fromYRot = switch (facing) {
+				case DOWN -> switch (Direction.fromYRot(player.getVisualRotationYInDegrees())) {
+					case Direction.EAST -> Rotation.CLOCKWISE_90;
+					case Direction.SOUTH -> Rotation.CLOCKWISE_180;
+					case Direction.WEST -> Rotation.COUNTERCLOCKWISE_90;
+					default -> Rotation.NONE;
+				};
+				case UP -> switch (Direction.fromYRot(player.getVisualRotationYInDegrees())) {
+					case Direction.EAST -> Rotation.COUNTERCLOCKWISE_90;
+					case Direction.SOUTH -> Rotation.CLOCKWISE_180;
+					case Direction.WEST -> Rotation.CLOCKWISE_90;
+					default -> Rotation.NONE;
+				};
+				default -> Rotation.NONE;
+			};
+
+			MortarMenu menu = new MortarMenu(packet.containerId, player.getInventory(), blockEntity, fromYRot);
+			MortarScreen screen = new MortarScreen(menu, player.getInventory(), Component.literal("Glue"));
+			player.containerMenu = screen.getMenu();
+			Minecraft.getInstance().gui.setScreen(screen);
+		}
 	}
 }

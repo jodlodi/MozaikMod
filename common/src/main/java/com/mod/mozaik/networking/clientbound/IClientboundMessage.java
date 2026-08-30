@@ -1,15 +1,17 @@
 package com.mod.mozaik.networking.clientbound;
 
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.world.entity.player.Player;
+import org.jspecify.annotations.NullMarked;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@NullMarked
 @ParametersAreNonnullByDefault
 public interface IClientboundMessage extends CustomPacketPayload {
 
 	void encode(FriendlyByteBuf buf);
 
-	void executeClientbound(LocalPlayer player);
+	void executeClientbound(Player player);
 }

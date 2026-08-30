@@ -4,7 +4,6 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.blocks.entities.MortarBlockEntity;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -12,12 +11,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import org.jetbrains.annotations.UnknownNullability;
-import org.jspecify.annotations.NonNull;
+import net.minecraft.world.entity.player.Player;
+import org.jspecify.annotations.NullMarked;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 
+@NullMarked
 @ParametersAreNonnullByDefault
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public final class SignedMozaikBidirectional implements IBidirectionalMessage {
@@ -51,7 +51,7 @@ public final class SignedMozaikBidirectional implements IBidirectionalMessage {
 	}
 
 	@Override
-	public void executeClientbound(LocalPlayer player) {
+	public void executeClientbound(Player player) {
 		if (player.level().getBlockEntity(this.pos) instanceof MortarBlockEntity blockEntity) {
 			this.title.ifPresent(tit -> blockEntity.setCustomName(Component.literal(tit)));
 			this.by.ifPresent(blockEntity::setAuthorName);
@@ -70,7 +70,7 @@ public final class SignedMozaikBidirectional implements IBidirectionalMessage {
 	}
 
 	@Override
-	public @NonNull Type<? extends CustomPacketPayload> type() {
+	public Type<? extends CustomPacketPayload> type() {
 		return TYPE;
 	}
 }

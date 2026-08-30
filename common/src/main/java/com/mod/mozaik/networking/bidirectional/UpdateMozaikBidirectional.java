@@ -6,10 +6,8 @@ import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.polyomino.Tessera;
-import com.mod.mozaik.reg.ModRegistries;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
@@ -18,14 +16,13 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import org.jetbrains.annotations.UnknownNullability;
-import org.jspecify.annotations.NonNull;
+import net.minecraft.world.entity.player.Player;
+import org.jspecify.annotations.NullMarked;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
+@NullMarked
 @ParametersAreNonnullByDefault
 public final class UpdateMozaikBidirectional implements IBidirectionalMessage {
 	public static final List<ResourceKey<ShardMaterial>> SORTED_INSTANCE_KEY_SET = new ArrayList<>();
@@ -87,7 +84,7 @@ public final class UpdateMozaikBidirectional implements IBidirectionalMessage {
 	}
 
 	@Override
-	public void executeClientbound(LocalPlayer player) {
+	public void executeClientbound(Player player) {
 		if (player.level().getBlockEntity(this.pos) instanceof MortarBlockEntity blockEntity) {
 			blockEntity.setPolyomino(this.polyomino);
 		}
@@ -102,7 +99,7 @@ public final class UpdateMozaikBidirectional implements IBidirectionalMessage {
 	}
 
 	@Override
-	public @NonNull Type<? extends CustomPacketPayload> type() {
+	public Type<? extends CustomPacketPayload> type() {
 		return TYPE;
 	}
 }
