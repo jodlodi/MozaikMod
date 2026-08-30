@@ -2,12 +2,52 @@
   "placement": {
     "type": "minecraft:random_spread",
     "salt": 512814683,
-    "separation": 5,
-    "spacing": 7
+    "separation": 30,
+    "spacing": 120
   },
   "structures": [
     {
-      "structure": "mozaik:end_test",
+      "structure": "mozaik:unknown_badlands_mosaic",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:unknown_cold_mosaic",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:unknown_desert_mosaic",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:unknown_end_mosaic",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:unknown_lukewarm_mosaic",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:unknown_ice_spikes_mosaic",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:unknown_jagged_peak_mosaic",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:unknown_river_mosaic",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:unknown_snowy_taiga_mosaic",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:unknown_warped_mosaic",
+      "weight": 1
+    },
+    {
+      "structure": "mozaik:unknown_wastes_mosaic",
       "weight": 1
     }
   ]

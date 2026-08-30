@@ -22,6 +22,7 @@ import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraft.world.level.levelgen.structure.templatesystem.CappedProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.jspecify.annotations.NullMarked;
 
@@ -74,9 +75,9 @@ public abstract class GenericTemplateStructure extends Structure {
 					sample(random, finalSetup.air_pocket_probability()),
 					finalSetup.keepLiquids,
 					this.terrainAdaptation(),
-					finalSetup.groundLevelDelta()
+					finalSetup.groundLevelDelta(),
+					finalSetup.processor()
 			);
-
 
 			Identifier location = this.selectTemplate(finalSetup, random);
 
@@ -85,7 +86,9 @@ public abstract class GenericTemplateStructure extends Structure {
 			Mirror mirror = Mirror.NONE;
 			BlockPos pivot = new BlockPos(template.getSize().getX() / 2, 0, template.getSize().getZ() / 2);
 			BoundingBox boundingBox = template.getBoundingBox(context.chunkPos().getWorldPosition(), rotation, pivot, mirror);
-			BlockPos finalPos = this.adjustPos(finalSetup, context, properties, boundingBox);
+			BlockPos finalPos = this.adjustPos(finalSetup, context, properties, boundingBox).orElse(null);
+
+			if (finalPos == null) return Optional.empty();
 
 			return Optional.of(new GenerationStub(finalPos, builder ->
 					this.putAndPlace(builder, finalPos, context, finalSetup, properties, location, rotation, mirror, pivot))
@@ -108,7 +111,7 @@ public abstract class GenericTemplateStructure extends Structure {
 		else return random.nextFloat() < probability;
 	}
 
-	public BlockPos adjustPos(Setup finalSetup, GenerationContext context, CustomStructurePiece.Properties properties, BoundingBox boundingBox) {
+	public Optional<BlockPos> adjustPos(Setup finalSetup, GenerationContext context, CustomStructurePiece.Properties properties, BoundingBox boundingBox) {
 		WorldgenRandom random = context.random();
 
 		ChunkGenerator chunkGenerator = context.chunkGenerator();
@@ -117,7 +120,9 @@ public abstract class GenericTemplateStructure extends Structure {
 		BlockPos center = boundingBox.getCenter();
 		int baseHeight = chunkGenerator.getBaseHeight(center.getX(), center.getZ(), finalSetup.placement().getHeightmap(), heightAccessor, randomState);
 		int suitableY = this.findSuitableY(random, chunkGenerator, finalSetup, properties.airPocket(), baseHeight, boundingBox.getYSpan(), boundingBox, heightAccessor, randomState);
-		return new BlockPos(center.getX(), suitableY, center.getZ());
+		if (finalSetup.placement == CustomStructurePiece.VerticalPlacement.ON_END_SURFACE && suitableY <= 20)
+			return Optional.empty();
+		return Optional.of(new BlockPos(center.getX(), suitableY, center.getZ()));
 	}
 
 	protected int findSuitableY(RandomSource random, ChunkGenerator chunkGenerator, Setup setup, boolean airPocket, int baseHeight, int ySpan, BoundingBox boundingBox, LevelHeightAccessor heightAccessor, RandomState randomState) {
@@ -173,7 +178,8 @@ public abstract class GenericTemplateStructure extends Structure {
 	}
 
 	public record Setup(CustomStructurePiece.VerticalPlacement placement, List<Identifier> structure_locations,
-						float air_pocket_probability, float weight, boolean keepLiquids, int groundLevelDelta, Optional<Integer> depth) {
+						float air_pocket_probability, float weight, boolean keepLiquids, int groundLevelDelta,
+						Optional<Integer> depth, Optional<CappedProcessor> processor) {
 		public static final Codec<Setup> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
 				CustomStructurePiece.VerticalPlacement.CODEC.fieldOf("placement").forGetter(Setup::placement),
 				ExtraCodecs.nonEmptyList(Identifier.CODEC.listOf()).fieldOf("structure_locations").forGetter(Setup::structure_locations),
@@ -181,11 +187,12 @@ public abstract class GenericTemplateStructure extends Structure {
 				ExtraCodecs.POSITIVE_FLOAT.fieldOf("weight").forGetter(Setup::weight),
 				Codec.BOOL.fieldOf("keep_liquids").forGetter(Setup::keepLiquids),
 				Codec.INT.fieldOf("ground_level_delta").forGetter(Setup::groundLevelDelta),
-				Codec.INT.optionalFieldOf("depth").forGetter(Setup::depth)
+				Codec.INT.optionalFieldOf("depth").forGetter(Setup::depth),
+				CappedProcessor.MAP_CODEC.codec().optionalFieldOf("processor").forGetter(Setup::processor)
 		).apply(instance, Setup::new));
 
 		public Setup(CustomStructurePiece.VerticalPlacement placement, List<Identifier> structure_locations, float air_pocket_probability, float weight, boolean keepLiquids, int groundLevelDelta) {
-			this(placement, structure_locations, air_pocket_probability, weight, keepLiquids, groundLevelDelta, Optional.empty());
+			this(placement, structure_locations, air_pocket_probability, weight, keepLiquids, groundLevelDelta, Optional.empty(), Optional.empty());
 		}
 	}
 }

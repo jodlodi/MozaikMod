@@ -1,3 +1,13 @@
-// 26.2	2026-08-27T10:35:29.9110193	Registries
-fdaed5f01394df4eb433f6875e07fa9caef3f76d data/mozaik/worldgen/structure/end_test.json
-dbac232f444adbf31de0d4fbe2105ecd36cf991a data/mozaik/worldgen/structure_set/mosaics.json
+// 26.2	2026-08-30T13:52:04.1317682	Registries
+ea2f9a5a79757654aa0ff3ff5dfd2947e368c073 data/mozaik/worldgen/structure/unknown_badlands_mosaic.json
+0ab7f69f04bc5088659cfed413378f6de44e1c7b data/mozaik/worldgen/structure/unknown_cold_mosaic.json
+03e8650bfb98aeb3f69e978002fba68d9cdb45c3 data/mozaik/worldgen/structure/unknown_desert_mosaic.json
+b45974dfbefe01e2916773d7e6b8feb4c0a9e5ab data/mozaik/worldgen/structure/unknown_end_mosaic.json
+563e39908797ef9d49c2a3a08b9da15d47a6f4ed data/mozaik/worldgen/structure/unknown_ice_spikes_mosaic.json
+5493f0e65663eb1502864008e1e4d3dd3359d58b data/mozaik/worldgen/structure/unknown_jagged_peak_mosaic.json
+6751ae562e74e13f570989538ae954e52f0e692f data/mozaik/worldgen/structure/unknown_lukewarm_mosaic.json
+d9d181d24cf0405485af8d841cedf0ef984a7550 data/mozaik/worldgen/structure/unknown_river_mosaic.json
+094a3a81919c86c3b696176b95763ad2e367bf2a data/mozaik/worldgen/structure/unknown_snowy_taiga_mosaic.json
+0dbbdab5dae2f5bcc70fccff2cea020b6aeb3fcb data/mozaik/worldgen/structure/unknown_warped_mosaic.json
+730f25478e4ffeb63757b79806b976331bd026e8 data/mozaik/worldgen/structure/unknown_wastes_mosaic.json
+09382e3cbea9480499c202855c8138f069bbcd82 data/mozaik/worldgen/structure_set/mosaics.json

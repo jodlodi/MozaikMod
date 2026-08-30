@@ -1,11 +1,8 @@
 package com.mod.mozaik.data.gen;
 
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.platform.Services;
-import com.mod.mozaik.polyomino.PolyominoShape;
 import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModTags;
-import com.mod.mozaik.reg.ResourceSupplier;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.predicates.ItemPredicate;
 import net.minecraft.advancements.triggers.ConsumeItemTrigger;

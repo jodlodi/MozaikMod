@@ -19,9 +19,9 @@ public enum DirectionAndRotation implements StringRepresentable {
 	UP_270(Direction.UP, Rotation.COUNTERCLOCKWISE_90),
 
 	NORTH(Direction.NORTH),
+	EAST(Direction.EAST),
 	SOUTH(Direction.SOUTH),
-	WEST(Direction.WEST),
-	EAST(Direction.EAST);
+	WEST(Direction.WEST);
 
 	private final Direction direction;
 	private final Rotation rotation;

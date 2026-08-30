@@ -13,6 +13,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,6 +27,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
@@ -160,11 +162,6 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 	@Override
 	public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState blockState) {
 		return Services.MODLOADER.mortarBlockEntity(pos, blockState);
-	}
-
-	@Override
-	protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
-		return super.getCloneItemStack(level, pos, state, includeData);
 	}
 
 	@Override

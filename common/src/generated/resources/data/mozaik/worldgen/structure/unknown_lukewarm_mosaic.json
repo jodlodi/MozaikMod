@@ -1,0 +1,46 @@
+{
+  "type": "mozaik:custom_template",
+  "biomes": "#mozaik:has_lukewarm_mosaic",
+  "setups": [
+    {
+      "air_pocket_probability": 1.0,
+      "ground_level_delta": 1,
+      "keep_liquids": true,
+      "placement": "on_ocean_floor",
+      "processor": {
+        "delegate": {
+          "processor_type": "minecraft:rule",
+          "rules": [
+            {
+              "block_entity_modifier": {
+                "type": "minecraft:append_loot",
+                "loot_table": "mozaik:archaeology/lukewarm_mosaic"
+              },
+              "input_predicate": {
+                "block": "minecraft:sand",
+                "predicate_type": "minecraft:block_match"
+              },
+              "location_predicate": {
+                "predicate_type": "minecraft:always_true"
+              },
+              "output_state": {
+                "Name": "minecraft:suspicious_sand",
+                "Properties": {
+                  "dusted": "0"
+                }
+              }
+            }
+          ]
+        },
+        "limit": 5
+      },
+      "structure_locations": [
+        "mozaik:mosaic/unknown_lukewarm_mosaic"
+      ],
+      "weight": 1.0
+    }
+  ],
+  "spawn_overrides": {},
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin"
+}

@@ -3,12 +3,9 @@ package com.mod.mozaik.reg;
 import com.mod.mozaik.Constants;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.gameevent.GameEvent;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
@@ -20,5 +17,19 @@ public class ModTags {
 	public static class Items {
 		public static final TagKey<Item> SHARDS = TagKey.create(Registries.ITEM, Constants.prefix("shards"));
 		public static final TagKey<Item> MORTARS = TagKey.create(Registries.ITEM, Constants.prefix("mortars"));
+	}
+
+	public static class Biomes {
+		public static final TagKey<Biome> HAS_WASTES_MOSAIC = TagKey.create(Registries.BIOME, Constants.prefix("has_wastes_mosaic"));
+		public static final TagKey<Biome> HAS_SNOWY_TAIGA_MOSAIC = TagKey.create(Registries.BIOME, Constants.prefix("has_snowy_taiga_mosaic"));
+		public static final TagKey<Biome> HAS_ICE_SPIKES_MOSAIC = TagKey.create(Registries.BIOME, Constants.prefix("has_ice_spikes_mosaic"));
+		public static final TagKey<Biome> HAS_DESERT_MOSAIC = TagKey.create(Registries.BIOME, Constants.prefix("has_desert_mosaic"));
+		public static final TagKey<Biome> HAS_JAGGED_PEAK_MOSAIC = TagKey.create(Registries.BIOME, Constants.prefix("has_jagged_peak_mosaic"));
+		public static final TagKey<Biome> HAS_LUKEWARM_MOSAIC = TagKey.create(Registries.BIOME, Constants.prefix("has_lukewarm_mosaic"));
+		public static final TagKey<Biome> HAS_RIVER_MOSAIC = TagKey.create(Registries.BIOME, Constants.prefix("has_river_mosaic"));
+		public static final TagKey<Biome> HAS_END_MOSAIC = TagKey.create(Registries.BIOME, Constants.prefix("has_end_mosaic"));
+		public static final TagKey<Biome> HAS_WARPED_MOSAIC = TagKey.create(Registries.BIOME, Constants.prefix("has_warped_mosaic"));
+		public static final TagKey<Biome> HAS_BADLANDS_MOSAIC = TagKey.create(Registries.BIOME, Constants.prefix("has_badlands_mosaic"));
+		public static final TagKey<Biome> HAS_COLD_MOSAIC = TagKey.create(Registries.BIOME, Constants.prefix("has_cold_mosaic"));
 	}
 }

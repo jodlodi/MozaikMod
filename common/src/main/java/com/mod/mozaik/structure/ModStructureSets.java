@@ -28,8 +28,18 @@ public class ModStructureSets {
 		HolderGetter<Structure> structures = context.lookup(Registries.STRUCTURE);
 
 		context.register(MOSAICS, new StructureSet(List.of(
-				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.END_TEST), 1)
-		), createRandomSpread(7, 5, RandomSpreadType.LINEAR, 512814683, Optional.empty())));
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.UNKNOWN_BADLANDS_MOSAIC), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.UNKNOWN_COLD_MOSAIC), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.UNKNOWN_DESERT_MOSAIC), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.UNKNOWN_END_MOSAIC), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.UNKNOWN_LUKEWARM_MOSAIC), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.UNKNOWN_ICE_SPIKES_MOSAIC), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.UNKNOWN_JAGGED_PEAK_MOSAIC), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.UNKNOWN_RIVER_MOSAIC), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.UNKNOWN_SNOWY_TAIGA_MOSAIC), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.UNKNOWN_WARPED_MOSAIC), 1),
+				new StructureSet.StructureSelectionEntry(structures.getOrThrow(ModStructures.UNKNOWN_WASTES_MOSAIC), 1)
+		), createRandomSpread(120, 30, RandomSpreadType.LINEAR, 512814683, Optional.empty())));
 	}
 
 	@SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "deprecation"})

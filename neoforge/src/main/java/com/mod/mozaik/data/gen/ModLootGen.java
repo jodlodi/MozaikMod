@@ -1,7 +1,9 @@
 package com.mod.mozaik.data.gen;
 
+import com.mod.mozaik.data.gen.loot.ModArchaeologyLootGen;
+import com.mod.mozaik.data.gen.loot.ModChestLootGen;
 import com.mod.mozaik.data.gen.loot.ModBlockLootGen;
-import com.google.common.collect.Sets;
+import com.mod.mozaik.reg.ModLootTables;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.WritableRegistry;
 import net.minecraft.data.PackOutput;
@@ -19,8 +21,10 @@ import java.util.concurrent.CompletableFuture;
 public class ModLootGen extends LootTableProvider {
 
 	public ModLootGen(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
-		super(output, Sets.newHashSet(), List.of(
-				new SubProviderEntry(ModBlockLootGen::new, LootContextParamSets.BLOCK)
+		super(output, ModLootTables.allBuiltin(), List.of(
+				new SubProviderEntry(ModBlockLootGen::new, LootContextParamSets.BLOCK),
+				new SubProviderEntry(ModChestLootGen::new, LootContextParamSets.CHEST),
+				new SubProviderEntry(ModArchaeologyLootGen::new, LootContextParamSets.CHEST)
 		), provider);
 	}
 

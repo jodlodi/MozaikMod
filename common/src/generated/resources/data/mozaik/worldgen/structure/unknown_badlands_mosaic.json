@@ -1,14 +1,14 @@
 {
   "type": "mozaik:custom_template",
-  "biomes": "#minecraft:has_structure/end_city",
+  "biomes": "#mozaik:has_badlands_mosaic",
   "setups": [
     {
       "air_pocket_probability": 1.0,
-      "ground_level_delta": 2,
-      "keep_liquids": false,
+      "ground_level_delta": 1,
+      "keep_liquids": true,
       "placement": "on_land_surface",
       "structure_locations": [
-        "mozaik:end_test"
+        "mozaik:mosaic/unknown_badlands_mosaic"
       ],
       "weight": 1.0
     }

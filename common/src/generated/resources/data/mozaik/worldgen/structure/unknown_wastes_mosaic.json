@@ -1,0 +1,19 @@
+{
+  "type": "mozaik:custom_template",
+  "biomes": "#mozaik:has_wastes_mosaic",
+  "setups": [
+    {
+      "air_pocket_probability": 1.0,
+      "ground_level_delta": 1,
+      "keep_liquids": true,
+      "placement": "in_nether",
+      "structure_locations": [
+        "mozaik:mosaic/unknown_wastes_mosaic"
+      ],
+      "weight": 1.0
+    }
+  ],
+  "spawn_overrides": {},
+  "step": "underground_structures",
+  "terrain_adaptation": "beard_thin"
+}
