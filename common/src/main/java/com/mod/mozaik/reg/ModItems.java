@@ -59,7 +59,7 @@ public class ModItems {
 	public static final ColorCollection<ResourceSupplier<ShardItem>> GLAZED_TERRACOTTA_SHARDS = ColorCollection.zipMap(ModShardMaterials.GLAZED_TERRACOTTA, ColorCollection.NAMES, (material, name) -> Services.REGISTRY.registerItem(name + "_glazed_terracotta_shards", (Item.Properties properties) -> new ShardItem(properties, material)));
 	public static final ColorCollection<ResourceSupplier<ShardItem>> STAINED_GLASS_SHARDS = ColorCollection.zipMap(ModShardMaterials.STAINED_GLASS, ColorCollection.NAMES, (material, name) -> Services.REGISTRY.registerItem(name + "_stained_glass_shards", (Item.Properties properties) -> new ShardItem(properties, material)));
 
-	public static final ResourceSupplier<ShardBagItem> SHARD_BAG = Services.REGISTRY.registerItem("shard_bag", properties -> new ShardBagItem(properties.component(ModDataComponents.SHARD_BAG_CONTENTS.get(), ShardBagContents.EMPTY)));
+	public static final ResourceSupplier<ShardBagItem> SHARD_BAG = Services.REGISTRY.registerItem("shard_bag", properties -> new ShardBagItem(properties.stacksTo(1).component(ModDataComponents.SHARD_BAG_CONTENTS.get(), ShardBagContents.EMPTY)));
 
 	public static final ResourceSupplier<PolyominoItem> BUTTON_TEMPLATE = Services.REGISTRY.registerItem("button_template", properties -> new PolyominoItem(properties, ModPolyominoShapes.BUTTON));
 	public static final ResourceSupplier<PolyominoItem> BONE_TEMPLATE = Services.REGISTRY.registerItem("bone_template", properties -> new PolyominoItem(properties, ModPolyominoShapes.BONE));

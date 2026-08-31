@@ -49,6 +49,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Rotation;
 import org.jetbrains.annotations.Nullable;
@@ -110,54 +112,55 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public List<PolyominoWidget> selected = new ArrayList<>();
 	public List<HeldPolyominoWidget> carried = new ArrayList<>();
 	private final List<PhaseRenderable> renderableWidgets = new ArrayList<>();
+	private final Collection<ItemStack> tabStacks;
 
 	private @Nullable Vector2i selectionStart = null;
 	private @Nullable EditBox titleBox = null;
 
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
-		this.getSortedShapes();
-		this.getSortedMaterials();
 		if (PersonalPreferences.getShape() == Polyomino.EMPTY) {
 			PersonalPreferences.setShape(PolyominoShape.tryBuild(PersonalPreferences.getPolyominoShape()).orElse(Polyomino.EMPTY));
 		}
+		CreativeModeTab tab = ModTabs.TAB.get();
+		if (tab.getDisplayItems().isEmpty()) {
+			tab.buildContents(new CreativeModeTab.ItemDisplayParameters(Minecraft.getInstance().getConnection().enabledFeatures(), true, this.menu.getShardSource().getPlayer().level().registryAccess()));
+		}
+		this.tabStacks = tab.getDisplayItems();
 	}
-
-	private final List<ResourceKey<ShardMaterial>> materials = new ArrayList<>();
 
 	public List<ResourceKey<ShardMaterial>> getSortedMaterials() {
-		if (this.materials.isEmpty()) {
-			ModTabs.TAB.get().getSearchTabDisplayItems().forEach(itemStack -> {
-				if (itemStack.getItem() instanceof ShardItem item)
-					this.materials.add(item.getMaterial());
-			});
+		List<ResourceKey<ShardMaterial>> materials = new ArrayList<>();
 
-			if (!this.getShardSource().isCreative()) {
-				this.materials.sort(Comparator.comparing(key -> this.getShardSource().getCount(key) == 0));
+		this.tabStacks.forEach(itemStack -> {
+			if (itemStack.getItem() instanceof ShardItem item) {
+				materials.add(item.getMaterial());
 			}
+		});
+
+		if (!this.getShardSource().isCreative()) {
+			materials.sort(Comparator.comparing(key -> this.getShardSource().getCount(key) == 0));
 		}
-		return this.materials;
+
+		return materials;
 	}
 
-	private final List<ResourceKey<PolyominoShape>> shapes = new ArrayList<>();
-
 	public List<ResourceKey<PolyominoShape>> getSortedShapes() {
-		if (this.shapes.isEmpty()) {
-			ModPolyominoShapes.alwaysShapes().forEach(shape -> this.shapes.add(ModPolyominoShapes.ofShape(shape)));
+		List<ResourceKey<PolyominoShape>> shapes = new ArrayList<>();
+		ModPolyominoShapes.alwaysShapes().forEach(shape -> shapes.add(ModPolyominoShapes.ofShape(shape)));
 
-			List<PolyominoItem> others = new ArrayList<>();
+		List<PolyominoItem> others = new ArrayList<>();
 
-			ModTabs.TAB.get().getSearchTabDisplayItems().forEach(itemStack -> {
-				if (itemStack.getItem() instanceof PolyominoItem item) others.add(item);
-			});
+		this.tabStacks.forEach(itemStack -> {
+			if (itemStack.getItem() instanceof PolyominoItem item) others.add(item);
+		});
 
-			if (!this.getShardSource().isCreative()) {
-				others.sort(Comparator.comparing(this::noPoly));
-			}
-
-			this.shapes.addAll(others.stream().map(PolyominoItem::getPolyominoShape).toList());
+		if (!this.getShardSource().isCreative()) {
+			others.sort(Comparator.comparing(this::noPoly));
 		}
-		return this.shapes;
+
+		shapes.addAll(others.stream().map(PolyominoItem::getPolyominoShape).toList());
+		return shapes;
 	}
 
 	public boolean noPoly(PolyominoItem item) {
@@ -868,7 +871,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		this.addRenderableWidget(new TabButton(this, EDIT, Mode.EDIT));
 		this.addRenderableWidget(new TabButton(this, LOCK, Mode.LOCK));
 
-		if (!this.materials.isEmpty()) {
+		if (!this.getSortedMaterials().isEmpty()) {
 			this.addRenderableWidget(new ClickableButton(this, MATERIAL_BAR_UP, SpriteButton.SpriteSet.UP_ARROW) {
 				@Override
 				public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
@@ -898,7 +901,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 		}
 
-		if (!this.shapes.isEmpty()) {
+		if (!this.getSortedShapes().isEmpty()) {
 			this.addRenderableWidget(new ClickableButton(this, SHAPE_BAR_UP, SpriteButton.SpriteSet.UP_ARROW) {
 				@Override
 				public void onUnblockedPress(InputWithModifiers inputWithModifiers) {

@@ -277,6 +277,10 @@ public class MortarMenu extends AbstractContainerMenu {
 			return true;
 		}
 
+		public Player getPlayer() {
+			return this.inventory.player;
+		}
+
 		public boolean isCreative() {
 			return this.inventory.player.isCreative();
 		}

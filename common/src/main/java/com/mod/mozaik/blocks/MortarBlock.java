@@ -17,6 +17,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -195,7 +197,8 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 							Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(pos), new UpdateMozaikBidirectional(newBlockEntity.getPolyomino(), pos))
 					));
 				}
-				itemStack.shrink(1);
+				serverLevel.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.PLAYERS);
+				if (!player.getAbilities().instabuild) itemStack.shrink(1);
 			}
 
 			return InteractionResult.SUCCESS;
