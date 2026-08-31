@@ -79,6 +79,7 @@ public enum MozaikTool implements StringRepresentable {
 				}
 			}
 			case SWAP -> {
+				playButtonClickSound(ModSounds.PLACE_SHARD);
 				int maxSwap = screen.getShardSource().getCount(PersonalPreferences.getPrimaryColor());
 
 				for (PolyominoWidget widget : list) {

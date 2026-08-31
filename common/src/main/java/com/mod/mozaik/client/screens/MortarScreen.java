@@ -112,7 +112,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public List<PolyominoWidget> selected = new ArrayList<>();
 	public List<HeldPolyominoWidget> carried = new ArrayList<>();
 	private final List<PhaseRenderable> renderableWidgets = new ArrayList<>();
-	private final Collection<ItemStack> tabStacks;
+	private static Collection<ItemStack> tabStacks = List.of();
 
 	private @Nullable Vector2i selectionStart = null;
 	private @Nullable EditBox titleBox = null;
@@ -126,13 +126,13 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		if (tab.getDisplayItems().isEmpty()) {
 			tab.buildContents(new CreativeModeTab.ItemDisplayParameters(Minecraft.getInstance().getConnection().enabledFeatures(), true, this.menu.getShardSource().getPlayer().level().registryAccess()));
 		}
-		this.tabStacks = tab.getDisplayItems();
+		if (tabStacks.isEmpty()) tabStacks = tab.getDisplayItems();
 	}
 
 	public List<ResourceKey<ShardMaterial>> getSortedMaterials() {
 		List<ResourceKey<ShardMaterial>> materials = new ArrayList<>();
 
-		this.tabStacks.forEach(itemStack -> {
+		tabStacks.forEach(itemStack -> {
 			if (itemStack.getItem() instanceof ShardItem item) {
 				materials.add(item.getMaterial());
 			}
@@ -151,7 +151,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 		List<PolyominoItem> others = new ArrayList<>();
 
-		this.tabStacks.forEach(itemStack -> {
+		tabStacks.forEach(itemStack -> {
 			if (itemStack.getItem() instanceof PolyominoItem item) others.add(item);
 		});
 
