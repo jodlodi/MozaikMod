@@ -114,15 +114,15 @@ public class PersonalPreferences {
 		this.faves.addAll(faves);
 		this.volume = volume;
 
-		this.shardBarTooltipName.set(shardBarTooltipName);
-		this.shardBarTooltipCount.set(shardBarTooltipCount);
-		this.shardBarDisplayCount.set(shardBarDisplayCount);
-		this.toolButtonHotkey.set(toolButtonHotkey);
-		this.reverseScrollDirectionBars.set(reverseScrollDirectionBars);
-		this.pickerToolTooltip.set(pickerToolTooltip);
-		this.wandToolTooltip.set(wandToolTooltip);
-		this.shapeTooltip.set(shapeTooltip);
-		this.creativeInfinity.set(creativeInfinity);
+		this.shardBarTooltipName.setInit(shardBarTooltipName);
+		this.shardBarTooltipCount.setInit(shardBarTooltipCount);
+		this.shardBarDisplayCount.setInit(shardBarDisplayCount);
+		this.toolButtonHotkey.setInit(toolButtonHotkey);
+		this.reverseScrollDirectionBars.setInit(reverseScrollDirectionBars);
+		this.pickerToolTooltip.setInit(pickerToolTooltip);
+		this.wandToolTooltip.setInit(wandToolTooltip);
+		this.shapeTooltip.setInit(shapeTooltip);
+		this.creativeInfinity.setInit(creativeInfinity);
 	}
 
 	@Contract(value = " -> new", pure = true)
@@ -312,6 +312,10 @@ public class PersonalPreferences {
 		public void set(boolean b) {
 			this.setting.set(b);
 			INSTANCE.save();
+		}
+
+		private void setInit(boolean b) {
+			this.setting().set(b);
 		}
 	}
 }
