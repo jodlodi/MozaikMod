@@ -11,17 +11,19 @@ import net.minecraft.client.resources.model.geometry.QuadCollection;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.client.resources.model.sprite.TextureSlots;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Rotation;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Quaternionf;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 // The model part representing a baked model
 // useAmbientOcclusion and particleMaterial are implemented as part of the record
 public record TesseraModelPart(QuadCollection quads, boolean useAmbientOcclusion,
@@ -40,7 +42,7 @@ public record TesseraModelPart(QuadCollection quads, boolean useAmbientOcclusion
 	}
 
 	// The unbaked model that is read from the block state json
-	public record Unbaked(Identifier modelLocation, MyModelState modelState) implements BlockStateModelPart.Unbaked {
+	public record Unbaked(ResourceLocation modelLocation, MyModelState modelState) implements BlockStateModelPart.Unbaked {
 
 		@Override
 		public void resolveDependencies(Resolver resolver) {

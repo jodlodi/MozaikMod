@@ -1,15 +1,17 @@
 package com.mod.mozaik.polyomino;
 
 import com.mod.mozaik.Constants;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public record ShardMaterial(Type type, int shades) {
 	private static final RandomSource RANDOM = RandomSource.createThreadLocalInstance();
 
-	public Identifier getGuiSheet(String type, long polySeed, int index) {
+	public ResourceLocation getGuiSheet(String type, long polySeed, int index) {
 		if (this.shades == 1) return Constants.prefix(type + "/" + 0);
 		return Constants.prefix(type + "/" + this.randomIndex(polySeed, index));
 	}

@@ -5,12 +5,14 @@ import com.mod.mozaik.reg.ModRegistries;
 import com.mod.mozaik.reg.ResourceSupplier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ShardItem extends Item {
 	public static Map<ResourceKey<ShardMaterial>, ShardItem> SHARDS = new HashMap<>();
 

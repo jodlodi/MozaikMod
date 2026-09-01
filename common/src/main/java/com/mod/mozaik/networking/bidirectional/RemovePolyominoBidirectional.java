@@ -16,13 +16,15 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public final class RemovePolyominoBidirectional implements IBidirectionalMessage {
 	public static final Type<RemovePolyominoBidirectional> TYPE = new Type<>(Constants.prefix("remove_polyomino"));

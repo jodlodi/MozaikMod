@@ -5,11 +5,13 @@ import com.mod.mozaik.platform.services.IModloaderHelper;
 import com.mod.mozaik.platform.services.INetworkHelper;
 import com.mod.mozaik.platform.services.IPlatformHelper;
 import com.mod.mozaik.platform.services.IRegistryHelper;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.ServiceLoader;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class Services {
     public static final IModloaderHelper MODLOADER = load(IModloaderHelper.class);
     public static final INetworkHelper NETWORK = load(INetworkHelper.class);

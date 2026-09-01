@@ -17,15 +17,17 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.*;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ShapeButton extends ModButton implements PhaseRenderable {
 	protected final MortarScreen screen;
 	private final int index;
@@ -36,7 +38,7 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 		this.index = index;
 	}
 
-	protected Identifier getTexture() {
+	protected ResourceLocation getTexture() {
 		ResourceKey<PolyominoShape> dis = this.getShape();
 		return Constants.prefix("textures/gui/container/shapes/" + dis.identifier().getPath() + "/" + (dis == PersonalPreferences.getPolyominoShape() ? "pressed" : "unselected") + ".png");
 	}

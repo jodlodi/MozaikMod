@@ -1,15 +1,15 @@
 package com.mod.mozaik.reg;
 
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Supplier;
 
 public class ResourceSupplier<T> implements Supplier<T> {
 
 	private final Supplier<T> supplier;
-	private final Identifier id;
+	private final ResourceLocation id;
 
-	public ResourceSupplier(Supplier<T> supplier, Identifier id) {
+	public ResourceSupplier(Supplier<T> supplier, ResourceLocation id) {
 		this.supplier = supplier;
 		this.id = id;
 	}
@@ -19,7 +19,7 @@ public class ResourceSupplier<T> implements Supplier<T> {
 		return this.supplier.get();
 	}
 
-	public Identifier id() {
+	public ResourceLocation id() {
 		return this.id;
 	}
 }

@@ -1,15 +1,18 @@
 package com.mod.mozaik.polyomino;
 
 import com.mod.mozaik.client.screens.PersonalPreferences;
+import com.mod.mozaik.reg.ModRegistries;
 import com.mod.mozaik.util.FlatDirection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceKey;
 import org.joml.Vector2i;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.*;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class PolyominoShape {
 	private final List<List<Boolean>> grid = new ArrayList<>();
 	private int count = 0;
@@ -26,11 +29,10 @@ public class PolyominoShape {
 		return tryBuild(key, material, UUID.randomUUID());
 	}
 
-	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	public static Optional<Polyomino> tryBuild(ResourceKey<PolyominoShape> key, ResourceKey<ShardMaterial> material, UUID uuid) {
 		try {
-			return Optional.of(Objects.requireNonNull(Minecraft.getInstance().getConnection()).registryAccess().get(key).get().value().build(material, uuid));
-		} catch (Exception _) {
+			return Optional.of(Objects.requireNonNull(Minecraft.getInstance().getConnection()).registryAccess().registry(ModRegistries.ModKeys.POLYOMINO_SHAPE).orElseThrow().get(key).build(material, uuid));
+		} catch (Exception ignored) {
 
 		}
 		return Optional.empty();

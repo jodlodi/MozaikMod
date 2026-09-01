@@ -6,13 +6,15 @@ import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.Tessera;
 import com.mod.mozaik.util.FlatDirection;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class PolyominoWidget extends UnclickableWidget implements PhaseRenderable {
 	public final MortarScreen screen;
 	private final Polyomino.PlacedPolyomino placedPolyomino;

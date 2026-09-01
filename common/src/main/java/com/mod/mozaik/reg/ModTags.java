@@ -1,16 +1,17 @@
 package com.mod.mozaik.reg;
 
 import com.mod.mozaik.Constants;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.levelgen.structure.Structure;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModTags {
 	public static class Blocks {
 		public static final TagKey<Block> MORTARS = TagKey.create(Registries.BLOCK, Constants.prefix("mortars"));

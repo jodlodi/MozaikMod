@@ -17,12 +17,14 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public final class UpdateMozaikBidirectional implements IBidirectionalMessage {
 	public static final List<ResourceKey<ShardMaterial>> SORTED_INSTANCE_KEY_SET = new ArrayList<>();

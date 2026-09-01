@@ -7,12 +7,14 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector2i;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.jspecify.annotations.Nullable;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public abstract class SpriteButton extends ModButton implements PhaseRenderable {
 	protected final MortarScreen screen;
 	protected final SpriteSet spriteSet;
@@ -23,7 +25,7 @@ public abstract class SpriteButton extends ModButton implements PhaseRenderable 
 		this.spriteSet = spriteSet;
 	}
 
-	protected Identifier getTexture() {
+	protected ResourceLocation getTexture() {
 		if (this.isPressed()) return this.spriteSet.pressed();
 		return this.isHoveredOrFocused() ? this.spriteSet.hover() : this.spriteSet.normal();
 	}
@@ -38,7 +40,7 @@ public abstract class SpriteButton extends ModButton implements PhaseRenderable 
 
 	public abstract boolean isPressed();
 
-	public record SpriteSet(Identifier normal, Identifier hover, Identifier pressed, @Nullable Identifier alt, int width, int height) {
+	public record SpriteSet(ResourceLocation normal, ResourceLocation hover, ResourceLocation pressed, @Nullable ResourceLocation alt, int width, int height) {
 		public static final SpriteSet UP_ARROW = new SpriteSet(
 				Constants.prefix("textures/gui/container/up_arrow/unselected.png"),
 				Constants.prefix("textures/gui/container/up_arrow/hovered.png"),

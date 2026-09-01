@@ -5,12 +5,14 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Mirror;
 import org.jetbrains.annotations.Unmodifiable;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.List;
 import java.util.Locale;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public enum FlatDirection implements StringRepresentable {
 	UP(true, 0, -1, 0.0F),
 	UP_RIGHT(false, 1, -1, 45.0F),

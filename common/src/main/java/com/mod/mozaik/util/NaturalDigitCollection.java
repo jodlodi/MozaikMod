@@ -5,7 +5,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.Unmodifiable;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +15,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public record NaturalDigitCollection<T>(T n1, T n2, T n3, T n4, T n5, T n6, T n7, T n8, T n9) {
 	public static final NaturalDigitCollection<Integer> VALUES = new NaturalDigitCollection<>(1, 2, 3, 4, 5, 6, 7, 8, 9);
 	public static final NaturalDigitCollection<String> NAMES = new NaturalDigitCollection<>("one", "two", "three", "four", "five", "six", "seven", "eight", "nine");

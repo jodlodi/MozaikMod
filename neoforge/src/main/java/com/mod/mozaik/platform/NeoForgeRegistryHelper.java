@@ -17,7 +17,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
@@ -49,7 +49,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +60,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class NeoForgeRegistryHelper implements IRegistryHelper {
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Constants.MOD_ID);
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, Constants.MOD_ID);
@@ -83,8 +85,8 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 	public static final Map<Supplier<? extends EntityType<? extends LivingEntity>>, Supplier<AttributeSupplier>> ATTRIBUTES = new HashMap<>();
 
 	@Override
-	public ResourceSupplier<SoundEvent> registerSoundEvent(String id, Function<Identifier, SoundEvent> soundEvent) {
-		Identifier location = Constants.prefix(id);
+	public ResourceSupplier<SoundEvent> registerSoundEvent(String id, Function<ResourceLocation, SoundEvent> soundEvent) {
+		ResourceLocation location = Constants.prefix(id);
 		return new ResourceSupplier<>(SOUND_EVENTS.register(id, () -> soundEvent.apply(location)), location);
 	}
 
@@ -95,7 +97,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
 	@Override
 	public final <T extends BlockEntity, B extends Block> ResourceSupplier<BlockEntityType<T>> registerBlockEntityType(String id, BiFunction<BlockPos, BlockState, T> supplier, List<ResourceSupplier<B>> blocks) {
-		Identifier location = Constants.prefix(id);
+		ResourceLocation location = Constants.prefix(id);
 
 		Block[] blockArray  = new Block[blocks.size()];
 		for (int i = 0; i < blocks.size(); i++) blockArray[i] = blocks.get(i).get();
@@ -105,7 +107,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
 	@Override
 	public <T extends Entity> ResourceSupplier<EntityType<T>> registerEntityType(String id, EntityType.Builder<T> builder) {
-		Identifier location = Constants.prefix(id);
+		ResourceLocation location = Constants.prefix(id);
 		return new ResourceSupplier<>(ENTITY_TYPES.register(id, () -> builder.build(ResourceKey.create(BuiltInRegistries.ENTITY_TYPE.key(), location))), location);
 	}
 
@@ -116,13 +118,13 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
 	@Override
 	public <T extends Item> ResourceSupplier<T> registerItem(String id, Function<Item.Properties, T> item) {
-		Identifier location = Constants.prefix(id);
+		ResourceLocation location = Constants.prefix(id);
 		return new ResourceSupplier<>(ITEMS.register(id, () -> item.apply(new Item.Properties().setId(ResourceKey.create(BuiltInRegistries.ITEM.key(), location)))), location);
 	}
 
 	@Override
 	public <T extends Block> ResourceSupplier<T> registerBlock(String id, Function<BlockBehaviour.Properties, T> block, Supplier<BlockBehaviour.Properties> properties) {
-		Identifier location = Constants.prefix(id);
+		ResourceLocation location = Constants.prefix(id);
 		return new ResourceSupplier<>(BLOCKS.register(id, () -> block.apply(properties.get().setId(ResourceKey.create(Registries.BLOCK, location)))), location);
 	}
 
@@ -142,7 +144,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
 	@Override
 	public ResourceSupplier<GameEvent> registerGameEvent(String id, int notificationRadius) {
-		Identifier location = Constants.prefix(id);
+		ResourceLocation location = Constants.prefix(id);
 		return new ResourceSupplier<>(GAME_EVENTS.register(id, () -> new GameEvent(notificationRadius)), location);
 	}
 

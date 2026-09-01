@@ -25,12 +25,14 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ShardBagItem extends Item {
 	public static final int MAX_SHOWN_GRID_ITEMS_X = 4;
 	public static final int MAX_SHOWN_GRID_ITEMS_Y = 3;

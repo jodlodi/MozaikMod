@@ -9,11 +9,13 @@ import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.util.ColorCollection;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.function.Function;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModItems {
 	public static final ColorCollection<ResourceSupplier<MortarBlockItem>> MORTARS = registerColoredMosaicItems(ModBlocks.MORTARS, properties -> properties);
 	

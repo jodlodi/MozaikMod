@@ -4,12 +4,14 @@ import com.mod.mozaik.util.FlatDirection;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.List;
 import java.util.Locale;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public enum TesseraShape implements StringRepresentable {
 	U(0, 2, new RotatedModel(ModelReference.END, Rotation.NONE), FlatDirection.UP),
 	R(1, 3, new RotatedModel(ModelReference.END, Rotation.CLOCKWISE_90), FlatDirection.RIGHT),

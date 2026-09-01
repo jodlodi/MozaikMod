@@ -10,11 +10,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.concurrent.CompletableFuture;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModBlockTagGen extends BlockTagsProvider {
 
 	public ModBlockTagGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {

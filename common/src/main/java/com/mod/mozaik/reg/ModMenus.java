@@ -5,11 +5,13 @@ import com.mod.mozaik.platform.Services;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.function.BiFunction;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModMenus {
 	public static final ResourceSupplier<MenuType<MortarMenu>> GLUE = registerMenu("glue", MortarMenu::new);
 

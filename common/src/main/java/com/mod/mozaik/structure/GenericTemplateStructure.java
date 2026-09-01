@@ -5,7 +5,7 @@ import com.mod.mozaik.structure.piece.CustomStructurePiece;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -24,12 +24,14 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.templatesystem.CappedProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.List;
 import java.util.Optional;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public abstract class GenericTemplateStructure extends Structure {
 	protected final List<Setup> setups;
 
@@ -79,7 +81,7 @@ public abstract class GenericTemplateStructure extends Structure {
 					finalSetup.processor()
 			);
 
-			Identifier location = this.selectTemplate(finalSetup, random);
+			ResourceLocation location = this.selectTemplate(finalSetup, random);
 
 			StructureTemplate template = context.structureTemplateManager().getOrCreate(location);
 			Rotation rotation = Util.getRandom(Rotation.values(), random);
@@ -96,12 +98,12 @@ public abstract class GenericTemplateStructure extends Structure {
 		}
 	}
 
-	protected Identifier selectTemplate(Setup finalSetup, WorldgenRandom random) {
+	protected ResourceLocation selectTemplate(Setup finalSetup, WorldgenRandom random) {
 		if (finalSetup.structure_locations().size() == 1) return finalSetup.structure_locations().getFirst();
 		return finalSetup.structure_locations().get(random.nextInt(finalSetup.structure_locations().size()));
 	}
 
-	protected void putAndPlace(StructurePiecesBuilder builder, BlockPos finalPos, GenerationContext context, Setup finalSetup, CustomStructurePiece.Properties properties, Identifier location, Rotation rotation, Mirror mirror, BlockPos pivot) {
+	protected void putAndPlace(StructurePiecesBuilder builder, BlockPos finalPos, GenerationContext context, Setup finalSetup, CustomStructurePiece.Properties properties, ResourceLocation location, Rotation rotation, Mirror mirror, BlockPos pivot) {
 		builder.addPiece(new CustomStructurePiece(context.structureTemplateManager(), finalPos, finalSetup.placement(), properties, location, rotation, mirror, pivot));
 	}
 
@@ -177,12 +179,12 @@ public abstract class GenericTemplateStructure extends Structure {
 		return min < max ? Mth.randomBetweenInclusive(randomSource, min, max) : max;
 	}
 
-	public record Setup(CustomStructurePiece.VerticalPlacement placement, List<Identifier> structure_locations,
+	public record Setup(CustomStructurePiece.VerticalPlacement placement, List<ResourceLocation> structure_locations,
 						float air_pocket_probability, float weight, boolean keepLiquids, int groundLevelDelta,
 						Optional<Integer> depth, Optional<CappedProcessor> processor) {
 		public static final Codec<Setup> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
 				CustomStructurePiece.VerticalPlacement.CODEC.fieldOf("placement").forGetter(Setup::placement),
-				ExtraCodecs.nonEmptyList(Identifier.CODEC.listOf()).fieldOf("structure_locations").forGetter(Setup::structure_locations),
+				ExtraCodecs.nonEmptyList(ResourceLocation.CODEC.listOf()).fieldOf("structure_locations").forGetter(Setup::structure_locations),
 				Codec.floatRange(0.0F, 1.0F).fieldOf("air_pocket_probability").forGetter(Setup::air_pocket_probability),
 				ExtraCodecs.POSITIVE_FLOAT.fieldOf("weight").forGetter(Setup::weight),
 				Codec.BOOL.fieldOf("keep_liquids").forGetter(Setup::keepLiquids),
@@ -191,7 +193,7 @@ public abstract class GenericTemplateStructure extends Structure {
 				CappedProcessor.CODEC.codec().optionalFieldOf("processor").forGetter(Setup::processor)
 		).apply(instance, Setup::new));
 
-		public Setup(CustomStructurePiece.VerticalPlacement placement, List<Identifier> structure_locations, float air_pocket_probability, float weight, boolean keepLiquids, int groundLevelDelta) {
+		public Setup(CustomStructurePiece.VerticalPlacement placement, List<ResourceLocation> structure_locations, float air_pocket_probability, float weight, boolean keepLiquids, int groundLevelDelta) {
 			this(placement, structure_locations, air_pocket_probability, weight, keepLiquids, groundLevelDelta, Optional.empty(), Optional.empty());
 		}
 	}

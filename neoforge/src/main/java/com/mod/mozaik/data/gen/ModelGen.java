@@ -10,12 +10,14 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModelGen extends ModelProvider {
 	private final PackOutput.PathProvider blocks;
 	private final PackOutput.PathProvider items;

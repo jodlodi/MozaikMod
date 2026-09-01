@@ -10,11 +10,13 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.concurrent.CompletableFuture;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModItemTagGen extends ItemTagsProvider {
 
 	public ModItemTagGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {

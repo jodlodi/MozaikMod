@@ -7,22 +7,23 @@ import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.reg.ModSounds;
 import com.mod.mozaik.reg.ResourceSupplier;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.StringRepresentable;
 import org.joml.Vector2i;
-import org.jspecify.annotations.NullMarked;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public enum MozaikTool implements StringRepresentable {
 	CHISEL(ModKeyMappings.CHISEL),
 	CURSOR(ModKeyMappings.CURSOR),

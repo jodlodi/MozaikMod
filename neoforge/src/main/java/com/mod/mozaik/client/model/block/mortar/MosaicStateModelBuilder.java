@@ -1,17 +1,19 @@
 package com.mod.mozaik.client.model.block.mortar;
 
 import net.minecraft.client.renderer.block.dispatch.VariantMutator;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.blockstate.CustomBlockStateModelBuilder;
 import net.neoforged.neoforge.client.model.generators.blockstate.UnbakedMutator;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 // The builder used to construct the block state JSON
 public class MosaicStateModelBuilder extends CustomBlockStateModelBuilder {
-	private final Identifier model;
+	private final ResourceLocation model;
 
-	public MosaicStateModelBuilder(Identifier model) {
+	public MosaicStateModelBuilder(ResourceLocation model) {
 		this.model = model;
 	}
 

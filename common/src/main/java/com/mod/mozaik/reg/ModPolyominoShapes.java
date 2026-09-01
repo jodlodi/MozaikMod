@@ -5,11 +5,13 @@ import com.mod.mozaik.polyomino.PolyominoShape;
 import net.minecraft.resources.ResourceKey;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Unmodifiable;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.List;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModPolyominoShapes {
 	public static final ResourceSupplier<PolyominoShape> SUN = Services.REGISTRY.registerPolyominoShape("sun", () -> new PolyominoShape()
 			.addLine(true, true)

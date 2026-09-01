@@ -14,13 +14,14 @@ import com.mod.mozaik.reg.ModShardMaterials;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Unmodifiable;
-import org.jspecify.annotations.NullMarked;
-import org.jspecify.annotations.Nullable;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.BufferedWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -30,7 +31,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class PersonalPreferences {
 	public static final Codec<PersonalPreferences> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
 			ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).fieldOf("primary_color").forGetter(pref -> pref.primaryColor),
@@ -191,7 +193,7 @@ public class PersonalPreferences {
 				JsonObject json = new Gson().newBuilder().setPrettyPrinting().create().fromJson(Files.readString(filePath), JsonObject.class);
 				return CODEC.decode(JsonOps.INSTANCE, json).getOrThrow().getFirst();
 			}
-		} catch (Exception _) {
+		} catch (Exception ignored) {
 
 		}
 
@@ -209,7 +211,7 @@ public class PersonalPreferences {
 			try (BufferedWriter writer = com.google.common.io.Files.newWriter(filePath.toFile(), StandardCharsets.UTF_8)) {
 				GSON.toJson(encoded, GSON.newJsonWriter(writer));
 			}
-		} catch (Exception _) {
+		} catch (Exception ignored) {
 
 		}
 	}

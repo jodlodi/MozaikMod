@@ -8,7 +8,7 @@ import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.entity.MobCategory;
@@ -24,14 +24,16 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockent
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Unmodifiable;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModStructures {
 	public static final int AIR_IS_AIR = 1;
 	public static final int AIR_IS_REPLACED = 0;
@@ -308,7 +310,7 @@ public class ModStructures {
 	}
 
 	@Contract("_ -> new")
-	public static @Unmodifiable List<Identifier> asResourceList(String... set) {
+	public static @Unmodifiable List<ResourceLocation> asResourceList(String... set) {
 		return Arrays.stream(set).map(Constants::prefix).toList();
 	}
 }

@@ -19,7 +19,7 @@ import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,11 +27,13 @@ import net.neoforged.neoforge.client.model.DynamicBlockStateModel;
 import net.neoforged.neoforge.client.model.block.CustomUnbakedBlockStateModel;
 import net.neoforged.neoforge.model.data.ModelData;
 import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.*;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public final class MosaicStateModel implements DynamicBlockStateModel {
 	private final Map<Direction, MortarModelPart> mortarMap = new HashMap<>();
 
@@ -118,14 +120,14 @@ public final class MosaicStateModel implements DynamicBlockStateModel {
 				"model=" + mortarMap.get(Direction.UP) + ']';
 	}
 
-	public record Unbaked(Identifier model) implements CustomUnbakedBlockStateModel {
+	public record Unbaked(ResourceLocation model) implements CustomUnbakedBlockStateModel {
 
 		public static final MapCodec<Unbaked> CODEC = RecordCodecBuilder.mapCodec(
 				instance -> instance.group(
-						Identifier.CODEC.fieldOf("model").forGetter(Unbaked::model)
+						ResourceLocation.CODEC.fieldOf("model").forGetter(Unbaked::model)
 				).apply(instance, Unbaked::new)
 		);
-		public static final Identifier ID = Constants.prefix("my_custom_model_loader");
+		public static final ResourceLocation ID = Constants.prefix("my_custom_model_loader");
 
 		@Override
 		public void resolveDependencies(Resolver resolver) {

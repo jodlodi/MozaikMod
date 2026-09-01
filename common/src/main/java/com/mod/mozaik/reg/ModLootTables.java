@@ -2,8 +2,7 @@ package com.mod.mozaik.reg;
 
 import com.google.common.collect.Sets;
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.items.PolyominoItem;
-import com.mod.mozaik.platform.Services;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -22,12 +21,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import org.jspecify.annotations.NullMarked;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 import java.util.Set;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModLootTables {
 	private static final Set<ResourceKey<LootTable>> MOD_LOOT_TABLES = Sets.newHashSet();
 	private static final Set<ResourceKey<LootTable>> MOD_IMMUTABLE_LOCATIONS = Collections.unmodifiableSet(MOD_LOOT_TABLES);

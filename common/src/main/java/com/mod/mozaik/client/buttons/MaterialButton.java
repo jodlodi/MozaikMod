@@ -20,13 +20,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ItemStack;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class MaterialButton extends AbstractMaterialButton {
 	public static String FAVOURITE = "tooltip.mozaik.favourite";
 	public static String COUNT = "tooltip.mozaik.count";

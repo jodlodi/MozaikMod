@@ -2,28 +2,29 @@ package com.mod.mozaik.client;
 
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.polyomino.Tessera;
+import com.mod.mozaik.reg.ModRegistries;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import org.joml.Matrix3x2f;
-import org.jspecify.annotations.NullMarked;
-import org.jspecify.annotations.Nullable;
+import net.minecraft.resources.ResourceLocation;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @SuppressWarnings({"UnusedReturnValue"})
 public class GraphicsRenderHelper {
 	@Nullable
 	public static ModelBaker BAKER;
-	private final GuiGraphicsExtractor graphics;
+	private final GuiGraphics graphics;
 	private final RegistryAccess.Frozen registryAccess;
 
-	public GraphicsRenderHelper(GuiGraphicsExtractor graphics) {
+	public GraphicsRenderHelper(GuiGraphics graphics) {
 		this.graphics = graphics;
 		this.registryAccess = Objects.requireNonNull(Minecraft.getInstance().getConnection()).registryAccess();
 	}
@@ -32,30 +33,30 @@ public class GraphicsRenderHelper {
 		this.blitScaled(fromMaterial(material, seed, index), tessera.getU(), tessera.getV(), 120, 40, Tessera.TESSERA_SIZE, color);
 	}
 
-	public Identifier fromMaterial(ResourceKey<ShardMaterial> material, long seed, int index) {
-		return this.registryAccess.get(material).orElseThrow().value().getGuiSheet(material.identifier().getPath(), seed, index);
+	public ResourceLocation fromMaterial(ResourceKey<ShardMaterial> material, long seed, int index) {
+		return this.registryAccess.registry(ModRegistries.ModKeys.SHARD_MATERIAL).orElseThrow().get(material).getGuiSheet(material.location().getPath(), seed, index);
 	}
 
-	public void blitScaled(Identifier texture, int u, int v, int textureWidth, int textureHeight, int scale, int color) {
+	public void blitScaled(ResourceLocation texture, int u, int v, int textureWidth, int textureHeight, int scale, int color) {
 		this.blit(texture, u * scale, v * scale, scale, scale, textureWidth, textureHeight, color);
 	}
 
-	public void blit(Identifier texture, int u, int v, int width, int height, int textureWidth, int textureHeight, int color) {
-		this.graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, textureWidth, textureHeight, u, v, 0, 0, width, height, color);
+	public void blit(ResourceLocation texture, int u, int v, int width, int height, int textureWidth, int textureHeight, int color) {
+		this.graphics.blitSprite(texture, textureWidth, textureHeight, u, v, 0, 0, width, height, color);
 	}
 
 	public void pushPop(Runnable runnable) {
-		this.graphics.pose().pushMatrix();
+		this.graphics.pose().pushPose();
 		runnable.run();
-		this.graphics.pose().popMatrix();
+		this.graphics.pose().popPose();
 	}
 
-	public Matrix3x2f translate(float x, float y) {
-		return this.graphics.pose().translate(x, y);
+	public void translate(float x, float y) {
+		this.graphics.pose().translate(x, 1.0F, y);
 	}
 
-	public Matrix3x2f scale(float x, float y) {
-		return this.graphics.pose().scale(x, y);
+	public void scale(float x, float y) {
+		this.graphics.pose().scale(x, 1.0F, y);
 	}
 
 	public void fill(int x0, int y0, int x1, int y1, int col) {

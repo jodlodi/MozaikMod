@@ -2,9 +2,11 @@ package com.mod.mozaik.polyomino;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public record Tessera(TesseraShape shape) {
 	public static final int TESSERA_SIZE = 10;
 

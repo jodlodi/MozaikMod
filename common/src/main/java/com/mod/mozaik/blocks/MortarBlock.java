@@ -50,12 +50,14 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.List;
 import java.util.Map;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
 	private static final Map<Direction, VoxelShape> SHAPES = Shapes.rotateAll(Block.box(0.0D, 0.0D, 0.5D, 16.0D, 16.0D, 16.0D));
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;

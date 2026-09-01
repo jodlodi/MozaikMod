@@ -4,11 +4,13 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.List;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class CustomTemplateStructure extends GenericTemplateStructure {
 	public static final MapCodec<CustomTemplateStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
 			instance.group(

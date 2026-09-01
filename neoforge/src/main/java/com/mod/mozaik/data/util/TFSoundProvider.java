@@ -4,15 +4,17 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.data.gen.ModLangGen;
 import com.mod.mozaik.reg.ResourceSupplier;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.common.data.SoundDefinition;
 import net.neoforged.neoforge.common.data.SoundDefinitionsProvider;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public abstract class TFSoundProvider extends SoundDefinitionsProvider {
 
 	protected TFSoundProvider(PackOutput output) {
@@ -43,7 +45,7 @@ public abstract class TFSoundProvider extends SoundDefinitionsProvider {
 		for (String string : baseSoundDirectory) {
 			definition.with(
 					SoundDefinition.Sound
-							.sound(Identifier.withDefaultNamespace(string), SoundDefinition.SoundType.SOUND)
+							.sound(ResourceLocation.withDefaultNamespace(string), SoundDefinition.SoundType.SOUND)
 							.volume(volume)
 							.pitch(pitch)
 			);

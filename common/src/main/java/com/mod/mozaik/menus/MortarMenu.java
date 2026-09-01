@@ -26,7 +26,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -36,12 +36,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Rotation;
 import org.joml.Vector2i;
 import org.joml.Vector3i;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class MortarMenu extends AbstractContainerMenu {
 	private final Inventory inventory;
 	private final @Nullable MortarBlockEntity mortar;
@@ -82,7 +84,7 @@ public class MortarMenu extends AbstractContainerMenu {
 					Rotation blockRotation = blockEntity.getBlockState().getValue(MortarBlock.FACING_ROTATED).getRotation();
 					blockEntity.getPolyomino().forEach(placedPolyomino -> copy.add(MortarMenu.rotate(placedPolyomino, Rotation.values()[(rotation.ordinal() + blockRotation.ordinal()) % 4])));
 
-					Identifier identifier = fromBlock(blockEntity.getBlockState().getBlock());
+					ResourceLocation identifier = fromBlock(blockEntity.getBlockState().getBlock());
 					this.map.put(rotated, new NeighbourMosaic(identifier, copy));
 				}
 			}
@@ -118,12 +120,12 @@ public class MortarMenu extends AbstractContainerMenu {
 		return this.shardSource;
 	}
 
-	public Identifier getTexture() {
+	public ResourceLocation getTexture() {
 		if (this.mortar == null) return TextureManager.INTENTIONAL_MISSING_TEXTURE;
 		return fromBlock(this.mortar.getBlockState().getBlock());
 	}
 
-	public static Identifier fromBlock(Block block) {
+	public static ResourceLocation fromBlock(Block block) {
 		for (ResourceSupplier<MortarBlock> mortarBlockResourceSupplier : ModBlocks.MORTARS.asList()) {
 			if (mortarBlockResourceSupplier.get() == block) {
 				return Constants.prefix("textures/block/" + mortarBlockResourceSupplier.id().getPath() + ".png");
@@ -205,7 +207,7 @@ public class MortarMenu extends AbstractContainerMenu {
 		return this.mortar != null && !this.mortar.isRemoved();
 	}
 
-	public record NeighbourMosaic(Identifier texture, List<Polyomino.PlacedPolyomino> placedPolyomino) {
+	public record NeighbourMosaic(ResourceLocation texture, List<Polyomino.PlacedPolyomino> placedPolyomino) {
 
 	}
 

@@ -25,15 +25,13 @@ import com.mod.mozaik.util.FlatDirection;
 import com.mod.mozaik.util.IMozaikKeyMapping;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
-import net.minecraft.SharedConstants;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementProgress;
-import net.minecraft.client.InputType;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.gui.ComponentPath;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.components.Renderable;
@@ -41,18 +39,12 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.navigation.ScreenDirection;
-import net.minecraft.client.gui.screens.DeathScreen;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.input.InputWithModifiers;
-import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.multiplayer.ClientAdvancements;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.CreativeModeTab;
@@ -61,12 +53,13 @@ import net.minecraft.world.level.block.Rotation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
-import org.jspecify.annotations.NullMarked;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private static final int BACKGROUND_WIDTH = 242;
 	private static final int BACKGROUND_HEIGHT = 256;
@@ -176,7 +169,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		return this.noPoly(shape.identifier());
 	}
 
-	public boolean noPoly(Identifier identifier) {
+	public boolean noPoly(ResourceLocation identifier) {
 		if (ModPolyominoShapes.alwaysShapes().stream().map(ResourceSupplier::id).toList().contains(identifier))
 			return false;
 
@@ -187,7 +180,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			if (adv == null) return false;
 			AdvancementProgress progress = accessed.getProgress().get(adv);
 			return progress != null && !progress.isDone();
-		} catch (Exception _) {
+		} catch (Exception ignored) {
 			return true;
 		}
 	}
@@ -958,11 +951,6 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	@Override
-	public boolean isInGameUi() {
-		return true;
-	}
-
-	@Override
 	protected void setInitialFocus() {
 		if (this.titleBox != null) this.setInitialFocus(this.titleBox);
 		else super.setInitialFocus();
@@ -984,14 +972,13 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	@Override
-	public void extractBackground(final GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float a) {
-		super.extractBackground(graphics, mouseX, mouseY, a);
+	protected void renderBg(GuiGraphics graphics, float partialTick, int x, int y) {
 		int xo = (this.width - this.imageWidth) / 2;
 		int yo = (this.height - this.imageHeight) / 2;
-		graphics.blit(RenderPipelines.GUI_TEXTURED, this.mode.getTexture(), xo, yo, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
+		graphics.blit(this.mode.getTexture(), xo, yo, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
 
 		if (this.mode == Mode.SETTINGS) return;
-		graphics.blit(RenderPipelines.GUI_TEXTURED, this.menu.getTexture(), xo + GRID_START.x, yo + GRID_START.y, 0.0F, 0.0F, 160, 160, 160, 160);
+		graphics.blit(this.menu.getTexture(), xo + GRID_START.x, yo + GRID_START.y, 0.0F, 0.0F, 160, 160, 160, 160);
 
 		this.menu.getMap().forEach((flatDirection, mosaic) -> {
 			int u = flatDirection.getRelativeX() * Tessera.TESSERA_SIZE;
@@ -1006,17 +993,24 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			int xSet = u < 0 ? u : (u > 0 ? 160 : 0);
 			int ySet = v < 0 ? v : (v > 0 ? 160 : 0);
 
+			int argb = 0xFF777777;
+			int alpha = (argb >> 24) & 0xFF;
+			int red = (argb >> 16) & 0xFF;
+			int green = (argb >> 8) & 0xFF;
+			int blue = argb & 0xFF;
+
+			graphics.setColor(red / 255.0F, green / 255.0F, blue / 255.0F, alpha / 255.0F);
 			graphics.blit(
-					RenderPipelines.GUI_TEXTURED,
 					mosaic.texture(),
 					xo + GRID_START.x + xSet,
 					yo + GRID_START.y + ySet,
-					0, 0, width, height, width, height, 160, 160, 0xFF777777
+					0, 0, width, height, width, height, 160, 160
 			);
+			graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 		});
 
 		if (this.mode == Mode.LOCK) {
-			graphics.text(
+			graphics.drawString(
 					this.font,
 					Component.literal("Enter Mosaic Title:").withStyle(ChatFormatting.GRAY),
 					xo + this.imageWidth / 2 - this.font.width(Component.literal("Enter Mosaic Title:").withStyle(ChatFormatting.GRAY)) / 2,
@@ -1024,7 +1018,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 					-1,
 					true
 			);
-			graphics.text(
+			graphics.drawString(
 					this.font,
 					Component.translatable("book.byAuthor", Objects.requireNonNull(Minecraft.getInstance().player).getName()).withStyle(ChatFormatting.GRAY),
 					xo + this.imageWidth / 2 - this.font.width(Component.translatable("book.byAuthor", Minecraft.getInstance().player.getName()).withStyle(ChatFormatting.GRAY)) / 2,
@@ -1041,7 +1035,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		EDIT,
 		LOCK;
 
-		private final Identifier texture;
+		private final ResourceLocation texture;
 
 		Mode() {
 			this.texture = Constants.prefix("textures/gui/container/")
@@ -1049,7 +1043,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 					.withSuffix(".png");
 		}
 
-		public Identifier getTexture() {
+		public ResourceLocation getTexture() {
 			return this.texture;
 		}
 

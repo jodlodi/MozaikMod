@@ -3,11 +3,13 @@ package com.mod.mozaik.client.buttons;
 import com.mod.mozaik.client.screens.MortarScreen;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector2i;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public abstract class ClickableButton extends SpriteButton {
 	protected int isPressed = 0;
 
@@ -16,7 +18,7 @@ public abstract class ClickableButton extends SpriteButton {
 	}
 
 	@Override
-	protected Identifier getTexture() {
+	protected ResourceLocation getTexture() {
 		if (this.isPressed()) return this.spriteSet.pressed();
 		if (this.isBlocked() && this.spriteSet.alt() != null) return this.spriteSet.alt();
 		return this.isHovered() ? this.spriteSet.hover() : this.spriteSet.normal();

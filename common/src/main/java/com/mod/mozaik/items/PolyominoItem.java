@@ -6,7 +6,7 @@ import com.mod.mozaik.polyomino.PolyominoShape;
 import com.mod.mozaik.reg.ModRegistries;
 import com.mod.mozaik.reg.ResourceSupplier;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -18,14 +18,16 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.Optional;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class PolyominoItem extends Item {
 	private final ResourceKey<PolyominoShape> polyominoShape;
-	public final Identifier advancement;
+	public final ResourceLocation advancement;
 
 	public PolyominoItem(Properties properties, ResourceSupplier<PolyominoShape> polyominoShape) {
 		this(properties, ResourceKey.create(ModRegistries.ModKeys.POLYOMINO_SHAPE, polyominoShape.id()));

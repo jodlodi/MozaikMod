@@ -4,7 +4,7 @@ import com.mod.mozaik.util.FlatDirection;
 import com.mod.mozaik.client.model.block.mortar.sub.TesseraModelPart;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplate;
 import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
 import org.jspecify.annotations.NullUnmarked;
@@ -12,7 +12,7 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class ModExtendedModelTemplates extends ModModelTemplates {
 	public static final ExtendedModelTemplate MORTAR = ExtendedModelTemplateBuilder.builder()
-			.parent(Identifier.withDefaultNamespace("block/block"))
+			.parent(ResourceLocation.withDefaultNamespace("block/block"))
 			.requiredTextureSlot(TextureSlot.PARTICLE)
 			.requiredTextureSlot(TextureSlot.SIDE)
 			.requiredTextureSlot(TextureSlot.BOTTOM)
@@ -29,7 +29,7 @@ public class ModExtendedModelTemplates extends ModModelTemplates {
 
 	public static ExtendedModelTemplate createTessera(int uv) {
 		return ExtendedModelTemplateBuilder.builder()
-				.parent(Identifier.withDefaultNamespace("block/block"))
+				.parent(ResourceLocation.withDefaultNamespace("block/block"))
 				.requiredTextureSlot(TextureSlot.TEXTURE)
 				.element(elementBuilder ->
 						elementBuilder
@@ -54,7 +54,7 @@ public class ModExtendedModelTemplates extends ModModelTemplates {
 		float yMax = (relativeY == 0 ? 0.9F : (relativeY == 1 ? 1.0F : 0.1F)) * TesseraModelPart.MyModelState.VOXEL_SIZE;
 
 		return ExtendedModelTemplateBuilder.builder()
-				.parent(Identifier.withDefaultNamespace("block/block"))
+				.parent(ResourceLocation.withDefaultNamespace("block/block"))
 				.requiredTextureSlot(TextureSlot.TEXTURE)
 				.element(elementBuilder ->
 						elementBuilder.from(xMin, 0.0F, yMin).to(xMax, 8.0F, yMax)//east

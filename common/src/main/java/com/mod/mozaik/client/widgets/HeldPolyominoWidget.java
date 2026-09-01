@@ -13,7 +13,8 @@ import net.minecraft.world.level.block.Rotation;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector3i;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRenderable {
 	public final MortarScreen screen;
 	private Polyomino.PlacedPolyomino polyomino;

@@ -9,13 +9,15 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Mirror;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public record Polyomino(List<Tessera.PlacedTessera> placedTessera, ResourceKey<ShardMaterial> material, UUID uuid) {
 	public static Polyomino EMPTY = new Polyomino(List.of(), ResourceKey.create(ModRegistries.ModKeys.SHARD_MATERIAL, Constants.prefix("")), UUID.randomUUID());
 

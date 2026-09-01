@@ -7,12 +7,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.List;
 import java.util.function.BiFunction;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModBlockEntities {
 	public static final ResourceSupplier<BlockEntityType<MortarBlockEntity>> MORTAR = registerBlockEntity("mortar", Services.MODLOADER::mortarBlockEntity, ModBlocks.MORTARS.asList());
 

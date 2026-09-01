@@ -3,11 +3,13 @@ package com.mod.mozaik.mixin;
 import com.mod.mozaik.util.IMozaikKeyMapping;
 import net.minecraft.client.KeyMapping;
 import net.neoforged.neoforge.client.settings.KeyModifier;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @Mixin(KeyMapping.class)
 public abstract class KeyMappingMixin implements IMozaikKeyMapping {
 	@Shadow(remap = false)

@@ -17,14 +17,16 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.math.Fraction;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ShardBagContents implements TooltipComponent {
 	public static final ShardBagContents EMPTY = new ShardBagContents(List.of());
 	public static final Codec<ShardBagContents> CODEC = ShardStack.CODEC.listOf().xmap(ShardBagContents::new, (contents) -> contents.items);

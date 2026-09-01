@@ -2,9 +2,11 @@ package com.mod.mozaik.util;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.input.KeyEvent;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public interface IMozaikKeyMapping {
 	Modifier multiLoader_Template$getModifier();
 

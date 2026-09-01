@@ -14,10 +14,11 @@ import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModTabs;
 import com.mod.mozaik.util.NaturalDigitCollection;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,7 +26,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModLangGen extends ModLangProvider {
 	public static final Map<String, String> SUBTITLE_GENERATOR = new HashMap<>();
 
@@ -120,7 +122,7 @@ public class ModLangGen extends ModLangProvider {
 		SUBTITLE_GENERATOR.forEach(this::add);
 	}
 
-	private static String identifierToTitleCase(Identifier id) {
+	private static String identifierToTitleCase(ResourceLocation id) {
 		return toTitleCase(id.getPath());
 	}
 

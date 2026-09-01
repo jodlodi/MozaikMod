@@ -18,17 +18,19 @@ import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModBlockStateGen extends BlockModelGenerators {
 
-	public ModBlockStateGen(Consumer<BlockModelDefinitionGenerator> blockStateOutput, ItemModelOutput itemModelOutput, BiConsumer<Identifier, ModelInstance> modelOutput) {
+	public ModBlockStateGen(Consumer<BlockModelDefinitionGenerator> blockStateOutput, ItemModelOutput itemModelOutput, BiConsumer<ResourceLocation, ModelInstance> modelOutput) {
 		super(blockStateOutput, itemModelOutput, modelOutput);
 	}
 
@@ -41,7 +43,7 @@ public class ModBlockStateGen extends BlockModelGenerators {
 					.put(TextureSlot.BOTTOM, TextureMapping.getBlockTexture(block))
 					.put(TextureSlot.TOP, TextureMapping.getBlockTexture(block));
 
-			Identifier horizontal = ModExtendedModelTemplates.MORTAR.create(block, dryTextures, this.modelOutput);
+			ResourceLocation horizontal = ModExtendedModelTemplates.MORTAR.create(block, dryTextures, this.modelOutput);
 
 			this.blockStateOutput.accept(
 					MultiVariantGenerator.dispatch(

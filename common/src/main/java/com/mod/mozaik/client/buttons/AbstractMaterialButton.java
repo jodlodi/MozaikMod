@@ -9,12 +9,14 @@ import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public abstract class AbstractMaterialButton extends ModButton {
 	protected final MortarScreen screen;
 	protected final Minecraft minecraft;
@@ -49,7 +51,7 @@ public abstract class AbstractMaterialButton extends ModButton {
 		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.getMaterialTexture(), 16, 16, 0, 0, x, y, 16, 16, color);
 	}
 
-	protected Identifier getMaterialTexture() {
+	protected ResourceLocation getMaterialTexture() {
 		return Constants.prefix(this.getMaterial().identifier().getPath() + "/shard");
 	}
 

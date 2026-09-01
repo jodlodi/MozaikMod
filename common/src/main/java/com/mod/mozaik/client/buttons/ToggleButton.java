@@ -9,14 +9,16 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector2i;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.List;
 import java.util.Optional;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ToggleButton extends ModButton implements PhaseRenderable {
 	protected final MortarScreen screen;
 	protected final SpriteButton.SpriteSet spriteSet;
@@ -39,7 +41,7 @@ public class ToggleButton extends ModButton implements PhaseRenderable {
 		return this.setting.get();
 	}
 
-	protected Identifier getTexture() {
+	protected ResourceLocation getTexture() {
 		if (this.getSetting()) {
 			return this.isHovered() && this.spriteSet.alt() != null
 					? this.spriteSet.alt()

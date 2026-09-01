@@ -7,15 +7,17 @@ import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureSlot;
-import net.minecraft.resources.Identifier;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModModelTemplates extends ModelTemplates {
 	public static final Map<ShardMaterial.Type, Map<TesseraShape.ModelReference, ModelTemplate>> TEMPLATE_MAP = new HashMap<>();
 
@@ -35,7 +37,7 @@ public class ModModelTemplates extends ModelTemplates {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static ModelTemplate create(Identifier id, TextureSlot... slots) {
+	public static ModelTemplate create(ResourceLocation id, TextureSlot... slots) {
 		return new ModelTemplate(Optional.of(ModelLocationUtils.decorateBlockModelLocation(id.toString())), Optional.empty(), slots);
 	}
 }

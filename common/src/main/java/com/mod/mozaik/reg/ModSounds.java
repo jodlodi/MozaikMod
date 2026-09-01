@@ -2,9 +2,11 @@ package com.mod.mozaik.reg;
 
 import com.mod.mozaik.platform.Services;
 import net.minecraft.sounds.SoundEvent;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModSounds {
 	public static final ResourceSupplier<SoundEvent> SETTINGS_TAB = Services.REGISTRY.registerSoundEvent(prefix("tab", "settings"), SoundEvent::createVariableRangeEvent);
 	public static final ResourceSupplier<SoundEvent> SAVE_TAB = Services.REGISTRY.registerSoundEvent(prefix("tab", "save"), SoundEvent::createVariableRangeEvent);

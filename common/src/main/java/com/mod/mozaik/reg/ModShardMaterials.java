@@ -4,9 +4,11 @@ import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.util.ColorCollection;
 import net.minecraft.resources.ResourceKey;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModShardMaterials {
 	public static final ResourceSupplier<ShardMaterial> STONE = Services.REGISTRY.registerShardMaterial("stone", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> BLACKSTONE = Services.REGISTRY.registerShardMaterial("blackstone", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));

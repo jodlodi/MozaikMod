@@ -4,9 +4,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public enum DirectionAndRotation implements StringRepresentable {
 	DOWN_0(Direction.DOWN, Rotation.NONE),
 	DOWN_90(Direction.DOWN, Rotation.CLOCKWISE_90),

@@ -14,11 +14,13 @@ import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.concurrent.CompletableFuture;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModRecipeProvider extends VanillaRecipeProvider {
 	private static final int PER_BLOCK = 8;
 	private static final int PER_STAIR = 6;

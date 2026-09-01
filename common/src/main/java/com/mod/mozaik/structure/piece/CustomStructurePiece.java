@@ -9,7 +9,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
@@ -27,12 +27,14 @@ import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
 import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.templatesystem.*;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.Objects;
 import java.util.Optional;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class CustomStructurePiece extends TemplateStructurePiece {
 	private final VerticalPlacement verticalPlacement;
 	private final Properties properties;
@@ -40,7 +42,7 @@ public class CustomStructurePiece extends TemplateStructurePiece {
 	private final BlockPos originalPlacement;
 	private final BoundingBox originalBox;
 
-	public CustomStructurePiece(StructureTemplateManager templateManager, BlockPos pos, VerticalPlacement verticalPlacement, Properties properties, Identifier location, Rotation rotation, Mirror mirror, BlockPos blockPos) {
+	public CustomStructurePiece(StructureTemplateManager templateManager, BlockPos pos, VerticalPlacement verticalPlacement, Properties properties, ResourceLocation location, Rotation rotation, Mirror mirror, BlockPos blockPos) {
 		super(ModStructurePieces.CUSTOM_STRUCTURE_PIECE.get(), 0, templateManager, location, location.toString(), makeSettings(mirror, rotation, blockPos, properties), pos);
 		this.verticalPlacement = verticalPlacement;
 		this.properties = properties;
@@ -69,7 +71,7 @@ public class CustomStructurePiece extends TemplateStructurePiece {
 		Properties.CODEC.encodeStart(NbtOps.INSTANCE, this.properties).resultOrPartial(Constants.LOG::error).ifPresent((tag1) -> tag.put("Properties", tag1));
 	}
 
-	private static StructurePlaceSettings makeSettings(StructureTemplateManager templateManager, CompoundTag tag, Identifier location) {
+	private static StructurePlaceSettings makeSettings(StructureTemplateManager templateManager, CompoundTag tag, ResourceLocation location) {
 		StructureTemplate structuretemplate = templateManager.getOrCreate(location);
 		BlockPos blockpos = new BlockPos(structuretemplate.getSize().getX() / 2, 0, structuretemplate.getSize().getZ() / 2);
 		return makeSettings(Mirror.valueOf(tag.getString("Mirror").orElseThrow()), Rotation.valueOf(tag.getString("Rotation").orElseThrow()), blockpos, Properties.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, tag.get("Properties"))).getOrThrow());

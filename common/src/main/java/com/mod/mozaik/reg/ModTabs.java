@@ -2,9 +2,11 @@ package com.mod.mozaik.reg;
 
 import com.mod.mozaik.platform.Services;
 import net.minecraft.world.item.CreativeModeTab;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModTabs {
 	public static final ResourceSupplier<CreativeModeTab> TAB = Services.REGISTRY.registerCreativeTab("tab", () -> ModItems.MORTARS.black().get().getDefaultInstance(), (itemDisplayParameters, output) -> {
 		output.accept(ModItems.SHARD_BAG.get());

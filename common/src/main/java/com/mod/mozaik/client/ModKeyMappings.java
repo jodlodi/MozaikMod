@@ -5,13 +5,15 @@ import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.util.NaturalDigitCollection;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
-import org.jspecify.annotations.NullMarked;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@NullMarked
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @SuppressWarnings("SameParameterValue")
 public class ModKeyMappings {
 	public static final List<KeyMapping> KEY_MAPPINGS = new ArrayList<>();
