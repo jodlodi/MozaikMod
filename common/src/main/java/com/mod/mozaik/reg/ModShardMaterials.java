@@ -2,8 +2,8 @@ package com.mod.mozaik.reg;
 
 import com.mod.mozaik.platform.Services;
 import com.mod.mozaik.polyomino.ShardMaterial;
+import com.mod.mozaik.util.ColorCollection;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.block.ColorCollection;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
@@ -16,8 +16,6 @@ public class ModShardMaterials {
 	public static final ResourceSupplier<ShardMaterial> DEEPSLATE = Services.REGISTRY.registerShardMaterial("deepslate", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 4));
 	public static final ResourceSupplier<ShardMaterial> TUFF = Services.REGISTRY.registerShardMaterial("tuff", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> CALCITE = Services.REGISTRY.registerShardMaterial("calcite", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
-	public static final ResourceSupplier<ShardMaterial> CINNABAR = Services.REGISTRY.registerShardMaterial("cinnabar", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
-	public static final ResourceSupplier<ShardMaterial> SULFUR = Services.REGISTRY.registerShardMaterial("sulfur", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> DRIPSTONE = Services.REGISTRY.registerShardMaterial("dripstone", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> MOSSY = Services.REGISTRY.registerShardMaterial("mossy", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> RESIN = Services.REGISTRY.registerShardMaterial("resin", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));

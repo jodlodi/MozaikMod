@@ -85,7 +85,7 @@ public final class OpenGlueMenuClientbound implements IClientboundMessage {
 			MortarMenu menu = new MortarMenu(packet.containerId, player.getInventory(), blockEntity, fromYRot);
 			MortarScreen screen = new MortarScreen(menu, player.getInventory(), Component.literal("Glue"));
 			player.containerMenu = screen.getMenu();
-			Minecraft.getInstance().gui.setScreen(screen);
+			Minecraft.getInstance().setScreen(screen);
 		}
 	}
 }

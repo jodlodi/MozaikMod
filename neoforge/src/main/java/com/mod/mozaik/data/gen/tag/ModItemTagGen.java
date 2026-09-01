@@ -24,14 +24,10 @@ public class ModItemTagGen extends ItemTagsProvider {
 	@Override
 	protected void addTags(HolderLookup.Provider provider) {
 		NeoForgeRegistryHelper.ITEMS.getEntries().forEach(itemDeferredHolder -> {
-			if (itemDeferredHolder.get() instanceof ShardItem) {
-				this.tag(ModTags.Items.SHARDS).add(
-						itemDeferredHolder.getKey()
-				);
-			} else if (itemDeferredHolder.get() instanceof MortarBlockItem) {
-				this.tag(ModTags.Items.MORTARS).add(
-						itemDeferredHolder.getKey()
-				);
+			if (itemDeferredHolder.get() instanceof ShardItem shardItem) {
+				this.tag(ModTags.Items.SHARDS).add(shardItem);
+			} else if (itemDeferredHolder.get() instanceof MortarBlockItem mortarBlockItem) {
+				this.tag(ModTags.Items.MORTARS).add(mortarBlockItem);
 			}
 		});
 	}

@@ -4,9 +4,9 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModTags;
 import net.minecraft.advancements.*;
-import net.minecraft.advancements.predicates.ItemPredicate;
-import net.minecraft.advancements.triggers.ConsumeItemTrigger;
-import net.minecraft.advancements.triggers.InventoryChangeTrigger;
+import net.minecraft.advancements.criterion.ConsumeItemTrigger;
+import net.minecraft.advancements.criterion.InventoryChangeTrigger;
+import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.advancements.AdvancementSubProvider;
@@ -22,9 +22,6 @@ import java.util.function.Consumer;
 public class ModAdvancementGen implements AdvancementSubProvider {
 	@Override
 	public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> consumer) {
-		HolderLookup.RegistryLookup<Biome> biomes = registries.lookupOrThrow(Registries.BIOME);
-		HolderLookup.RegistryLookup<Structure> structures = registries.lookupOrThrow(Registries.STRUCTURE);
-
 		AdvancementHolder root = this.prefix(consumer, "root", Advancement.Builder.advancement().display(
 						ModItems.DARK_PRISMARINE_SHARDS.get(),
 						createTranslated("advancement.mozaik.root", "Mozaik"),

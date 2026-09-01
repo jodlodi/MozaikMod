@@ -40,8 +40,8 @@ public class CustomStructurePiece extends TemplateStructurePiece {
 	private final BlockPos originalPlacement;
 	private final BoundingBox originalBox;
 
-	public CustomStructurePiece(HolderLookup.Provider registries, StructureTemplateManager templateManager, BlockPos pos, VerticalPlacement verticalPlacement, Properties properties, Identifier location, Rotation rotation, Mirror mirror, BlockPos blockPos) {
-		super(ModStructurePieces.CUSTOM_STRUCTURE_PIECE.get(), 0, templateManager, location, location.toString(), makeSettings(registries, mirror, rotation, blockPos, properties), pos);
+	public CustomStructurePiece(StructureTemplateManager templateManager, BlockPos pos, VerticalPlacement verticalPlacement, Properties properties, Identifier location, Rotation rotation, Mirror mirror, BlockPos blockPos) {
+		super(ModStructurePieces.CUSTOM_STRUCTURE_PIECE.get(), 0, templateManager, location, location.toString(), makeSettings(mirror, rotation, blockPos, properties), pos);
 		this.verticalPlacement = verticalPlacement;
 		this.properties = properties;
 
@@ -51,7 +51,7 @@ public class CustomStructurePiece extends TemplateStructurePiece {
 	}
 
 	public CustomStructurePiece(StructurePieceSerializationContext context, CompoundTag tag) {
-		super(ModStructurePieces.CUSTOM_STRUCTURE_PIECE.get(), tag, context.structureTemplateManager(), (location) -> makeSettings(context.registryAccess(), context.structureTemplateManager(), tag, location));
+		super(ModStructurePieces.CUSTOM_STRUCTURE_PIECE.get(), tag, context.structureTemplateManager(), (location) -> makeSettings(context.structureTemplateManager(), tag, location));
 		this.verticalPlacement = VerticalPlacement.byName(tag.getString("VerticalPlacement").orElseThrow());
 		this.properties = Properties.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, tag.get("Properties"))).getOrThrow();
 
@@ -69,22 +69,20 @@ public class CustomStructurePiece extends TemplateStructurePiece {
 		Properties.CODEC.encodeStart(NbtOps.INSTANCE, this.properties).resultOrPartial(Constants.LOG::error).ifPresent((tag1) -> tag.put("Properties", tag1));
 	}
 
-	private static StructurePlaceSettings makeSettings(HolderLookup.Provider registries, StructureTemplateManager templateManager, CompoundTag tag, Identifier location) {
+	private static StructurePlaceSettings makeSettings(StructureTemplateManager templateManager, CompoundTag tag, Identifier location) {
 		StructureTemplate structuretemplate = templateManager.getOrCreate(location);
 		BlockPos blockpos = new BlockPos(structuretemplate.getSize().getX() / 2, 0, structuretemplate.getSize().getZ() / 2);
-		return makeSettings(registries, Mirror.valueOf(tag.getString("Mirror").orElseThrow()), Rotation.valueOf(tag.getString("Rotation").orElseThrow()), blockpos, Properties.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, tag.get("Properties"))).getOrThrow());
+		return makeSettings(Mirror.valueOf(tag.getString("Mirror").orElseThrow()), Rotation.valueOf(tag.getString("Rotation").orElseThrow()), blockpos, Properties.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, tag.get("Properties"))).getOrThrow());
 	}
 
-	private static StructurePlaceSettings makeSettings(HolderLookup.Provider registries, Mirror mirror, Rotation rotation, BlockPos pos, Properties properties) {
-		HolderLookup.RegistryLookup<Block> blocks = registries.lookupOrThrow(Registries.BLOCK);
-
+	private static StructurePlaceSettings makeSettings(Mirror mirror, Rotation rotation, BlockPos pos, Properties properties) {
 		StructurePlaceSettings structurePlaceSettings = new StructurePlaceSettings()
 				.setRotation(rotation)
 				.setMirror(mirror)
 				.setRotationPivot(pos)
 				.addProcessor(properties.airPocket ? BlockIgnoreProcessor.STRUCTURE_BLOCK : BlockIgnoreProcessor.STRUCTURE_AND_AIR)
 				.setLiquidSettings(properties.keepLiquids ? LiquidSettings.APPLY_WATERLOGGING : LiquidSettings.IGNORE_WATERLOGGING)
-				.addProcessor(new ProtectedBlockProcessor(blocks.getOrThrow(BlockTags.FEATURES_CANNOT_REPLACE)));
+				.addProcessor(new ProtectedBlockProcessor(BlockTags.FEATURES_CANNOT_REPLACE));
 
 		properties.processor().ifPresent(structurePlaceSettings::addProcessor);
 
@@ -119,7 +117,7 @@ public class CustomStructurePiece extends TemplateStructurePiece {
 						Codec.BOOL.fieldOf("keep_liquids").forGetter(Properties::keepLiquids),
 						TerrainAdjustment.CODEC.fieldOf("adjustment").forGetter(Properties::adjustment),
 						Codec.INT.fieldOf("ground_level_delta").forGetter(Properties::groundLevelDelta),
-						CappedProcessor.MAP_CODEC.codec().optionalFieldOf("processor").forGetter(Properties::processor)
+						CappedProcessor.CODEC.codec().optionalFieldOf("processor").forGetter(Properties::processor)
 				).apply(instance, Properties::new));
 	}
 

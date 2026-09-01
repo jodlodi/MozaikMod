@@ -167,46 +167,6 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/cinnabar_shards",
-      "sprite": "mozaik:cinnabar/shard"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/cinnabar/gui_0",
-      "sprite": "mozaik:cinnabar/0"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/cinnabar/gui_1",
-      "sprite": "mozaik:cinnabar/1"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/cinnabar/gui_2",
-      "sprite": "mozaik:cinnabar/2"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:item/sulfur_shards",
-      "sprite": "mozaik:sulfur/shard"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/sulfur/gui_0",
-      "sprite": "mozaik:sulfur/0"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/sulfur/gui_1",
-      "sprite": "mozaik:sulfur/1"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "mozaik:gui/mozaik/sulfur/gui_2",
-      "sprite": "mozaik:sulfur/2"
-    },
-    {
-      "type": "minecraft:single",
       "resource": "mozaik:item/dripstone_shards",
       "sprite": "mozaik:dripstone/shard"
     },

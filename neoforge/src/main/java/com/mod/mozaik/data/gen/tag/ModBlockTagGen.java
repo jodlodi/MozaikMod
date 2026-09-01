@@ -24,9 +24,8 @@ public class ModBlockTagGen extends BlockTagsProvider {
 	@Override
 	protected void addTags(HolderLookup.Provider provider) {
 		ModBlocks.MORTARS.forEach(supplier -> {
-			ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, supplier.id());
-			this.tag(BlockTags.MINEABLE_WITH_SHOVEL).add(key);
-			this.tag(ModTags.Blocks.MORTARS).add(key);
+			this.tag(BlockTags.MINEABLE_WITH_SHOVEL).add(supplier.get());
+			this.tag(ModTags.Blocks.MORTARS).add(supplier.get());
 		});
 	}
 }

@@ -1,6 +1,0 @@
-{
-  "parent": "mozaik:block/normal/long",
-  "textures": {
-    "texture": "mozaik:block/mozaik/cinnabar/block_0"
-  }
-}

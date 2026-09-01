@@ -4,20 +4,16 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.reg.*;
+import com.mod.mozaik.util.ColorCollection;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
-import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.ColorCollection;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.concurrent.CompletableFuture;
@@ -126,34 +122,6 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
 		this.shard(ModShardMaterials.TUFF, Items.POLISHED_TUFF_SLAB, PER_SLAB);
 
 		this.shard(ModShardMaterials.CALCITE, Items.CALCITE, PER_BLOCK);
-
-		this.shard(ModShardMaterials.CINNABAR, Items.CHISELED_CINNABAR, PER_BLOCK);
-		this.shard(ModShardMaterials.CINNABAR, Items.CINNABAR, PER_BLOCK);
-		this.shard(ModShardMaterials.CINNABAR, Items.CINNABAR_STAIRS, PER_STAIR);
-		this.shard(ModShardMaterials.CINNABAR, Items.CINNABAR_SLAB, PER_SLAB);
-		this.shard(ModShardMaterials.CINNABAR, Items.CINNABAR_WALL, PER_WALL);
-		this.shard(ModShardMaterials.CINNABAR, Items.CINNABAR_BRICKS, PER_BLOCK);
-		this.shard(ModShardMaterials.CINNABAR, Items.CINNABAR_BRICK_STAIRS, PER_STAIR);
-		this.shard(ModShardMaterials.CINNABAR, Items.CINNABAR_BRICK_SLAB, PER_SLAB);
-		this.shard(ModShardMaterials.CINNABAR, Items.CINNABAR_BRICK_WALL, PER_WALL);
-		this.shard(ModShardMaterials.CINNABAR, Items.POLISHED_CINNABAR, PER_BLOCK);
-		this.shard(ModShardMaterials.CINNABAR, Items.POLISHED_CINNABAR_STAIRS, PER_STAIR);
-		this.shard(ModShardMaterials.CINNABAR, Items.POLISHED_CINNABAR_SLAB, PER_SLAB);
-		this.shard(ModShardMaterials.CINNABAR, Items.POLISHED_CINNABAR_WALL, PER_WALL);
-
-		this.shard(ModShardMaterials.SULFUR, Items.POTENT_SULFUR, PER_BLOCK);
-		this.shard(ModShardMaterials.SULFUR, Items.SULFUR, PER_BLOCK);
-		this.shard(ModShardMaterials.SULFUR, Items.SULFUR_STAIRS, PER_STAIR);
-		this.shard(ModShardMaterials.SULFUR, Items.SULFUR_SLAB, PER_SLAB);
-		this.shard(ModShardMaterials.SULFUR, Items.SULFUR_WALL, PER_WALL);
-		this.shard(ModShardMaterials.SULFUR, Items.SULFUR_BRICKS, PER_BLOCK);
-		this.shard(ModShardMaterials.SULFUR, Items.SULFUR_BRICK_STAIRS, PER_STAIR);
-		this.shard(ModShardMaterials.SULFUR, Items.SULFUR_BRICK_SLAB, PER_SLAB);
-		this.shard(ModShardMaterials.SULFUR, Items.SULFUR_BRICK_WALL, PER_WALL);
-		this.shard(ModShardMaterials.SULFUR, Items.POLISHED_SULFUR, PER_BLOCK);
-		this.shard(ModShardMaterials.SULFUR, Items.POLISHED_SULFUR_STAIRS, PER_STAIR);
-		this.shard(ModShardMaterials.SULFUR, Items.POLISHED_SULFUR_SLAB, PER_SLAB);
-		this.shard(ModShardMaterials.SULFUR, Items.POLISHED_SULFUR_WALL, PER_WALL);
 
 		this.shard(ModShardMaterials.DRIPSTONE, Items.DRIPSTONE_BLOCK, PER_BLOCK);
 
@@ -277,9 +245,9 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
 		this.shard(ModShardMaterials.SEA_LANTERN, Items.SEA_LANTERN, PER_BLOCK);
 
 		this.shard(ModShardMaterials.TERRACOTTA, Items.TERRACOTTA, PER_BLOCK);
-		ColorCollection.zipApply(ModShardMaterials.DYED_TERRACOTTA, Items.DYED_TERRACOTTA, (shard, block) -> this.shard(shard, block, PER_BLOCK));
-		ColorCollection.zipApply(ModShardMaterials.GLAZED_TERRACOTTA, Items.GLAZED_TERRACOTTA, (shard, block) -> this.shard(shard, block, PER_BLOCK));
-		ColorCollection.zipApply(ModShardMaterials.STAINED_GLASS, Items.STAINED_GLASS, (shard, block) -> this.shard(shard, block, PER_BLOCK));
+		ColorCollection.zipApply(ModShardMaterials.DYED_TERRACOTTA, ColorCollection.BlockCollections.DYED_TERRACOTTA, (shard, block) -> this.shard(shard, block, PER_BLOCK));
+		ColorCollection.zipApply(ModShardMaterials.GLAZED_TERRACOTTA, ColorCollection.BlockCollections.GLAZED_TERRACOTTA, (shard, block) -> this.shard(shard, block, PER_BLOCK));
+		ColorCollection.zipApply(ModShardMaterials.STAINED_GLASS, ColorCollection.BlockCollections.STAINED_GLASS, (shard, block) -> this.shard(shard, block, PER_BLOCK));
 	}
 
 	protected void shard(ResourceSupplier<ShardMaterial> material, ItemLike source, int count) {
@@ -291,10 +259,10 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
 				.pattern("CSC")
 				.pattern("SWS")
 				.pattern("CSC")
-				.define('C', Items.CONCRETE_POWDER.pick(color))
+				.define('C', ColorCollection.ItemCollections.CONCRETE_POWDER.pick(color))
 				.define('S', Items.SLIME_BALL)
 				.define('W', Items.WATER_BUCKET)
-				.unlockedBy("has_item", has(Items.CONCRETE_POWDER.pick(color)))
+				.unlockedBy("has_item", has(ColorCollection.ItemCollections.CONCRETE_POWDER.pick(color)))
 				.save(this.output);
 	}
 

@@ -18,8 +18,6 @@ public class ModTabs {
 		output.accept(ModItems.DEEPSLATE_SHARDS.get());
 		output.accept(ModItems.TUFF_SHARDS.get());
 		output.accept(ModItems.CALCITE_SHARDS.get());
-		output.accept(ModItems.CINNABAR_SHARDS.get());
-		output.accept(ModItems.SULFUR_SHARDS.get());
 		output.accept(ModItems.DRIPSTONE_SHARDS.get());
 		output.accept(ModItems.MOSSY_SHARDS.get());
 		output.accept(ModItems.RESIN_SHARDS.get());

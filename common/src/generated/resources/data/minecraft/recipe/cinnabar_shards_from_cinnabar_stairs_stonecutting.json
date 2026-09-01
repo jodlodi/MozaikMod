@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:cinnabar_stairs",
-  "result": {
-    "count": 6,
-    "id": "mozaik:cinnabar_shards"
-  }
-}

@@ -25,8 +25,11 @@ import com.mod.mozaik.util.FlatDirection;
 import com.mod.mozaik.util.IMozaikKeyMapping;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
+import net.minecraft.SharedConstants;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementProgress;
+import net.minecraft.client.InputType;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.gui.ComponentPath;
@@ -38,6 +41,9 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.navigation.ScreenDirection;
+import net.minecraft.client.gui.screens.DeathScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.input.KeyEvent;
@@ -49,7 +55,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Rotation;
@@ -236,7 +241,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 		if (this.titleBox != null && this.titleBox.isFocused() && !this.titleBox.getValue().isEmpty() && event.isConfirmation()) {
 			this.menu.sign(this.titleBox.getValue());
-			this.minecraft.gui.setScreen(null);
+			this.minecraft.setScreen(null);
 			return true;
 		}
 
@@ -860,7 +865,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 					public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
 						if (this.screen.titleBox != null) {
 							this.screen.menu.sign(this.screen.titleBox.getValue().isEmpty() ? null : this.screen.titleBox.getValue());
-							this.screen.minecraft.gui.setScreen(null);
+							this.screen.minecraft.setScreen(null);
 						}
 					}
 				});

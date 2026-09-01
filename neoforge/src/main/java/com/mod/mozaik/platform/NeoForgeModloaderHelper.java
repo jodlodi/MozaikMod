@@ -47,7 +47,7 @@ public class NeoForgeModloaderHelper implements IModloaderHelper {
 
 		@Override
 		public boolean isActive() {
-			return Minecraft.getInstance().gui.screen() instanceof MortarScreen;
+			return Minecraft.getInstance().screen instanceof MortarScreen;
 		}
 
 		@Override

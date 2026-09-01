@@ -2,12 +2,11 @@ package com.mod.mozaik.reg;
 
 import com.mod.mozaik.blocks.MortarBlock;
 import com.mod.mozaik.platform.Services;
+import com.mod.mozaik.util.ColorCollection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.ColorCollection;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;

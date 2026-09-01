@@ -102,7 +102,7 @@ public abstract class GenericTemplateStructure extends Structure {
 	}
 
 	protected void putAndPlace(StructurePiecesBuilder builder, BlockPos finalPos, GenerationContext context, Setup finalSetup, CustomStructurePiece.Properties properties, Identifier location, Rotation rotation, Mirror mirror, BlockPos pivot) {
-		builder.addPiece(new CustomStructurePiece(context.registryAccess(), context.structureTemplateManager(), finalPos, finalSetup.placement(), properties, location, rotation, mirror, pivot));
+		builder.addPiece(new CustomStructurePiece(context.structureTemplateManager(), finalPos, finalSetup.placement(), properties, location, rotation, mirror, pivot));
 	}
 
 	protected static boolean sample(WorldgenRandom random, float probability) {
@@ -188,7 +188,7 @@ public abstract class GenericTemplateStructure extends Structure {
 				Codec.BOOL.fieldOf("keep_liquids").forGetter(Setup::keepLiquids),
 				Codec.INT.fieldOf("ground_level_delta").forGetter(Setup::groundLevelDelta),
 				Codec.INT.optionalFieldOf("depth").forGetter(Setup::depth),
-				CappedProcessor.MAP_CODEC.codec().optionalFieldOf("processor").forGetter(Setup::processor)
+				CappedProcessor.CODEC.codec().optionalFieldOf("processor").forGetter(Setup::processor)
 		).apply(instance, Setup::new));
 
 		public Setup(CustomStructurePiece.VerticalPlacement placement, List<Identifier> structure_locations, float air_pocket_probability, float weight, boolean keepLiquids, int groundLevelDelta) {

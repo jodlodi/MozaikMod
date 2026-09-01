@@ -6,9 +6,9 @@ import com.mod.mozaik.items.ShardBagItem;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.items.components.ShardBagContents;
 import com.mod.mozaik.platform.Services;
+import com.mod.mozaik.util.ColorCollection;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ColorCollection;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.function.Function;
@@ -25,8 +25,6 @@ public class ModItems {
 	public static final ResourceSupplier<ShardItem> DEEPSLATE_SHARDS = Services.REGISTRY.registerItem("deepslate_shards", properties -> new ShardItem(properties, ModShardMaterials.DEEPSLATE));
 	public static final ResourceSupplier<ShardItem> TUFF_SHARDS = Services.REGISTRY.registerItem("tuff_shards", properties -> new ShardItem(properties, ModShardMaterials.TUFF));
 	public static final ResourceSupplier<ShardItem> CALCITE_SHARDS = Services.REGISTRY.registerItem("calcite_shards", properties -> new ShardItem(properties, ModShardMaterials.CALCITE));
-	public static final ResourceSupplier<ShardItem> CINNABAR_SHARDS = Services.REGISTRY.registerItem("cinnabar_shards", properties -> new ShardItem(properties, ModShardMaterials.CINNABAR));
-	public static final ResourceSupplier<ShardItem> SULFUR_SHARDS = Services.REGISTRY.registerItem("sulfur_shards", properties -> new ShardItem(properties, ModShardMaterials.SULFUR));
 	public static final ResourceSupplier<ShardItem> DRIPSTONE_SHARDS = Services.REGISTRY.registerItem("dripstone_shards", properties -> new ShardItem(properties, ModShardMaterials.DRIPSTONE));
 	public static final ResourceSupplier<ShardItem> MOSSY_SHARDS = Services.REGISTRY.registerItem("mossy_shards", properties -> new ShardItem(properties, ModShardMaterials.MOSSY));
 	public static final ResourceSupplier<ShardItem> RESIN_SHARDS = Services.REGISTRY.registerItem("resin_shards", properties -> new ShardItem(properties, ModShardMaterials.RESIN));

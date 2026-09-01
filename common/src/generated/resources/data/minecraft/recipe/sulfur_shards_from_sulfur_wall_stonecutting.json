@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:sulfur_wall",
-  "result": {
-    "count": 6,
-    "id": "mozaik:sulfur_shards"
-  }
-}

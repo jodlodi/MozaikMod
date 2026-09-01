@@ -1,6 +1,0 @@
-{
-  "parent": "mozaik:block/normal/plus_anti_corner",
-  "textures": {
-    "texture": "mozaik:block/mozaik/sulfur/block_0"
-  }
-}

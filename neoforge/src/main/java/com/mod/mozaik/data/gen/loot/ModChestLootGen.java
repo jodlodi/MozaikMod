@@ -155,7 +155,6 @@ public record ModChestLootGen(HolderLookup.Provider registries) implements LootT
 						.add(LootItem.lootTableItem(ModItems.BONE_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
 						.add(LootItem.lootTableItem(ModItems.QUARTZ_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
 						.add(LootItem.lootTableItem(ModItems.MOSSY_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
-						.add(LootItem.lootTableItem(ModItems.CINNABAR_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
 						.add(LootItem.lootTableItem(ModItems.RAW_GOLD_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
 						.add(LootItem.lootTableItem(ModItems.TUFF_SHARDS.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(6.0F, 24.0F))))
 				).withPool(LootPool.lootPool().setRolls(UniformGenerator.between(2.0F, 8.0F))

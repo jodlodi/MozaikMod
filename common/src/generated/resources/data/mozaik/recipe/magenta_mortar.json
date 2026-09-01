@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "C": "minecraft:magenta_concrete_powder",
     "S": "minecraft:slime_ball",
