@@ -12,16 +12,19 @@
         "sources": "https://github.com/FabricMC/fabric-mod-mod"
     },
     "license": "${license}",
-    "icon": "${mod_id}.png",
+    "icon": "mozaik_icon.png",
     "environment": "*",
     "entrypoints": {
         "main": [
-            "com.mod.mozaik.mozaik"
+            "com.mod.mozaik.MozaikMod"
+        ],
+        "client": [
+            "com.mod.mozaik.MozaikClient"
         ]
     },
     "mixins": [
-        "${mod_id}.mixins.json",
-        "${mod_id}.fabric.mixins.json"
+        "mozaik.mixins.json",
+        "mozaik.fabric.mixins.json"
     ],
     "depends": {
         "fabricloader": ">=${fabric_loader_version}",

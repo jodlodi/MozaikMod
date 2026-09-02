@@ -6,8 +6,6 @@ import com.mod.mozaik.polyomino.TesseraShape;
 import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.model.block.mortar.sub.TesseraModelPart;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceKey;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullUnmarked;
 
 @NullUnmarked

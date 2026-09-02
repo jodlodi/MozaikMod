@@ -2,16 +2,23 @@ package com.mod.mozaik.platform;
 
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.platform.services.IRegistryHelper;
+import com.mod.mozaik.polyomino.PolyominoShape;
+import com.mod.mozaik.polyomino.ShardMaterial;
+import com.mod.mozaik.reg.ModRegistries;
 import com.mod.mozaik.reg.ResourceSupplier;
 import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
@@ -37,6 +44,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
@@ -152,6 +161,46 @@ public class FabricRegistryHelper implements IRegistryHelper {
 	public <T> ResourceSupplier<MemoryModuleType<T>> registerMemoryModuleType(String id, @Nullable Codec<T> codec) {
 		Identifier location = Constants.prefix(id);
 		MemoryModuleType<T> type = Registry.register(BuiltInRegistries.MEMORY_MODULE_TYPE, location, new MemoryModuleType<>(Optional.ofNullable(codec)));
+		return new ResourceSupplier<>(() -> type, location);
+	}
+
+	@Override
+	public ResourceSupplier<StructurePieceType> registerStructurePieceType(String id, StructurePieceType typeSupplier) {
+		Identifier location = Constants.prefix(id);
+		StructurePieceType type = Registry.register(BuiltInRegistries.STRUCTURE_PIECE, location, typeSupplier);
+		return new ResourceSupplier<>(() -> type, location);
+	}
+
+	@Override
+	public <T extends StructureType<?>> ResourceSupplier<T> registerStructureType(String id, Supplier<T> structureType) {
+		Identifier location = Constants.prefix(id);
+		T type = Registry.register(BuiltInRegistries.STRUCTURE_TYPE, location, structureType.get());
+		return new ResourceSupplier<>(() -> type, location);
+	}
+
+	@Override
+	public ResourceSupplier<ShardMaterial> registerShardMaterial(String id, Supplier<ShardMaterial> shardMaterial) {
+		Identifier location = Constants.prefix(id);
+		ShardMaterial material = Registry.register(ModRegistries.SHARD_MATERIALS, location, shardMaterial.get());
+		return new ResourceSupplier<>(() -> material, location);
+	}
+
+	@Override
+	public ResourceSupplier<PolyominoShape> registerPolyominoShape(String id, Supplier<PolyominoShape> shardMaterial) {
+		Identifier location = Constants.prefix(id);
+		PolyominoShape shape = Registry.register(ModRegistries.POLYOMINO_SHAPES, location, shardMaterial.get());
+		return new ResourceSupplier<>(() -> shape, location);
+	}
+
+	@Override
+	public <T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey) {
+		return FabricRegistryBuilder.create(resourceKey).buildAndRegister();
+	}
+
+	@Override
+	public <T> ResourceSupplier<DataComponentType<T>> registerDataComponent(String id, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
+		Identifier location = Constants.prefix(id);
+		DataComponentType<T> type = Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, location, DataComponentType.<T>builder().persistent(codec).networkSynchronized(streamCodec).build());
 		return new ResourceSupplier<>(() -> type, location);
 	}
 }

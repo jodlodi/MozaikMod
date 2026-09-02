@@ -14,11 +14,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.jspecify.annotations.NullMarked;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 
 @NullMarked
-@ParametersAreNonnullByDefault
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public final class SignedMozaikBidirectional implements IBidirectionalMessage {
 	public static final Type<SignedMozaikBidirectional> TYPE = new Type<>(Constants.prefix("sign_mozaik"));

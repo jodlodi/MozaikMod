@@ -19,11 +19,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Rotation;
 import org.jspecify.annotations.NullMarked;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
 @NullMarked
-@ParametersAreNonnullByDefault
 public final class OpenGlueMenuClientbound implements IClientboundMessage {
 	public static final Type<OpenGlueMenuClientbound> TYPE = new Type<>(Constants.prefix("open_glue"));
 

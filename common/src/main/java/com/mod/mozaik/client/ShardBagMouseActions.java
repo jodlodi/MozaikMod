@@ -7,12 +7,9 @@ import com.mod.mozaik.reg.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.ScrollWheelHandler;
 import net.minecraft.client.gui.ItemSlotMouseAction;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector2i;
 import org.jspecify.annotations.NullMarked;
 
