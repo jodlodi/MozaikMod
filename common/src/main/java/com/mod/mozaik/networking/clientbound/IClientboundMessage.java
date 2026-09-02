@@ -5,10 +5,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 import org.jspecify.annotations.NullMarked;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 @NullMarked
-@ParametersAreNonnullByDefault
 public interface IClientboundMessage extends CustomPacketPayload {
 
 	void encode(FriendlyByteBuf buf);

@@ -15,13 +15,9 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
-import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NullMarked;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 @NullMarked
-@ParametersAreNonnullByDefault
 public final class AddPolyominoBidirectional implements IBidirectionalMessage {
 	public static final Type<AddPolyominoBidirectional> TYPE = new Type<>(Constants.prefix("add_polyomino"));
 

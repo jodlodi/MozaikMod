@@ -18,12 +18,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import org.jspecify.annotations.NullMarked;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @NullMarked
-@ParametersAreNonnullByDefault
 public final class RemovePolyominoBidirectional implements IBidirectionalMessage {
 	public static final Type<RemovePolyominoBidirectional> TYPE = new Type<>(Constants.prefix("remove_polyomino"));
 
