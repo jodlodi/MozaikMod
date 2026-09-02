@@ -30,7 +30,6 @@ public class FabricPlatformHelper implements IPlatformHelper {
 
     @Override
     public Path getConfigDir() {
-        // TODO: [NYI]
-        return null;
+        return FabricLoader.getInstance().getConfigDir();
     }
 }
