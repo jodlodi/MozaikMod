@@ -14,6 +14,6 @@ public record Mozaik(List<Polyomino.PlacedPolyomino> placedPolyomino) {
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, Mozaik> STREAM_CODEC = StreamCodec.ofMember(
 			(stack, byteBuf) -> byteBuf.writeJsonWithCodec(CODEC, stack),
-			byteBuf -> byteBuf.readLenientJsonWithCodec(CODEC)
+			byteBuf -> byteBuf.readJsonWithCodec(CODEC)
 	);
 }

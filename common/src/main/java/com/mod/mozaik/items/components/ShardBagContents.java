@@ -1,13 +1,10 @@
 package com.mod.mozaik.items.components;
 
 import com.google.common.collect.ImmutableList;
-import com.mod.mozaik.items.ShardBagItem;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.polyomino.ShardStack;
-import com.mod.mozaik.reg.ModDataComponents;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -16,10 +13,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
-import org.apache.commons.lang3.math.Fraction;
 import net.minecraft.MethodsReturnNonnullByDefault;
+
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,7 +190,7 @@ public class ShardBagContents implements TooltipComponent {
 			int removeIndex = -1;
 			for (int i = 0; i < this.items.size(); i++) {
 				ItemStack stack = this.items.get(i);
-				if (stack.getItem() instanceof ShardItem item && item.getMaterial().identifier().equals(material.identifier())) {
+				if (stack.getItem() instanceof ShardItem item && item.getMaterial().location().equals(material.location())) {
 					if (stack.getCount() <= 1) {
 						removeIndex = i;
 						break;

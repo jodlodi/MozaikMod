@@ -1,24 +1,27 @@
 package com.mod.mozaik.client.widgets;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
-import org.jspecify.annotations.NonNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public abstract class UnclickableWidget extends AbstractWidget {
 	public UnclickableWidget(int x, int y, int sizeX, int sizeY) {
 		super(x, y, sizeX, sizeY, Component.empty());
 	}
 
 	@Override
-	protected void extractWidgetRenderState(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+	protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 
 	}
 
 	@Override
-	protected void updateWidgetNarration(@NonNull NarrationElementOutput narrationElementOutput) {
+	protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
 
 	}
 
@@ -28,7 +31,7 @@ public abstract class UnclickableWidget extends AbstractWidget {
 	}
 
 	@Override
-	public boolean mouseClicked(@NonNull MouseButtonEvent event, boolean doubleClick) {
+	protected boolean isValidClickButton(int button) {
 		return false;
 	}
 }

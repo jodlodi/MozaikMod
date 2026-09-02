@@ -3,15 +3,14 @@ package com.mod.mozaik.client.buttons;
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.screens.MortarScreen;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.input.InputWithModifiers;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector2i;
 import net.minecraft.MethodsReturnNonnullByDefault;
+
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.jspecify.annotations.Nullable;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -31,16 +30,17 @@ public abstract class SpriteButton extends ModButton implements PhaseRenderable 
 	}
 
 	@Override
-	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-		graphics.blit(RenderPipelines.GUI_TEXTURED, this.getTexture(), this.getX(), this.getY(), 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
+	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+		graphics.blit(this.getTexture(), this.getX(), this.getY(), 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
 	}
 
 	@Override
-	public abstract void onPress(InputWithModifiers inputWithModifiers);
+	public abstract void onPress();
 
 	public abstract boolean isPressed();
 
-	public record SpriteSet(ResourceLocation normal, ResourceLocation hover, ResourceLocation pressed, @Nullable ResourceLocation alt, int width, int height) {
+	public record SpriteSet(ResourceLocation normal, ResourceLocation hover, ResourceLocation pressed,
+							@Nullable ResourceLocation alt, int width, int height) {
 		public static final SpriteSet UP_ARROW = new SpriteSet(
 				Constants.prefix("textures/gui/container/up_arrow/unselected.png"),
 				Constants.prefix("textures/gui/container/up_arrow/hovered.png"),

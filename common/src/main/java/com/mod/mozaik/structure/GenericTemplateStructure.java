@@ -2,6 +2,7 @@ package com.mod.mozaik.structure;
 
 import com.google.common.collect.ImmutableList;
 import com.mod.mozaik.structure.piece.CustomStructurePiece;
+import com.mod.mozaik.util.ModUtil;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -9,7 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.Util;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.block.Mirror;
@@ -84,7 +84,7 @@ public abstract class GenericTemplateStructure extends Structure {
 			ResourceLocation location = this.selectTemplate(finalSetup, random);
 
 			StructureTemplate template = context.structureTemplateManager().getOrCreate(location);
-			Rotation rotation = Util.getRandom(Rotation.values(), random);
+			Rotation rotation = ModUtil.getRandom(Rotation.values(), random);
 			Mirror mirror = Mirror.NONE;
 			BlockPos pivot = new BlockPos(template.getSize().getX() / 2, 0, template.getSize().getZ() / 2);
 			BoundingBox boundingBox = template.getBoundingBox(context.chunkPos().getWorldPosition(), rotation, pivot, mirror);
@@ -128,14 +128,14 @@ public abstract class GenericTemplateStructure extends Structure {
 	}
 
 	protected int findSuitableY(RandomSource random, ChunkGenerator chunkGenerator, Setup setup, boolean airPocket, int baseHeight, int ySpan, BoundingBox boundingBox, LevelHeightAccessor heightAccessor, RandomState randomState) {
-		int height = heightAccessor.getMinY() + 15;
+		int height = heightAccessor.getMinBuildHeight() + 15;
 		int finalHeight;
 		switch (setup.placement) {
 			case SUNKEN ->
 					finalHeight = Math.min(chunkGenerator.getSeaLevel() - ySpan - 1, baseHeight + setup.depth.orElse(0));
 			case BURIED -> finalHeight = Math.max(chunkGenerator.getSeaLevel() + 1, baseHeight) + setup.depth.orElse(0);
 			case IN_THE_SKY -> {
-				int top = heightAccessor.getMaxY();
+				int top = heightAccessor.getMaxBuildHeight();
 				return baseHeight + Mth.randomBetweenInclusive(random, (top - baseHeight) / 5, (top - baseHeight) / 4);
 			}
 			case IN_NETHER -> {

@@ -6,6 +6,7 @@ import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.polyomino.Tessera;
+import com.mod.mozaik.util.ModUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.resources.ResourceKey;
@@ -71,13 +72,13 @@ public class HeldPolyominoWidget extends UnclickableWidget implements PhaseRende
 
 		this.placedTessera().forEach(voxel -> {
 					Vector3i vec = new Vector3i(voxel.x(), 0, voxel.y());
-					Vector3i rotated = rotation.rotation().rotate(vec);
+					Vector3i rotated = ModUtil.rotated(rotation, vec);
 					placedTessera.add(new Tessera.PlacedTessera(new Tessera(voxel.tessera().shape().rotate(rotation)), rotated.x(), rotated.z()));
 				}
 		);
 
 		Vector3i vec = new Vector3i(this.getGridX(), 0, this.getGridY());
-		Vector3i rotated = rotation.rotation().rotate(vec);
+		Vector3i rotated = ModUtil.rotated(rotation, vec);
 
 		return new Polyomino.PlacedPolyomino(
 				new Polyomino(placedTessera, this.getPolyomino().material(), this.getPolyomino().uuid()),

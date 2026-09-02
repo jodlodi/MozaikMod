@@ -4,9 +4,10 @@ import com.mod.mozaik.polyomino.Polyomino;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.model.data.ModelData;
-import net.neoforged.neoforge.model.data.ModelProperty;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelProperty;
+
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.List;

@@ -9,7 +9,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public record ShardMaterial(Type type, int shades) {
-	private static final RandomSource RANDOM = RandomSource.createThreadLocalInstance();
+	private static final RandomSource RANDOM = RandomSource.createNewThreadLocalInstance();
 
 	public ResourceLocation getGuiSheet(String type, long polySeed, int index) {
 		if (this.shades == 1) return Constants.prefix(type + "/" + 0);

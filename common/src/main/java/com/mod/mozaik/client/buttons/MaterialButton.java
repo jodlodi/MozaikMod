@@ -9,10 +9,7 @@ import com.mod.mozaik.reg.ModSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.input.MouseButtonInfo;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.Holder;
@@ -21,6 +18,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.MethodsReturnNonnullByDefault;
+
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.ArrayList;
@@ -64,20 +62,20 @@ public class MaterialButton extends AbstractMaterialButton {
 	}
 
 	@Override
-	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-		super.extractContents(graphics, mouseX, mouseY, partialTick);
+	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+		super.renderWidget(graphics, mouseX, mouseY, partialTick);
 		if (PersonalPreferences.getPrimaryColor() == this.getMaterial()) {
-			graphics.blit(RenderPipelines.GUI_TEXTURED, Constants.prefix("textures/gui/container/frame.png"), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
+			graphics.blit(Constants.prefix("textures/gui/container/frame.png"), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
 		}
 		for (int i = 1; i <= 9; i++) {
 			if (PersonalPreferences.getFavourite(i - 1).material().orElse(null) == this.getMaterial()) {
-				graphics.blit(RenderPipelines.GUI_TEXTURED, Constants.prefix("textures/gui/container/favourite.png"), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
+				graphics.blit(Constants.prefix("textures/gui/container/favourite.png"), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
 			}
 		}
 	}
 
 	@Override
-	protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y) {
+	protected void extractTooltip(GuiGraphics graphics, int x, int y) {
 		List<Component> components = new ArrayList<>();
 		if (PersonalPreferences.getShardBarTooltipName().get()) {
 			components.add(this.getItemStack().getHoverName());
@@ -99,24 +97,24 @@ public class MaterialButton extends AbstractMaterialButton {
 			components.add(Component.translatable(FAVOURITE, Component.literal(favSlots.toString()).withStyle(ChatFormatting.AQUA)));
 		}
 
-		graphics.setTooltipForNextFrame(Minecraft.getInstance().font, components, Optional.empty(), x, y);
+		graphics.renderComponentTooltip(this.minecraft.font, components, x, y);
 	}
 
 	@Override
-	protected boolean isValidClickButton(MouseButtonInfo buttonInfo) {
-		return buttonInfo.button() == MortarScreen.LEFT_CLICK || buttonInfo.button() == MortarScreen.RIGHT_CLICK;
+	protected boolean isValidClickButton(int button) {
+		return button == MortarScreen.LEFT_CLICK || button == MortarScreen.RIGHT_CLICK;
 	}
 
 	@Override
-	protected void renderMaterial(GuiGraphicsExtractor graphics) {
+	protected void renderMaterial(GuiGraphics graphics) {
 		super.renderMaterial(graphics);
 		if (PersonalPreferences.getShardBarDisplayCount().get()) {
 			this.itemCount(graphics, this.minecraft.font, this.getX(), this.getY(), this.getCount());
 		}
 	}
 
-	private void itemCount(GuiGraphicsExtractor graphics, Font font, int x, int y, String amount) {
-		graphics.text(font, amount, x + 19 - 2 - font.width(amount), y + 6 + 3, -1, true);
+	private void itemCount(GuiGraphics graphics, Font font, int x, int y, String amount) {
+		graphics.drawString(font, amount, x + 19 - 2 - font.width(amount), y + 6 + 3, -1, true);
 	}
 
 	protected String getCount() {
@@ -125,12 +123,27 @@ public class MaterialButton extends AbstractMaterialButton {
 	}
 
 	@Override
-	public void onClick(MouseButtonEvent event, boolean doubleClick) {
-		if (event.button() == MortarScreen.LEFT_CLICK) {
-			PersonalPreferences.setPrimaryColor(this.screen, this.getMaterial());
-		} else {
-			PersonalPreferences.setSecondaryColor(this.getMaterial());
+	public void onClick(double mouseX, double mouseY) {
+		super.onClick(mouseX, mouseY);
+	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		if (this.active && this.visible) {
+			if (this.isValidClickButton(button)) {
+				boolean flag = this.clicked(mouseX, mouseY);
+				if (flag) {
+					this.playDownSound(Minecraft.getInstance().getSoundManager());
+					if (button == MortarScreen.LEFT_CLICK) {
+						PersonalPreferences.setPrimaryColor(this.screen, this.getMaterial());
+					} else {
+						PersonalPreferences.setSecondaryColor(this.getMaterial());
+					}
+					return true;
+				}
+			}
 		}
+		return false;
 	}
 
 	@Override

@@ -1,18 +1,12 @@
 package com.mod.mozaik.items;
 
 import com.mod.mozaik.items.components.ShardBagContents;
-import com.mod.mozaik.polyomino.ShardStack;
 import com.mod.mozaik.reg.ModDataComponents;
-import com.mojang.serialization.MapCodec;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperty;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.ARGB;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SlotAccess;
@@ -23,27 +17,16 @@ import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.MethodsReturnNonnullByDefault;
+
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ShardBagItem extends Item {
-	public static final int MAX_SHOWN_GRID_ITEMS_X = 4;
-	public static final int MAX_SHOWN_GRID_ITEMS_Y = 3;
-	public static final int MAX_SHOWN_GRID_ITEMS = 12;
-	public static final int OVERFLOWING_MAX_SHOWN_GRID_ITEMS = 11;
-	private static final int FULL_BAR_COLOR = ARGB.colorFromFloat(1.0F, 1.0F, 0.33F, 0.33F);
-	private static final int BAR_COLOR = ARGB.colorFromFloat(1.0F, 0.44F, 0.53F, 1.0F);
-	private static final int TICKS_AFTER_FIRST_THROW = 10;
-	private static final int TICKS_BETWEEN_THROWS = 2;
-	private static final int TICKS_MAX_THROW_DURATION = 200;
-
 	public ShardBagItem(Item.Properties properties) {
 		super(properties);
 	}
@@ -59,8 +42,6 @@ public class ShardBagItem extends Item {
 			if (clickAction == ClickAction.PRIMARY && !other.isEmpty()) {
 				if (contents.tryTransfer(slot, player) > 0) {
 					playInsertSound(player);
-				} else {
-					playInsertFailSound(player);
 				}
 
 				self.set(ModDataComponents.SHARD_BAG_CONTENTS.get(), contents.toImmutable());
@@ -100,8 +81,6 @@ public class ShardBagItem extends Item {
 				if (clickAction == ClickAction.PRIMARY && !other.isEmpty()) {
 					if (slot.allowModification(player) && contents.tryInsert(other) > 0) {
 						playInsertSound(player);
-					} else {
-						playInsertFailSound(player);
 					}
 
 					self.set(ModDataComponents.SHARD_BAG_CONTENTS.get(), contents.toImmutable());
@@ -128,9 +107,9 @@ public class ShardBagItem extends Item {
 	}
 
 	@Override
-	public InteractionResult use(Level level, Player player, InteractionHand hand) {
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		player.startUsingItem(hand);
-		return InteractionResult.SUCCESS;
+		return InteractionResultHolder.consume(player.getItemInHand(hand));
 	}
 
 	private void dropContent(Level level, Player player, ItemStack itemStack) {
@@ -148,19 +127,6 @@ public class ShardBagItem extends Item {
 			contents.toggleSelectedItem(selectedItem);
 			stack.set(ModDataComponents.SHARD_BAG_CONTENTS.get(), contents.toImmutable());
 		}
-	}
-
-	public static int getSelectedItemIndex(ItemStack stack) {
-		return stack.getOrDefault(ModDataComponents.SHARD_BAG_CONTENTS.get(), ShardBagContents.EMPTY).getSelectedItemIndex();
-	}
-
-	public static @Nullable ShardStack getSelectedItem(ItemStack stack) {
-		return stack.getOrDefault(ModDataComponents.SHARD_BAG_CONTENTS.get(), ShardBagContents.EMPTY).getSelectedItem();
-	}
-
-	public static int getNumberOfItemsToShow(ItemStack stack) {
-		ShardBagContents contents = stack.getOrDefault(ModDataComponents.SHARD_BAG_CONTENTS.get(), ShardBagContents.EMPTY);
-		return contents.getNumberOfItemsToShow();
 	}
 
 	private boolean dropContent(ItemStack bundle, Player player) {
@@ -207,14 +173,13 @@ public class ShardBagItem extends Item {
 	}
 
 	@Override
-	public ItemUseAnimation getUseAnimation(ItemStack itemStack) {
-		return ItemUseAnimation.BUNDLE;
+	public UseAnim getUseAnimation(ItemStack itemStack) {
+		return UseAnim.BLOCK;
 	}
 
 	@Override
 	public Optional<TooltipComponent> getTooltipImage(ItemStack bundle) {
-		TooltipDisplay display = bundle.getOrDefault(DataComponents.TOOLTIP_DISPLAY, TooltipDisplay.DEFAULT);
-		return !display.shows(ModDataComponents.SHARD_BAG_CONTENTS.get()) ? Optional.empty() : Optional.ofNullable(bundle.get(ModDataComponents.SHARD_BAG_CONTENTS.get())).map(ShardBagTooltip::new);
+		return Optional.ofNullable(bundle.get(ModDataComponents.SHARD_BAG_CONTENTS.get())).map(ShardBagTooltip::new);
 	}
 
 	@Override
@@ -222,7 +187,7 @@ public class ShardBagItem extends Item {
 		ShardBagContents contents = entity.getItem().get(ModDataComponents.SHARD_BAG_CONTENTS.get());
 		if (contents != null) {
 			entity.getItem().set(ModDataComponents.SHARD_BAG_CONTENTS.get(), ShardBagContents.EMPTY);
-			ItemUtils.onContainerDestroyed(entity, contents.itemCopyStream());
+			ItemUtils.onContainerDestroyed(entity, contents.itemCopyStream().toList());
 		}
 	}
 
@@ -232,10 +197,6 @@ public class ShardBagItem extends Item {
 
 	private static void playInsertSound(Entity entity) {
 		entity.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
-	}
-
-	private static void playInsertFailSound(Entity entity) {
-		entity.playSound(SoundEvents.BUNDLE_INSERT_FAIL, 1.0F, 1.0F);
 	}
 
 	private static void playDropContentsSound(Level level, Entity entity) {
@@ -249,17 +210,5 @@ public class ShardBagItem extends Item {
 
 	public record ShardBagTooltip(ShardBagContents contents) implements TooltipComponent {
 
-	}
-
-	public record ShardBagHasSelectedItem() implements ConditionalItemModelProperty {
-		public static final MapCodec<ShardBagHasSelectedItem> MAP_CODEC = MapCodec.unit(new ShardBagHasSelectedItem());
-
-		public boolean get(ItemStack itemStack, @Nullable ClientLevel level, @Nullable LivingEntity owner, int seed, ItemDisplayContext displayContext) {
-			return ShardBagItem.getSelectedItem(itemStack) != null;
-		}
-
-		public MapCodec<ShardBagHasSelectedItem> type() {
-			return MAP_CODEC;
-		}
 	}
 }

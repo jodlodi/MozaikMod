@@ -18,5 +18,5 @@ public interface IModloaderHelper {
 		return new MortarBlockEntity(pos, blockState);
 	}
 
-	KeyMapping createKeyMapping(String name, InputConstants.Type type, int keyCode, int keyMod, KeyMapping.Category category);
+	KeyMapping createKeyMapping(String name, InputConstants.Type type, int keyCode, int keyMod, String category);
 }

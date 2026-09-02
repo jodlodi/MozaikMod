@@ -8,9 +8,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public interface IBidirectionalMessage extends IClientboundMessage, IServerboundMessage {

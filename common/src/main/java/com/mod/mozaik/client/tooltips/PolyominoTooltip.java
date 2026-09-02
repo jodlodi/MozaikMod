@@ -6,7 +6,7 @@ import com.mod.mozaik.items.PolyominoItem;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.Tessera;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -32,7 +32,7 @@ public class PolyominoTooltip implements ClientTooltipComponent {
 	}
 
 	@Override
-	public int getHeight(Font font) {
+	public int getHeight() {
 		return this.height;
 	}
 
@@ -42,12 +42,7 @@ public class PolyominoTooltip implements ClientTooltipComponent {
 	}
 
 	@Override
-	public boolean showTooltipWithItemInHand() {
-		return true;
-	}
-
-	@Override
-	public void extractImage(Font font, int x, int y, int w, int h, GuiGraphicsExtractor graphics) {
+	public void renderImage(Font font, int x, int y, GuiGraphics graphics) {
 		PolyominoWidget.renderVoxels(new GraphicsRenderHelper(graphics), this.polyomino, x, y);
 	}
 }

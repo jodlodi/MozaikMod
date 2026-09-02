@@ -8,12 +8,13 @@ import com.mod.mozaik.reg.ModBlockEntities;
 import com.mod.mozaik.reg.ModDataComponents;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.LockCode;
@@ -21,10 +22,9 @@ import net.minecraft.world.Nameable;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 import net.minecraft.MethodsReturnNonnullByDefault;
+
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.*;
@@ -44,12 +44,12 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, String> STREAM_STRING_CODEC = StreamCodec.ofMember(
 			(stack, byteBuf) -> byteBuf.writeJsonWithCodec(Codec.STRING, stack),
-			byteBuf -> byteBuf.readLenientJsonWithCodec(Codec.STRING)
+			byteBuf -> byteBuf.readJsonWithCodec(Codec.STRING)
 	);
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, Boolean> STREAM_BOOL_CODEC = StreamCodec.ofMember(
 			(stack, byteBuf) -> byteBuf.writeJsonWithCodec(Codec.BOOL, stack),
-			byteBuf -> byteBuf.readLenientJsonWithCodec(Codec.BOOL)
+			byteBuf -> byteBuf.readJsonWithCodec(Codec.BOOL)
 	);
 
 	public MortarBlockEntity(BlockPos pos, BlockState blockState) {
@@ -68,8 +68,8 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 
 	public void markChanged() {
 		if (this.level instanceof ServerLevel serverLevel) {
-			Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(this.getBlockPos()), new UpdateMozaikBidirectional(this.polyomino, this.getBlockPos()));
-			serverLevel.getChunkAt(this.getBlockPos()).markUnsaved();
+			Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, new ChunkPos(this.getBlockPos()), new UpdateMozaikBidirectional(this.polyomino, this.getBlockPos()));
+			serverLevel.getChunkAt(this.getBlockPos()).setUnsaved(true);
 		}
 	}
 
@@ -110,21 +110,21 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 	}
 
 	@Override
-	protected void applyImplicitComponents(DataComponentGetter components) {
-		super.applyImplicitComponents(components);
-		this.title = components.get(DataComponents.CUSTOM_NAME);
-		this.lockKey = components.getOrDefault(DataComponents.LOCK, LockCode.NO_LOCK);
+	protected void applyImplicitComponents(DataComponentInput componentInput) {
+		super.applyImplicitComponents(componentInput);
+		this.title = componentInput.get(DataComponents.CUSTOM_NAME);
+		this.lockKey = componentInput.getOrDefault(DataComponents.LOCK, LockCode.NO_LOCK);
 
-		Mozaik mozaik = components.get(ModDataComponents.MOZAIK.get());
+		Mozaik mozaik = componentInput.get(ModDataComponents.MOZAIK.get());
 		if (mozaik != null) {
 			this.polyomino.clear();
 			this.polyomino.addAll(mozaik.placedPolyomino());
 		}
 
-		String author = components.get(ModDataComponents.AUTHOR.get());
+		String author = componentInput.get(ModDataComponents.AUTHOR.get());
 		if (author != null) this.setAuthorName(author);
 
-		this.signed = components.getOrDefault(ModDataComponents.SIGNED.get(), false);
+		this.signed = componentInput.getOrDefault(ModDataComponents.SIGNED.get(), false);
 	}
 
 	@Override
@@ -138,21 +138,34 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 	}
 
 	@Override
-	protected void loadAdditional(ValueInput input) {
-		super.loadAdditional(input);
-		this.title = parseCustomNameSafe(input, CUSTOM_NAME);
-		this.name = input.read(AUTHOR_NAME, Codec.STRING).orElse(null);
-		this.signed = input.read(SIGNED_ID, Codec.BOOL).orElse(false);
-		this.lockKey = LockCode.fromTag(input);
-		input.read(POLYOMINO_ID, Polyomino.PlacedPolyomino.CODEC.listOf()).ifPresent(this::setPolyomino);
+	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+		if (tag.contains(CUSTOM_NAME, CompoundTag.TAG_STRING)) {
+			this.title = parseCustomNameSafe(tag.getString(CUSTOM_NAME), registries);
+		}
+		this.name = tag.contains(AUTHOR_NAME, CompoundTag.TAG_STRING) ? tag.getString(AUTHOR_NAME) : null;
+		this.signed = tag.contains(SIGNED_ID) && tag.getBoolean(AUTHOR_NAME);
+		this.lockKey = LockCode.fromTag(tag);
+		if (tag.contains(CUSTOM_NAME, CompoundTag.TAG_STRING)) {
+			this.title = parseCustomNameSafe(tag.getString(CUSTOM_NAME), registries);
+		}
+
+		if (tag.contains(POLYOMINO_ID)) {
+			Polyomino.PlacedPolyomino.CODEC.listOf().parse(NbtOps.INSTANCE, tag.get(POLYOMINO_ID)).result().ifPresent(this::setPolyomino);
+		}
 	}
 
 	@Override
-	protected void saveAdditional(ValueOutput output) {
-		output.storeNullable(CUSTOM_NAME, ComponentSerialization.CODEC, this.title);
-		output.storeNullable(AUTHOR_NAME, Codec.STRING, this.name);
-		output.store(SIGNED_ID, Codec.BOOL, this.signed);
-		output.store(POLYOMINO_ID, Polyomino.PlacedPolyomino.CODEC.listOf(), this.polyomino);
-		this.lockKey.addToTag(output);
+	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+		if (this.title != null) {
+			tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.title, registries));
+		}
+		if (this.name != null) tag.putString(AUTHOR_NAME, this.name);
+		tag.putBoolean(SIGNED_ID, this.signed);
+
+		if (!this.polyomino.isEmpty()) {
+			tag.put(POLYOMINO_ID, Polyomino.PlacedPolyomino.CODEC.listOf().encodeStart(NbtOps.INSTANCE, this.polyomino).getOrThrow());
+		}
+
+		this.lockKey.addToTag(tag);
 	}
 }

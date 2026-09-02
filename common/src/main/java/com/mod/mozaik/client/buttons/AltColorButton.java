@@ -5,8 +5,7 @@ import com.mod.mozaik.client.screens.PersonalPreferences;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.input.MouseButtonInfo;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -30,13 +29,13 @@ public class AltColorButton extends AbstractMaterialButton {
 	}
 
 	@Override
-	protected void renderMaterial(GuiGraphicsExtractor graphics) {
+	protected void renderMaterial(GuiGraphics graphics) {
 		super.renderMaterial(graphics);
 		this.itemCount(graphics, this.minecraft.font, this.getX(), this.getY(), this.getCount());
 	}
 
-	private void itemCount(GuiGraphicsExtractor graphics, Font font, int x, int y, String amount) {
-		graphics.text(font, amount, x + 19 - 2 - font.width(amount), y + 6 + 3, -1, true);
+	private void itemCount(GuiGraphics graphics, Font font, int x, int y, String amount) {
+		graphics.drawString(font, amount, x + 19 - 2 - font.width(amount), y + 6 + 3, -1, true);
 	}
 
 	protected String getCount() {
@@ -45,7 +44,7 @@ public class AltColorButton extends AbstractMaterialButton {
 	}
 
 	@Override
-	protected boolean isValidClickButton(MouseButtonInfo buttonInfo) {
+	protected boolean isValidClickButton(int button) {
 		return false;
 	}
 }

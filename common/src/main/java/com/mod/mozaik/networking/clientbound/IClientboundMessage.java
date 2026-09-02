@@ -10,7 +10,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 public interface IClientboundMessage extends CustomPacketPayload {
 
 	void encode(FriendlyByteBuf buf);

@@ -25,7 +25,6 @@ import java.util.Objects;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 public final class OpenGlueMenuClientbound implements IClientboundMessage {
 	public static final Type<OpenGlueMenuClientbound> TYPE = new Type<>(Constants.prefix("open_glue"));
 
@@ -45,7 +44,7 @@ public final class OpenGlueMenuClientbound implements IClientboundMessage {
 	}
 
 	public static OpenGlueMenuClientbound decode(FriendlyByteBuf buf) {
-		return buf.readLenientJsonWithCodec(CODEC);
+		return buf.readJsonWithCodec(CODEC);
 	}
 
 	@Override

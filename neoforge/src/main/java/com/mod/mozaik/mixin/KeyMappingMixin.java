@@ -18,7 +18,7 @@ public abstract class KeyMappingMixin implements IMozaikKeyMapping {
 	@Override
 	public Modifier multiLoader_Template$getModifier() {
 		return switch (this.getKeyModifier()) {
-			case CONTROL, CONTROL_OR_COMMAND -> Modifier.CONTROL;
+			case CONTROL -> Modifier.CONTROL;
 			case SHIFT -> Modifier.SHIFT;
 			case ALT -> Modifier.ALT;
 			case NONE -> Modifier.NONE;

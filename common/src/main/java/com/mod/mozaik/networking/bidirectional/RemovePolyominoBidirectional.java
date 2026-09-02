@@ -25,7 +25,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 public final class RemovePolyominoBidirectional implements IBidirectionalMessage {
 	public static final Type<RemovePolyominoBidirectional> TYPE = new Type<>(Constants.prefix("remove_polyomino"));
 
@@ -48,7 +47,7 @@ public final class RemovePolyominoBidirectional implements IBidirectionalMessage
 	}
 
 	public static RemovePolyominoBidirectional decode(FriendlyByteBuf buf) {
-		return buf.readLenientJsonWithCodec(CODEC);
+		return buf.readJsonWithCodec(CODEC);
 	}
 
 	@Override
@@ -82,7 +81,7 @@ public final class RemovePolyominoBidirectional implements IBidirectionalMessage
 				return false;
 			});
 			if (atomicBoolean.get()) {
-				Services.NETWORK.sendToPlayersTrackingChunk(player.level(), ChunkPos.containing(this.pos), new UpdateMozaikBidirectional(blockEntity.getPolyomino(), this.pos));
+				Services.NETWORK.sendToPlayersTrackingChunk(player.serverLevel(), new ChunkPos(this.pos), new UpdateMozaikBidirectional(blockEntity.getPolyomino(), this.pos));
 			}
 		}
 	}

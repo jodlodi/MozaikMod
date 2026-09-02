@@ -4,16 +4,14 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModTags;
 import net.minecraft.advancements.*;
-import net.minecraft.advancements.criterion.ConsumeItemTrigger;
-import net.minecraft.advancements.criterion.InventoryChangeTrigger;
-import net.minecraft.advancements.criterion.ItemPredicate;
+import net.minecraft.advancements.critereon.ConsumeItemTrigger;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -33,10 +31,10 @@ public class ModAdvancementGen implements AdvancementSubProvider {
 						true, false, false)
 				.requirements(AdvancementRequirements.Strategy.OR)
 				.addCriterion("has_shard", InventoryChangeTrigger.TriggerInstance.hasItems(
-						ItemPredicate.Builder.item().of(registries.lookupOrThrow(Registries.ITEM), ModTags.Items.SHARDS)
+						ItemPredicate.Builder.item().of(ModTags.Items.SHARDS)
 				))
 				.addCriterion("has_mortar", InventoryChangeTrigger.TriggerInstance.hasItems(
-						ItemPredicate.Builder.item().of(registries.lookupOrThrow(Registries.ITEM), ModTags.Items.MORTARS)
+						ItemPredicate.Builder.item().of(ModTags.Items.MORTARS)
 				))
 		);
 
@@ -49,7 +47,7 @@ public class ModAdvancementGen implements AdvancementSubProvider {
 						true, true, false)
 				.requirements(AdvancementRequirements.Strategy.OR)
 				.addCriterion("has_template", ConsumeItemTrigger.TriggerInstance.usedItem(
-						registries.lookupOrThrow(Registries.ITEM), ModItems.BUTTON_TEMPLATE.get()
+						ModItems.BUTTON_TEMPLATE.get()
 				))
 		);
 
@@ -62,7 +60,7 @@ public class ModAdvancementGen implements AdvancementSubProvider {
 						true, true, false)
 				.requirements(AdvancementRequirements.Strategy.OR)
 				.addCriterion("has_template", ConsumeItemTrigger.TriggerInstance.usedItem(
-						registries.lookupOrThrow(Registries.ITEM), ModItems.BONE_TEMPLATE.get()
+						ModItems.BONE_TEMPLATE.get()
 				))
 		);
 
@@ -75,7 +73,7 @@ public class ModAdvancementGen implements AdvancementSubProvider {
 						true, true, false)
 				.requirements(AdvancementRequirements.Strategy.OR)
 				.addCriterion("has_template", ConsumeItemTrigger.TriggerInstance.usedItem(
-						registries.lookupOrThrow(Registries.ITEM), ModItems.BUBBLE_TEMPLATE.get()
+						ModItems.BUBBLE_TEMPLATE.get()
 				))
 		);
 
@@ -88,7 +86,7 @@ public class ModAdvancementGen implements AdvancementSubProvider {
 						true, true, false)
 				.requirements(AdvancementRequirements.Strategy.OR)
 				.addCriterion("has_template", ConsumeItemTrigger.TriggerInstance.usedItem(
-						registries.lookupOrThrow(Registries.ITEM), ModItems.WORM_TEMPLATE.get()
+						ModItems.WORM_TEMPLATE.get()
 				))
 		);
 
@@ -101,7 +99,7 @@ public class ModAdvancementGen implements AdvancementSubProvider {
 						true, true, false)
 				.requirements(AdvancementRequirements.Strategy.OR)
 				.addCriterion("has_template", ConsumeItemTrigger.TriggerInstance.usedItem(
-						registries.lookupOrThrow(Registries.ITEM), ModItems.CANE_TEMPLATE.get()
+						ModItems.CANE_TEMPLATE.get()
 				))
 		);
 
@@ -114,7 +112,7 @@ public class ModAdvancementGen implements AdvancementSubProvider {
 						true, true, false)
 				.requirements(AdvancementRequirements.Strategy.OR)
 				.addCriterion("has_template", ConsumeItemTrigger.TriggerInstance.usedItem(
-						registries.lookupOrThrow(Registries.ITEM), ModItems.POINT_TEMPLATE.get()
+						ModItems.POINT_TEMPLATE.get()
 				))
 		);
 
@@ -127,7 +125,7 @@ public class ModAdvancementGen implements AdvancementSubProvider {
 						true, true, false)
 				.requirements(AdvancementRequirements.Strategy.OR)
 				.addCriterion("has_template", ConsumeItemTrigger.TriggerInstance.usedItem(
-						registries.lookupOrThrow(Registries.ITEM), ModItems.HORN_TEMPLATE.get()
+						ModItems.HORN_TEMPLATE.get()
 				))
 		);
 
@@ -140,7 +138,7 @@ public class ModAdvancementGen implements AdvancementSubProvider {
 						true, true, false)
 				.requirements(AdvancementRequirements.Strategy.OR)
 				.addCriterion("has_template", ConsumeItemTrigger.TriggerInstance.usedItem(
-						registries.lookupOrThrow(Registries.ITEM), ModItems.TREE_TEMPLATE.get()
+						ModItems.TREE_TEMPLATE.get()
 				))
 		);
 
@@ -153,7 +151,7 @@ public class ModAdvancementGen implements AdvancementSubProvider {
 						true, true, false)
 				.requirements(AdvancementRequirements.Strategy.OR)
 				.addCriterion("has_template", ConsumeItemTrigger.TriggerInstance.usedItem(
-						registries.lookupOrThrow(Registries.ITEM), ModItems.FORK_TEMPLATE.get()
+						ModItems.FORK_TEMPLATE.get()
 				))
 		);
 	}

@@ -25,7 +25,6 @@ import java.util.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 public final class UpdateMozaikBidirectional implements IBidirectionalMessage {
 	public static final List<ResourceKey<ShardMaterial>> SORTED_INSTANCE_KEY_SET = new ArrayList<>();
 	public static final Type<UpdateMozaikBidirectional> TYPE = new Type<>(Constants.prefix("update_mozaik"));
@@ -71,13 +70,13 @@ public final class UpdateMozaikBidirectional implements IBidirectionalMessage {
 	public static List<ResourceKey<ShardMaterial>> updateListIfEmpty() {
 		if (SORTED_INSTANCE_KEY_SET.isEmpty()) {
 			SORTED_INSTANCE_KEY_SET.addAll(ShardItem.SHARDS.keySet());
-			SORTED_INSTANCE_KEY_SET.sort(Comparator.comparing(e -> e.identifier().toShortString()));
+			SORTED_INSTANCE_KEY_SET.sort(Comparator.comparing(e -> e.location().toShortLanguageKey()));
 		}
 		return SORTED_INSTANCE_KEY_SET;
 	}
 
 	public static UpdateMozaikBidirectional decode(FriendlyByteBuf buf) {
-		return buf.readLenientJsonWithCodec(CODEC);
+		return buf.readJsonWithCodec(CODEC);
 	}
 
 	@Override

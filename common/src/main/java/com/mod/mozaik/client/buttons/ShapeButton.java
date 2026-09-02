@@ -9,10 +9,7 @@ import com.mod.mozaik.polyomino.PolyominoShape;
 import com.mod.mozaik.reg.ModSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.input.MouseButtonInfo;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.Holder;
@@ -40,7 +37,7 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 
 	protected ResourceLocation getTexture() {
 		ResourceKey<PolyominoShape> dis = this.getShape();
-		return Constants.prefix("textures/gui/container/shapes/" + dis.identifier().getPath() + "/" + (dis == PersonalPreferences.getPolyominoShape() ? "pressed" : "unselected") + ".png");
+		return Constants.prefix("textures/gui/container/shapes/" + dis.location().getPath() + "/" + (dis == PersonalPreferences.getPolyominoShape() ? "pressed" : "unselected") + ".png");
 	}
 
 	@Override
@@ -59,8 +56,8 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 	}
 
 	@Override
-	protected boolean isValidClickButton(MouseButtonInfo buttonInfo) {
-		return buttonInfo.button() == MortarScreen.LEFT_CLICK || buttonInfo.button() == MortarScreen.RIGHT_CLICK;
+	protected boolean isValidClickButton(int button) {
+		return button == MortarScreen.LEFT_CLICK || button == MortarScreen.RIGHT_CLICK;
 	}
 
 	@Override
@@ -73,25 +70,25 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 	}
 
 	@Override
-	public void onClick(MouseButtonEvent event, boolean doubleClick) {
+	public void onPress() {
 		ResourceKey<PolyominoShape> key = this.getShape();
 		PersonalPreferences.setPolyominoShape(key);
 		PolyominoShape.tryBuild(key).ifPresent(PersonalPreferences::setShape);
 	}
 
 	public boolean playerHas() {
-		return this.screen.getShardSource().isCreative() || !this.screen.noPoly(this.getShape().identifier());
+		return this.screen.getShardSource().isCreative() || !this.screen.noPoly(this.getShape().location());
 	}
 
 	@Override
-	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
 		int color = this.playerHas() ? -1 : 0x44777777;
-		graphics.blit(RenderPipelines.GUI_TEXTURED, this.getTexture(), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18, color);
+		graphics.blit(this.getTexture(), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18, color);
 
 		List<Integer> favSlots = new ArrayList<>();
 		for (int i = 1; i <= 9; i++) {
 			if (PersonalPreferences.getFavourite(i - 1).polyomino().orElse(null) == this.getShape()) {
-				graphics.blit(RenderPipelines.GUI_TEXTURED, Constants.prefix("textures/gui/container/favourite.png"), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
+				graphics.blit(Constants.prefix("textures/gui/container/favourite.png"), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18);
 				favSlots.add(i);
 			}
 		}
@@ -102,11 +99,11 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 					: Optional.empty();
 
 			if (!favSlots.isEmpty()) {
-				graphics.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(
+				graphics.renderTooltip(Minecraft.getInstance().font, List.of(
 						Component.translatable(MaterialButton.FAVOURITE, Component.literal(favSlots.toString()).withStyle(ChatFormatting.AQUA))
 				), component, mouseX, mouseY);
 			} else if (component.isPresent()) {
-				graphics.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(), component, mouseX, mouseY);
+				graphics.renderTooltip(Minecraft.getInstance().font, List.of(), component, mouseX, mouseY);
 			}
 		}
 	}

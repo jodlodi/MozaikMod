@@ -4,14 +4,12 @@ import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.PersonalPreferences;
 import com.mod.mozaik.reg.ModSounds;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.input.InputWithModifiers;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import org.joml.Vector2i;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -49,16 +47,16 @@ public class TabButton extends ModButton {
 	}
 
 	@Override
-	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
 		if (this.isHovered()) {
-			graphics.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(
+			graphics.renderTooltip(Minecraft.getInstance().font, List.of(
 					Component.translatable(this.mode.asTranslationString())
 			), Optional.empty(), mouseX, mouseY);
 		}
 	}
 
 	@Override
-	public void onPress(InputWithModifiers inputWithModifiers) {
+	public void onPress() {
 		this.screen.mode = this.screen.mode != this.mode ? this.mode : MortarScreen.Mode.MORTAR;
 		this.screen.rebuildWidgets();
 	}

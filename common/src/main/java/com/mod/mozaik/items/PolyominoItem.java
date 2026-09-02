@@ -13,6 +13,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
@@ -36,7 +37,7 @@ public class PolyominoItem extends Item {
 	public PolyominoItem(Properties properties, ResourceKey<PolyominoShape> polyominoShape) {
 		super(properties);
 		this.polyominoShape = polyominoShape;
-		this.advancement = polyominoShape.identifier();
+		this.advancement = polyominoShape.location();
 	}
 
 	public ResourceKey<PolyominoShape> getPolyominoShape() {
@@ -44,7 +45,7 @@ public class PolyominoItem extends Item {
 	}
 
 	@Override
-	public InteractionResult use(Level level, Player player, InteractionHand hand) {
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 
 		if (player instanceof ServerPlayer serverPlayer) {
@@ -55,7 +56,7 @@ public class PolyominoItem extends Item {
 		player.playSound(SoundEvents.BOOK_PAGE_TURN);
 
 		stack.consume(1, player);
-		return InteractionResult.CONSUME;
+		return InteractionResultHolder.consume(stack);
 	}
 
 	@Override

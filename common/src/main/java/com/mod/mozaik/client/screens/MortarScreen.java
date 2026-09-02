@@ -13,6 +13,7 @@ import com.mod.mozaik.items.PolyominoItem;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.menus.MortarMenu;
 import com.mod.mozaik.mixin.ClientAdvancementsAccessor;
+import com.mod.mozaik.mixin.ScreenAccessor;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.PolyominoShape;
 import com.mod.mozaik.polyomino.ShardMaterial;
@@ -24,6 +25,7 @@ import com.mod.mozaik.reg.ResourceSupplier;
 import com.mod.mozaik.util.FlatDirection;
 import com.mod.mozaik.util.IMozaikKeyMapping;
 import com.mojang.blaze3d.platform.InputConstants;
+import com.sun.jna.platform.unix.X11;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.AdvancementHolder;
@@ -44,15 +46,16 @@ import net.minecraft.client.multiplayer.ClientAdvancements;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.FastColor;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Rotation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
+import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
@@ -116,7 +119,10 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private @Nullable EditBox titleBox = null;
 
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
-		super(menu, playerInventory, title, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+		super(menu, playerInventory, title);
+		this.imageWidth = BACKGROUND_WIDTH;
+		this.imageHeight = BACKGROUND_HEIGHT;
+
 		if (PersonalPreferences.getShape() == Polyomino.EMPTY) {
 			PersonalPreferences.setShape(PolyominoShape.tryBuild(PersonalPreferences.getPolyominoShape()).orElse(Polyomino.EMPTY));
 		}
@@ -166,7 +172,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	public boolean noPoly(ResourceKey<PolyominoShape> shape) {
-		return this.noPoly(shape.identifier());
+		return this.noPoly(shape.location());
 	}
 
 	public boolean noPoly(ResourceLocation identifier) {
@@ -213,7 +219,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	@Override
-	protected void extractLabels(GuiGraphicsExtractor graphics, int xm, int ym) {
+	protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
 
 	}
 
@@ -222,36 +228,36 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	@Override
-	public boolean keyPressed(KeyEvent event) {
-		if (event.isEscape() && this.shouldCloseOnEsc()) {
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+		if (keyCode == GLFW.GLFW_KEY_ESCAPE && this.shouldCloseOnEsc()) {
 			this.onClose();
 			return true;
 		}
 
-		if (this.getFocused() != null && this.getFocused().keyPressed(event)) {
+		if (this.getFocused() != null && this.getFocused().keyPressed(keyCode, scanCode, modifiers)) {
 			return true;
 		}
 
-		if (this.titleBox != null && this.titleBox.isFocused() && !this.titleBox.getValue().isEmpty() && event.isConfirmation()) {
+		if (this.titleBox != null && this.titleBox.isFocused() && !this.titleBox.getValue().isEmpty() && (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)) {
 			this.menu.sign(this.titleBox.getValue());
-			this.minecraft.setScreen(null);
+			if (this.minecraft != null) this.minecraft.setScreen(null);
 			return true;
 		}
 
-		if (IMozaikKeyMapping.matches(ModKeyMappings.SELECT_ALL, event)) {
+		if (IMozaikKeyMapping.matches(ModKeyMappings.SELECT_ALL, keyCode, scanCode, modifiers)) {
 			this.selected.clear();
 			this.selected.addAll(this.getPolyomino());
 			return true;
 		}
 
 		for (MozaikTool tool : MozaikTool.values()) {
-			if (IMozaikKeyMapping.matches(tool.getKeyMapping(), event)) {
+			if (IMozaikKeyMapping.matches(tool.getKeyMapping(), keyCode, scanCode, modifiers)) {
 				this.tool = tool;
 				return true;
 			}
 		}
 
-		if (IMozaikKeyMapping.matches(ModKeyMappings.DELETE, event)) {
+		if (IMozaikKeyMapping.matches(ModKeyMappings.DELETE, keyCode, scanCode, modifiers)) {
 			if (this.selected.isEmpty()) {
 				Vector2i square = this.getGridForTaking();
 
@@ -262,13 +268,13 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 						int rX = widgetX + tessera.x();
 						int rY = widgetY + tessera.y();
 						if (rX == square.x && rY == square.y) {
-							MozaikTool.useOn(this, event.hasShiftDown(), widget, MozaikTool.CHISEL);
+							MozaikTool.useOn(this, IMozaikKeyMapping.hasShiftDown(modifiers), widget, MozaikTool.CHISEL);
 							return true;
 						}
 					}
 				}
 			} else {
-				MozaikTool.useOn(this, event.hasShiftDown(), this.selected, MozaikTool.CHISEL);
+				MozaikTool.useOn(this, IMozaikKeyMapping.hasShiftDown(modifiers), this.selected, MozaikTool.CHISEL);
 				this.selected.clear();
 			}
 
@@ -276,7 +282,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		}
 
 		for (int i = 1; i <= 9; ++i) {
-			if (IMozaikKeyMapping.matches(ModKeyMappings.FAVOURITE.pick(i), event)) {
+			if (IMozaikKeyMapping.matches(ModKeyMappings.FAVOURITE.pick(i), keyCode, scanCode, modifiers)) {
 				Minecraft minecraft = Minecraft.getInstance();
 				MouseHandler mouse = Objects.requireNonNull(minecraft).mouseHandler;
 				float mouseX = (float) mouse.xpos() * (float) minecraft.getWindow().getGuiScaledWidth() / (float) minecraft.getWindow().getScreenWidth();
@@ -312,15 +318,16 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 		}
 
-		if (InputConstants.KEY_RETURN == event.key()) {
+		if (InputConstants.KEY_RETURN == keyCode) {
 			this.selected.clear();
 		}
-		FocusNavigationEvent navigationEvent = switch (event.key()) {
-			case 258 -> new FocusNavigationEvent.TabNavigation(!event.hasShiftDown());
-			case 262 -> new FocusNavigationEvent.ArrowNavigation(ScreenDirection.RIGHT);
-			case 263 -> new FocusNavigationEvent.ArrowNavigation(ScreenDirection.LEFT);
-			case 264 -> new FocusNavigationEvent.ArrowNavigation(ScreenDirection.DOWN);
-			case 265 -> new FocusNavigationEvent.ArrowNavigation(ScreenDirection.UP);
+
+		FocusNavigationEvent navigationEvent = switch (keyCode) {
+			case InputConstants.KEY_TAB -> new FocusNavigationEvent.TabNavigation(!IMozaikKeyMapping.hasShiftDown(modifiers));
+			case InputConstants.KEY_RIGHT -> new FocusNavigationEvent.ArrowNavigation(ScreenDirection.RIGHT);
+			case InputConstants.KEY_LEFT -> new FocusNavigationEvent.ArrowNavigation(ScreenDirection.LEFT);
+			case InputConstants.KEY_DOWN -> new FocusNavigationEvent.ArrowNavigation(ScreenDirection.DOWN);
+			case InputConstants.KEY_UP -> new FocusNavigationEvent.ArrowNavigation(ScreenDirection.UP);
 			default -> null;
 		};
 
@@ -356,9 +363,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	@Override
-	public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-		int click = event.button();
-
+	public boolean mouseClicked(double mouseX, double mouseY, int click) {
 		if (!this.carried.isEmpty()) {
 			if (click == LEFT_CLICK) {
 				Map<HeldPolyominoWidget, Vector2i> map = this.getOffsetForPlacement(this.carried);
@@ -391,14 +396,12 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			return true;
 		}
 
-		Optional<GuiEventListener> child = this.getChildAt(event.x(), event.y());
+		Optional<GuiEventListener> child = this.getChildAt(mouseX, mouseY);
 		if (child.isPresent()) {
 			GuiEventListener widget = child.get();
-			if (widget.mouseClicked(event, doubleClick) && widget.shouldTakeFocusAfterInteraction()) {
+			if (widget.mouseClicked(mouseX, mouseY, click)) {
 				this.setFocused(widget);
-				if (event.button() == LEFT_CLICK) {
-					this.setDragging(true);
-				}
+				if (click == LEFT_CLICK) this.setDragging(true);
 			}
 			return true;
 		}
@@ -411,7 +414,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		}
 
 		if (this.tool == MozaikTool.SELECT) {
-			this.selectionStart = new Vector2i((int) event.x(), (int) event.y());
+			this.selectionStart = new Vector2i((int) mouseX, (int) mouseY);
 			return true;
 		}
 
@@ -424,7 +427,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				int rX = widgetX + tessera.x();
 				int rY = widgetY + tessera.y();
 				if (rX == square.x && rY == square.y) {
-					MozaikTool.useOn(this, event.hasShiftDown(), widget, this.tool);
+					MozaikTool.useOn(this, hasShiftDown(), widget, this.tool);
 					return true;
 				}
 			}
@@ -434,14 +437,14 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	@Override
-	public boolean mouseReleased(MouseButtonEvent event) {
+	public boolean mouseReleased(double mouseX, double mouseY, int button) {
 		if (this.selectionStart != null) {
-			if (!event.hasShiftDown()) this.selected.clear();
+			if (!hasShiftDown()) this.selected.clear();
 
-			int minX = Math.min(this.selectionStart.x, (int) Minecraft.getInstance().mouseHandler.getScaledXPos(Minecraft.getInstance().getWindow()));
-			int minY = Math.min(this.selectionStart.y, (int) Minecraft.getInstance().mouseHandler.getScaledYPos(Minecraft.getInstance().getWindow()));
-			int maxX = Math.max(this.selectionStart.x, (int) Minecraft.getInstance().mouseHandler.getScaledXPos(Minecraft.getInstance().getWindow()));
-			int maxY = Math.max(this.selectionStart.y, (int) Minecraft.getInstance().mouseHandler.getScaledYPos(Minecraft.getInstance().getWindow()));
+			int minX = Math.min(this.selectionStart.x, (int) mouseX);
+			int minY = Math.min(this.selectionStart.y, (int) mouseY);
+			int maxX = Math.max(this.selectionStart.x, (int) mouseX);
+			int maxY = Math.max(this.selectionStart.y, (int) mouseY);
 
 			for (PolyominoWidget widget : this.getPolyomino()) {
 				int widgetX = widget.gridX();
@@ -462,7 +465,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 			this.selectionStart = null;
 		}
-		return super.mouseReleased(event);
+		return super.mouseReleased(mouseX, mouseY, button);
 	}
 
 	protected void placePolyomino(HeldPolyominoWidget selected, Vector2i square) {
@@ -664,11 +667,17 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	}
 
 	@Override
-	public void extractRenderState(GuiGraphicsExtractor graphicsExtractor, int mouseX, int mouseY, float partialTick) {
+	public void render(GuiGraphics graphicsExtractor, int mouseX, int mouseY, float partialTick) {
+		this.renderBackground(graphicsExtractor, mouseX, mouseY, partialTick);
+
 		GraphicsRenderHelper graphics = new GraphicsRenderHelper(graphicsExtractor);
 		this.renderNeighbourTessera(graphicsExtractor);
 		this.renderableWidgets.forEach(renderable -> renderable.renderBelowItems(graphics));
-		super.extractRenderState(graphicsExtractor, mouseX, mouseY, partialTick);
+
+		for (Renderable renderable : ((ScreenAccessor)this).getRenderables()) {
+			renderable.render(graphicsExtractor, mouseX, mouseY, partialTick);
+		}
+
 		this.renderSelection(graphicsExtractor);
 		this.renderableWidgets.forEach(renderable -> renderable.renderAboveItems(graphics));
 		this.renderableWidgets.forEach(renderable -> renderable.renderOnTop(graphics));
@@ -684,7 +693,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 					int rX = widgetX + tessera.x();
 					int rY = widgetY + tessera.y();
 					if (rX == square.x && rY == square.y) {
-						graphicsExtractor.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(
+						graphicsExtractor.renderTooltip(Minecraft.getInstance().font, List.of(
 								new ItemStack(ShardItem.SHARDS.get(widget.getPlacedPolyomino().polyomino().material()), 1).getHoverName()
 						), Optional.empty(), mouseX, mouseY);
 						return;
@@ -694,7 +703,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		}
 	}
 
-	protected void renderNeighbourTessera(GuiGraphicsExtractor graphicsExtractor) {
+	protected void renderNeighbourTessera(GuiGraphics graphicsExtractor) {
 		if (this.mode == Mode.SETTINGS) return;
 		GraphicsRenderHelper graphics = new GraphicsRenderHelper(graphicsExtractor);
 		int gridX = this.leftPos + GRID_START.x;
@@ -724,7 +733,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		})));
 	}
 
-	protected void renderSelection(GuiGraphicsExtractor graphicsExtractor) {
+	protected void renderSelection(GuiGraphics graphicsExtractor) {
 		GraphicsRenderHelper graphics = new GraphicsRenderHelper(graphicsExtractor);
 		this.selected.forEach(polyominoWidget -> {
 			PolyominoWidget.fill(
@@ -745,8 +754,10 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		if (this.selectionStart != null) {
 			int minX = this.selectionStart.x;
 			int minY = this.selectionStart.y;
-			int maxX = (int) Minecraft.getInstance().mouseHandler.getScaledXPos(Minecraft.getInstance().getWindow());
-			int maxY = (int) Minecraft.getInstance().mouseHandler.getScaledYPos(Minecraft.getInstance().getWindow());
+			double d = this.minecraft.mouseHandler.xpos() * (double)this.minecraft.getWindow().getGuiScaledWidth() / (double)this.minecraft.getWindow().getScreenWidth();
+			double e = this.minecraft.mouseHandler.ypos() * (double)this.minecraft.getWindow().getGuiScaledHeight() / (double)this.minecraft.getWindow().getScreenHeight();
+			int maxX = (int) d;
+			int maxY = (int) e;
 
 			graphics.fill(minX, minY, maxX, maxY, 0x500094FF);
 
@@ -839,15 +850,15 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				));
 				MortarScreen.this.titleBox.setMaxLength(15);
 				MortarScreen.this.titleBox.setBordered(false);
-				MortarScreen.this.titleBox.setCentered(true);
-				MortarScreen.this.titleBox.setTextShadow(true);
+				//MortarScreen.this.titleBox.setCentered(true); FIXME
+				//MortarScreen.this.titleBox.setTextShadow(true);
 				MortarScreen.this.titleBox.setTextColor(0xFFFFFFFF);
 				MortarScreen.this.titleBox.setValue("");
 				MortarScreen.this.setFocused(MortarScreen.this.titleBox);
 
 				this.addRenderableWidget(new ClickableButton(this, LOCK_CANCEL, SpriteButton.SpriteSet.LOCK_CANCEL) {
 					@Override
-					public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
+					public void onUnblockedPress() {
 						this.screen.mode = Mode.MORTAR;
 						this.screen.rebuildWidgets();
 					}
@@ -855,7 +866,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 				this.addRenderableWidget(new ClickableButton(this, LOCK_ACCEPT, SpriteButton.SpriteSet.LOCK_ACCEPT) {
 					@Override
-					public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
+					public void onUnblockedPress() {
 						if (this.screen.titleBox != null) {
 							this.screen.menu.sign(this.screen.titleBox.getValue().isEmpty() ? null : this.screen.titleBox.getValue());
 							this.screen.minecraft.setScreen(null);
@@ -872,8 +883,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		if (!this.getSortedMaterials().isEmpty()) {
 			this.addRenderableWidget(new ClickableButton(this, MATERIAL_BAR_UP, SpriteButton.SpriteSet.UP_ARROW) {
 				@Override
-				public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-					materialUpBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedMaterials().size() : 9);
+				public void onUnblockedPress() {
+					materialUpBy(hasShiftDown() ? MortarScreen.this.getSortedMaterials().size() : 9);
 				}
 
 				@Override
@@ -884,8 +895,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 			this.addRenderableWidget(new ClickableButton(this, MATERIAL_BAR_DOWN, SpriteButton.SpriteSet.DOWN_ARROW) {
 				@Override
-				public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-					materialDownBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedMaterials().size() : 9);
+				public void onUnblockedPress() {
+					materialDownBy(hasShiftDown() ? MortarScreen.this.getSortedMaterials().size() : 9);
 				}
 
 				@Override
@@ -902,8 +913,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		if (!this.getSortedShapes().isEmpty()) {
 			this.addRenderableWidget(new ClickableButton(this, SHAPE_BAR_UP, SpriteButton.SpriteSet.UP_ARROW) {
 				@Override
-				public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-					templateUpBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedShapes().size() : 9);
+				public void onUnblockedPress() {
+					templateUpBy(hasShiftDown() ? MortarScreen.this.getSortedShapes().size() : 9);
 				}
 
 				@Override
@@ -914,8 +925,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 			this.addRenderableWidget(new ClickableButton(this, SHAPE_BAR_DOWN, SpriteButton.SpriteSet.DOWN_ARROW) {
 				@Override
-				public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
-					templateDownBy(inputWithModifiers.hasShiftDown() ? MortarScreen.this.getSortedShapes().size() : 9);
+				public void onUnblockedPress() {
+					templateDownBy(hasShiftDown() ? MortarScreen.this.getSortedShapes().size() : 9);
 				}
 
 				@Override

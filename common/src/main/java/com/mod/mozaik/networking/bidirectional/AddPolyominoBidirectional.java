@@ -15,13 +15,10 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
-import org.jetbrains.annotations.Contract;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-@ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public final class AddPolyominoBidirectional implements IBidirectionalMessage {
@@ -46,7 +43,7 @@ public final class AddPolyominoBidirectional implements IBidirectionalMessage {
 	}
 
 	public static AddPolyominoBidirectional decode(FriendlyByteBuf buf) {
-		return buf.readLenientJsonWithCodec(CODEC);
+		return buf.readJsonWithCodec(CODEC);
 	}
 
 	@Override
@@ -68,7 +65,7 @@ public final class AddPolyominoBidirectional implements IBidirectionalMessage {
 		if (player.level().getBlockEntity(this.pos) instanceof MortarBlockEntity blockEntity) {
 			if (new MortarMenu.ShardSource(player.getInventory()).takeItem(polyomino.polyomino().material())) {
 				blockEntity.getPolyomino().add(this.polyomino);
-				Services.NETWORK.sendToPlayersTrackingChunk(player.level(), ChunkPos.containing(this.pos), new UpdateMozaikBidirectional(blockEntity.getPolyomino(), this.pos));
+				Services.NETWORK.sendToPlayersTrackingChunk(player.serverLevel(), new ChunkPos(this.pos), new UpdateMozaikBidirectional(blockEntity.getPolyomino(), this.pos));
 			}
 		}
 	}

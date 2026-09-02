@@ -6,8 +6,7 @@ import com.mod.mozaik.menus.MortarMenu;
 import com.mod.mozaik.polyomino.Polyomino;
 import com.mod.mozaik.polyomino.Tessera;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.input.InputWithModifiers;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Mirror;
@@ -31,18 +30,18 @@ public class EditButtons extends ClickableButton {
 	}
 
 	@Override
-	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-		super.extractContents(graphics, mouseX, mouseY, partialTick);
+	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+		super.renderWidget(graphics, mouseX, mouseY, partialTick);
 
 		if (this.isHovered()) {
-			graphics.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(
+			graphics.renderTooltip(Minecraft.getInstance().font, List.of(
 					Component.translatable(this.edition.asTranslationString())
 			), Optional.empty(), mouseX, mouseY);
 		}
 	}
 
 	@Override
-	public void onUnblockedPress(InputWithModifiers inputWithModifiers) {
+	public void onUnblockedPress() {
 		switch (this.edition) {
 			case FLIP_VERTICAL -> {
 				this.screen.polyomino.replaceAll(widget -> {

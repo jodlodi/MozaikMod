@@ -22,6 +22,7 @@ import com.mod.mozaik.reg.ModDataComponents;
 import com.mod.mozaik.reg.ModMenus;
 import com.mod.mozaik.reg.ResourceSupplier;
 import com.mod.mozaik.util.FlatDirection;
+import com.mod.mozaik.util.ModUtil;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -37,8 +38,9 @@ import net.minecraft.world.level.block.Rotation;
 import org.joml.Vector2i;
 import org.joml.Vector3i;
 import net.minecraft.MethodsReturnNonnullByDefault;
+
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
@@ -99,7 +101,7 @@ public class MortarMenu extends AbstractContainerMenu {
 	public void sign(@Nullable String title) {
 		if (this.mortar == null) return;
 		this.mortar.setSigned(true);
-		Services.NETWORK.sendToServer(new SignedMozaikBidirectional(Optional.ofNullable(title), Optional.of(this.inventory.player.getPlainTextName()), this.mortar.getBlockPos()));
+		Services.NETWORK.sendToServer(new SignedMozaikBidirectional(Optional.ofNullable(title), Optional.of(this.inventory.player.getScoreboardName()), this.mortar.getBlockPos()));
 	}
 
 	public void addToSource(Polyomino.PlacedPolyomino polyomino) {
@@ -171,13 +173,13 @@ public class MortarMenu extends AbstractContainerMenu {
 
 		polyomino.polyomino().placedTessera().forEach(voxel -> {
 					Vector3i vec = new Vector3i(voxel.x(), 0, voxel.y());
-					Vector3i rotated = rotation.rotation().rotate(vec);
+					Vector3i rotated = ModUtil.rotated(rotation, vec);
 					placedTessera.add(new Tessera.PlacedTessera(new Tessera(voxel.tessera().shape().rotate(rotation)), rotated.x(), rotated.z()));
 				}
 		);
 
 		Vector3i vec = new Vector3i(polyomino.x(), 0, polyomino.y());
-		Vector3i rotated = rotation.rotation().rotate(vec);
+		Vector3i rotated = ModUtil.rotated(rotation, vec);
 
 		Vector2i finalPos = switch (rotation) {
 			case COUNTERCLOCKWISE_90 -> new Vector2i(rotated.x(), rotated.z() + 15);
@@ -220,14 +222,14 @@ public class MortarMenu extends AbstractContainerMenu {
 
 		public int getCount(ResourceKey<ShardMaterial> material) {
 			int count = 0;
-			for (ItemStack stack : this.inventory) {
-				if (stack.getItem() instanceof ShardItem item && item.getMaterial().identifier().equals(material.identifier())) {
+			for (ItemStack stack : this.inventory.items) {
+				if (stack.getItem() instanceof ShardItem item && item.getMaterial().location().equals(material.location())) {
 					count += stack.getCount();
 				} else if (stack.getItem() instanceof ShardBagItem) {
 					ShardBagContents initialContents = stack.get(ModDataComponents.SHARD_BAG_CONTENTS.get());
 					if (initialContents == null) continue;
 					for (ShardStack shardStack : initialContents.items()) {
-						if (shardStack.material().identifier().equals(material.identifier())) {
+						if (shardStack.material().location().equals(material.location())) {
 							count += shardStack.count();
 							break;
 						}
@@ -238,8 +240,8 @@ public class MortarMenu extends AbstractContainerMenu {
 		}
 
 		public void giveItem(ResourceKey<ShardMaterial> material) {
-			for (ItemStack stack : this.inventory) {
-				if (stack.getItem() instanceof ShardItem item && item.getMaterial().identifier().equals(material.identifier()) && stack.getCount() < stack.getMaxStackSize()) {
+			for (ItemStack stack : this.inventory.items) {
+				if (stack.getItem() instanceof ShardItem item && item.getMaterial().location().equals(material.location()) && stack.getCount() < stack.getMaxStackSize()) {
 					stack.grow(1);
 					return;
 				} else if (stack.getItem() instanceof ShardBagItem) {
@@ -258,8 +260,8 @@ public class MortarMenu extends AbstractContainerMenu {
 		public boolean takeItem(ResourceKey<ShardMaterial> material) {
 			int value = Integer.MAX_VALUE;
 			ItemStack smallest = ItemStack.EMPTY;
-			for (ItemStack stack : this.inventory) {
-				if (stack.getItem() instanceof ShardItem item && item.getMaterial().identifier().equals(material.identifier()) && stack.getCount() < value) {
+			for (ItemStack stack : this.inventory.items) {
+				if (stack.getItem() instanceof ShardItem item && item.getMaterial().location().equals(material.location()) && stack.getCount() < value) {
 					value = stack.getCount();
 					smallest = stack;
 				} else if (stack.getItem() instanceof ShardBagItem) {

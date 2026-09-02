@@ -12,19 +12,18 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.concurrent.CompletableFuture;
 
-@ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @EventBusSubscriber(modid = Constants.MOD_ID)
 public class ModDataGen {
 
 	@SubscribeEvent
-	public static void gatherDataClient(GatherDataEvent.Client event) {
+	public static void gatherDataClient(GatherDataEvent event) {
 		DataGenerator generator = event.getGenerator();
 		PackOutput output = event.getGenerator().getPackOutput();
 

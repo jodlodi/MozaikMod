@@ -18,7 +18,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 
-@ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
@@ -44,7 +43,7 @@ public final class SignedMozaikBidirectional implements IBidirectionalMessage {
 	}
 
 	public static SignedMozaikBidirectional decode(FriendlyByteBuf buf) {
-		return buf.readLenientJsonWithCodec(CODEC);
+		return buf.readJsonWithCodec(CODEC);
 	}
 
 	@Override

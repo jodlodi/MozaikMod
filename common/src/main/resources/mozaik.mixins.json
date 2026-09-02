@@ -2,15 +2,13 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.mod.mozaik.mixin",
-  "compatibilityLevel": "JAVA_25",
+  "compatibilityLevel": "JAVA_18",
   "mixins": [
     "ServerPlayerAccessor"
   ],
   "client": [
-    "AbstractContainerScreenMixin",
     "ClientAdvancementsAccessor",
-    "ConditionalItemModelPropertiesMixin",
-    "ItemModelsMixin"
+    "ScreenAccessor"
   ],
   "server": [],
   "injectors": {

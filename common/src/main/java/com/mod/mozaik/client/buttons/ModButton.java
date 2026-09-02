@@ -1,12 +1,15 @@
 package com.mod.mozaik.client.buttons;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.network.chat.Component;
-import org.jspecify.annotations.NonNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public abstract class ModButton extends AbstractButton {
 
 	public ModButton(int x, int y, int width, int height, Component message) {
@@ -14,17 +17,17 @@ public abstract class ModButton extends AbstractButton {
 	}
 
 	@Override
-	public void onPress(@NonNull InputWithModifiers inputWithModifiers) {
+	public void onPress() {
 
 	}
 
 	@Override
-	protected void extractContents(@NonNull GuiGraphicsExtractor guiGraphicsExtractor, int mouseX, int mouseY, float partialTick) {
+	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
 
 	}
 
 	@Override
-	protected void updateWidgetNarration(@NonNull NarrationElementOutput narrationElementOutput) {
+	protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
 
 	}
 }

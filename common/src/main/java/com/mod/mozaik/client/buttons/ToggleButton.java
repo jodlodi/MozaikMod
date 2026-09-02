@@ -3,19 +3,14 @@ package com.mod.mozaik.client.buttons;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.PersonalPreferences;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.input.InputWithModifiers;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector2i;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import javax.annotation.ParametersAreNonnullByDefault;
 
-import java.util.List;
-import java.util.Optional;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -54,12 +49,12 @@ public class ToggleButton extends ModButton implements PhaseRenderable {
 	}
 
 	@Override
-	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-		graphics.blit(RenderPipelines.GUI_TEXTURED, this.getTexture(), this.getX(), this.getY(), 0, 0, SpriteButton.SpriteSet.TOGGLE.width(), this.getHeight(), SpriteButton.SpriteSet.TOGGLE.width(), this.getHeight());
+	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+		graphics.blit(this.getTexture(), this.getX(), this.getY(), 0, 0, SpriteButton.SpriteSet.TOGGLE.width(), this.getHeight(), SpriteButton.SpriteSet.TOGGLE.width(), this.getHeight());
 
 		int color = this.isHovered() ? 0xFFFFFFFF : 0xFFD0D0D0;
 
-		graphics.text(
+		graphics.drawString(
 				Minecraft.getInstance().font,
 				Component.translatable(this.setting.name()),
 				this.getX() + SpriteButton.SpriteSet.TOGGLE.width() + 2,
@@ -70,8 +65,7 @@ public class ToggleButton extends ModButton implements PhaseRenderable {
 	}
 
 	@Override
-	public void onPress(InputWithModifiers inputWithModifiers) {
+	public void onPress() {
 		this.setting.set(!this.setting.get());
 	}
-
 }

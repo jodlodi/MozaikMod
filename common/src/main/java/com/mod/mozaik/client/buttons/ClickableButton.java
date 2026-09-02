@@ -1,7 +1,6 @@
 package com.mod.mozaik.client.buttons;
 
 import com.mod.mozaik.client.screens.MortarScreen;
-import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector2i;
@@ -30,10 +29,10 @@ public abstract class ClickableButton extends SpriteButton {
 	}
 
 	@Override
-	public void onPress(InputWithModifiers inputWithModifiers) {
+	public void onPress() {
 		if (this.isBlocked()) return;
 		this.isPressed = 2;
-		this.onUnblockedPress(inputWithModifiers);
+		this.onUnblockedPress();
 	}
 
 	@Override
@@ -56,5 +55,5 @@ public abstract class ClickableButton extends SpriteButton {
 		return false;
 	}
 
-	public abstract void onUnblockedPress(InputWithModifiers inputWithModifiers);
+	public abstract void onUnblockedPress();
 }

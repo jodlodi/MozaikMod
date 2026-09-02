@@ -1,27 +1,22 @@
 package com.mod.mozaik.polyomino;
 
 import com.mod.mozaik.items.ShardItem;
-import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModRegistries;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.MethodsReturnNonnullByDefault;
+
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class ShardStack implements ItemInstance {
+public final class ShardStack {
 	public static final Codec<ShardStack> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
 			ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).fieldOf("material").forGetter(ShardStack::material),
 			Codec.INT.fieldOf("count").forGetter(ShardStack::count)
@@ -29,7 +24,7 @@ public final class ShardStack implements ItemInstance {
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, ShardStack> STREAM_CODEC = StreamCodec.ofMember(
 			(stack, byteBuf) -> byteBuf.writeJsonWithCodec(CODEC, stack),
-			byteBuf -> byteBuf.readLenientJsonWithCodec(CODEC)
+			byteBuf -> byteBuf.readJsonWithCodec(CODEC)
 	);
 
 	private final ResourceKey<ShardMaterial> material;
@@ -44,7 +39,6 @@ public final class ShardStack implements ItemInstance {
 		return this.material;
 	}
 
-	@Override
 	public int count() {
 		return this.count;
 	}
@@ -76,16 +70,5 @@ public final class ShardStack implements ItemInstance {
 		var that = (ShardStack) obj;
 		return Objects.equals(this.material, that.material) &&
 				this.count == that.count;
-	}
-
-	@Override
-	@SuppressWarnings("deprecation")
-	public Holder<Item> typeHolder() {
-		return ShardItem.SHARDS.get(this.material).builtInRegistryHolder();
-	}
-
-	@Override
-	public @Nullable <T> T get(DataComponentType<? extends T> dataComponentType) {
-		return null;
 	}
 }

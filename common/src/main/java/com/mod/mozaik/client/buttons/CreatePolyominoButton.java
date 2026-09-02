@@ -12,8 +12,7 @@ import com.mod.mozaik.reg.ModSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.input.InputWithModifiers;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.Holder;
@@ -41,7 +40,7 @@ public class CreatePolyominoButton extends ModButton {
 	}
 
 	@Override
-	public void onPress(InputWithModifiers inputWithModifiers) {
+	public void onPress() {
 		if (!this.canPress()) return;
 		Minecraft minecraft = Minecraft.getInstance();
 		MouseHandler mouse = minecraft.mouseHandler;
@@ -67,7 +66,7 @@ public class CreatePolyominoButton extends ModButton {
 	}
 
 	@Override
-	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
 		Vector2f center = PersonalPreferences.getShape().getGridCenter();
 
 		int color = this.canPress() ? -1 : 0x77777777;
@@ -92,14 +91,14 @@ public class CreatePolyominoButton extends ModButton {
 			this.extractTooltip(graphics, mouseX, mouseY);
 		}
 
-		graphics.pose().pushMatrix();
+		graphics.pose().pushPose();
 		this.itemCount(graphics, Minecraft.getInstance().font, this.getX(), this.getY(), this.getCount());
-		graphics.pose().popMatrix();
+		graphics.pose().popPose();
 	}
 
-	private void itemCount(GuiGraphicsExtractor graphics, Font font, int x, int y, String amount) {
+	private void itemCount(GuiGraphics graphics, Font font, int x, int y, String amount) {
 		Vector2f center = PersonalPreferences.getShape().getGridCenter();
-		graphics.text(font, amount, (int) (center.x) + x + 19 - 2 - font.width(amount) + 14, (int) (center.y) + y + 6 + 3 + 14, -1, true);
+		graphics.drawString(font, amount, (int) (center.x) + x + 19 - 2 - font.width(amount) + 14, (int) (center.y) + y + 6 + 3 + 14, -1, true);
 	}
 
 	protected String getCount() {
@@ -109,7 +108,7 @@ public class CreatePolyominoButton extends ModButton {
 		return String.valueOf(this.screen.getShardSource().getCount(PersonalPreferences.getPrimaryColor()));
 	}
 
-	protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y) {
-		graphics.setTooltipForNextFrame(Minecraft.getInstance().font, ShardItem.SHARDS.get(PersonalPreferences.getPrimaryColor()).getDefaultInstance(), x, y);
+	protected void extractTooltip(GuiGraphics graphics, int x, int y) {
+		graphics.renderTooltip(Minecraft.getInstance().font, ShardItem.SHARDS.get(PersonalPreferences.getPrimaryColor()).getDefaultInstance(), x, y);
 	}
 }

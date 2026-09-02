@@ -54,7 +54,7 @@ public class CustomStructurePiece extends TemplateStructurePiece {
 
 	public CustomStructurePiece(StructurePieceSerializationContext context, CompoundTag tag) {
 		super(ModStructurePieces.CUSTOM_STRUCTURE_PIECE.get(), tag, context.structureTemplateManager(), (location) -> makeSettings(context.structureTemplateManager(), tag, location));
-		this.verticalPlacement = VerticalPlacement.byName(tag.getString("VerticalPlacement").orElseThrow());
+		this.verticalPlacement = VerticalPlacement.byName(tag.getString("VerticalPlacement"));
 		this.properties = Properties.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, tag.get("Properties"))).getOrThrow();
 
 		this.structureManager = context.structureTemplateManager();
@@ -74,7 +74,7 @@ public class CustomStructurePiece extends TemplateStructurePiece {
 	private static StructurePlaceSettings makeSettings(StructureTemplateManager templateManager, CompoundTag tag, ResourceLocation location) {
 		StructureTemplate structuretemplate = templateManager.getOrCreate(location);
 		BlockPos blockpos = new BlockPos(structuretemplate.getSize().getX() / 2, 0, structuretemplate.getSize().getZ() / 2);
-		return makeSettings(Mirror.valueOf(tag.getString("Mirror").orElseThrow()), Rotation.valueOf(tag.getString("Rotation").orElseThrow()), blockpos, Properties.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, tag.get("Properties"))).getOrThrow());
+		return makeSettings(Mirror.valueOf(tag.getString("Mirror")), Rotation.valueOf(tag.getString("Rotation")), blockpos, Properties.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, tag.get("Properties"))).getOrThrow());
 	}
 
 	private static StructurePlaceSettings makeSettings(Mirror mirror, Rotation rotation, BlockPos pos, Properties properties) {
@@ -123,6 +123,7 @@ public class CustomStructurePiece extends TemplateStructurePiece {
 				).apply(instance, Properties::new));
 	}
 
+	@SuppressWarnings("deprecation")
 	public enum VerticalPlacement implements StringRepresentable {
 		ON_LAND_SURFACE("on_land_surface", Heightmap.Types.WORLD_SURFACE_WG),
 		ON_END_SURFACE("on_end_surface", Heightmap.Types.WORLD_SURFACE_WG),
