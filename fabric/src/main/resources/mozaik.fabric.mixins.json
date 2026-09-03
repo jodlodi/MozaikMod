@@ -3,7 +3,9 @@
   "minVersion": "0.8",
   "package": "com.mod.mozaik.mixin",
   "compatibilityLevel": "JAVA_25",
-  "mixins": [],
+  "mixins": [
+    "PlayerChunkSenderMixin"
+  ],
   "client": [
     "KeyMappingMixin"
   ],
