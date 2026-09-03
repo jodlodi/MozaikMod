@@ -12,9 +12,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NonNull;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
 public final class SelectShardBagItemPacket implements IServerboundMessage {
 	public static final Type<SelectShardBagItemPacket> TYPE = new Type<>(Constants.prefix("select_slot"));
 
