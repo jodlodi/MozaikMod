@@ -159,7 +159,7 @@ public class MortarMenu extends AbstractContainerMenu {
 		List<Polyomino.PlacedPolyomino> list = new ArrayList<>();
 		polyomino.forEach(placedPolyomino -> list.add(rotate(placedPolyomino.getPlacedPolyomino(), reverseRot)));
 
-		Services.NETWORK.sendToServer(new UpdateMozaikBidirectional(list, this.mortar.getBlockPos()));
+		Services.NETWORK.sendToServer(new UpdateMozaikBidirectional(list, this.mortar.getBlockPos(), this.mortar.isSigned()));
 	}
 
 	public static Polyomino.PlacedPolyomino rotate(Polyomino.PlacedPolyomino polyomino, Rotation rotation) {

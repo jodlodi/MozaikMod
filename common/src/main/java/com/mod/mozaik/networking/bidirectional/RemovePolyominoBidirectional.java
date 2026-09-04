@@ -78,7 +78,7 @@ public final class RemovePolyominoBidirectional implements IBidirectionalMessage
 				return false;
 			});
 			if (atomicBoolean.get()) {
-				Services.NETWORK.sendToPlayersTrackingChunk(player.level(), ChunkPos.containing(this.pos), new UpdateMozaikBidirectional(blockEntity.getPolyomino(), this.pos));
+				Services.NETWORK.sendToPlayersTrackingChunk(player.level(), ChunkPos.containing(this.pos), new UpdateMozaikBidirectional(blockEntity.getPolyomino(), this.pos, blockEntity.isSigned()));
 			}
 		}
 	}

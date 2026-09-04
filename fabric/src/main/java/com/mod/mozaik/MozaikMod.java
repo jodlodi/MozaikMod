@@ -48,12 +48,10 @@ public class MozaikMod implements ModInitializer {
     }
 
     private static void registerEvents() {
-        FabricChunkWatchEvents.SENT.register((entity, chunk, _) -> {
-            chunk.getBlockEntities().forEach((pos, blockEntity) -> {
-                if (blockEntity instanceof MortarBlockEntity mortarBlockEntity) {
-                    Services.NETWORK.sendToClient(entity, new UpdateMozaikBidirectional(mortarBlockEntity.getPolyomino(), pos));
-                }
-            });
-        });
+        FabricChunkWatchEvents.SENT.register((entity, chunk, _) -> chunk.getBlockEntities().forEach((pos, blockEntity) -> {
+			if (blockEntity instanceof MortarBlockEntity mortarBlockEntity) {
+				Services.NETWORK.sendToClient(entity, new UpdateMozaikBidirectional(mortarBlockEntity.getPolyomino(), pos, mortarBlockEntity.isSigned()));
+			}
+		}));
     }
 }
