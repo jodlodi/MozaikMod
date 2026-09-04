@@ -1,5 +1,7 @@
 package com.mod.mozaik.client.tooltips;
 
+import com.mod.mozaik.Constants;
+import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.items.ShardBagItem;
 import com.mod.mozaik.items.components.ShardBagContents;
 import com.mod.mozaik.polyomino.ShardStack;
@@ -7,13 +9,13 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
@@ -21,15 +23,17 @@ import java.util.List;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ClientShardBagTooltip implements ClientTooltipComponent {
-	private static final ResourceLocation BACKGROUND_SPRITE = ResourceLocation.withDefaultNamespace("container/bundle/background");
+	private static final ResourceLocation SLOT_HIGHLIGHT_BACK_SPRITE = Constants.prefix("textures/gui/shard_bag/slot_highlight_back.png");
+	private static final ResourceLocation SLOT_HIGHLIGHT_FRONT_SPRITE = Constants.prefix("textures/gui/shard_bage/slot_highlight_front.png");
+	private static final ResourceLocation SLOT_BACKGROUND_SPRITE = Constants.prefix("textures/gui/shard_bag/slot_background.png");
 	private static final int SLOT_MARGIN = 4;
 	private static final int SLOT_SIZE = 24;
 	private static final int GRID_WIDTH = 96;
 	private static final Component BUNDLE_EMPTY_DESCRIPTION = Component.translatable("item.mozaik.bag.empty.description");
 	private final ShardBagContents contents;
 
-	public ClientShardBagTooltip(ShardBagItem.ShardBagTooltip tooltip) {
-		this.contents = tooltip.contents();
+	public ClientShardBagTooltip(ShardBagItem.ShardBagTooltip contents) {
+		this.contents = contents.contents();
 	}
 
 	@Override
@@ -59,43 +63,51 @@ public class ClientShardBagTooltip implements ClientTooltipComponent {
 	}
 
 	private int gridSizeY() {
-		return (int)Math.ceil(((double)this.contents.size() + (double)1.0F) / (double)this.gridSizeX());
+		return Mth.positiveCeilDiv(this.slotCount(), 4);
 	}
 
 	private int slotCount() {
 		return Math.min(ShardBagContents.MAX_VISIBLE_SLOTS, this.contents.size());
 	}
 
-	public void renderImage(Font font, int x, int y, GuiGraphics guiGraphics) {
-		int i = this.gridSizeX();
-		int j = this.gridSizeY();
-		guiGraphics.blitSprite(BACKGROUND_SPRITE, x, y, GRID_WIDTH, this.backgroundHeight());
-		int k = 0;
+	@Override
+	public void renderImage(Font font, int x, int y, GuiGraphics graphics) {
+		int w = this.getWidth(Minecraft.getInstance().font);
+		int h = this.getHeight();
 
-		for(int l = 0; l < j; ++l) {
-			for(int i1 = 0; i1 < i; ++i1) {
-				int j1 = x + i1 * 18 + 1;
-				int k1 = y + l * 20 + 1;
-				this.renderSlot(j1, k1, k++, guiGraphics, font);
-			}
+		if (this.contents.isEmpty()) {
+			extractEmptyBundleTooltip(font, x, y, w, h, graphics);
+		} else {
+			this.extractBundleWithItemsTooltip(font, x, y, w, h, graphics);
 		}
-
 	}
 
-	private void renderSlot(int x, int y, int itemIndex, GuiGraphics guiGraphics, Font font) {
-		if (itemIndex >= this.contents.size()) {
-			this.blit(guiGraphics, x, y, Texture.SLOT);
-		} else {
-			List<ShardStack> shownItems = this.getShownItems(this.contents.getNumberOfItemsToShow());
-			int itemVisualOrderIndex = shownItems.size() - itemIndex;
-			ItemStack itemstack = shownItems.get(itemVisualOrderIndex).create();
-			this.blit(guiGraphics, x, y, ClientShardBagTooltip.Texture.SLOT);
-			guiGraphics.renderItem(itemstack, x + 1, y + 1, itemIndex);
-			guiGraphics.renderItemDecorations(font, itemstack, x + 1, y + 1);
-			if (itemIndex == 0) {
-				AbstractContainerScreen.renderSlotHighlight(guiGraphics, x + 1, y + 1, 0);
+	private static void extractEmptyBundleTooltip(Font font, int x, int y, int w, int h, GuiGraphics graphics) {
+		int left = x + getContentXOffset(w);
+		extractEmptyBundleDescriptionText(left, y, font, graphics);
+	}
+
+	private void extractBundleWithItemsTooltip(Font font, int x, int y, int w, int h, GuiGraphics graphics) {
+		boolean isOverflowing = this.contents.size() > ShardBagContents.MAX_VISIBLE_SLOTS;
+		List<ShardStack> shownItems = this.getShownItems(this.contents.getNumberOfItemsToShow());
+		int xStartPos = x + getContentXOffset(w) + GRID_WIDTH;
+		int yStartPos = y + this.gridSizeY() * SLOT_SIZE;
+		int slotNumber = 1;
+
+		for (int rowNumber = 1; rowNumber <= this.gridSizeY(); rowNumber++) {
+			for (int columnNumber = 1; columnNumber <= 4; columnNumber++) {
+				int drawX = xStartPos - columnNumber * SLOT_SIZE;
+				int drawY = yStartPos - rowNumber * SLOT_SIZE;
+				if (shouldRenderSurplusText(isOverflowing, columnNumber, rowNumber)) {
+					extractCount(drawX, drawY, this.getAmountOfHiddenItems(shownItems), font, graphics);
+				} else if (shouldRenderItemSlot(shownItems, slotNumber)) {
+					this.extractSlot(slotNumber, drawX, drawY, shownItems, slotNumber, font, graphics);
+					slotNumber++;
+				}
 			}
 		}
+
+		this.extractSelectedItemTooltip(font, graphics, x, y, w);
 	}
 
 	private List<ShardStack> getShownItems(int amountOfItemsToShow) {
@@ -103,12 +115,54 @@ public class ClientShardBagTooltip implements ClientTooltipComponent {
 		return this.contents.items().subList(0, lastToDisplay);
 	}
 
-	private void blit(GuiGraphics guiGraphics, int x, int y, ClientShardBagTooltip.Texture texture) {
-		guiGraphics.blitSprite(texture.sprite, x, y, 0, texture.w, texture.h);
+	private static boolean shouldRenderSurplusText(boolean isOverflowing, int column, int row) {
+		return isOverflowing && column * row == 1;
 	}
 
-	private int gridSizeX() {
-		return Math.max(2, (int)Math.ceil(Math.sqrt((double)this.contents.size() + (double)1.0F)));
+	private static boolean shouldRenderItemSlot(List<ShardStack> shownItems, int slotNumber) {
+		return shownItems.size() >= slotNumber;
+	}
+
+	private int getAmountOfHiddenItems(List<ShardStack> shownItems) {
+		return this.contents.items().stream().skip(shownItems.size()).mapToInt(ShardStack::count).sum();
+	}
+
+	private void extractSlot(int slotNumber, int drawX, int drawY, List<ShardStack> shownItems, int slotIndex, Font font, GuiGraphics graphics) {
+		int itemVisualOrderIndex = shownItems.size() - slotNumber;
+		boolean hasHighlight = itemVisualOrderIndex == this.contents.getSelectedItemIndex();
+		ItemStack item = shownItems.get(itemVisualOrderIndex).create();
+		if (hasHighlight) {
+			GraphicsRenderHelper.blit(graphics, SLOT_HIGHLIGHT_BACK_SPRITE, drawX, drawY, SLOT_SIZE, SLOT_SIZE, -1);
+		} else {
+			GraphicsRenderHelper.blit(graphics, SLOT_BACKGROUND_SPRITE, drawX, drawY, SLOT_SIZE, SLOT_SIZE, -1);
+		}
+
+		graphics.renderItem(item, drawX + SLOT_MARGIN, drawY + SLOT_MARGIN, slotIndex);
+		graphics.renderItemDecorations(font, item, drawX + SLOT_MARGIN, drawY + SLOT_MARGIN);
+		if (hasHighlight) {
+			GraphicsRenderHelper.blit(graphics, SLOT_HIGHLIGHT_FRONT_SPRITE, drawX, drawY, SLOT_SIZE, SLOT_SIZE, -1);
+		}
+	}
+
+	private static void extractCount(int drawX, int drawY, int hiddenItemCount, Font font, GuiGraphics graphics) {
+		graphics.drawCenteredString(font, "+" + hiddenItemCount, drawX + 12, drawY + 10, -1);
+	}
+
+	private void extractSelectedItemTooltip(Font font, GuiGraphics graphics, int x, int y, int w) {
+		ShardStack selectedItem = this.contents.getSelectedItem();
+		if (selectedItem != null) {
+			ItemStack itemStack = selectedItem.create();
+			Component selectedItemName = itemStack.getHoverName();
+			int textWidth = font.width(selectedItemName.getVisualOrderText());
+			int centerTooltip = x + w / 2 - 12;
+			graphics.renderTooltip(
+					font,
+					List.of(selectedItemName.getVisualOrderText()),
+					DefaultTooltipPositioner.INSTANCE,
+					centerTooltip - textWidth / 2,
+					y - 15
+			);
+		}
 	}
 
 	private static void extractEmptyBundleDescriptionText(int x, int y, Font font, GuiGraphics graphics) {
@@ -117,21 +171,5 @@ public class ClientShardBagTooltip implements ClientTooltipComponent {
 
 	private static int getEmptyBundleDescriptionTextHeight(Font font) {
 		return font.split(BUNDLE_EMPTY_DESCRIPTION, GRID_WIDTH).size() * 9;
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	enum Texture {
-		BLOCKED_SLOT(ResourceLocation.withDefaultNamespace("container/bundle/blocked_slot"), 18, 20),
-		SLOT(ResourceLocation.withDefaultNamespace("container/bundle/slot"), 18, 20);
-
-		public final ResourceLocation sprite;
-		public final int w;
-		public final int h;
-
-		Texture(ResourceLocation sprite, int w, int h) {
-			this.sprite = sprite;
-			this.w = w;
-			this.h = h;
-		}
 	}
 }
