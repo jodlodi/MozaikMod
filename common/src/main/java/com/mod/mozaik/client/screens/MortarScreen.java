@@ -6,6 +6,7 @@ import com.mod.mozaik.client.ModKeyMappings;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.buttons.*;
 import com.mod.mozaik.client.buttons.AltColorButton;
+import com.mod.mozaik.client.widgets.BackPortedEditBox;
 import com.mod.mozaik.client.widgets.HeldPolyominoWidget;
 import com.mod.mozaik.client.buttons.MaterialButton;
 import com.mod.mozaik.client.widgets.PolyominoWidget;
@@ -114,7 +115,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private static Collection<ItemStack> tabStacks = List.of();
 
 	private @Nullable Vector2i selectionStart = null;
-	private @Nullable EditBox titleBox = null;
+	private @Nullable BackPortedEditBox titleBox = null;
 
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title);
@@ -838,8 +839,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			case LOCK -> {
 				int xo = (this.width - this.imageWidth) / 2;
 				int yo = (this.height - this.imageHeight) / 2;
-				MortarScreen.this.titleBox = this.addRenderableWidget(new EditBox(
-						this.minecraft.font,
+				MortarScreen.this.titleBox = this.addRenderableWidget(new BackPortedEditBox(
+						Minecraft.getInstance().font,
 						xo + 72,
 						yo + 28,
 						98,
@@ -848,8 +849,8 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				));
 				MortarScreen.this.titleBox.setMaxLength(15);
 				MortarScreen.this.titleBox.setBordered(false);
-				//MortarScreen.this.titleBox.setCentered(true); FIXME
-				//MortarScreen.this.titleBox.setTextShadow(true);
+				MortarScreen.this.titleBox.setCentered(true);
+				MortarScreen.this.titleBox.setTextShadow(true);
 				MortarScreen.this.titleBox.setTextColor(0xFFFFFFFF);
 				MortarScreen.this.titleBox.setValue("");
 				MortarScreen.this.setFocused(MortarScreen.this.titleBox);
