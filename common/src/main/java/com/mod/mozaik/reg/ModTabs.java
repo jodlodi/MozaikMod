@@ -22,7 +22,6 @@ public class ModTabs {
 		output.accept(ModItems.CALCITE_SHARDS.get());
 		output.accept(ModItems.DRIPSTONE_SHARDS.get());
 		output.accept(ModItems.MOSSY_SHARDS.get());
-		output.accept(ModItems.RESIN_SHARDS.get());
 		output.accept(ModItems.AMETHYST_SHARDS.get());
 		output.accept(ModItems.BRICK_SHARDS.get());
 		output.accept(ModItems.PACKED_MUD_SHARDS.get());

@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:cobblestone_slab",
+  "ingredient": {
+    "item": "minecraft:cobblestone_slab"
+  },
   "result": {
     "count": 4,
     "id": "mozaik:stone_shards"

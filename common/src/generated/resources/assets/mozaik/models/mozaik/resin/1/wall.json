@@ -1,6 +1,0 @@
-{
-  "parent": "mozaik:block/normal/wall",
-  "textures": {
-    "texture": "mozaik:block/mozaik/resin/block_1"
-  }
-}

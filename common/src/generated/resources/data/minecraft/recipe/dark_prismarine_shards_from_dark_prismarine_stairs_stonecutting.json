@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:dark_prismarine_stairs",
+  "ingredient": {
+    "item": "minecraft:dark_prismarine_stairs"
+  },
   "result": {
     "count": 6,
     "id": "mozaik:dark_prismarine_shards"

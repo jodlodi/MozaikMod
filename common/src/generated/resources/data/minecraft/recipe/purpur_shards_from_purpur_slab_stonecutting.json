@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:purpur_slab",
+  "ingredient": {
+    "item": "minecraft:purpur_slab"
+  },
   "result": {
     "count": 4,
     "id": "mozaik:purpur_shards"

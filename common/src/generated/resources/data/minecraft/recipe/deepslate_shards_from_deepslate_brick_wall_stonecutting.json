@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:deepslate_brick_wall",
+  "ingredient": {
+    "item": "minecraft:deepslate_brick_wall"
+  },
   "result": {
     "count": 6,
     "id": "mozaik:deepslate_shards"

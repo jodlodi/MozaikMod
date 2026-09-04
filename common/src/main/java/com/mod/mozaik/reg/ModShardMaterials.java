@@ -20,7 +20,6 @@ public class ModShardMaterials {
 	public static final ResourceSupplier<ShardMaterial> CALCITE = Services.REGISTRY.registerShardMaterial("calcite", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> DRIPSTONE = Services.REGISTRY.registerShardMaterial("dripstone", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> MOSSY = Services.REGISTRY.registerShardMaterial("mossy", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
-	public static final ResourceSupplier<ShardMaterial> RESIN = Services.REGISTRY.registerShardMaterial("resin", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> AMETHYST = Services.REGISTRY.registerShardMaterial("amethyst", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));
 	public static final ResourceSupplier<ShardMaterial> BRICK = Services.REGISTRY.registerShardMaterial("brick", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 2));
 	public static final ResourceSupplier<ShardMaterial> PACKED_MUD = Services.REGISTRY.registerShardMaterial("packed_mud", () -> new ShardMaterial(ShardMaterial.Type.NORMAL, 3));

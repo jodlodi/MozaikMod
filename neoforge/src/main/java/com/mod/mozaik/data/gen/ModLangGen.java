@@ -3,23 +3,22 @@ package com.mod.mozaik.data.gen;
 import com.google.common.base.Ascii;
 import com.mod.mozaik.client.ModKeyMappings;
 import com.mod.mozaik.client.buttons.EditButtons;
+import com.mod.mozaik.client.buttons.MaterialButton;
 import com.mod.mozaik.client.buttons.ToolButton;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.MozaikTool;
 import com.mod.mozaik.client.screens.PersonalPreferences;
-import com.mod.mozaik.client.buttons.MaterialButton;
 import com.mod.mozaik.data.util.ModLangProvider;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModTabs;
 import com.mod.mozaik.util.NaturalDigitCollection;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.MethodsReturnNonnullByDefault;
-import javax.annotation.ParametersAreNonnullByDefault;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -138,6 +137,5 @@ public class ModLangGen extends ModLangProvider {
 	@Override
 	public void addItem(Supplier<? extends Item> key, String name) {
 		this.add(key.get(), name);
-		if (key.get() instanceof BlockItem blockItem) this.add(blockItem.getBlock(), name);
 	}
 }

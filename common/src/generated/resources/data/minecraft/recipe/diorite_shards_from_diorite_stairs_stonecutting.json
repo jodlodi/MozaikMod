@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:diorite_stairs",
+  "ingredient": {
+    "item": "minecraft:diorite_stairs"
+  },
   "result": {
     "count": 6,
     "id": "mozaik:diorite_shards"

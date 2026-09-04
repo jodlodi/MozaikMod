@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:andesite_slab",
+  "ingredient": {
+    "item": "minecraft:andesite_slab"
+  },
   "result": {
     "count": 4,
     "id": "mozaik:andesite_shards"

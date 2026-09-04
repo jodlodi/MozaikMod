@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:tuff_wall",
+  "ingredient": {
+    "item": "minecraft:tuff_wall"
+  },
   "result": {
     "count": 6,
     "id": "mozaik:tuff_shards"

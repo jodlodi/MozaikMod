@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:raw_copper_block",
+  "ingredient": {
+    "item": "minecraft:raw_copper_block"
+  },
   "result": {
     "count": 8,
     "id": "mozaik:raw_copper_shards"

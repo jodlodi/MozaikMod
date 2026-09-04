@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:green_terracotta",
+  "ingredient": {
+    "item": "minecraft:green_terracotta"
+  },
   "result": {
     "count": 8,
     "id": "mozaik:green_terracotta_shards"

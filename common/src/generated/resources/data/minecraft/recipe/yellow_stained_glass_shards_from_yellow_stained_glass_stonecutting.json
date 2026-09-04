@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:yellow_stained_glass",
+  "ingredient": {
+    "item": "minecraft:yellow_stained_glass"
+  },
   "result": {
     "count": 8,
     "id": "mozaik:yellow_stained_glass_shards"

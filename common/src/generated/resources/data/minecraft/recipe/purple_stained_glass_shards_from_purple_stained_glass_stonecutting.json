@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:purple_stained_glass",
+  "ingredient": {
+    "item": "minecraft:purple_stained_glass"
+  },
   "result": {
     "count": 8,
     "id": "mozaik:purple_stained_glass_shards"

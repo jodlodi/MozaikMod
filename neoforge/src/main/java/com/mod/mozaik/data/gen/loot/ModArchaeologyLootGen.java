@@ -2,25 +2,20 @@ package com.mod.mozaik.data.gen.loot;
 
 import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModLootTables;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.StructureTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.saveddata.maps.MapDecorationTypes;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.*;
+import net.minecraft.world.level.storage.loot.functions.SetStewEffectFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.minecraft.MethodsReturnNonnullByDefault;
-import javax.annotation.ParametersAreNonnullByDefault;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.BiConsumer;
 
 @ParametersAreNonnullByDefault
@@ -40,7 +35,7 @@ public record ModArchaeologyLootGen(HolderLookup.Provider registries) implements
 						.add(LootItem.lootTableItem(Items.BRICK))
 						.add(LootItem.lootTableItem(Items.EMERALD))
 						.add(LootItem.lootTableItem(Items.STICK))
-						.add(LootItem.lootTableItem(Items.SUSPICIOUS_STEW).apply(SetStewEffectFunction.stewEffect().withEffect(MobEffects.NIGHT_VISION, UniformGenerator.between(7.0F, 10.0F)).withEffect(MobEffects.JUMP_BOOST, UniformGenerator.between(7.0F, 10.0F)).withEffect(MobEffects.WEAKNESS, UniformGenerator.between(6.0F, 8.0F)).withEffect(MobEffects.BLINDNESS, UniformGenerator.between(5.0F, 7.0F)).withEffect(MobEffects.POISON, UniformGenerator.between(10.0F, 20.0F)).withEffect(MobEffects.SATURATION, UniformGenerator.between(7.0F, 10.0F))))
+						.add(LootItem.lootTableItem(Items.SUSPICIOUS_STEW).apply(SetStewEffectFunction.stewEffect().withEffect(MobEffects.NIGHT_VISION, UniformGenerator.between(7.0F, 10.0F)).withEffect(MobEffects.JUMP, UniformGenerator.between(7.0F, 10.0F)).withEffect(MobEffects.WEAKNESS, UniformGenerator.between(6.0F, 8.0F)).withEffect(MobEffects.BLINDNESS, UniformGenerator.between(5.0F, 7.0F)).withEffect(MobEffects.POISON, UniformGenerator.between(10.0F, 20.0F)).withEffect(MobEffects.SATURATION, UniformGenerator.between(7.0F, 10.0F))))
 				)
 		);
 		register.accept(ModLootTables.LUKEWARM_MOSAIC_ARCHAEOLOGY, LootTable.lootTable()

@@ -72,21 +72,6 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "mozaik:resin_shards"
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 24.0,
-                "min": 6.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
           "name": "mozaik:bone_shards"
         },
         {

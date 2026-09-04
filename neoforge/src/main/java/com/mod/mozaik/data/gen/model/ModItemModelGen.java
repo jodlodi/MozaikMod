@@ -1,57 +1,94 @@
 package com.mod.mozaik.data.gen.model;
 
-import com.mod.mozaik.client.ShardBagSpecialRenderer;
-import com.mod.mozaik.items.ShardBagItem;
+import com.mod.mozaik.Constants;
 import com.mod.mozaik.items.ShardItem;
+import com.mod.mozaik.platform.NeoForgeRegistryHelper;
+import com.mod.mozaik.reg.ModBlocks;
 import com.mod.mozaik.reg.ModItems;
-import net.minecraft.client.data.models.ItemModelGenerators;
-import net.minecraft.client.data.models.ItemModelOutput;
-import net.minecraft.client.data.models.model.ItemModelUtils;
-import net.minecraft.client.data.models.model.ModelInstance;
-import net.minecraft.client.data.models.model.ModelTemplates;
-import net.minecraft.client.renderer.item.ItemModel;
-import net.minecraft.client.renderer.item.properties.select.DisplayContext;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemDisplayContext;
+import com.mod.mozaik.reg.ResourceSupplier;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import javax.annotation.ParametersAreNonnullByDefault;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
+import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.loaders.ItemLayerModelBuilder;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.function.BiConsumer;
 
-@ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class ModItemModelGen extends ItemModelGenerators {
+public class ModItemModelGen extends ItemModelProvider {
 
-    public ModItemModelGen(ItemModelOutput itemModelOutput, BiConsumer<ResourceLocation, ModelInstance> modelOutput) {
-        super(itemModelOutput, modelOutput);
+	public ModItemModelGen(PackOutput output, ExistingFileHelper existingFileHelper) {
+		super(output, Constants.MOD_ID, existingFileHelper);
+	}
+
+	@Override
+	protected void registerModels() {
+		ModBlocks.MORTARS.forEach(supplier -> {
+			this.toBlock(supplier.get());
+		});
+        this.singleTex(ModItems.SHARD_BAG);
+        NeoForgeRegistryHelper.ITEMS.getEntries().forEach(itemDeferredHolder -> {
+            if (itemDeferredHolder.get() instanceof ShardItem shardItem) {
+                this.singleTex(new ResourceSupplier<>(() -> shardItem, itemDeferredHolder.getId()));
+            }
+        });
+
+		ShardItem.SHARDS.forEach((a, shard) -> {
+		});
+		this.singleTex(ModItems.BUTTON_TEMPLATE);
+		this.singleTex(ModItems.BONE_TEMPLATE);
+		this.singleTex(ModItems.BUBBLE_TEMPLATE);
+		this.singleTex(ModItems.WORM_TEMPLATE);
+		this.singleTex(ModItems.CANE_TEMPLATE);
+		this.singleTex(ModItems.POINT_TEMPLATE);
+		this.singleTex(ModItems.HORN_TEMPLATE);
+		this.singleTex(ModItems.TREE_TEMPLATE);
+		this.singleTex(ModItems.FORK_TEMPLATE);
+	}
+
+    private ItemModelBuilder generated(String name, ResourceLocation... layers) {
+        return buildItem(name, "item/generated", 0, layers);
     }
 
-    @Override
-    public void run() {
-        this.generateBagModels(ModItems.SHARD_BAG.get());
-        ShardItem.SHARDS.values().forEach(shard -> this.generateFlatItem(shard, ModelTemplates.FLAT_ITEM));
-        this.generateFlatItem(ModItems.BUTTON_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
-        this.generateFlatItem(ModItems.BONE_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
-        this.generateFlatItem(ModItems.BUBBLE_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
-        this.generateFlatItem(ModItems.WORM_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
-        this.generateFlatItem(ModItems.CANE_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
-        this.generateFlatItem(ModItems.POINT_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
-        this.generateFlatItem(ModItems.HORN_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
-        this.generateFlatItem(ModItems.TREE_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
-        this.generateFlatItem(ModItems.FORK_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
+    private ItemModelBuilder singleTex(ResourceSupplier<?> item) {
+        return generated(item.id().getPath(), Constants.prefix("item/" + item.id().getPath()));
     }
 
-    private void generateBagModels(Item bundle) {
-        ItemModel.Unbaked closedModel = ItemModelUtils.plainModel(this.createFlatItemModel(bundle, ModelTemplates.FLAT_ITEM));
-        ResourceLocation openBackCover = this.generateBundleCoverModel(bundle, ModelTemplates.BUNDLE_OPEN_BACK_INVENTORY, "_open_back");
-        ResourceLocation openFrontCover = this.generateBundleCoverModel(bundle, ModelTemplates.BUNDLE_OPEN_FRONT_INVENTORY, "_open_front");
-        ItemModel.Unbaked openModel = ItemModelUtils.composite(
-                ItemModelUtils.plainModel(openBackCover), new ShardBagSpecialRenderer.Unbaked(), ItemModelUtils.plainModel(openFrontCover)
-        );
-        ItemModel.Unbaked inGuiModel = ItemModelUtils.conditional(new ShardBagItem.ShardBagHasSelectedItem(), openModel, closedModel);
-        this.itemModelOutput.accept(bundle, ItemModelUtils.select(new DisplayContext(), closedModel, ItemModelUtils.when(ItemDisplayContext.GUI, inGuiModel)));
+	private void toBlock(Block b) {
+		toBlockModel(b, BuiltInRegistries.BLOCK.getKey(b).getPath());
+	}
+
+	private void bushBlock(Block b) {
+		toBlockModel(b, BuiltInRegistries.BLOCK.getKey(b).getPath() + "_0");
+	}
+
+	private void woodBlock(Block b, String variant) {
+		woodBlockModel(b, BuiltInRegistries.BLOCK.getKey(b).getPath(), variant);
+	}
+
+	private void toBlockModel(Block b, String model) {
+		toBlockModel(b, Constants.prefix("block/" + model));
+	}
+
+	private void woodBlockModel(Block b, String model, String variant) {
+		toBlockModel(b, Constants.prefix("block/wood/" + variant + "/" + model));
+	}
+
+	private void toBlockModel(Block b, ResourceLocation model) {
+		withExistingParent(BuiltInRegistries.BLOCK.getKey(b).getPath(), model);
+	}
+
+    private ItemModelBuilder buildItem(String name, String parent, int emissivity, ResourceLocation... layers) {
+        ItemModelBuilder builder = withExistingParent(name, parent);
+        for (int i = 0; i < layers.length; i++) {
+            builder = builder.texture("layer" + i, layers[i]);
+        }
+        if (emissivity > 0) builder = builder.customLoader(ItemLayerModelBuilder::begin).emissive(emissivity, emissivity, 0).renderType("minecraft:translucent", 0).end();
+        return builder;
     }
 }

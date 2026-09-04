@@ -1,30 +1,26 @@
 package com.mod.mozaik.platform;
 
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.networking.bidirectional.AddPolyominoBidirectional;
-import com.mod.mozaik.networking.bidirectional.RemovePolyominoBidirectional;
-import com.mod.mozaik.networking.bidirectional.SignedMozaikBidirectional;
-import com.mod.mozaik.networking.bidirectional.UpdateMozaikBidirectional;
+import com.mod.mozaik.networking.bidirectional.*;
 import com.mod.mozaik.networking.clientbound.IClientboundMessage;
 import com.mod.mozaik.networking.clientbound.OpenGlueMenuClientbound;
 import com.mod.mozaik.networking.serverbound.IServerboundMessage;
-import com.mod.mozaik.networking.serverbound.SelectShardBagItemPacket;
 import com.mod.mozaik.platform.services.INetworkHelper;
-import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @EventBusSubscriber(modid = Constants.MOD_ID)
 public class NeoForgeNetworkHelper implements INetworkHelper {
@@ -33,17 +29,16 @@ public class NeoForgeNetworkHelper implements INetworkHelper {
 	@SubscribeEvent
 	public static void onRegEvent(RegisterPayloadHandlersEvent event) {
 		PayloadRegistrar registrar = event.registrar(Constants.MOD_ID).versioned(PROTOCOL_VERSION).optional();
-		registrar.playBidirectional(UpdateMozaikBidirectional.TYPE, UpdateMozaikBidirectional.STREAM_CODEC, NeoForgeNetworkHelper::onServerMessage, NeoForgeNetworkHelper::onClientMessage);
-		registrar.playBidirectional(RemovePolyominoBidirectional.TYPE, RemovePolyominoBidirectional.STREAM_CODEC, NeoForgeNetworkHelper::onServerMessage, NeoForgeNetworkHelper::onClientMessage);
-		registrar.playBidirectional(SignedMozaikBidirectional.TYPE, SignedMozaikBidirectional.STREAM_CODEC, NeoForgeNetworkHelper::onServerMessage, NeoForgeNetworkHelper::onClientMessage);
-		registrar.playBidirectional(AddPolyominoBidirectional.TYPE, AddPolyominoBidirectional.STREAM_CODEC, NeoForgeNetworkHelper::onServerMessage, NeoForgeNetworkHelper::onClientMessage);
+		registrar.playBidirectional(UpdateMozaikBidirectional.TYPE, UpdateMozaikBidirectional.STREAM_CODEC, NeoForgeNetworkHelper::onBidirectionalMessage);
+		registrar.playBidirectional(RemovePolyominoBidirectional.TYPE, RemovePolyominoBidirectional.STREAM_CODEC, NeoForgeNetworkHelper::onBidirectionalMessage);
+		registrar.playBidirectional(SignedMozaikBidirectional.TYPE, SignedMozaikBidirectional.STREAM_CODEC, NeoForgeNetworkHelper::onBidirectionalMessage);
+		registrar.playBidirectional(AddPolyominoBidirectional.TYPE, AddPolyominoBidirectional.STREAM_CODEC, NeoForgeNetworkHelper::onBidirectionalMessage);
 		registrar.playToClient(OpenGlueMenuClientbound.TYPE, OpenGlueMenuClientbound.STREAM_CODEC, NeoForgeNetworkHelper::onClientMessage);
-		registrar.playToServer(SelectShardBagItemPacket.TYPE, SelectShardBagItemPacket.STREAM_CODEC, NeoForgeNetworkHelper::onServerMessage);
 	}
 
 	@Override
 	public void sendToServer(IServerboundMessage payload, IServerboundMessage... payloads) {
-		ClientPacketDistributor.sendToServer(payload, payloads);
+		PacketDistributor.sendToServer(payload, payloads);
 	}
 
 	@Override
@@ -54,6 +49,11 @@ public class NeoForgeNetworkHelper implements INetworkHelper {
 	@Override
 	public void sendToPlayersTrackingChunk(ServerLevel level, ChunkPos chunkPos, IClientboundMessage payload, IClientboundMessage... payloads) {
 		PacketDistributor.sendToPlayersTrackingChunk(level, chunkPos, payload, payloads);
+	}
+
+	public static void onBidirectionalMessage(IBidirectionalMessage message, IPayloadContext ctx) {
+		if (ctx.flow() == PacketFlow.SERVERBOUND) onServerMessage(message, ctx);
+		else onClientMessage(message, ctx);
 	}
 
 	public static void onServerMessage(IServerboundMessage message, IPayloadContext ctx) {

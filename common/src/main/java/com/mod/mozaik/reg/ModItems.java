@@ -29,7 +29,6 @@ public class ModItems {
 	public static final ResourceSupplier<ShardItem> CALCITE_SHARDS = Services.REGISTRY.registerItem("calcite_shards", properties -> new ShardItem(properties, ModShardMaterials.CALCITE));
 	public static final ResourceSupplier<ShardItem> DRIPSTONE_SHARDS = Services.REGISTRY.registerItem("dripstone_shards", properties -> new ShardItem(properties, ModShardMaterials.DRIPSTONE));
 	public static final ResourceSupplier<ShardItem> MOSSY_SHARDS = Services.REGISTRY.registerItem("mossy_shards", properties -> new ShardItem(properties, ModShardMaterials.MOSSY));
-	public static final ResourceSupplier<ShardItem> RESIN_SHARDS = Services.REGISTRY.registerItem("resin_shards", properties -> new ShardItem(properties, ModShardMaterials.RESIN));
 	public static final ResourceSupplier<ShardItem> AMETHYST_SHARDS = Services.REGISTRY.registerItem("amethyst_shards", properties -> new ShardItem(properties, ModShardMaterials.AMETHYST));
 	public static final ResourceSupplier<ShardItem> BRICK_SHARDS = Services.REGISTRY.registerItem("brick_shards", properties -> new ShardItem(properties, ModShardMaterials.BRICK));
 	public static final ResourceSupplier<ShardItem> PACKED_MUD_SHARDS = Services.REGISTRY.registerItem("packed_mud_shards", properties -> new ShardItem(properties, ModShardMaterials.PACKED_MUD));

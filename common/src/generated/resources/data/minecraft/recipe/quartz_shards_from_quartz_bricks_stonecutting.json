@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:quartz_bricks",
+  "ingredient": {
+    "item": "minecraft:quartz_bricks"
+  },
   "result": {
     "count": 8,
     "id": "mozaik:quartz_shards"

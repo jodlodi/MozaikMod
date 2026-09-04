@@ -3,18 +3,20 @@ package com.mod.mozaik.data.gen;
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.reg.ModItems;
 import com.mod.mozaik.reg.ModTags;
-import net.minecraft.advancements.*;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.AdvancementRequirements;
+import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.critereon.ConsumeItemTrigger;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.MethodsReturnNonnullByDefault;
-import javax.annotation.ParametersAreNonnullByDefault;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Consumer;
 
 @ParametersAreNonnullByDefault
@@ -162,6 +164,8 @@ public class ModAdvancementGen implements AdvancementSubProvider {
 	}
 
 	private AdvancementHolder prefix(Consumer<AdvancementHolder> consumer, String name, Advancement.Builder builder) {
-		return builder.save(consumer, Constants.prefix(name));
+		AdvancementHolder advancementholder = builder.build(Constants.prefix(name));
+		consumer.accept(advancementholder);
+		return advancementholder;
 	}
 }

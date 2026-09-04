@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:budding_amethyst",
+  "ingredient": {
+    "item": "minecraft:budding_amethyst"
+  },
   "result": {
     "count": 8,
     "id": "mozaik:amethyst_shards"

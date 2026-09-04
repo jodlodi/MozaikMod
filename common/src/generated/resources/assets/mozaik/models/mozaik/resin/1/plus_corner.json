@@ -1,6 +1,0 @@
-{
-  "parent": "mozaik:block/normal/plus_corner",
-  "textures": {
-    "texture": "mozaik:block/mozaik/resin/block_1"
-  }
-}

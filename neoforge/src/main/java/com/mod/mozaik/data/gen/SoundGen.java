@@ -1,21 +1,14 @@
 package com.mod.mozaik.data.gen;
 
-import com.mod.mozaik.data.util.TFSoundProvider;
+import com.mod.mozaik.data.util.ModSoundProvider;
 import com.mod.mozaik.reg.ModSounds;
 import net.minecraft.data.PackOutput;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.animal.cow.CowSoundVariant;
-import net.minecraft.world.entity.animal.cow.CowSoundVariants;
-import net.minecraft.world.entity.animal.pig.PigSoundVariant;
-import net.minecraft.world.entity.animal.pig.PigSoundVariants;
-import net.minecraft.world.entity.animal.wolf.WolfSoundVariants;
-import net.neoforged.neoforge.common.data.SoundDefinition;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-public class SoundGen extends TFSoundProvider {
+public class SoundGen extends ModSoundProvider {
 
-	public SoundGen(PackOutput output) {
-		super(output);
+	public SoundGen(PackOutput output, ExistingFileHelper helper) {
+		super(output, helper);
 	}
 
 	@Override

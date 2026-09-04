@@ -51,10 +51,6 @@ public abstract class ModLangProvider extends LanguageProvider {
 		this.add("item_group." + Constants.MOD_ID + "." + Objects.requireNonNull(tab.id()).getPath(), name);
 	}
 
-	public void addKeyCategory(KeyMapping.Category key, String name) {
-		this.add("key.category." + key.id().getNamespace() + "." + key.id().getPath(), name);
-	}
-
 	public void addKeyMapping(KeyMapping key, String name) {
 		this.add(key.getName(), name);
 	}

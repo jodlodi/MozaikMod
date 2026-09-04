@@ -1,86 +1,66 @@
 package com.mod.mozaik.data.gen.model;
 
 import com.mod.mozaik.Constants;
-import com.mod.mozaik.client.model.block.mortar.MosaicStateModelBuilder;
-import com.mod.mozaik.data.util.ModExtendedModelTemplates;
-import com.mod.mozaik.data.util.ModModelTemplates;
+import com.mod.mozaik.client.model.block.mortar.MosaicLoaderBuilder;
 import com.mod.mozaik.platform.NeoForgeRegistryHelper;
+import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.polyomino.TesseraShape;
 import com.mod.mozaik.reg.ModBlocks;
-import net.minecraft.client.data.models.BlockModelGenerators;
-import net.minecraft.client.data.models.ItemModelOutput;
-import net.minecraft.client.data.models.MultiVariant;
-import net.minecraft.client.data.models.blockstates.BlockModelDefinitionGenerator;
-import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
-import net.minecraft.client.data.models.model.ModelInstance;
-import net.minecraft.client.data.models.model.ModelTemplate;
-import net.minecraft.client.data.models.model.TextureMapping;
-import net.minecraft.client.data.models.model.TextureSlot;
-import net.minecraft.client.resources.model.sprite.Material;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import javax.annotation.ParametersAreNonnullByDefault;
+import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ModBlockStateGen extends BlockModelGenerators {
+public class ModBlockStateGen extends BlockStateProvider {
 
-	public ModBlockStateGen(Consumer<BlockModelDefinitionGenerator> blockStateOutput, ItemModelOutput itemModelOutput, BiConsumer<ResourceLocation, ModelInstance> modelOutput) {
-		super(blockStateOutput, itemModelOutput, modelOutput);
+	public ModBlockStateGen(PackOutput output, ExistingFileHelper exFileHelper) {
+		super(output, Constants.MOD_ID, exFileHelper);
 	}
 
 	@Override
-	public void run() {
-		ModBlocks.MORTARS.forEach(supplier -> this.wrapBlockItem(supplier.get(), block -> {
-			TextureMapping dryTextures = (new TextureMapping())
-					.put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(block))
-					.put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block))
-					.put(TextureSlot.BOTTOM, TextureMapping.getBlockTexture(block))
-					.put(TextureSlot.TOP, TextureMapping.getBlockTexture(block));
+	protected void registerStatesAndModels() {
+		MosaicLoaderBuilder loaderBuilder = models().getBuilder("mosaic").customLoader(MosaicLoaderBuilder::new);
 
-			ResourceLocation horizontal = ModExtendedModelTemplates.MORTAR.create(block, dryTextures, this.modelOutput);
+		ModBlocks.MORTARS.forEach(supplier -> {
 
-			this.blockStateOutput.accept(
-					MultiVariantGenerator.dispatch(
-							block,
-							MultiVariant.of(new MosaicStateModelBuilder(horizontal))
-					)
-			);
-		}));
+		});
 
 		this.genTessera();
 	}
 
 	private void genTessera() {
+		Map<ShardMaterial.Type, Map<TesseraShape.ModelReference, ResourceLocation>> templateMap = new HashMap<>();
+
+		for (ShardMaterial.Type type : ShardMaterial.Type.values()) {
+			templateMap.put(type, new HashMap<>());
+		}
+
+		for (TesseraShape.ModelReference shape : TesseraShape.ModelReference.values()) {
+			for (ShardMaterial.Type type : ShardMaterial.Type.values()) {
+				templateMap.get(type).put(shape, Constants.prefix("block/" + type.name().toLowerCase(Locale.ROOT) + "/" + shape.getSerializedName()));
+			}
+		}
+
 		NeoForgeRegistryHelper.SHARD_MATERIALS.getEntries().forEach(holder -> {
 			for (int color = 0; color < holder.get().shades(); color++) {
 				for (TesseraShape.ModelReference shape : TesseraShape.ModelReference.values()) {
-					this.createFromTemplate(ModModelTemplates.TEMPLATE_MAP.get(holder.get().type()).get(shape), shape.getSerializedName(), holder.getId().getPath(), color);
+					this.createFromTemplate(templateMap.get(holder.get().type()).get(shape), shape.getSerializedName(), holder.getId().getPath(), color);
 				}
 			}
 		});
 	}
 
-	protected void createFromTemplate(ModelTemplate template, String modelPath, String texturePath, int i) {
-		Material material = new Material(Constants.prefix("block/mozaik/" + texturePath + "/block_" + i));
-		template.create(
-				Constants.prefix("mozaik/" + texturePath + "/" + i + "/" + modelPath),
-				TextureMapping.defaultTexture(material),
-				this.modelOutput
-		);
+	protected void createFromTemplate(ResourceLocation template, String modelPath, String texturePath, int i) {
+		this.models().withExistingParent("mozaik/" + texturePath + "/" + i + "/" + modelPath, template)
+						.texture("texture", Constants.prefix("block/mozaik/" + texturePath + "/block_" + i));
 	}
 
-	public void wrapBlockItem(Block block, Consumer<Block> blockRegistry) {
-		blockRegistry.accept(block);
-		this.generateBlockItem(block);
-	}
-
-	public void generateBlockItem(Block block) {
-		this.registerSimpleItemModel(block, BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/"));
-	}
 }

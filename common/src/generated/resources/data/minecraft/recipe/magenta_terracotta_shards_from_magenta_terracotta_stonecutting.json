@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:magenta_terracotta",
+  "ingredient": {
+    "item": "minecraft:magenta_terracotta"
+  },
   "result": {
     "count": 8,
     "id": "mozaik:magenta_terracotta_shards"

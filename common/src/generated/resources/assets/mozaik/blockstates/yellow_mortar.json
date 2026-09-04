@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "": {
-      "type": "mozaik:my_custom_model_loader",
-      "model": "mozaik:block/yellow_mortar"
-    }
-  }
-}

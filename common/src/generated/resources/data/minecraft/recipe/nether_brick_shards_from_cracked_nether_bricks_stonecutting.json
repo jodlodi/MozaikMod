@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:cracked_nether_bricks",
+  "ingredient": {
+    "item": "minecraft:cracked_nether_bricks"
+  },
   "result": {
     "count": 8,
     "id": "mozaik:nether_brick_shards"

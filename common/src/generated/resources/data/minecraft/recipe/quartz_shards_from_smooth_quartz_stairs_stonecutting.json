@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:smooth_quartz_stairs",
+  "ingredient": {
+    "item": "minecraft:smooth_quartz_stairs"
+  },
   "result": {
     "count": 6,
     "id": "mozaik:quartz_shards"

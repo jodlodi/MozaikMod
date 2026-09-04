@@ -1,7 +1,9 @@
 package com.mod.mozaik.client.tooltips;
 
+import com.mod.mozaik.items.ShardBagItem;
 import com.mod.mozaik.items.components.ShardBagContents;
 import com.mod.mozaik.polyomino.ShardStack;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,7 +12,6 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -27,8 +28,8 @@ public class ClientShardBagTooltip implements ClientTooltipComponent {
 	private static final Component BUNDLE_EMPTY_DESCRIPTION = Component.translatable("item.mozaik.bag.empty.description");
 	private final ShardBagContents contents;
 
-	public ClientShardBagTooltip(ShardBagContents contents) {
-		this.contents = contents;
+	public ClientShardBagTooltip(ShardBagItem.ShardBagTooltip tooltip) {
+		this.contents = tooltip.contents();
 	}
 
 	@Override

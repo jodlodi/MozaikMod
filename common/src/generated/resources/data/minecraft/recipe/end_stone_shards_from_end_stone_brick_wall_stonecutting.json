@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:end_stone_brick_wall",
+  "ingredient": {
+    "item": "minecraft:end_stone_brick_wall"
+  },
   "result": {
     "count": 6,
     "id": "mozaik:end_stone_shards"

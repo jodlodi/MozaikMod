@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:purpur_pillar",
+  "ingredient": {
+    "item": "minecraft:purpur_pillar"
+  },
   "result": {
     "count": 8,
     "id": "mozaik:purpur_shards"

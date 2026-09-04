@@ -32,7 +32,7 @@ public class NeoForgeModloaderHelper implements IModloaderHelper {
 	}
 
 	@Override
-	public KeyMapping createKeyMapping(String name, InputConstants.Type type, int keyCode, int keyMod, KeyMapping.Category category) {
+	public KeyMapping createKeyMapping(String name, InputConstants.Type type, int keyCode, int keyMod, String category) {
 		KeyModifier modifier = switch (keyMod) {
 			case GLFW.GLFW_MOD_SHIFT -> KeyModifier.SHIFT;
 			case GLFW.GLFW_MOD_CONTROL -> KeyModifier.CONTROL;

@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:mud_brick_slab",
+  "ingredient": {
+    "item": "minecraft:mud_brick_slab"
+  },
   "result": {
     "count": 4,
     "id": "mozaik:packed_mud_shards"

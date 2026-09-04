@@ -7,18 +7,17 @@ import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.reg.ModRegistries;
 import com.mod.mozaik.reg.ResourceSupplier;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
@@ -44,14 +43,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.Nullable;
-import net.minecraft.MethodsReturnNonnullByDefault;
-import javax.annotation.ParametersAreNonnullByDefault;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,19 +92,20 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 	}
 
 	@Override
+	@SuppressWarnings("DataFlowIssue")
 	public final <T extends BlockEntity, B extends Block> ResourceSupplier<BlockEntityType<T>> registerBlockEntityType(String id, BiFunction<BlockPos, BlockState, T> supplier, List<ResourceSupplier<B>> blocks) {
 		ResourceLocation location = Constants.prefix(id);
 
-		Block[] blockArray  = new Block[blocks.size()];
+		Block[] blockArray = new Block[blocks.size()];
 		for (int i = 0; i < blocks.size(); i++) blockArray[i] = blocks.get(i).get();
 
-		return new ResourceSupplier<>(BLOCK_ENTITY_TYPES.register(id, () -> new BlockEntityType<>(supplier::apply, blockArray)), location);
+		return new ResourceSupplier<>(BLOCK_ENTITY_TYPES.register(id, () -> BlockEntityType.Builder.of(supplier::apply, blockArray).build(null)), location);
 	}
 
 	@Override
 	public <T extends Entity> ResourceSupplier<EntityType<T>> registerEntityType(String id, EntityType.Builder<T> builder) {
 		ResourceLocation location = Constants.prefix(id);
-		return new ResourceSupplier<>(ENTITY_TYPES.register(id, () -> builder.build(ResourceKey.create(BuiltInRegistries.ENTITY_TYPE.key(), location))), location);
+		return new ResourceSupplier<>(ENTITY_TYPES.register(id, () -> builder.build(location.getPath())), location);
 	}
 
 	@Override
@@ -119,13 +116,13 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 	@Override
 	public <T extends Item> ResourceSupplier<T> registerItem(String id, Function<Item.Properties, T> item) {
 		ResourceLocation location = Constants.prefix(id);
-		return new ResourceSupplier<>(ITEMS.register(id, () -> item.apply(new Item.Properties().setId(ResourceKey.create(BuiltInRegistries.ITEM.key(), location)))), location);
+		return new ResourceSupplier<>(ITEMS.register(id, () -> item.apply(new Item.Properties())), location);
 	}
 
 	@Override
 	public <T extends Block> ResourceSupplier<T> registerBlock(String id, Function<BlockBehaviour.Properties, T> block, Supplier<BlockBehaviour.Properties> properties) {
 		ResourceLocation location = Constants.prefix(id);
-		return new ResourceSupplier<>(BLOCKS.register(id, () -> block.apply(properties.get().setId(ResourceKey.create(Registries.BLOCK, location)))), location);
+		return new ResourceSupplier<>(BLOCKS.register(id, () -> block.apply(properties.get())), location);
 	}
 
 	@Override
@@ -155,7 +152,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
 	@Override
 	public <T extends Sensor<?>> ResourceSupplier<SensorType<T>> registerSensorType(String id, Supplier<T> sensor) {
-		return new ResourceSupplier<>(SENSOR_TYPES.register(id, () -> new SensorType<T>(sensor)), Constants.prefix(id));
+		return new ResourceSupplier<>(SENSOR_TYPES.register(id, () -> new SensorType<>(sensor)), Constants.prefix(id));
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:blackstone",
+  "ingredient": {
+    "item": "minecraft:blackstone"
+  },
   "result": {
     "count": 8,
     "id": "mozaik:blackstone_shards"

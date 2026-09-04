@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:lime_stained_glass",
+  "ingredient": {
+    "item": "minecraft:lime_stained_glass"
+  },
   "result": {
     "count": 8,
     "id": "mozaik:lime_stained_glass_shards"

@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:ancient_debris",
+  "ingredient": {
+    "item": "minecraft:ancient_debris"
+  },
   "result": {
     "count": 8,
     "id": "mozaik:ancient_debris_shards"

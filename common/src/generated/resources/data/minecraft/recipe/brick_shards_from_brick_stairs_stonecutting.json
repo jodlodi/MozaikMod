@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "minecraft:brick_stairs",
+  "ingredient": {
+    "item": "minecraft:brick_stairs"
+  },
   "result": {
     "count": 6,
     "id": "mozaik:brick_shards"
