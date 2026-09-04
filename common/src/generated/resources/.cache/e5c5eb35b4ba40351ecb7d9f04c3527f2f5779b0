@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-04T01:55:52.1227074	Advancements
+// 1.21.1	2026-09-04T18:57:59.693321	Advancements
 7e780f1378031712aa935d33a6614761ba60cffe data/mozaik/advancement/bone.json
 4c41464e064a475c3c63c6fbe62f0aab5d456c02 data/mozaik/advancement/bubble.json
 fb1f631dd90a216aa6bb328c4fd8caf15bc664c6 data/mozaik/advancement/button.json
@@ -6,6 +6,6 @@ e11564727df379318f4ffec39c07bd0938d0b082 data/mozaik/advancement/cane.json
 ae926c0463a3dc22b9b576fc5fcb138b46cd512d data/mozaik/advancement/fork.json
 b3891c16f8967dd1c3ebc9dca9298c034ec6ab4e data/mozaik/advancement/horn.json
 8dbec3a722247ec22c152e494aaf5da426da7350 data/mozaik/advancement/point.json
-a394c13108c8bfe34babca1c35b9be75d9b65f84 data/mozaik/advancement/root.json
+8b901944721b4f46f42cff065acd6ca5467d4dac data/mozaik/advancement/root.json
 832e944678589539ea492903b4422a10c6df4569 data/mozaik/advancement/tree.json
 74f01e9eb3741d95af865e0f0ee219767e0b155d data/mozaik/advancement/worm.json

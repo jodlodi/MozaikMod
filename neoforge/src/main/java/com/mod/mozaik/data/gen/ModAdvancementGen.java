@@ -28,7 +28,7 @@ public class ModAdvancementGen implements AdvancementSubProvider {
 						ModItems.DARK_PRISMARINE_SHARDS.get(),
 						createTranslated("advancement.mozaik.root", "Mozaik"),
 						createTranslated("advancement.mozaik.root.desc", "Now what's all this?"),
-						Constants.prefix("block/black_mortar"),
+						Constants.prefix("textures/block/black_mortar.png"),
 						AdvancementType.TASK,
 						true, false, false)
 				.requirements(AdvancementRequirements.Strategy.OR)

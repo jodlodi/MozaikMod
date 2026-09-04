@@ -23,7 +23,7 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "mozaik:block/black_mortar",
+    "background": "mozaik:textures/block/black_mortar.png",
     "description": {
       "translate": "advancement.mozaik.root.desc"
     },
