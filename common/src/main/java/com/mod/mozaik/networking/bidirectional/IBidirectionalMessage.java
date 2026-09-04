@@ -7,10 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.jspecify.annotations.NullMarked;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 @NullMarked
-@ParametersAreNonnullByDefault
 public interface IBidirectionalMessage extends IClientboundMessage, IServerboundMessage {
 
 	void encode(FriendlyByteBuf buf);

@@ -19,11 +19,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.jspecify.annotations.NullMarked;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
 @NullMarked
-@ParametersAreNonnullByDefault
 public final class UpdateMozaikBidirectional implements IBidirectionalMessage {
 	public static final List<ResourceKey<ShardMaterial>> SORTED_INSTANCE_KEY_SET = new ArrayList<>();
 	public static final Type<UpdateMozaikBidirectional> TYPE = new Type<>(Constants.prefix("update_mozaik"));
