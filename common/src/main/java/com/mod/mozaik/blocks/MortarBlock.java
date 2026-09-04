@@ -194,7 +194,7 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 					newBlockEntity.setPolyomino(blockEntity.getPolyomino());
 
 					serverLevel.getServer().schedule(new TickTask(0, () ->
-							Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(pos), new UpdateMozaikBidirectional(newBlockEntity.getPolyomino(), pos))
+							Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(pos), new UpdateMozaikBidirectional(newBlockEntity.getPolyomino(), pos, newBlockEntity.isSigned()))
 					));
 				}
 				serverLevel.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.PLAYERS);

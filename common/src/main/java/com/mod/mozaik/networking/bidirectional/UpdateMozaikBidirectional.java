@@ -50,18 +50,21 @@ public final class UpdateMozaikBidirectional implements IBidirectionalMessage {
 
 	public static final Codec<UpdateMozaikBidirectional> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
 			PLACED_POLYOMINO_CODEC.listOf().fieldOf("polyomino").forGetter(message -> message.polyomino),
-			BlockPos.CODEC.fieldOf("block_pos").forGetter(message -> message.pos)
+			BlockPos.CODEC.fieldOf("block_pos").forGetter(message -> message.pos),
+			Codec.BOOL.fieldOf("signed").forGetter(message -> message.signed)
 	).apply(recordCodecBuilder, UpdateMozaikBidirectional::new));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, UpdateMozaikBidirectional> STREAM_CODEC = CustomPacketPayload.codec(UpdateMozaikBidirectional::encode, UpdateMozaikBidirectional::decode);
 
 	private final List<Polyomino.PlacedPolyomino> polyomino;
 	private final BlockPos pos;
+	private final boolean signed;
 
-	public UpdateMozaikBidirectional(List<Polyomino.PlacedPolyomino> polyomino, BlockPos pos) {
+	public UpdateMozaikBidirectional(List<Polyomino.PlacedPolyomino> polyomino, BlockPos pos, boolean signed) {
 		this.polyomino = new ArrayList<>();
 		this.polyomino.addAll(polyomino);
 		this.pos = pos;
+		this.signed = signed;
 	}
 
 	public static List<ResourceKey<ShardMaterial>> updateListIfEmpty() {
@@ -85,6 +88,7 @@ public final class UpdateMozaikBidirectional implements IBidirectionalMessage {
 	public void executeClientbound(Player player) {
 		if (player.level().getBlockEntity(this.pos) instanceof MortarBlockEntity blockEntity) {
 			blockEntity.setPolyomino(this.polyomino);
+			blockEntity.setSigned(this.signed);
 		}
 	}
 
@@ -92,6 +96,7 @@ public final class UpdateMozaikBidirectional implements IBidirectionalMessage {
 	public void executeServerbound(ServerPlayer player) {
 		if (player.level().getBlockEntity(this.pos) instanceof MortarBlockEntity blockEntity) {
 			blockEntity.setPolyomino(this.polyomino);
+			blockEntity.setSigned(this.signed);
 			blockEntity.setChanged();
 		}
 	}

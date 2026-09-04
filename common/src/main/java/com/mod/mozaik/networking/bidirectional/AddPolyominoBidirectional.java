@@ -62,7 +62,7 @@ public final class AddPolyominoBidirectional implements IBidirectionalMessage {
 		if (player.level().getBlockEntity(this.pos) instanceof MortarBlockEntity blockEntity) {
 			if (new MortarMenu.ShardSource(player.getInventory()).takeItem(polyomino.polyomino().material())) {
 				blockEntity.getPolyomino().add(this.polyomino);
-				Services.NETWORK.sendToPlayersTrackingChunk(player.level(), ChunkPos.containing(this.pos), new UpdateMozaikBidirectional(blockEntity.getPolyomino(), this.pos));
+				Services.NETWORK.sendToPlayersTrackingChunk(player.level(), ChunkPos.containing(this.pos), new UpdateMozaikBidirectional(blockEntity.getPolyomino(), this.pos, blockEntity.isSigned()));
 			}
 		}
 	}

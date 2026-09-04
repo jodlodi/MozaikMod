@@ -66,7 +66,7 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 
 	public void markChanged() {
 		if (this.level instanceof ServerLevel serverLevel) {
-			Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(this.getBlockPos()), new UpdateMozaikBidirectional(this.polyomino, this.getBlockPos()));
+			Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, ChunkPos.containing(this.getBlockPos()), new UpdateMozaikBidirectional(this.polyomino, this.getBlockPos(), this.signed));
 			serverLevel.getChunkAt(this.getBlockPos()).markUnsaved();
 		}
 	}
