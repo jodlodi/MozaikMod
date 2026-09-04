@@ -166,7 +166,7 @@ public class ClientShardBagTooltip implements ClientTooltipComponent {
 	}
 
 	private static void extractEmptyBundleDescriptionText(int x, int y, Font font, GuiGraphics graphics) {
-		graphics.drawStringWithBackdrop(font, BUNDLE_EMPTY_DESCRIPTION, x, y, GRID_WIDTH, 0xffaaaaaa);
+		graphics.drawWordWrap(font, BUNDLE_EMPTY_DESCRIPTION, x, y, GRID_WIDTH, 0xffaaaaaa);
 	}
 
 	private static int getEmptyBundleDescriptionTextHeight(Font font) {

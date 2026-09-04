@@ -28,8 +28,9 @@ import java.util.Optional;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class MaterialButton extends AbstractMaterialButton {
-	public static String FAVOURITE = "tooltip.mozaik.favourite";
-	public static String COUNT = "tooltip.mozaik.count";
+	public static final String FAVOURITE = "tooltip.mozaik.favourite";
+	public static final String COUNT = "tooltip.mozaik.count";
+	private static final String EMPTY_STRING = "";
 	private final int index;
 
 	public MaterialButton(MortarScreen screen, int offsetX, int offsetY, int index) {
@@ -82,7 +83,10 @@ public class MaterialButton extends AbstractMaterialButton {
 		}
 
 		if (PersonalPreferences.getShardBarTooltipCount().get()) {
-			components.add(Component.translatable(COUNT, Component.literal(this.getCount()).withStyle(ChatFormatting.GOLD)));
+			String count = this.getCount();
+			if (EMPTY_STRING.equals(count)) count = "∞";
+			components.add(Component.translatable(COUNT, Component.literal(count).withStyle(ChatFormatting.GOLD)));
+
 		}
 
 		StringBuilder favSlots = null;
@@ -118,7 +122,8 @@ public class MaterialButton extends AbstractMaterialButton {
 	}
 
 	protected String getCount() {
-		if (this.screen.getShardSource().isCreative() && !PersonalPreferences.getCreativeInfinity().get()) return "";
+		if (this.screen.getShardSource().isCreative() && !PersonalPreferences.getCreativeInfinity().get())
+			return EMPTY_STRING;
 		return this.screen.getShardSource().isCreative() ? "∞" : String.valueOf(this.screen.getShardSource().getCount(this.getMaterial()));
 	}
 

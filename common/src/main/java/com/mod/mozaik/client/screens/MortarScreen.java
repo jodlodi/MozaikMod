@@ -1014,7 +1014,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 					mosaic.texture(),
 					xo + GRID_START.x + xSet,
 					yo + GRID_START.y + ySet,
-					0, 0, width, height, width, height, 160, 160
+					width, height, 0, 0, width, height, 160, 160
 			);
 			graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 		});

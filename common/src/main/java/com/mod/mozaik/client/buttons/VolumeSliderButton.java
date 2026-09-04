@@ -33,6 +33,15 @@ public class VolumeSliderButton extends ModButton implements PhaseRenderable {
 	}
 
 	@Override
+	protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
+		int offY = (int) Math.round(mouseY) - this.getY();
+		int setter = Mth.clamp(offY, MIN_Y_OFFSET, MAX_Y_OFFSET) - MIN_Y_OFFSET;
+		float diff = MAX_Y_OFFSET - MIN_Y_OFFSET;
+		PersonalPreferences.voidSetVolume(1.0F - (setter / diff));
+		super.onDrag(mouseX, mouseY, dragX, dragY);
+	}
+
+	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
 		int offY = (int) Math.round(mouseY) - this.getY();
 		int setter = Mth.clamp(offY, MIN_Y_OFFSET, MAX_Y_OFFSET) - MIN_Y_OFFSET;

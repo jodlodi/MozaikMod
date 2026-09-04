@@ -6,6 +6,8 @@ import com.mod.mozaik.mixin.ServerPlayerAccessor;
 import com.mod.mozaik.networking.bidirectional.UpdateMozaikBidirectional;
 import com.mod.mozaik.networking.clientbound.OpenGlueMenuClientbound;
 import com.mod.mozaik.platform.Services;
+import com.mod.mozaik.polyomino.Polyomino;
+import com.mod.mozaik.polyomino.Tessera;
 import com.mod.mozaik.reg.ModBlocks;
 import com.mod.mozaik.reg.ResourceSupplier;
 import com.mojang.serialization.MapCodec;
@@ -38,13 +40,16 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 import net.minecraft.MethodsReturnNonnullByDefault;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @ParametersAreNonnullByDefault
@@ -189,7 +194,7 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 					newBlockEntity.setPolyomino(blockEntity.getPolyomino());
 
 					serverLevel.getServer().doRunTask(new TickTask(0, () ->
-							Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, new ChunkPos(pos), new UpdateMozaikBidirectional(newBlockEntity.getPolyomino(), pos))
+							Services.NETWORK.sendToPlayersTrackingChunk(serverLevel, new ChunkPos(pos), new UpdateMozaikBidirectional(newBlockEntity.getPolyomino(), pos, newBlockEntity.isSigned()))
 					));
 				}
 				serverLevel.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.PLAYERS);
