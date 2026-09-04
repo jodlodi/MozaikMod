@@ -1,5 +1,6 @@
 {
   "parent": "mozaik:block/mortar",
+  "loader": "mozaik:mosaic",
   "textures": {
     "bottom": "mozaik:block/green_mortar",
     "particle": "mozaik:block/green_mortar",

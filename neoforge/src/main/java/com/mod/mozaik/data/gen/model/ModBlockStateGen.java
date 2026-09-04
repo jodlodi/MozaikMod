@@ -27,10 +27,14 @@ public class ModBlockStateGen extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		MosaicLoaderBuilder loaderBuilder = models().getBuilder("mosaic").customLoader(MosaicLoaderBuilder::new);
-
 		ModBlocks.MORTARS.forEach(supplier -> {
-
+			this.simpleBlock(supplier.get(), this.models().withExistingParent(supplier.id().getPath(), Constants.prefix("block/mortar"))
+					.texture("bottom", Constants.prefix("block/" + supplier.id().getPath()))
+					.texture("particle", Constants.prefix("block/" + supplier.id().getPath()))
+					.texture("side", Constants.prefix("block/" + supplier.id().getPath()))
+					.texture("top", Constants.prefix("block/" + supplier.id().getPath()))
+					.customLoader(MosaicLoaderBuilder::new).end()
+			);
 		});
 
 		this.genTessera();
@@ -60,7 +64,7 @@ public class ModBlockStateGen extends BlockStateProvider {
 
 	protected void createFromTemplate(ResourceLocation template, String modelPath, String texturePath, int i) {
 		this.models().withExistingParent("mozaik/" + texturePath + "/" + i + "/" + modelPath, template)
-						.texture("texture", Constants.prefix("block/mozaik/" + texturePath + "/block_" + i));
+				.texture("texture", Constants.prefix("block/mozaik/" + texturePath + "/block_" + i));
 	}
 
 }

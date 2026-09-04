@@ -19,8 +19,6 @@ import java.util.Objects;
 @MethodsReturnNonnullByDefault
 @SuppressWarnings({"UnusedReturnValue"})
 public class GraphicsRenderHelper {
-	@Nullable
-	public static ModelBaker BAKER;
 	private final GuiGraphics graphics;
 	private final RegistryAccess.Frozen registryAccess;
 

@@ -19,8 +19,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class TesseraModelPart {
-	public static @Nullable BakedModel bakeTessera(ShardMaterial material, String path, Direction facing, int x, int y, long seed, int index, TesseraShape shape) {
-		return new Unbaked(Constants.prefix("mozaik/" + path + "/" + material.getBlockId(seed, index) + "/" + shape.getModel().reference().getSerializedName()), new MyModelState(shape, facing, x, y)).bake(GraphicsRenderHelper.BAKER);
+	public static @Nullable BakedModel bakeTessera(ModelBaker baker, ShardMaterial material, String path, Direction facing, int x, int y, long seed, int index, TesseraShape shape) {
+		return new Unbaked(Constants.prefix("mozaik/" + path + "/" + material.getBlockId(seed, index) + "/" + shape.getModel().reference().getSerializedName()), new MyModelState(shape, facing, x, y)).bake(baker);
 	}
 
 	public record Unbaked(ResourceLocation modelLocation, MyModelState modelState) {
