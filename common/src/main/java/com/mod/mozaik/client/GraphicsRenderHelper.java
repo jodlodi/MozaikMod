@@ -3,15 +3,15 @@ package com.mod.mozaik.client;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.polyomino.Tessera;
 import com.mod.mozaik.reg.ModRegistries;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.client.renderer.chunk.SectionRenderDispatcher;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
@@ -40,7 +40,18 @@ public class GraphicsRenderHelper {
 	}
 
 	public void blit(ResourceLocation texture, int u, int v, int width, int height, int textureWidth, int textureHeight, int color) {
-		this.graphics.blitSprite(texture, textureWidth, textureHeight, u, v, 0, 0, width, height, color);
+		int alpha = (color >> 24) & 0xFF;
+		int red = (color >> 16) & 0xFF;
+		int green = (color >> 8) & 0xFF;
+		int blue = color & 0xFF;
+
+		ResourceLocation location = texture;
+
+		RenderSystem.enableBlend();
+		this.graphics.setColor(red / 255.0F, green / 255.0F, blue / 255.0F, alpha / 255.0F);
+		this.graphics.blit(location, 0, 0, 0, u, v, width, height, textureWidth, textureHeight);
+		this.graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.disableBlend();
 	}
 
 	public void pushPop(Runnable runnable) {
@@ -50,11 +61,11 @@ public class GraphicsRenderHelper {
 	}
 
 	public void translate(float x, float y) {
-		this.graphics.pose().translate(x, 1.0F, y);
+		this.graphics.pose().translate(x, y, 0.0F);
 	}
 
 	public void scale(float x, float y) {
-		this.graphics.pose().scale(x, 1.0F, y);
+		this.graphics.pose().scale(x, y, 0.0F);
 	}
 
 	public void fill(int x0, int y0, int x1, int y1, int col) {
@@ -75,5 +86,18 @@ public class GraphicsRenderHelper {
 				}
 			}
 		}
+	}
+
+	public static void blit(GuiGraphics graphics, ResourceLocation atlasLocation, int x, int y, int textureWidth, int textureHeight, int color) {
+		int alpha = (color >> 24) & 0xFF;
+		int red = (color >> 16) & 0xFF;
+		int green = (color >> 8) & 0xFF;
+		int blue = color & 0xFF;
+
+		RenderSystem.enableBlend();
+		graphics.setColor(red / 255.0F, green / 255.0F, blue / 255.0F, alpha / 255.0F);
+		graphics.blit(atlasLocation, x, y, 0, 0, 0, textureWidth, textureHeight, textureWidth, textureHeight);
+		graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.disableBlend();
 	}
 }

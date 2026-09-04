@@ -42,7 +42,6 @@ public class ModDataGen {
 		generator.addProvider(true, new ModBiomesTagGen(output, lookupProvider, helper));
 
 		generator.addProvider(true, new ModAdvancementProvider(output, registryProvider));
-		generator.addProvider(true, new AtlasGen(output, lookupProvider, helper));
 		generator.addProvider(true, new ModBlockStateGen(output, helper));
 		generator.addProvider(true, new ModItemModelGen(output, helper));
 		generator.addProvider(true, new SoundGen(output, helper));

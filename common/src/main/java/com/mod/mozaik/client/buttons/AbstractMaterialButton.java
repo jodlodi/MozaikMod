@@ -1,6 +1,7 @@
 package com.mod.mozaik.client.buttons;
 
 import com.mod.mozaik.Constants;
+import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import net.minecraft.client.Minecraft;
@@ -8,12 +9,14 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.texture.atlas.sources.SingleFile;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Optional;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -48,11 +51,11 @@ public abstract class AbstractMaterialButton extends ModButton {
 			if (count == 0) color = 0x44777777;
 		}
 
-		graphics.blitSprite(this.getMaterialTexture(), 16, 16, 0, 0, x, y, 16, 16, color);
+		GraphicsRenderHelper.blit(graphics, this.getMaterialTexture(), x, y, 16, 16, color);
 	}
 
 	protected ResourceLocation getMaterialTexture() {
-		return Constants.prefix(this.getMaterial().location().getPath() + "/shard");
+		return Constants.prefix("textures/item/" + this.getMaterial().location().getPath() + "_shards.png");
 	}
 
 	protected void extractTooltip(GuiGraphics graphics, int x, int y) {

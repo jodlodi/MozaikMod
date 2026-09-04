@@ -143,7 +143,7 @@ public class MortarBlockEntity extends BlockEntity implements Nameable {
 			this.title = parseCustomNameSafe(tag.getString(CUSTOM_NAME), registries);
 		}
 		this.name = tag.contains(AUTHOR_NAME, CompoundTag.TAG_STRING) ? tag.getString(AUTHOR_NAME) : null;
-		this.signed = tag.contains(SIGNED_ID) && tag.getBoolean(AUTHOR_NAME);
+		this.signed = tag.contains(SIGNED_ID) && tag.getBoolean(SIGNED_ID);
 		this.lockKey = LockCode.fromTag(tag);
 		if (tag.contains(CUSTOM_NAME, CompoundTag.TAG_STRING)) {
 			this.title = parseCustomNameSafe(tag.getString(CUSTOM_NAME), registries);

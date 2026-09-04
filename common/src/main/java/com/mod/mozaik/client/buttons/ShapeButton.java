@@ -1,15 +1,20 @@
 package com.mod.mozaik.client.buttons;
 
 import com.mod.mozaik.Constants;
+import com.mod.mozaik.client.GraphicsRenderHelper;
 import com.mod.mozaik.client.PhaseRenderable;
 import com.mod.mozaik.client.screens.MortarScreen;
 import com.mod.mozaik.client.screens.PersonalPreferences;
 import com.mod.mozaik.items.PolyominoItem;
+import com.mod.mozaik.mixin.GuiGraphicsAccessor;
 import com.mod.mozaik.polyomino.PolyominoShape;
 import com.mod.mozaik.reg.ModSounds;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.Holder;
@@ -19,9 +24,11 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.MethodsReturnNonnullByDefault;
+
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -83,7 +90,7 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
 		int color = this.playerHas() ? -1 : 0x44777777;
-		graphics.blit(this.getTexture(), this.getX() - 1, this.getY() - 1, 0, 0, 18, 18, 18, 18, color);
+		GraphicsRenderHelper.blit(graphics, this.getTexture(), this.getX() - 1, this.getY() - 1, 18, 18, color);
 
 		List<Integer> favSlots = new ArrayList<>();
 		for (int i = 1; i <= 9; i++) {
@@ -103,7 +110,9 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 						Component.translatable(MaterialButton.FAVOURITE, Component.literal(favSlots.toString()).withStyle(ChatFormatting.AQUA))
 				), component, mouseX, mouseY);
 			} else if (component.isPresent()) {
-				graphics.renderTooltip(Minecraft.getInstance().font, List.of(), component, mouseX, mouseY);
+				List<ClientTooltipComponent> list = new ArrayList<>();
+				component.ifPresent((tooltipComponent) -> list.add(ClientTooltipComponent.create(tooltipComponent)));
+				((GuiGraphicsAccessor)graphics).invokeRenderTooltipInternal(Minecraft.getInstance().font, list, mouseX, mouseY, DefaultTooltipPositioner.INSTANCE); //Skip NeoForge's hook that crashes the game if component list is empty!
 			}
 		}
 	}

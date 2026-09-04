@@ -12,8 +12,8 @@ public record ShardMaterial(Type type, int shades) {
 	private static final RandomSource RANDOM = RandomSource.createNewThreadLocalInstance();
 
 	public ResourceLocation getGuiSheet(String type, long polySeed, int index) {
-		if (this.shades == 1) return Constants.prefix(type + "/" + 0);
-		return Constants.prefix(type + "/" + this.randomIndex(polySeed, index));
+		if (this.shades == 1) return Constants.prefix("textures/gui/mozaik/" + type + "/gui_" + 0 + ".png");
+		return Constants.prefix("textures/gui/mozaik/" + type + "/gui_" + this.randomIndex(polySeed, index) + ".png");
 	}
 
 	public int getBlockId(long polySeed, int index) {
