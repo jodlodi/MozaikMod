@@ -14,6 +14,7 @@ import net.minecraft.network.chat.MutableComponent;
 import org.joml.Vector2i;
 import org.jspecify.annotations.NullMarked;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,10 +37,15 @@ public class ToolButton extends SpriteButton {
 		}
 
 		if (this.isHovered()) {
-			graphics.setTooltipForNextFrame(Minecraft.getInstance().font, List.of(
-					Component.translatable(this.tool.asTranslationString()),
-					Component.translatable(SHORTCUT, Component.empty().append(this.tool.getKeyMapping().getTranslatedKeyMessage()).withStyle(ChatFormatting.AQUA))
-			), Optional.empty(), mouseX, mouseY);
+			List<Component> list = new ArrayList<>();
+			list.add(Component.translatable(this.tool.asTranslationString()));
+
+			if (PersonalPreferences.getToolButtonExtraInfo().get()) {
+				list.add(Component.translatable(this.tool.asTranslationString() + ".desc"));
+			}
+
+			list.add(Component.translatable(SHORTCUT, Component.empty().append(this.tool.getKeyMapping().getTranslatedKeyMessage()).withStyle(ChatFormatting.AQUA)));
+			graphics.setTooltipForNextFrame(Minecraft.getInstance().font, list, Optional.empty(), mouseX, mouseY);
 		}
 	}
 
@@ -49,11 +55,12 @@ public class ToolButton extends SpriteButton {
 
 	@Override
 	public void onPress(InputWithModifiers inputWithModifiers) {
-		this.screen.tool = this.tool;
+		this.screen.setTool(this.tool);
+		this.screen.carried.clear();
 	}
 
 	@Override
 	public boolean isPressed() {
-		return this.screen.tool == this.tool;
+		return this.screen.getTool() == this.tool;
 	}
 }

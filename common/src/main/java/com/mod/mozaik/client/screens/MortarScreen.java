@@ -110,7 +110,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public static final int MIDDLE_CLICK = 2;
 	public static final int RIGHT_CLICK = 1;
 
-	public MozaikTool tool = MozaikTool.CURSOR;
+	private MozaikTool tool = MozaikTool.CURSOR;
 	public Mode mode = Mode.MORTAR;
 
 	public List<PolyominoWidget> polyomino = new ArrayList<>();
@@ -219,6 +219,14 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		}
 	}
 
+	public MozaikTool getTool() {
+		return this.tool;
+	}
+
+	public void setTool(MozaikTool tool) {
+		this.tool = tool;
+	}
+
 	@Override
 	protected void extractLabels(GuiGraphicsExtractor graphics, int xm, int ym) {
 
@@ -253,6 +261,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 		for (MozaikTool tool : MozaikTool.values()) {
 			if (IMozaikKeyMapping.matches(tool.getKeyMapping(), event)) {
+				this.carried.clear();
 				this.tool = tool;
 				return true;
 			}
@@ -368,26 +377,33 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 		if (!this.carried.isEmpty()) {
 			if (click == LEFT_CLICK) {
-				Map<HeldPolyominoWidget, Vector2i> map = this.getOffsetForPlacement(this.carried);
-				if (map != null) {
-					MozaikTool.playButtonClickSound(ModSounds.PLACE_SHARD);
-					this.carried.forEach(heldPolyominoWidget -> {
-						Vector2i vector2i = map.get(heldPolyominoWidget);
-						this.placePolyomino(heldPolyominoWidget, vector2i);
-						heldPolyominoWidget.setPolyomino(heldPolyominoWidget.getPolyomino().rebuild(heldPolyominoWidget.getPolyomino().material()));
-					});
-					MortarMenu.ShardSource shardSource = this.getShardSource();
-					if (!shardSource.isCreative()) {
-						int count = shardSource.getCount(this.carried.getFirst().getPolyomino().material());
-						int carry = this.carried.size();
-						if (count < carry) {
-							for (int i = 0; i < carry; i++) {
-								if (i >= count) this.carried.removeLast();
+				int gridMinX = this.leftPos + GRID_START.x - Tessera.TESSERA_SIZE;
+				int gridMaxX = gridMinX + Tessera.TESSERA_SIZE * 18;
+				int gridMinY = this.topPos + GRID_START.y - Tessera.TESSERA_SIZE;
+				int gridMaxY = gridMinY + Tessera.TESSERA_SIZE * 18;
+
+				if (event.x() >= gridMinX && event.x() <= gridMaxX && event.y() >= gridMinY && event.y() <= gridMaxY) {
+					Map<HeldPolyominoWidget, Vector2i> map = this.getOffsetForPlacement(this.carried);
+					if (map != null) {
+						MozaikTool.playButtonClickSound(ModSounds.PLACE_SHARD);
+						this.carried.forEach(heldPolyominoWidget -> {
+							Vector2i vector2i = map.get(heldPolyominoWidget);
+							this.placePolyomino(heldPolyominoWidget, vector2i);
+							heldPolyominoWidget.setPolyomino(heldPolyominoWidget.getPolyomino().rebuild(heldPolyominoWidget.getPolyomino().material()));
+						});
+						MortarMenu.ShardSource shardSource = this.getShardSource();
+						if (!shardSource.isCreative()) {
+							int count = shardSource.getCount(this.carried.getFirst().getPolyomino().material());
+							int carry = this.carried.size();
+							if (count < carry) {
+								for (int i = 0; i < carry; i++) {
+									if (i >= count) this.carried.removeLast();
+								}
 							}
 						}
 					}
-				}
-				return true;
+					return true;
+				} else this.carried.clear();
 			} else if (click == MIDDLE_CLICK) {
 				this.carried.removeIf(widget -> {
 					this.removeWidget(widget);
@@ -395,7 +411,6 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				});
 				return true;
 			}
-			return true;
 		}
 
 		Optional<GuiEventListener> child = this.getChildAt(event.x(), event.y());

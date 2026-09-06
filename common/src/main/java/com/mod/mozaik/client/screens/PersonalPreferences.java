@@ -42,6 +42,7 @@ public class PersonalPreferences {
 			Codec.BOOL.fieldOf("shard_bar_tooltip_count").forGetter(pref -> pref.shardBarTooltipCount.get()),
 			Codec.BOOL.fieldOf("shard_bar_display_count").forGetter(pref -> pref.shardBarDisplayCount.get()),
 			Codec.BOOL.fieldOf("tool_button_hotkey").forGetter(pref -> pref.toolButtonHotkey.get()),
+			Codec.BOOL.fieldOf("toolButton_extra_info").forGetter(pref -> pref.toolButtonExtraInfo.get()),
 			Codec.BOOL.fieldOf("reverse_scroll_direction_bars").forGetter(pref -> pref.reverseScrollDirectionBars.get()),
 			Codec.BOOL.fieldOf("picker_tool_tooltip").forGetter(pref -> pref.pickerToolTooltip.get()),
 			Codec.BOOL.fieldOf("wand_tool_tooltip").forGetter(pref -> pref.wandToolTooltip.get()),
@@ -67,10 +68,12 @@ public class PersonalPreferences {
 	));
 
 	private final ToggleOption toolButtonHotkey = new ToggleOption("tool_button_hotkey", false);
+	private final ToggleOption toolButtonExtraInfo = new ToggleOption("tool_button_extra_info", true);
 	private final ToggleOption pickerToolTooltip = new ToggleOption("picker_tool_tooltip", true);
 	private final ToggleOption wandToolTooltip = new ToggleOption("wand_tool_tooltip", true);
 	private final SettingCategory tools = new SettingCategory("tooltip.mozaik.setting.category.tools", List.of(
 			this.toolButtonHotkey,
+			this.toolButtonExtraInfo,
 			this.pickerToolTooltip,
 			this.wandToolTooltip
 	));
@@ -102,6 +105,7 @@ public class PersonalPreferences {
 			boolean shardBarTooltipCount,
 			boolean shardBarDisplayCount,
 			boolean toolButtonHotkey,
+			boolean toolButtonExtraInfo,
 			boolean reverseScrollDirectionBars,
 			boolean pickerToolTooltip,
 			boolean wandToolTooltip,
@@ -118,6 +122,7 @@ public class PersonalPreferences {
 		this.shardBarTooltipCount.setInit(shardBarTooltipCount);
 		this.shardBarDisplayCount.setInit(shardBarDisplayCount);
 		this.toolButtonHotkey.setInit(toolButtonHotkey);
+		this.toolButtonExtraInfo.setInit(toolButtonExtraInfo);
 		this.reverseScrollDirectionBars.setInit(reverseScrollDirectionBars);
 		this.pickerToolTooltip.setInit(pickerToolTooltip);
 		this.wandToolTooltip.setInit(wandToolTooltip);
@@ -160,6 +165,10 @@ public class PersonalPreferences {
 
 	public static ToggleOption getToolButtonHotkey() {
 		return INSTANCE.toolButtonHotkey;
+	}
+
+	public static ToggleOption getToolButtonExtraInfo() {
+		return INSTANCE.toolButtonExtraInfo;
 	}
 
 	public static ToggleOption getReverseScrollDirectionBars() {
