@@ -10,6 +10,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class ModTabs {
 	public static final ResourceSupplier<CreativeModeTab> TAB = Services.REGISTRY.registerCreativeTab("tab", () -> ModItems.MORTARS.black().get().getDefaultInstance(), (itemDisplayParameters, output) -> {
 		output.accept(ModItems.SHARD_BAG.get());
+		ModItems.DYED_SHARD_BAG.forEach(supplier -> output.accept(supplier.get()));
 		ModItems.MORTARS.forEach(supplier -> output.accept(supplier.get()));
 
 		output.accept(ModItems.STONE_SHARDS.get());

@@ -18,6 +18,7 @@ public class ModTags {
 	}
 
 	public static class Items {
+		public static final TagKey<Item> SHARD_BAGS = TagKey.create(Registries.ITEM, Constants.prefix("shard_bags"));
 		public static final TagKey<Item> SHARDS = TagKey.create(Registries.ITEM, Constants.prefix("shards"));
 		public static final TagKey<Item> MORTARS = TagKey.create(Registries.ITEM, Constants.prefix("mortars"));
 	}

@@ -1,0 +1,21 @@
+{
+  "values": [
+    "mozaik:shard_bag",
+    "mozaik:white_shard_bag",
+    "mozaik:orange_shard_bag",
+    "mozaik:magenta_shard_bag",
+    "mozaik:light_blue_shard_bag",
+    "mozaik:yellow_shard_bag",
+    "mozaik:lime_shard_bag",
+    "mozaik:pink_shard_bag",
+    "mozaik:gray_shard_bag",
+    "mozaik:light_gray_shard_bag",
+    "mozaik:cyan_shard_bag",
+    "mozaik:purple_shard_bag",
+    "mozaik:blue_shard_bag",
+    "mozaik:brown_shard_bag",
+    "mozaik:green_shard_bag",
+    "mozaik:red_shard_bag",
+    "mozaik:black_shard_bag"
+  ]
+}

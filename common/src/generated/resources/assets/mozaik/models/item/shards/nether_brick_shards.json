@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "mozaik:item/shards/nether_brick_shards"
+  }
+}

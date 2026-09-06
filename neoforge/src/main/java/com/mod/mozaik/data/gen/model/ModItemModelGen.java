@@ -38,6 +38,7 @@ public class ModItemModelGen extends ItemModelProvider {
 		});
 
 		this.singleTex(ModItems.SHARD_BAG);
+        ModItems.DYED_SHARD_BAG.forEach(bag -> this.singleTex(bag));
 		NeoForgeRegistryHelper.ITEMS.getEntries().forEach(itemDeferredHolder -> {
 			if (itemDeferredHolder.get() instanceof ShardItem shardItem) {
 				this.singleTex(new ResourceSupplier<>(() -> shardItem, itemDeferredHolder.getId()));

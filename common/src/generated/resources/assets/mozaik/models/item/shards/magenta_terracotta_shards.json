@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "mozaik:item/shards/magenta_terracotta_shards"
+  }
+}

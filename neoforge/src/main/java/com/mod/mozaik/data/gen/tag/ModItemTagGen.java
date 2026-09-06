@@ -1,6 +1,7 @@
 package com.mod.mozaik.data.gen.tag;
 
 import com.mod.mozaik.items.MortarBlockItem;
+import com.mod.mozaik.items.ShardBagItem;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.platform.NeoForgeRegistryHelper;
 import com.mod.mozaik.reg.ModTags;
@@ -27,6 +28,8 @@ public class ModItemTagGen extends ItemTagsProvider {
 				this.tag(ModTags.Items.SHARDS).add(shardItem);
 			} else if (itemDeferredHolder.get() instanceof MortarBlockItem mortarBlockItem) {
 				this.tag(ModTags.Items.MORTARS).add(mortarBlockItem);
+			} else if (itemDeferredHolder.get() instanceof ShardBagItem shardBagItem) {
+				this.tag(ModTags.Items.SHARD_BAGS).add(shardBagItem);
 			}
 		});
 	}
