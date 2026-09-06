@@ -52,7 +52,7 @@ public class CreatePolyominoButton extends ModButton {
 
 		this.screen.carried.clear();
 		this.screen.carried.add(this.screen.addRenderableWidget(widget));
-		this.screen.tool = MozaikTool.CURSOR;
+		this.screen.setTool(MozaikTool.CURSOR);
 	}
 
 	@Override

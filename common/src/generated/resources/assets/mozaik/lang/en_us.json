@@ -191,6 +191,7 @@
   "name.mozaik.setting.shard_bar_display_count": "Show Count on ItemStack",
   "name.mozaik.setting.shard_bar_tooltip_count": "Show Count in Tooltip",
   "name.mozaik.setting.shard_bar_tooltip_name": "Show Name in Tooltip",
+  "name.mozaik.setting.tool_button_extra_info": "Display Tool Info in Tooltip",
   "name.mozaik.setting.tool_button_hotkey": "Display Tool Key Bind",
   "name.mozaik.setting.wand_tool_tooltip": "Wand Material Tooltip",
   "tooltip.mozaik.count": "§8Shard count: [%1$s§8]",
@@ -209,9 +210,15 @@
   "tooltip.mozaik.setting.category.shard_bar": "  Shard Bar",
   "tooltip.mozaik.setting.category.tools": "  Tools",
   "tooltip.mozaik.tool.chisel": "Chisel",
+  "tooltip.mozaik.tool.chisel.desc": "§7-Click on placed tile to remove from board.",
   "tooltip.mozaik.tool.cursor": "Cursor",
+  "tooltip.mozaik.tool.cursor.desc": "§7-With no tile in hand: Left click to pick tile.\n§7-With tile in hand: Left click to place, middle to drop.",
   "tooltip.mozaik.tool.picker": "Picker",
+  "tooltip.mozaik.tool.picker.desc": "§7-Click on placed tile to select it's material.\n§7-Shift-click to select polyomino instead.",
   "tooltip.mozaik.tool.select": "Select",
+  "tooltip.mozaik.tool.select.desc": "§7-Click and drag to make a selection box.\n§7-Shift-click to keep previous selection.",
   "tooltip.mozaik.tool.swap": "Swap",
-  "tooltip.mozaik.tool.wand": "Wand"
+  "tooltip.mozaik.tool.swap.desc": "§7-Click on placed tile to change it's material to the one selected.\n§7-Re-rolls noise instead if material is already the same.",
+  "tooltip.mozaik.tool.wand": "Wand",
+  "tooltip.mozaik.tool.wand.desc": "§7-Click on placed tile to select all tiles of that material.\n§7-Shift-click to keep previous selection."
 }
