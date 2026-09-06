@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_shard_bag": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#mozaik:shard_bags"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "mozaik:green_shard_bag_dyed"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_shard_bag"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "mozaik:green_shard_bag_dyed"
+    ]
+  }
+}

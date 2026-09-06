@@ -25,7 +25,7 @@ public class ShardBagMouseActions implements ItemSlotMouseAction {
 
 	@Override
 	public boolean matches(Slot slot) {
-		return slot.getItem().is(ModItems.SHARD_BAG.get());
+		return slot.getItem().getItem() instanceof ShardBagItem;
 	}
 
 	@Override

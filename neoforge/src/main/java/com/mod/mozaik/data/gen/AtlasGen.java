@@ -20,7 +20,7 @@ public class AtlasGen extends SpriteSourceProvider {
 	protected void gather() {
 		NeoForgeRegistryHelper.SHARD_MATERIALS.getEntries().forEach(holder -> {
 			this.atlas(AtlasIds.GUI).addSource(
-					new SingleFile(Constants.prefix("item/" + holder.getId().getPath() + "_shards"), Optional.of(Constants.prefix(holder.getId().getPath() + "/shard")))
+					new SingleFile(Constants.prefix("item/shards/" + holder.getId().getPath() + "_shards"), Optional.of(Constants.prefix(holder.getId().getPath() + "/shard")))
 			);
 			for (int i = 0; i < holder.get().shades(); i++) {
 				this.atlas(AtlasIds.GUI).addSource(

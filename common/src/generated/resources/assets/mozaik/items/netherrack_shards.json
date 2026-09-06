@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "mozaik:item/netherrack_shards"
+    "model": "mozaik:item/shards/netherrack_shards"
   }
 }

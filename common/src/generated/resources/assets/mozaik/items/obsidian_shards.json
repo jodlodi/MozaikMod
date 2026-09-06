@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "mozaik:item/obsidian_shards"
+    "model": "mozaik:item/shards/obsidian_shards"
   }
 }
