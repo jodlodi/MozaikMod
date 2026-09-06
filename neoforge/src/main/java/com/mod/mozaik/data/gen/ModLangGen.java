@@ -36,23 +36,8 @@ public class ModLangGen extends ModLangProvider {
 	@Override
 	protected void addCustomTranslations() {
 		this.addItem(ModItems.SHARD_BAG, identifierToTitleCase(ModItems.SHARD_BAG.id()));
-		this.addItem(ModItems.MORTARS.white(), "White Mortar");
-		this.addItem(ModItems.MORTARS.orange(), "Orange Mortar");
-		this.addItem(ModItems.MORTARS.magenta(), "Magenta Mortar");
-		this.addItem(ModItems.MORTARS.lightBlue(), "Light Blue Mortar");
-		this.addItem(ModItems.MORTARS.yellow(), "Yellow Mortar");
-		this.addItem(ModItems.MORTARS.lime(), "Lime Mortar");
-		this.addItem(ModItems.MORTARS.pink(), "Pink Mortar");
-		this.addItem(ModItems.MORTARS.gray(), "Gray Mortar");
-		this.addItem(ModItems.MORTARS.lightGray(), "Light Gray Mortar");
-		this.addItem(ModItems.MORTARS.cyan(), "Cyan Mortar");
-		this.addItem(ModItems.MORTARS.purple(), "Purple Mortar");
-		this.addItem(ModItems.MORTARS.blue(), "Blue Mortar");
-		this.addItem(ModItems.MORTARS.brown(), "Brown Mortar");
-		this.addItem(ModItems.MORTARS.green(), "Green Mortar");
-		this.addItem(ModItems.MORTARS.red(), "Red Mortar");
-		this.addItem(ModItems.MORTARS.black(), "Black Mortar");
-
+		ModItems.DYED_SHARD_BAG.forEach(item -> this.addItem(item, identifierToTitleCase(item.id())));
+		ModItems.MORTARS.forEach(item -> this.addItem(item, identifierToTitleCase(item.id())));
 		ShardItem.SHARDS.forEach((key, item) -> this.addItem(() -> item, toTitleCase(key.identifier().getPath() + "_shards")));
 
 		this.addItem(ModItems.BUTTON_TEMPLATE, identifierToTitleCase(ModItems.BUTTON_TEMPLATE.id()));

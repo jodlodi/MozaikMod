@@ -6,14 +6,16 @@ import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.reg.ModItems;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;
-import net.minecraft.client.data.models.model.ItemModelUtils;
-import net.minecraft.client.data.models.model.ModelInstance;
-import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.properties.select.DisplayContext;
+import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.ColorCollection;
 import org.jspecify.annotations.NullMarked;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -29,8 +31,12 @@ public class ModItemModelGen extends ItemModelGenerators {
 
     @Override
     public void run() {
-        this.generateBagModels(ModItems.SHARD_BAG.get());
-        ShardItem.SHARDS.values().forEach(shard -> this.generateFlatItem(shard, ModelTemplates.FLAT_ITEM));
+        this.generateBagModels(ModItems.SHARD_BAG.get(), Items.BUNDLE);
+        ColorCollection.zipApply(ModItems.DYED_SHARD_BAG, Items.DYED_BUNDLE, (shardBags, bundle) ->
+                this.generateBagModels(shardBags.get(), bundle)
+        );
+
+        ShardItem.SHARDS.values().forEach(shard -> this.generateFlatItem(shard, ModelTemplates.FLAT_ITEM, "shards/"));
         this.generateFlatItem(ModItems.BUTTON_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
         this.generateFlatItem(ModItems.BONE_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
         this.generateFlatItem(ModItems.BUBBLE_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
@@ -42,14 +48,26 @@ public class ModItemModelGen extends ItemModelGenerators {
         this.generateFlatItem(ModItems.FORK_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
     }
 
-    private void generateBagModels(Item bundle) {
-        ItemModel.Unbaked closedModel = ItemModelUtils.plainModel(this.createFlatItemModel(bundle, ModelTemplates.FLAT_ITEM));
+    private void generateBagModels(Item bag, Item bundle) {
+        ItemModel.Unbaked closedModel = ItemModelUtils.plainModel(this.createFlatItemModel(bag, ModelTemplates.FLAT_ITEM, "shard_bag/"));
+
         Identifier openBackCover = this.generateBundleCoverModel(bundle, ModelTemplates.BUNDLE_OPEN_BACK_INVENTORY, "_open_back");
         Identifier openFrontCover = this.generateBundleCoverModel(bundle, ModelTemplates.BUNDLE_OPEN_FRONT_INVENTORY, "_open_front");
+
         ItemModel.Unbaked openModel = ItemModelUtils.composite(
                 ItemModelUtils.plainModel(openBackCover), new ShardBagSpecialRenderer.Unbaked(), ItemModelUtils.plainModel(openFrontCover)
         );
+
         ItemModel.Unbaked inGuiModel = ItemModelUtils.conditional(new ShardBagItem.ShardBagHasSelectedItem(), openModel, closedModel);
-        this.itemModelOutput.accept(bundle, ItemModelUtils.select(new DisplayContext(), closedModel, ItemModelUtils.when(ItemDisplayContext.GUI, inGuiModel)));
+        this.itemModelOutput.accept(bag, ItemModelUtils.select(new DisplayContext(), closedModel, ItemModelUtils.when(ItemDisplayContext.GUI, inGuiModel)));
+    }
+
+    public void generateFlatItem(Item item, ModelTemplate template, String prefix) {
+        this.itemModelOutput.accept(item, ItemModelUtils.plainModel(this.createFlatItemModel(item, template, prefix)));
+    }
+
+    public Identifier createFlatItemModel(Item item, ModelTemplate template, String prefix) {
+        Identifier location = BuiltInRegistries.ITEM.getKey(item).withPrefix("item/" + prefix);
+        return template.create(location, new TextureMapping().put(TextureSlot.LAYER0, new Material(location)), this.modelOutput);
     }
 }

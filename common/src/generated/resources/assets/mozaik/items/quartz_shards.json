@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "mozaik:item/quartz_shards"
+    "model": "mozaik:item/shards/quartz_shards"
   }
 }

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_transmute",
+  "group": "shard_bag_dye",
+  "input": "#mozaik:shard_bags",
+  "material": "minecraft:cyan_dye",
+  "result": {
+    "id": "mozaik:cyan_shard_bag"
+  }
+}

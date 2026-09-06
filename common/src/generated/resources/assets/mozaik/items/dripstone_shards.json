@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "mozaik:item/dripstone_shards"
+    "model": "mozaik:item/shards/dripstone_shards"
   }
 }

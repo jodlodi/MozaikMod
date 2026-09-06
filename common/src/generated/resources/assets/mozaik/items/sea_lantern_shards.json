@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "mozaik:item/sea_lantern_shards"
+    "model": "mozaik:item/shards/sea_lantern_shards"
   }
 }

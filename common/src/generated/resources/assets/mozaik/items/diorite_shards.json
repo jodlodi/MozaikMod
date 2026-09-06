@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "mozaik:item/diorite_shards"
+    "model": "mozaik:item/shards/diorite_shards"
   }
 }

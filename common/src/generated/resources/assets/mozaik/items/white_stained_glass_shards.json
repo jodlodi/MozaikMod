@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "mozaik:item/white_stained_glass_shards"
+    "model": "mozaik:item/shards/white_stained_glass_shards"
   }
 }

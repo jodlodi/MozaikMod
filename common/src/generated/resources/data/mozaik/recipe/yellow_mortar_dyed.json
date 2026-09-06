@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_transmute",
+  "group": "mortar_dye",
+  "input": "#mozaik:mortars",
+  "material": "minecraft:yellow_dye",
+  "result": {
+    "id": "mozaik:yellow_mortar"
+  }
+}

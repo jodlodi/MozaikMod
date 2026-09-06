@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "mozaik:item/light_blue_glazed_terracotta_shards"
+    "model": "mozaik:item/shards/light_blue_glazed_terracotta_shards"
   }
 }

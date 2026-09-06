@@ -7,15 +7,17 @@ import com.mod.mozaik.reg.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.RecipeBuilder;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.*;
 import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.ColorCollection;
 import org.jspecify.annotations.NullMarked;
@@ -45,6 +47,13 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
 				.define('V', ModTags.Items.SHARDS)
 				.unlockedBy("has_item", has(ModTags.Items.SHARDS))
 				.save(this.output);
+
+		ColorCollection.zipApply(ModItems.DYED_SHARD_BAG, ColorCollection.VALUES, (shardBag, color) -> {
+			TransmuteRecipeBuilder.transmute(RecipeCategory.DECORATIONS, this.tag(ModTags.Items.SHARD_BAGS), Ingredient.of(Items.DYE.pick(color)), shardBag.get())
+					.group("shard_bag_dye")
+					.unlockedBy("has_shard_bag", this.has(ModTags.Items.SHARD_BAGS))
+					.save(this.output, this.defaultId(shardBag, "_dyed"));
+		});
 
 		for (DyeColor color : DyeColor.values()) {
 			this.mortar(color);
@@ -295,7 +304,16 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
 				.define('S', Items.SLIME_BALL)
 				.define('W', Items.WATER_BUCKET)
 				.unlockedBy("has_item", has(Items.CONCRETE_POWDER.pick(color)))
-				.save(this.output);
+				.save(this.output, this.defaultId(ModItems.MORTARS.pick(color), "_crafted"));
+
+		TransmuteRecipeBuilder.transmute(RecipeCategory.DECORATIONS, this.tag(ModTags.Items.MORTARS), Ingredient.of(Items.DYE.pick(color)), ModItems.MORTARS.pick(color).get())
+				.group("mortar_dye")
+				.unlockedBy("has_mortar", this.has(ModTags.Items.MORTARS))
+				.save(this.output, this.defaultId(ModItems.MORTARS.pick(color), "_dyed"));
+	}
+
+	public <T extends Item> ResourceKey<Recipe<?>> defaultId(ResourceSupplier<T> result, String suffix) {
+		return ResourceKey.create(Registries.RECIPE, result.id().withSuffix(suffix));
 	}
 
 	public static class ModRecipeRunner extends RecipeProvider.Runner {
