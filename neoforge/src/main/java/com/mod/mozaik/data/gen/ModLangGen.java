@@ -56,6 +56,13 @@ public class ModLangGen extends ModLangProvider {
 		for (MozaikTool tool : MozaikTool.values()) {
 			this.add(tool.asTranslationString(), toTitleCase(tool.getSerializedName()));
 		}
+		this.add(MozaikTool.CHISEL.asTranslationString() + ".desc", "§7-Click on placed tile to remove from mosaic.");
+		this.add(MozaikTool.CURSOR.asTranslationString() + ".desc", "§7-With no tile in hand: Left click to pick tile.\n§7-With tile in hand: Left click to place, middle to drop.");
+		this.add(MozaikTool.SWAP.asTranslationString() + ".desc", "§7-Click on placed tile to change it's material to the one selected.\n§7-Re-rolls noise instead if material is already the same.");
+		this.add(MozaikTool.PICKER.asTranslationString() + ".desc", "§7-Click on placed tile to select it's material.\n§7-Shift-click to select polyomino instead.");
+		this.add(MozaikTool.WAND.asTranslationString() + ".desc", "§7-Click on placed tile to select all tiles of that material.\n§7-Shift-click to keep previous selection.");
+		this.add(MozaikTool.SELECT.asTranslationString() + ".desc", "§7-Click and drag to make a selection box.\n§7-Shift-click to keep previous selection.");
+
 		for (EditButtons.Edition edition : EditButtons.Edition.values()) {
 			this.add(edition.asTranslationString(), toTitleCase(edition.getSerializedName()));
 		}
@@ -94,6 +101,7 @@ public class ModLangGen extends ModLangProvider {
 
 		this.add(PersonalPreferences.getTools().name(), "  Tools");
 		this.add(PersonalPreferences.getToolButtonHotkey().name(), "Display Tool Key Bind");
+		this.add(PersonalPreferences.getToolButtonExtraInfo().name(), "Display Tool Info in Tooltip");
 		this.add(PersonalPreferences.getPickerToolTooltip().name(), "Picker Material Tooltip");
 		this.add(PersonalPreferences.getWandToolTooltip().name(), "Wand Material Tooltip");
 
