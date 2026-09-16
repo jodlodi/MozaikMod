@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "mozaik:magenta_mortar_crafted"
+        "recipes": "mozaik:magenta_mortar_crafted"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

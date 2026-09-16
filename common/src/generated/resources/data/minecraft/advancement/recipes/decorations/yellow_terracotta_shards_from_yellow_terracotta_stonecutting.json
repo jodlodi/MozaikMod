@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:yellow_terracotta_shards_from_yellow_terracotta_stonecutting"
+        "recipes": "minecraft:yellow_terracotta_shards_from_yellow_terracotta_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

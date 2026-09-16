@@ -8,6 +8,7 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
+import net.minecraft.world.level.levelgen.structure.placement.AbstractSpreadingStructurePlacement;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
@@ -56,7 +57,7 @@ public class ModStructureSets {
 	}
 
 	@SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "deprecation"})
-	public static RandomSpreadStructurePlacement createRandomSpread(int spacing, int separation, RandomSpreadType spreadType, int salt, Optional<StructurePlacement.ExclusionZone> zone) {
-		return new RandomSpreadStructurePlacement(Vec3i.ZERO, StructurePlacement.FrequencyReductionMethod.DEFAULT, 1.0F, salt, zone, spacing, separation, spreadType);
+	public static RandomSpreadStructurePlacement createRandomSpread(int spacing, int separation, RandomSpreadType spreadType, int salt, Optional<AbstractSpreadingStructurePlacement.ExclusionZone> zone) {
+		return new RandomSpreadStructurePlacement(Vec3i.ZERO, AbstractSpreadingStructurePlacement.FrequencyReductionMethod.DEFAULT, 1.0F, salt, zone, spacing, separation, spreadType);
 	}
 }

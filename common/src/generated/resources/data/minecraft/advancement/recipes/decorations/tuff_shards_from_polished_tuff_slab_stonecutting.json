@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:tuff_shards_from_polished_tuff_slab_stonecutting"
+        "recipes": "minecraft:tuff_shards_from_polished_tuff_slab_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

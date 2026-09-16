@@ -210,7 +210,7 @@
   "tooltip.mozaik.setting.category.shard_bar": "  Shard Bar",
   "tooltip.mozaik.setting.category.tools": "  Tools",
   "tooltip.mozaik.tool.chisel": "Chisel",
-  "tooltip.mozaik.tool.chisel.desc": "§7-Click on placed tile to remove from board.",
+  "tooltip.mozaik.tool.chisel.desc": "§7-Click on placed tile to remove from mosaic.",
   "tooltip.mozaik.tool.cursor": "Cursor",
   "tooltip.mozaik.tool.cursor.desc": "§7-With no tile in hand: Left click to pick tile.\n§7-With tile in hand: Left click to place, middle to drop.",
   "tooltip.mozaik.tool.picker": "Picker",

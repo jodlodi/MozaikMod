@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:lime_glazed_terracotta_shards_from_lime_glazed_terracotta_stonecutting"
+        "recipes": "minecraft:lime_glazed_terracotta_shards_from_lime_glazed_terracotta_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

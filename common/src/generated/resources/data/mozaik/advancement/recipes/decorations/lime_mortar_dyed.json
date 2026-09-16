@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "mozaik:lime_mortar_dyed"
+        "recipes": "mozaik:lime_mortar_dyed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

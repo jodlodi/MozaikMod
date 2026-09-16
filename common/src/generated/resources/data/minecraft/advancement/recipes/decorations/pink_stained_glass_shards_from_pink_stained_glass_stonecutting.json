@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:pink_stained_glass_shards_from_pink_stained_glass_stonecutting"
+        "recipes": "minecraft:pink_stained_glass_shards_from_pink_stained_glass_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

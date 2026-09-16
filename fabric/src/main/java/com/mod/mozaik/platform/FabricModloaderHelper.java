@@ -13,7 +13,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import org.lwjgl.glfw.GLFW;
 
 public class FabricModloaderHelper implements IModloaderHelper {
 
@@ -32,9 +31,9 @@ public class FabricModloaderHelper implements IModloaderHelper {
         KeyMapping mapping = new KeyMapping(name, type, keyCode, category);
         ((IFabricKeyMapping) mapping).mozaik$setModifier(
             switch (keyMod) {
-                case GLFW.GLFW_MOD_SHIFT -> IMozaikKeyMapping.Modifier.SHIFT;
-                case GLFW.GLFW_MOD_CONTROL -> IMozaikKeyMapping.Modifier.CONTROL;
-                case GLFW.GLFW_MOD_ALT -> IMozaikKeyMapping.Modifier.ALT;
+                case InputConstants.MOD_SHIFT -> IMozaikKeyMapping.Modifier.SHIFT;
+                case InputConstants.MOD_CONTROL -> IMozaikKeyMapping.Modifier.CONTROL;
+                case InputConstants.MOD_ALT -> IMozaikKeyMapping.Modifier.ALT;
                 default -> IMozaikKeyMapping.Modifier.NONE;
             }
         );

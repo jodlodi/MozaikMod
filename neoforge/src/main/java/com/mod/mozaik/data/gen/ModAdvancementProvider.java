@@ -1,15 +1,15 @@
 package com.mod.mozaik.data.gen;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.data.PackOutput;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.data.advancements.AdvancementProvider;
+import net.minecraft.data.worldgen.BootstrapContext;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
-public class ModAdvancementProvider extends AdvancementProvider {
-
-	public ModAdvancementProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-		super(output, registries, List.of(new ModAdvancementGen()));
+@NullMarked
+public class ModAdvancementProvider {
+	public static void bootstrap(BootstrapContext<Advancement> output) {
+		new AdvancementProvider(List.of(ModAdvancementGen::new)).run(output);
 	}
 }

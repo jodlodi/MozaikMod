@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:magenta_glazed_terracotta_shards_from_magenta_glazed_terracotta_stonecutting"
+        "recipes": "minecraft:magenta_glazed_terracotta_shards_from_magenta_glazed_terracotta_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

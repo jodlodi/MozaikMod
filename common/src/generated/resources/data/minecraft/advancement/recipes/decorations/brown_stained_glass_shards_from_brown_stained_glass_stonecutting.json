@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:brown_stained_glass_shards_from_brown_stained_glass_stonecutting"
+        "recipes": "minecraft:brown_stained_glass_shards_from_brown_stained_glass_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

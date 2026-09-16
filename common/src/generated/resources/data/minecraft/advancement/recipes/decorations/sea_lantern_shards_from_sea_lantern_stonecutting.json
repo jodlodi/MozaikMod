@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:sea_lantern_shards_from_sea_lantern_stonecutting"
+        "recipes": "minecraft:sea_lantern_shards_from_sea_lantern_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

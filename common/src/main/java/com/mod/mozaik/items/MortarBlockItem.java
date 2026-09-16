@@ -37,11 +37,13 @@ public class MortarBlockItem extends BlockItem {
 		}
 	}
 
-	@Override
+
+
+	/*@Override FIXME
 	protected boolean updateCustomBlockEntityTag(BlockPos pos, Level level, @Nullable Player player, ItemStack itemStack, BlockState placedState) {
 		if (level.isClientSide() && level.getBlockEntity(pos) instanceof MortarBlockEntity block) {
 			block.markChanged();
 		}
 		return super.updateCustomBlockEntityTag(pos, level, player, itemStack, placedState);
-	}
+	}*/
 }

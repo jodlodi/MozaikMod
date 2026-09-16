@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:basalt_shards_from_basalt_stonecutting"
+        "recipes": "minecraft:basalt_shards_from_basalt_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

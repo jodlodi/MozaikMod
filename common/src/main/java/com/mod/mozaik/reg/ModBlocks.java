@@ -6,11 +6,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ColorCollection;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.function.BiFunction;
@@ -19,9 +19,15 @@ import java.util.function.Supplier;
 
 @NullMarked
 public class ModBlocks {
+	private static final BlockBehaviour.StateArgumentPredicate<AABB> NEAR_PLANE_INTERSECTS_OUTLINE = (state, _, blockPos, nearPlaneBox) -> {
+		for (AABB outlineBox : state.getOcclusionShape().toAabbs()) {
+			if (outlineBox.move(blockPos).intersects(nearPlaneBox)) return true;
+		}
+		return false;
+	};
 
 	public static final ColorCollection<ResourceSupplier<MortarBlock>> MORTARS = registerColoredBlocks("mortar", Services.MODLOADER::mortarBlock, () ->
-			BlockBehaviour.Properties.of().strength(4.0F, 6.0F).sound(SoundType.CALCITE).isViewBlocking(ModBlocks::always).isSuffocating(ModBlocks::always)
+			BlockBehaviour.Properties.of().strength(4.0F, 6.0F).sound(SoundType.CALCITE).isViewBlocking(NEAR_PLANE_INTERSECTS_OUTLINE).isSuffocating(ModBlocks::always)
 	);
 
 	public static void init() {

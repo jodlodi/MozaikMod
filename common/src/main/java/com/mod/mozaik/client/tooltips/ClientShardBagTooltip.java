@@ -161,7 +161,8 @@ public class ClientShardBagTooltip implements ClientTooltipComponent {
 					centerTooltip - textWidth / 2,
 					y - 15,
 					DefaultTooltipPositioner.INSTANCE,
-					itemStack.get(DataComponents.TOOLTIP_STYLE)
+					itemStack.get(DataComponents.TOOLTIP_STYLE),
+					false
 			);
 		}
 	}

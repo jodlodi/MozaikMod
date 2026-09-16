@@ -21,8 +21,8 @@ dependencies {
     implementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
     implementation("net.fabricmc.fabric-api:fabric-api:${fabric_version}")
 
-    compileOnly("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
-    runtimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
+    //compileOnly("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
+    //runtimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
 }
 
 loom {

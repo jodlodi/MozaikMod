@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "mozaik:white_mortar_crafted"
+        "recipes": "mozaik:white_mortar_crafted"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:mossy_shards_from_mossy_cobblestone_slab_stonecutting"
+        "recipes": "minecraft:mossy_shards_from_mossy_cobblestone_slab_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

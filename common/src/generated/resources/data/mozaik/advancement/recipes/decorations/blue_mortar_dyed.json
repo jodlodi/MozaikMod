@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "mozaik:blue_mortar_dyed"
+        "recipes": "mozaik:blue_mortar_dyed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

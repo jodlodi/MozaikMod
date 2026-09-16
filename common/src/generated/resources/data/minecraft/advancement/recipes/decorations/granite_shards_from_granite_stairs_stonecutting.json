@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:granite_shards_from_granite_stairs_stonecutting"
+        "recipes": "minecraft:granite_shards_from_granite_stairs_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

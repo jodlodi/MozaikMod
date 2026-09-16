@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "mozaik:brown_shard_bag_dyed"
+        "recipes": "mozaik:brown_shard_bag_dyed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

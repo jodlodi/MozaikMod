@@ -10,10 +10,12 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import org.jspecify.annotations.NullMarked;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 @NullMarked
@@ -26,18 +28,14 @@ public class ModDataGen {
 		DataGenerator generator = event.getGenerator();
 		PackOutput output = event.getGenerator().getPackOutput();
 
-		CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+		CompletableFuture<HolderLookup.Provider> lookupProvider = event.getReloadableLookupProvider();
 
-		ModRegistryGen datapackProvider = new ModRegistryGen(output, lookupProvider);
-		CompletableFuture<HolderLookup.Provider> registryProvider = datapackProvider.getRegistryProvider();
-		generator.addProvider(true, datapackProvider);
-		generator.addProvider(true, new ModLootGen(output, lookupProvider));
-		generator.addProvider(true, new ModRecipeProvider.ModRecipeRunner(output, registryProvider));
+		generator.addProvider(true, ModRegistryGen.forWorldLayer(output, event.getWorldLookupProvider()));
+		generator.addProvider(true, ModRegistryGen.forReloadableLayer(output, event.getWorldLookupProvider(), lookupProvider));
 		generator.addProvider(true, new ModBlockTagGen(output, lookupProvider));
 		generator.addProvider(true, new ModItemTagGen(output, lookupProvider));
 		generator.addProvider(true, new ModBiomesTagGen(output, lookupProvider));
 
-		generator.addProvider(true, new ModAdvancementProvider(output, registryProvider));
 		generator.addProvider(true, new AtlasGen(output, lookupProvider));
 		generator.addProvider(true, new ModelGen(output));
 		generator.addProvider(true, new SoundGen(output));

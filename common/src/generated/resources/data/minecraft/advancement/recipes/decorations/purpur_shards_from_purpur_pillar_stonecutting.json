@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:purpur_shards_from_purpur_pillar_stonecutting"
+        "recipes": "minecraft:purpur_shards_from_purpur_pillar_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

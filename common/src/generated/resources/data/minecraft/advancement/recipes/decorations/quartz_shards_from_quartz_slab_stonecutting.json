@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:quartz_shards_from_quartz_slab_stonecutting"
+        "recipes": "minecraft:quartz_shards_from_quartz_slab_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

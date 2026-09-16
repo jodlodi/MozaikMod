@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:end_stone_shards_from_end_stone_brick_stairs_stonecutting"
+        "recipes": "minecraft:end_stone_shards_from_end_stone_brick_stairs_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

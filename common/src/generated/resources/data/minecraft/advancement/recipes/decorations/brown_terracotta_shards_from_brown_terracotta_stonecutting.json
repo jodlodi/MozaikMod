@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:brown_terracotta_shards_from_brown_terracotta_stonecutting"
+        "recipes": "minecraft:brown_terracotta_shards_from_brown_terracotta_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

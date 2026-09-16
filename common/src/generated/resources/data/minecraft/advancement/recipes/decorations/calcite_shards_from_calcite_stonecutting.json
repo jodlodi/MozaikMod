@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:calcite_shards_from_calcite_stonecutting"
+        "recipes": "minecraft:calcite_shards_from_calcite_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

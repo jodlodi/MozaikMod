@@ -61,13 +61,6 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final EnumProperty<DirectionAndRotation> FACING_ROTATED = EnumProperty.create("facing_rotated", DirectionAndRotation.class);
 
-	public static final MapCodec<MortarBlock> CODEC = RecordCodecBuilder.mapCodec(
-			instance -> instance.group(
-					DyeColor.CODEC.fieldOf("color").forGetter(MortarBlock::getColor),
-					Properties.CODEC.fieldOf("properties").forGetter(BlockBehaviour::properties)
-			).apply(instance, MortarBlock::new)
-	);
-
 	private final DyeColor color;
 
 	public MortarBlock(DyeColor color, Properties properties) {
@@ -154,11 +147,6 @@ public class MortarBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(FACING_ROTATED, WATERLOGGED);
-	}
-
-	@Override
-	protected MapCodec<MortarBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

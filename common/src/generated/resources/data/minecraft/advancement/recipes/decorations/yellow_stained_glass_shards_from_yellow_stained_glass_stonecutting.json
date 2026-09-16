@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:yellow_stained_glass_shards_from_yellow_stained_glass_stonecutting"
+        "recipes": "minecraft:yellow_stained_glass_shards_from_yellow_stained_glass_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

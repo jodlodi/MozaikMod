@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:netherrack_shards_from_netherrack_stonecutting"
+        "recipes": "minecraft:netherrack_shards_from_netherrack_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

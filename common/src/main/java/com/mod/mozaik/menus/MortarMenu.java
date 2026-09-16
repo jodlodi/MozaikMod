@@ -119,7 +119,7 @@ public class MortarMenu extends AbstractContainerMenu {
 	}
 
 	public Identifier getTexture() {
-		if (this.mortar == null) return TextureManager.INTENTIONAL_MISSING_TEXTURE;
+		if (this.mortar == null) return Identifier.withDefaultNamespace("missingno");
 		return fromBlock(this.mortar.getBlockState().getBlock());
 	}
 
@@ -129,7 +129,7 @@ public class MortarMenu extends AbstractContainerMenu {
 				return Constants.prefix("textures/block/" + mortarBlockResourceSupplier.id().getPath() + ".png");
 			}
 		}
-		return TextureManager.INTENTIONAL_MISSING_TEXTURE;
+		return Identifier.withDefaultNamespace("missingno");
 	}
 
 	public Iterable<Polyomino.PlacedPolyomino> getRotatedPolyomino() {

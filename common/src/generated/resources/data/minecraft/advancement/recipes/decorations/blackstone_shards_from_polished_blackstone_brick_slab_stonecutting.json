@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:blackstone_shards_from_polished_blackstone_brick_slab_stonecutting"
+        "recipes": "minecraft:blackstone_shards_from_polished_blackstone_brick_slab_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

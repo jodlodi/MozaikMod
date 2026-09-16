@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:ancient_debris_shards_from_ancient_debris_stonecutting"
+        "recipes": "minecraft:ancient_debris_shards_from_ancient_debris_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

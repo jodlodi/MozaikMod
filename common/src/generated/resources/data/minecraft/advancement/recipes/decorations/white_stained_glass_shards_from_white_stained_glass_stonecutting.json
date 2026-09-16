@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:white_stained_glass_shards_from_white_stained_glass_stonecutting"
+        "recipes": "minecraft:white_stained_glass_shards_from_white_stained_glass_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

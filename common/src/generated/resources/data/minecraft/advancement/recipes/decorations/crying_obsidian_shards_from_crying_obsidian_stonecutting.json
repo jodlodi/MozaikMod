@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:crying_obsidian_shards_from_crying_obsidian_stonecutting"
+        "recipes": "minecraft:crying_obsidian_shards_from_crying_obsidian_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

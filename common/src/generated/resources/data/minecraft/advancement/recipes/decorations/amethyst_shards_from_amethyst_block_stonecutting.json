@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:amethyst_shards_from_amethyst_block_stonecutting"
+        "recipes": "minecraft:amethyst_shards_from_amethyst_block_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

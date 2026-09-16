@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.settings.IKeyConflictContext;
 import net.neoforged.neoforge.client.settings.KeyModifier;
-import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -34,9 +33,9 @@ public class NeoForgeModloaderHelper implements IModloaderHelper {
 	@Override
 	public KeyMapping createKeyMapping(String name, InputConstants.Type type, int keyCode, int keyMod, KeyMapping.Category category) {
 		KeyModifier modifier = switch (keyMod) {
-			case GLFW.GLFW_MOD_SHIFT -> KeyModifier.SHIFT;
-			case GLFW.GLFW_MOD_CONTROL -> KeyModifier.CONTROL;
-			case GLFW.GLFW_MOD_ALT -> KeyModifier.ALT;
+			case InputConstants.MOD_SHIFT -> KeyModifier.SHIFT;
+			case InputConstants.MOD_CONTROL -> KeyModifier.CONTROL;
+			case InputConstants.MOD_ALT -> KeyModifier.ALT;
 			default -> KeyModifier.NONE;
 		};
 		return new KeyMapping(name, OurConflicts.INSTANCE, modifier, type, keyCode, category);

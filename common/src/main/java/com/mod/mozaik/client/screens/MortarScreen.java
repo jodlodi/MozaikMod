@@ -101,9 +101,9 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	private static final Vector2i LOCK_CANCEL = new Vector2i(55, 23);
 	private static final Vector2i LOCK_ACCEPT = new Vector2i(171, 23);
 
-	public static final int LEFT_CLICK = 0;
+	public static final int LEFT_CLICK = 1;
 	public static final int MIDDLE_CLICK = 2;
-	public static final int RIGHT_CLICK = 1;
+	public static final int RIGHT_CLICK = 3;
 
 	private MozaikTool tool = MozaikTool.CURSOR;
 	public Mode mode = Mode.MORTAR;

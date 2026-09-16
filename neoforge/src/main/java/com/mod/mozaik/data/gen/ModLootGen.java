@@ -4,32 +4,25 @@ import com.mod.mozaik.data.gen.loot.ModArchaeologyLootGen;
 import com.mod.mozaik.data.gen.loot.ModChestLootGen;
 import com.mod.mozaik.data.gen.loot.ModBlockLootGen;
 import com.mod.mozaik.reg.ModLootTables;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.WritableRegistry;
-import net.minecraft.data.PackOutput;
+import net.minecraft.core.registries.SingleRegistryBootstrap;
 import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.util.ProblemReporter;
+import net.minecraft.data.loot.packs.TradeRebalanceChestLoot;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.ValidationContextSource;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.Set;
 
 @NullMarked
-public class ModLootGen extends LootTableProvider {
-
-	public ModLootGen(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
-		super(output, ModLootTables.allBuiltin(), List.of(
-				new SubProviderEntry(ModBlockLootGen::new, LootContextParamSets.BLOCK),
-				new SubProviderEntry(ModChestLootGen::new, LootContextParamSets.CHEST),
-				new SubProviderEntry(ModArchaeologyLootGen::new, LootContextParamSets.CHEST)
-		), provider);
-	}
-
-	@Override
-	protected void validate(WritableRegistry<LootTable> tables, ValidationContextSource validationContext, ProblemReporter.Collector problems) {
-
+public class ModLootGen {
+	public static void bootstrap(BootstrapContext<LootTable> context) {
+		new LootTableProvider(ModLootTables.allBuiltin(), List.of(
+				new LootTableProvider.SubProviderEntry(ModBlockLootGen::new, LootContextParamSets.BLOCK),
+				new LootTableProvider.SubProviderEntry(ModChestLootGen::new, LootContextParamSets.CHEST),
+				new LootTableProvider.SubProviderEntry(ModArchaeologyLootGen::new, LootContextParamSets.CHEST)
+		)).run(context);
 	}
 }

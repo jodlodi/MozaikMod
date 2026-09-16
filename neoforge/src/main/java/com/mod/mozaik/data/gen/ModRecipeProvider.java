@@ -4,11 +4,13 @@ import com.mod.mozaik.Constants;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.reg.*;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
@@ -32,12 +34,12 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
 	private static final int PER_SLAB = 4;
 	private static final int PER_FENCE = 4;
 
-	protected ModRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
-		super(registries, output);
+	public ModRecipeProvider(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput) {
+		super(recipeOutput, advancementOutput);
 	}
 
 	@Override
-	protected void buildRecipes() {
+	public void buildRecipes() {
 		this.shaped(RecipeCategory.DECORATIONS, ModItems.SHARD_BAG.get(), 1)
 				.pattern(" S ")
 				.pattern("LVL")
@@ -314,21 +316,5 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
 
 	public <T extends Item> ResourceKey<Recipe<?>> defaultId(ResourceSupplier<T> result, String suffix) {
 		return ResourceKey.create(Registries.RECIPE, result.id().withSuffix(suffix));
-	}
-
-	public static class ModRecipeRunner extends RecipeProvider.Runner {
-		public ModRecipeRunner(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
-			super(packOutput, registries);
-		}
-
-		@Override
-		protected RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
-			return new ModRecipeProvider(provider, recipeOutput);
-		}
-
-		@Override
-		public String getName() {
-			return Constants.MOD_NAME + " recipes";
-		}
 	}
 }
