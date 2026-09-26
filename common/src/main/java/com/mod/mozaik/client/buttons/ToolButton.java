@@ -41,7 +41,9 @@ public class ToolButton extends SpriteButton {
 			list.add(Component.translatable(this.tool.asTranslationString()));
 
 			if (PersonalPreferences.getToolButtonExtraInfo().get()) {
-				list.add(Component.translatable(this.tool.asTranslationString() + ".desc"));
+				if (this.tool == MozaikTool.CURSOR && PersonalPreferences.getCursorAltFunction().get()) {
+					list.add(Component.translatable(this.tool.asTranslationString() + ".desc.alt"));
+				} else list.add(Component.translatable(this.tool.asTranslationString() + ".desc"));
 			}
 
 			list.add(Component.translatable(SHORTCUT, Component.empty().append(this.tool.getKeyMapping().getTranslatedKeyMessage()).withStyle(ChatFormatting.AQUA)));

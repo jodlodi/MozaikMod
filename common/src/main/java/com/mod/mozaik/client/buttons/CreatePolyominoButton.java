@@ -22,6 +22,10 @@ import org.joml.Vector2f;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class CreatePolyominoButton extends ModButton {
@@ -49,7 +53,7 @@ public class CreatePolyominoButton extends ModButton {
 
 		Vector2f center = PersonalPreferences.getShape().getGridCenter();
 		HeldPolyominoWidget widget = new HeldPolyominoWidget(this.screen, (int) (x - center.x * Tessera.TESSERA_SIZE), (int) (y - center.y * Tessera.TESSERA_SIZE), PersonalPreferences.getShape().copy());
-		PersonalPreferences.setShape(PersonalPreferences.getShape().rebuild(PersonalPreferences.getPrimaryColor()));
+		PersonalPreferences.setShape(this.screen, PersonalPreferences.getShape().rebuild(PersonalPreferences.getPrimaryColor()));
 
 		this.screen.carried.clear();
 		this.screen.carried.add(this.screen.addRenderableWidget(widget));
@@ -109,6 +113,9 @@ public class CreatePolyominoButton extends ModButton {
 	}
 
 	protected void extractTooltip(GuiGraphics graphics, int x, int y) {
-		graphics.renderTooltip(Minecraft.getInstance().font, ShardItem.SHARDS.get(PersonalPreferences.getPrimaryColor()).getDefaultInstance(), x, y);
+		List<Component> components = new ArrayList<>();
+		components.add(ShardItem.SHARDS.get(PersonalPreferences.getPrimaryColor()).getDefaultInstance().getHoverName());
+		components.add(Component.translatable("screen.mozaik.summon"));
+		graphics.renderTooltip(Minecraft.getInstance().font, components, Optional.empty(), x, y);
 	}
 }

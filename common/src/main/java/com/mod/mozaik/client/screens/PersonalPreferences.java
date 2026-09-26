@@ -1,7 +1,6 @@
 package com.mod.mozaik.client.screens;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mod.mozaik.Constants;
 import com.mod.mozaik.platform.Services;
@@ -34,24 +33,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class PersonalPreferences {
-	public static final Codec<PersonalPreferences> CODEC = RecordCodecBuilder.create((recordCodecBuilder) -> recordCodecBuilder.group(
-			ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).fieldOf("primary_color").forGetter(pref -> pref.primaryColor),
-			ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).fieldOf("secondary_color").forGetter(pref -> pref.secondaryColor),
-			ResourceKey.codec(ModRegistries.ModKeys.POLYOMINO_SHAPE).fieldOf("polyomino_shape").forGetter(pref -> pref.polyominoShape),
-			Favourite.CODEC.listOf().fieldOf("faves").forGetter(pref -> pref.faves),
-			Codec.FLOAT.fieldOf("volume").forGetter(pref -> pref.volume),
-			Codec.BOOL.fieldOf("shard_bar_tooltip_name").forGetter(pref -> pref.shardBarTooltipName.get()),
-			Codec.BOOL.fieldOf("shard_bar_tooltip_count").forGetter(pref -> pref.shardBarTooltipCount.get()),
-			Codec.BOOL.fieldOf("shard_bar_display_count").forGetter(pref -> pref.shardBarDisplayCount.get()),
-			Codec.BOOL.fieldOf("tool_button_hotkey").forGetter(pref -> pref.toolButtonHotkey.get()),
-			Codec.BOOL.fieldOf("toolButton_extra_info").forGetter(pref -> pref.toolButtonExtraInfo.get()),
-			Codec.BOOL.fieldOf("reverse_scroll_direction_bars").forGetter(pref -> pref.reverseScrollDirectionBars.get()),
-			Codec.BOOL.fieldOf("picker_tool_tooltip").forGetter(pref -> pref.pickerToolTooltip.get()),
-			Codec.BOOL.fieldOf("wand_tool_tooltip").forGetter(pref -> pref.wandToolTooltip.get()),
-			Codec.BOOL.fieldOf("shape_tooltip").forGetter(pref -> pref.shapeTooltip.get()),
-			Codec.BOOL.fieldOf("creative_infinity").forGetter(pref -> pref.creativeInfinity.get())
-	).apply(recordCodecBuilder, PersonalPreferences::new));
-
 	private static final PersonalPreferences INSTANCE = getOrCreate();
 
 	private ResourceKey<ShardMaterial> primaryColor = ModShardMaterials.ofMaterial(ModShardMaterials.STONE);
@@ -73,11 +54,13 @@ public class PersonalPreferences {
 	private final ToggleOption toolButtonExtraInfo = new ToggleOption("tool_button_extra_info", true);
 	private final ToggleOption pickerToolTooltip = new ToggleOption("picker_tool_tooltip", true);
 	private final ToggleOption wandToolTooltip = new ToggleOption("wand_tool_tooltip", true);
+	private final ToggleOption cursorAltFunction = new ToggleOption("cursor_alt_function", false);
 	private final SettingCategory tools = new SettingCategory("tooltip.mozaik.setting.category.tools", List.of(
 			this.toolButtonHotkey,
 			this.toolButtonExtraInfo,
 			this.pickerToolTooltip,
-			this.wandToolTooltip
+			this.wandToolTooltip,
+			this.cursorAltFunction
 	));
 
 	private final ToggleOption reverseScrollDirectionBars = new ToggleOption("reverse_scroll_direction_bars", false);
@@ -112,7 +95,8 @@ public class PersonalPreferences {
 			boolean pickerToolTooltip,
 			boolean wandToolTooltip,
 			boolean shapeTooltip,
-			boolean creativeInfinity
+			boolean creativeInfinity,
+			boolean cursorAltFunction
 	) {
 		this.primaryColor = primaryColor;
 		this.secondaryColor = secondaryColor;
@@ -130,6 +114,7 @@ public class PersonalPreferences {
 		this.wandToolTooltip.setInit(wandToolTooltip);
 		this.shapeTooltip.setInit(shapeTooltip);
 		this.creativeInfinity.setInit(creativeInfinity);
+		this.cursorAltFunction.setInit(cursorAltFunction);
 	}
 
 	@Contract(value = " -> new", pure = true)
@@ -193,32 +178,81 @@ public class PersonalPreferences {
 		return INSTANCE.creativeInfinity;
 	}
 
+	public static ToggleOption getCursorAltFunction() {
+		return INSTANCE.cursorAltFunction;
+	}
+
 	private static final Gson GSON = new Gson().newBuilder().setPrettyPrinting().create();
 
 	private static PersonalPreferences getOrCreate() {
+		PersonalPreferences standard = new PersonalPreferences();
+
 		try {
 			Path filePath = Services.PLATFORM.getConfigDir().resolve(Constants.MOD_ID).resolve("personal_preferences.json");
 			if (Files.exists(filePath)) {
 				JsonObject json = new Gson().newBuilder().setPrettyPrinting().create().fromJson(Files.readString(filePath), JsonObject.class);
-				return CODEC.decode(JsonOps.INSTANCE, json).getOrThrow().getFirst();
+
+				return new PersonalPreferences(
+						read(ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL), json, "primary_color", standard.primaryColor),
+						read(ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL), json, "secondary_color", standard.secondaryColor),
+						read(ResourceKey.codec(ModRegistries.ModKeys.POLYOMINO_SHAPE), json, "polyomino_shape", standard.polyominoShape),
+						read(Favourite.CODEC.listOf(), json, "faves", standard.faves),
+						read(Codec.FLOAT, json, "volume", standard.volume),
+						read(Codec.BOOL, json, "shard_bar_tooltip_name", standard.shardBarTooltipName.get()),
+						read(Codec.BOOL, json, "shard_bar_tooltip_count", standard.shardBarTooltipCount.get()),
+						read(Codec.BOOL, json, "shard_bar_display_count", standard.shardBarDisplayCount.get()),
+						read(Codec.BOOL, json, "tool_button_hotkey", standard.toolButtonHotkey.get()),
+						read(Codec.BOOL, json, "toolButton_extra_info", standard.toolButtonExtraInfo.get()),
+						read(Codec.BOOL, json, "reverse_scroll_direction_bars", standard.reverseScrollDirectionBars.get()),
+						read(Codec.BOOL, json, "picker_tool_tooltip", standard.pickerToolTooltip.get()),
+						read(Codec.BOOL, json, "wand_tool_tooltip", standard.wandToolTooltip.get()),
+						read(Codec.BOOL, json, "shape_tooltip", standard.shapeTooltip.get()),
+						read(Codec.BOOL, json, "creative_infinity", standard.creativeInfinity.get()),
+						read(Codec.BOOL, json, "cursor_alt_function", standard.cursorAltFunction.get())
+				);
 			}
 		} catch (Exception ignored) {
 
 		}
 
-		return new PersonalPreferences();
+		return standard;
+	}
+
+	private static <T> T read(Codec<T> codec, JsonObject json, String name, T other) {
+		try {
+			return codec.decode(JsonOps.INSTANCE, json.get(name)).getOrThrow().getFirst();
+		} catch (Exception _) {
+			return other;
+		}
 	}
 
 	private void save() {
 		try {
-			JsonElement encoded = CODEC.encodeStart(JsonOps.INSTANCE, this).getOrThrow();
+			JsonObject jsonObject = new JsonObject();
+
+			jsonObject.add("primary_color", ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).encodeStart(JsonOps.INSTANCE, this.primaryColor).getOrThrow());
+			jsonObject.add("secondary_color", ResourceKey.codec(ModRegistries.ModKeys.SHARD_MATERIAL).encodeStart(JsonOps.INSTANCE, this.secondaryColor).getOrThrow());
+			jsonObject.add("polyomino_shape", ResourceKey.codec(ModRegistries.ModKeys.POLYOMINO_SHAPE).encodeStart(JsonOps.INSTANCE, this.polyominoShape).getOrThrow());
+			jsonObject.add("faves", Favourite.CODEC.listOf().encodeStart(JsonOps.INSTANCE, this.faves).getOrThrow());
+			jsonObject.add("volume", Codec.FLOAT.encodeStart(JsonOps.INSTANCE, this.volume).getOrThrow());
+			jsonObject.add("shard_bar_tooltip_name", Codec.BOOL.encodeStart(JsonOps.INSTANCE, this.shardBarTooltipName.get()).getOrThrow());
+			jsonObject.add("shard_bar_tooltip_count", Codec.BOOL.encodeStart(JsonOps.INSTANCE, this.shardBarTooltipCount.get()).getOrThrow());
+			jsonObject.add("shard_bar_display_count", Codec.BOOL.encodeStart(JsonOps.INSTANCE, this.shardBarDisplayCount.get()).getOrThrow());
+			jsonObject.add("tool_button_hotkey", Codec.BOOL.encodeStart(JsonOps.INSTANCE, this.toolButtonHotkey.get()).getOrThrow());
+			jsonObject.add("toolButton_extra_info", Codec.BOOL.encodeStart(JsonOps.INSTANCE, this.toolButtonExtraInfo.get()).getOrThrow());
+			jsonObject.add("reverse_scroll_direction_bars", Codec.BOOL.encodeStart(JsonOps.INSTANCE, this.reverseScrollDirectionBars.get()).getOrThrow());
+			jsonObject.add("picker_tool_tooltip", Codec.BOOL.encodeStart(JsonOps.INSTANCE, this.pickerToolTooltip.get()).getOrThrow());
+			jsonObject.add("wand_tool_tooltip", Codec.BOOL.encodeStart(JsonOps.INSTANCE, this.wandToolTooltip.get()).getOrThrow());
+			jsonObject.add("shape_tooltip", Codec.BOOL.encodeStart(JsonOps.INSTANCE, this.shapeTooltip.get()).getOrThrow());
+			jsonObject.add("creative_infinity", Codec.BOOL.encodeStart(JsonOps.INSTANCE, this.creativeInfinity.get()).getOrThrow());
+			jsonObject.add("cursor_alt_function", Codec.BOOL.encodeStart(JsonOps.INSTANCE, this.cursorAltFunction.get()).getOrThrow());
 
 			Path configDir = Services.PLATFORM.getConfigDir().resolve(Constants.MOD_ID);
 			Files.createDirectories(configDir);
 			Path filePath = configDir.resolve("personal_preferences.json");
 
 			try (BufferedWriter writer = com.google.common.io.Files.newWriter(filePath.toFile(), StandardCharsets.UTF_8)) {
-				GSON.toJson(encoded, GSON.newJsonWriter(writer));
+				GSON.toJson(jsonObject, GSON.newJsonWriter(writer));
 			}
 		} catch (Exception ignored) {
 
@@ -277,7 +311,10 @@ public class PersonalPreferences {
 		return INSTANCE.shape;
 	}
 
-	public static void setShape(Polyomino shape) {
+	public static void setShape(MortarScreen screen, Polyomino shape) {
+		if (screen.carried.size() == 1) {
+			screen.carried.getFirst().setPolyomino(screen.carried.getFirst().getPolyomino().rebuild(shape));
+		}
 		INSTANCE.shape = shape;
 		INSTANCE.save();
 	}

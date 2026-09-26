@@ -103,7 +103,7 @@ public enum MozaikTool implements StringRepresentable {
 			case PICKER -> {
 				for (PolyominoWidget widget : list) {
 					if (shift) {
-						PersonalPreferences.setShape(widget.getPlacedPolyomino().polyomino().rebuild(PersonalPreferences.getPrimaryColor()));
+						PersonalPreferences.setShape(screen, widget.getPlacedPolyomino().polyomino().rebuild(PersonalPreferences.getPrimaryColor()));
 					} else {
 						PersonalPreferences.setPrimaryColor(screen, widget.getPlacedPolyomino().polyomino().material());
 					}
