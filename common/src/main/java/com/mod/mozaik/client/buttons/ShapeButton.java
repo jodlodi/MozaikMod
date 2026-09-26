@@ -74,7 +74,7 @@ public class ShapeButton extends ModButton implements PhaseRenderable {
 	public void onClick(MouseButtonEvent event, boolean doubleClick) {
 		ResourceKey<PolyominoShape> key = this.getShape();
 		PersonalPreferences.setPolyominoShape(key);
-		PolyominoShape.tryBuild(key).ifPresent(PersonalPreferences::setShape);
+		PolyominoShape.tryBuild(key).ifPresent(polyomino -> PersonalPreferences.setShape(this.screen, polyomino));
 	}
 
 	public boolean playerHas() {

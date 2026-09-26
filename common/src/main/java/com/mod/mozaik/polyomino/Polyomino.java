@@ -20,7 +20,11 @@ public record Polyomino(List<Tessera.PlacedTessera> placedTessera, ResourceKey<S
 	public static Polyomino EMPTY = new Polyomino(List.of(), ResourceKey.create(ModRegistries.ModKeys.SHARD_MATERIAL, Constants.prefix("")), UUID.randomUUID());
 
 	public Polyomino rebuild(ResourceKey<ShardMaterial> material) {
-		return new Polyomino(this.placedTessera(),material, UUID.randomUUID());
+		return new Polyomino(this.placedTessera(), material, UUID.randomUUID());
+	}
+
+	public Polyomino rebuild(Polyomino shape) {
+		return new Polyomino(shape.placedTessera(), this.material(), UUID.randomUUID());
 	}
 
 	public Polyomino copy() {

@@ -55,12 +55,37 @@ public class ModLangGen extends ModLangProvider {
 		for (MozaikTool tool : MozaikTool.values()) {
 			this.add(tool.asTranslationString(), toTitleCase(tool.getSerializedName()));
 		}
-		this.add(MozaikTool.CHISEL.asTranslationString() + ".desc", "§7-Click on placed tile to remove from mosaic.");
-		this.add(MozaikTool.CURSOR.asTranslationString() + ".desc", "§7-With no tile in hand: Left click to pick tile.\n§7-With tile in hand: Left click to place, middle to drop.");
-		this.add(MozaikTool.SWAP.asTranslationString() + ".desc", "§7-Click on placed tile to change it's material to the one selected.\n§7-Re-rolls noise instead if material is already the same.");
-		this.add(MozaikTool.PICKER.asTranslationString() + ".desc", "§7-Click on placed tile to select it's material.\n§7-Shift-click to select polyomino instead.");
-		this.add(MozaikTool.WAND.asTranslationString() + ".desc", "§7-Click on placed tile to select all tiles of that material.\n§7-Shift-click to keep previous selection.");
-		this.add(MozaikTool.SELECT.asTranslationString() + ".desc", "§7-Click and drag to make a selection box.\n§7-Shift-click to keep previous selection.");
+		this.add(MozaikTool.CHISEL.asTranslationString() + ".desc", "§7[§bLeft Click§7] on placed tile to extract it.");
+
+		this.add(MozaikTool.CURSOR.asTranslationString() + ".desc", """
+				§6With no tile in hand:
+				§7[§bLeft Click§7] a tile to pick it up.
+				§6With tile in hand:
+				§7[§bLeft Click§7] to place a copy of your held tile onto the grid.
+				§7[§bMiddle Click§7] to clear your hand.""");
+
+		this.add(MozaikTool.CURSOR.asTranslationString() + ".desc.alt", """
+				§6With no tile in hand:
+				§7[§bLeft Click§7] a tile to pick it up.
+				§6With tile in hand:
+				§7[§bLeft Click§7] to place the held tile onto the grid.
+				§7[§bMiddle Click§7] to place a copy of your held tile onto the grid.""");
+
+		this.add(MozaikTool.SWAP.asTranslationString() + ".desc", """
+				§7[§bLeft Click§7] on placed tile to change it's material to the one selected.
+				§8Re-rolls the visual noise instead if material is already the same.""");
+
+		this.add(MozaikTool.PICKER.asTranslationString() + ".desc", """
+				§7[§bLeft Click§7] on placed tile to select it's material.
+				§7[§bShift-Left Click§7] to select it's polyomino instead.""");
+
+		this.add(MozaikTool.WAND.asTranslationString() + ".desc", """
+				§7[§bLeft Click§7] on placed tile to select all tiles of that material.
+				§7[§bShift-Left Click§7] to keep previous selection.""");
+
+		this.add(MozaikTool.SELECT.asTranslationString() + ".desc", """
+				§7[§bLeft Click§7] and drag to make a selection box.
+				§7[§bShift-Left Click§7] to keep previous selection.""");
 
 		for (EditButtons.Edition edition : EditButtons.Edition.values()) {
 			this.add(edition.asTranslationString(), toTitleCase(edition.getSerializedName()));
@@ -103,11 +128,15 @@ public class ModLangGen extends ModLangProvider {
 		this.add(PersonalPreferences.getToolButtonExtraInfo().name(), "Display Tool Info in Tooltip");
 		this.add(PersonalPreferences.getPickerToolTooltip().name(), "Picker Material Tooltip");
 		this.add(PersonalPreferences.getWandToolTooltip().name(), "Wand Material Tooltip");
+		this.add(PersonalPreferences.getCursorAltFunction().name(), "Alternative Cursor Tool");
 
 		this.add(PersonalPreferences.getMisc().name(), "  Miscellaneous");
 		this.add(PersonalPreferences.getReverseScrollDirectionBars().name(), "Reverse Scrolling Direction");
 		this.add(PersonalPreferences.getShapeTooltip().name(), "Polyomino Tooltip");
 		this.add(PersonalPreferences.getCreativeInfinity().name(), "Creative Mode Infinity Sign");
+
+		this.add("screen.mozaik.summon", "§7[§bMiddle Click§7] with empty hand when not hovering this.");
+		this.add("screen.mozaik.swap", "§7[§bRight Click§7] to swap to this material");
 		this.add("item.mozaik.bag.empty.description", "Can hold many various shards.");
 
 		SUBTITLE_GENERATOR.forEach(this::add);
