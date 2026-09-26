@@ -125,7 +125,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public MortarScreen(MortarMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 		if (PersonalPreferences.getShape() == Polyomino.EMPTY) {
-			PersonalPreferences.setShape(PolyominoShape.tryBuild(PersonalPreferences.getPolyominoShape()).orElse(Polyomino.EMPTY));
+			PersonalPreferences.setShape(this, PolyominoShape.tryBuild(PersonalPreferences.getPolyominoShape()).orElse(Polyomino.EMPTY));
 		}
 		CreativeModeTab tab = ModTabs.TAB.get();
 		if (tab.getDisplayItems().isEmpty()) {
@@ -323,7 +323,21 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 
 				PersonalPreferences.setPolyominoShape(template);
 				PersonalPreferences.setPrimaryColor(this, material);
-				PersonalPreferences.setShape(PolyominoShape.tryBuild(template, material).orElseThrow());
+				PersonalPreferences.setShape(this, PolyominoShape.tryBuild(template, material).orElseThrow());
+
+				if (this.carried.isEmpty()) {
+					double x = mouse.xpos() * (double) minecraft.getWindow().getGuiScaledWidth() / (double) minecraft.getWindow().getScreenWidth();
+					double y = mouse.ypos() * (double) minecraft.getWindow().getGuiScaledHeight() / (double) minecraft.getWindow().getScreenHeight();
+
+					Vector2f center = PersonalPreferences.getShape().getGridCenter();
+					HeldPolyominoWidget widget = new HeldPolyominoWidget(this, (int) (x - center.x * Tessera.TESSERA_SIZE), (int) (y - center.y * Tessera.TESSERA_SIZE), PersonalPreferences.getShape().copy());
+
+					this.carried.clear();
+					this.carried.add(this.addRenderableWidget(widget));
+					this.setTool(MozaikTool.CURSOR);
+					MozaikTool.playButtonClickSound(ModSounds.PICK_SHARD);
+				}
+
 				return true;
 			}
 		}
@@ -376,7 +390,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 		int click = event.button();
 
 		if (!this.carried.isEmpty()) {
-			if (click == LEFT_CLICK) {
+			if (click == LEFT_CLICK || (PersonalPreferences.getCursorAltFunction().get() && click == MIDDLE_CLICK)) {
 				int gridMinX = this.leftPos + GRID_START.x - Tessera.TESSERA_SIZE;
 				int gridMaxX = gridMinX + Tessera.TESSERA_SIZE * 18;
 				int gridMinY = this.topPos + GRID_START.y - Tessera.TESSERA_SIZE;
@@ -391,16 +405,19 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 							this.placePolyomino(heldPolyominoWidget, vector2i);
 							heldPolyominoWidget.setPolyomino(heldPolyominoWidget.getPolyomino().rebuild(heldPolyominoWidget.getPolyomino().material()));
 						});
-						MortarMenu.ShardSource shardSource = this.getShardSource();
-						if (!shardSource.isCreative()) {
-							int count = shardSource.getCount(this.carried.getFirst().getPolyomino().material());
-							int carry = this.carried.size();
-							if (count < carry) {
-								for (int i = 0; i < carry; i++) {
-									if (i >= count) this.carried.removeLast();
+
+						if (!PersonalPreferences.getCursorAltFunction().get() || click == MIDDLE_CLICK) {
+							MortarMenu.ShardSource shardSource = this.getShardSource();
+							if (!shardSource.isCreative()) {
+								int count = shardSource.getCount(this.carried.getFirst().getPolyomino().material());
+								int carry = this.carried.size();
+								if (count < carry) {
+									for (int i = 0; i < carry; i++) {
+										if (i >= count) this.carried.removeLast();
+									}
 								}
 							}
-						}
+						} else this.carried.clear();
 					}
 					return true;
 				} else this.carried.clear();
@@ -411,6 +428,22 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				});
 				return true;
 			}
+		}
+
+		if (event.button() == MIDDLE_CLICK && this.carried.isEmpty()) {
+			Minecraft minecraft = Minecraft.getInstance();
+			MouseHandler mouse = Objects.requireNonNull(minecraft).mouseHandler;
+			double x = mouse.xpos() * (double) minecraft.getWindow().getGuiScaledWidth() / (double) minecraft.getWindow().getScreenWidth();
+			double y = mouse.ypos() * (double) minecraft.getWindow().getGuiScaledHeight() / (double) minecraft.getWindow().getScreenHeight();
+
+			Vector2f center = PersonalPreferences.getShape().getGridCenter();
+			HeldPolyominoWidget widget = new HeldPolyominoWidget(this, (int) (x - center.x * Tessera.TESSERA_SIZE), (int) (y - center.y * Tessera.TESSERA_SIZE), PersonalPreferences.getShape().copy());
+
+			this.carried.clear();
+			this.carried.add(this.addRenderableWidget(widget));
+			this.setTool(MozaikTool.CURSOR);
+			MozaikTool.playButtonClickSound(ModSounds.PICK_SHARD);
+			return true;
 		}
 
 		Optional<GuiEventListener> child = this.getChildAt(event.x(), event.y());
@@ -792,13 +825,13 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 	public void templateUpBy(int by) {
 		int ordinal = Math.max(this.getSortedShapes().indexOf(PersonalPreferences.getPolyominoShape()) - by, 0);
 		PersonalPreferences.setPolyominoShape(this.getSortedShapes().get(ordinal));
-		PersonalPreferences.setShape(PolyominoShape.tryBuild(this.getSortedShapes().get(ordinal)).orElseThrow());
+		PersonalPreferences.setShape(this, PolyominoShape.tryBuild(this.getSortedShapes().get(ordinal)).orElseThrow());
 	}
 
 	public void templateDownBy(int by) {
 		int ordinal = Math.min(this.getSortedShapes().indexOf(PersonalPreferences.getPolyominoShape()) + by, this.getSortedShapes().size() - 1);
 		PersonalPreferences.setPolyominoShape(this.getSortedShapes().get(ordinal));
-		PersonalPreferences.setShape(PolyominoShape.tryBuild(this.getSortedShapes().get(ordinal)).orElseThrow());
+		PersonalPreferences.setShape(this, PolyominoShape.tryBuild(this.getSortedShapes().get(ordinal)).orElseThrow());
 	}
 
 	@Override
