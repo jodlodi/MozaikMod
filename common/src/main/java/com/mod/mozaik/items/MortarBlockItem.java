@@ -39,7 +39,7 @@ public class MortarBlockItem extends BlockItem {
 
 
 
-	/*@Override FIXME
+	/*@Override FIXME is this needed? stuff seems to work fine.
 	protected boolean updateCustomBlockEntityTag(BlockPos pos, Level level, @Nullable Player player, ItemStack itemStack, BlockState placedState) {
 		if (level.isClientSide() && level.getBlockEntity(pos) instanceof MortarBlockEntity block) {
 			block.markChanged();
