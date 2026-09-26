@@ -47,7 +47,7 @@ public class ModRegistryGen {
 		return new DatapackBuiltinEntriesProvider(
 				output,
 				Constants.MOD_ID + "_world",
-				DataPackRegistriesHooks.getDataPackRegistriesWithDimensions().toList(),
+				DataPackRegistriesHooks.getWorldRegistries(),
 				RegistryPatchGenerator.createWorldLookup(worldRegistries, WORLD_BUILDER),
 				Set.of("minecraft", Constants.MOD_ID)
 		);
