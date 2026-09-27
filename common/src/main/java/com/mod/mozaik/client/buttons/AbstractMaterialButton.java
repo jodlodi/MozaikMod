@@ -55,7 +55,7 @@ public abstract class AbstractMaterialButton extends ModButton {
 	}
 
 	protected ResourceLocation getMaterialTexture() {
-		return Constants.prefix("textures/item/" + this.getMaterial().location().getPath() + "_shards.png");
+		return Constants.prefix("textures/item/shards/" + this.getMaterial().location().getPath() + "_shards.png");
 	}
 
 	protected void extractTooltip(GuiGraphics graphics, int x, int y) {

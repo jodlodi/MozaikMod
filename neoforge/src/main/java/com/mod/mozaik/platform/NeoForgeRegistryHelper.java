@@ -35,6 +35,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -77,6 +78,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 	public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, Constants.MOD_ID);
 	public static final DeferredRegister<StructurePieceType> STRUCTURE_PIECE_TYPES = DeferredRegister.create(Registries.STRUCTURE_PIECE, Constants.MOD_ID);
 	public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(Registries.STRUCTURE_TYPE, Constants.MOD_ID);
+	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, Constants.MOD_ID);
 
 	public static final Map<Supplier<? extends EntityType<? extends LivingEntity>>, Supplier<AttributeSupplier>> ATTRIBUTES = new HashMap<>();
 
@@ -183,6 +185,11 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 	@Override
 	public ResourceSupplier<PolyominoShape> registerPolyominoShape(String id, Supplier<PolyominoShape> shapeSupplier) {
 		return new ResourceSupplier<>(POLYOMINO_SHAPES.register(id, shapeSupplier), Constants.prefix(id));
+	}
+
+	@Override
+	public <T extends CraftingRecipe, G extends RecipeSerializer<T>> ResourceSupplier<G> registerRecipeSerializer(String id, Supplier<G> recipe) {
+		return new ResourceSupplier<>(RECIPE_SERIALIZERS.register(id, recipe), Constants.prefix(id));
 	}
 
 	@Override

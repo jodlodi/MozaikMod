@@ -18,5 +18,6 @@ public class CommonClass {
         ModDataComponents.init();
         ModStructurePieces.init();
         ModStructureTypes.init();
+        ModRecipeSerializers.init();
     }
 }

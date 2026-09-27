@@ -32,5 +32,6 @@ public class MozaikMod {
         NeoForgeRegistryHelper.DATA_COMPONENTS.register(bus);
         NeoForgeRegistryHelper.STRUCTURE_PIECE_TYPES.register(bus);
         NeoForgeRegistryHelper.STRUCTURE_TYPES.register(bus);
+        NeoForgeRegistryHelper.RECIPE_SERIALIZERS.register(bus);
     }
 }

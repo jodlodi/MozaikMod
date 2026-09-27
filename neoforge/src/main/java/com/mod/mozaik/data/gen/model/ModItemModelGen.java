@@ -37,11 +37,11 @@ public class ModItemModelGen extends ItemModelProvider {
 					.texture("top", Constants.prefix("block/" + supplier.id().getPath()));
 		});
 
-		this.singleTex(ModItems.SHARD_BAG);
-        ModItems.DYED_SHARD_BAG.forEach(bag -> this.singleTex(bag));
+		this.singleTex(ModItems.SHARD_BAG, "shard_bag");
+        ModItems.DYED_SHARD_BAG.forEach(bag -> this.singleTex(bag, "shard_bag"));
 		NeoForgeRegistryHelper.ITEMS.getEntries().forEach(itemDeferredHolder -> {
 			if (itemDeferredHolder.get() instanceof ShardItem shardItem) {
-				this.singleTex(new ResourceSupplier<>(() -> shardItem, itemDeferredHolder.getId()));
+				this.singleTex(new ResourceSupplier<>(() -> shardItem, itemDeferredHolder.getId()), "shards");
 			}
 		});
 
@@ -62,6 +62,10 @@ public class ModItemModelGen extends ItemModelProvider {
 
 	private ItemModelBuilder singleTex(ResourceSupplier<?> item) {
 		return this.generated(item.id().getPath(), Constants.prefix("item/" + item.id().getPath()));
+	}
+
+	private ItemModelBuilder singleTex(ResourceSupplier<?> item, String prefix) {
+		return this.generated(item.id().getPath(), Constants.prefix("item/" + prefix + "/" + item.id().getPath()));
 	}
 
 	private void toBlock(Block b) {

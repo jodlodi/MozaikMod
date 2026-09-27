@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:crafting_transmute",
-  "group": "mortar_dye",
-  "input": "#mozaik:mortars",
-  "material": "minecraft:gray_dye",
-  "result": {
-    "id": "mozaik:gray_mortar"
-  }
-}

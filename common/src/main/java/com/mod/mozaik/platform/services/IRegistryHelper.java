@@ -1,5 +1,6 @@
 package com.mod.mozaik.platform.services;
 
+import com.mod.mozaik.Constants;
 import com.mod.mozaik.polyomino.PolyominoShape;
 import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.reg.ResourceSupplier;
@@ -28,6 +29,9 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -85,6 +89,8 @@ public interface IRegistryHelper {
 	ResourceSupplier<ShardMaterial> registerShardMaterial(String id, Supplier<ShardMaterial> shardMaterial);
 
 	ResourceSupplier<PolyominoShape> registerPolyominoShape(String id, Supplier<PolyominoShape> shardMaterial);
+
+	<T extends CraftingRecipe, G extends RecipeSerializer<T>> ResourceSupplier<G> registerRecipeSerializer(String id, Supplier<G> recipe);
 
 	<T> Registry<T> createRegistry(ResourceKey<Registry<T>> resourceKey);
 

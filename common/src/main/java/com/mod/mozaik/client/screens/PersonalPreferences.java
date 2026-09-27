@@ -221,7 +221,7 @@ public class PersonalPreferences {
 	private static <T> T read(Codec<T> codec, JsonObject json, String name, T other) {
 		try {
 			return codec.decode(JsonOps.INSTANCE, json.get(name)).getOrThrow().getFirst();
-		} catch (Exception _) {
+		} catch (Exception ignored) {
 			return other;
 		}
 	}

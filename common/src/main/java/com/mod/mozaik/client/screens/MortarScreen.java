@@ -393,7 +393,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 				int gridMinY = this.topPos + GRID_START.y - Tessera.TESSERA_SIZE;
 				int gridMaxY = gridMinY + Tessera.TESSERA_SIZE * 18;
 
-				if (event.x() >= gridMinX && event.x() <= gridMaxX && event.y() >= gridMinY && event.y() <= gridMaxY) {
+				if (mouseX >= gridMinX && mouseX <= gridMaxX && mouseY >= gridMinY && mouseY <= gridMaxY) {
 					Map<HeldPolyominoWidget, Vector2i> map = this.getOffsetForPlacement(this.carried);
 					if (map != null) {
 						MozaikTool.playButtonClickSound(ModSounds.PLACE_SHARD);
@@ -427,7 +427,7 @@ public class MortarScreen extends AbstractContainerScreen<MortarMenu> {
 			}
 		}
 
-		if (event.button() == MIDDLE_CLICK && this.carried.isEmpty()) {
+		if (click == MIDDLE_CLICK && this.carried.isEmpty()) {
 			Minecraft minecraft = Minecraft.getInstance();
 			MouseHandler mouse = Objects.requireNonNull(minecraft).mouseHandler;
 			double x = mouse.xpos() * (double) minecraft.getWindow().getGuiScaledWidth() / (double) minecraft.getWindow().getScreenWidth();

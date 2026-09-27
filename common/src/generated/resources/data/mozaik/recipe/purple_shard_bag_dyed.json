@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:crafting_transmute",
-  "group": "shard_bag_dye",
-  "input": "#mozaik:shard_bags",
-  "material": "minecraft:purple_dye",
-  "result": {
-    "id": "mozaik:purple_shard_bag"
-  }
-}

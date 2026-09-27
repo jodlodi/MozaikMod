@@ -50,11 +50,11 @@ public class AltColorButton extends AbstractMaterialButton {
 	}
 
 	@Override
-	protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y) {
+	protected void extractTooltip(GuiGraphics graphics, int x, int y) {
 		List<Component> components = new ArrayList<>();
 		components.add(this.getItemStack().getHoverName());
 		components.add(Component.translatable("screen.mozaik.swap"));
-		graphics.setTooltipForNextFrame(Minecraft.getInstance().font, components, Optional.empty(), x, y);
+		graphics.renderTooltip(Minecraft.getInstance().font, components, Optional.empty(), x, y);
 	}
 
 	@Override

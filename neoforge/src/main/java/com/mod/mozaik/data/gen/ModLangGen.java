@@ -39,7 +39,7 @@ public class ModLangGen extends ModLangProvider {
 		this.addItem(ModItems.SHARD_BAG, identifierToTitleCase(ModItems.SHARD_BAG.id()));
 		ModItems.DYED_SHARD_BAG.forEach(item -> this.addItem(item, identifierToTitleCase(item.id())));
 		ModItems.MORTARS.forEach(item -> this.addItem(item, identifierToTitleCase(item.id())));
-		ShardItem.SHARDS.forEach((key, item) -> this.addItem(() -> item, toTitleCase(key.identifier().getPath() + "_shards")));
+		ShardItem.SHARDS.forEach((key, item) -> this.addItem(() -> item, toTitleCase(key.location().getPath() + "_shards")));
 
 		this.addItem(ModItems.BUTTON_TEMPLATE, identifierToTitleCase(ModItems.BUTTON_TEMPLATE.id()));
 		this.addItem(ModItems.BONE_TEMPLATE, identifierToTitleCase(ModItems.BONE_TEMPLATE.id()));
