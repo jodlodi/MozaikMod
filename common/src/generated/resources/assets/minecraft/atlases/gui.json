@@ -2,7 +2,7 @@
   "sources": [
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/stone_shards",
+      "resource": "mozaik:item/shards/stone_shards",
       "sprite": "mozaik:stone/shard"
     },
     {
@@ -22,7 +22,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/blackstone_shards",
+      "resource": "mozaik:item/shards/blackstone_shards",
       "sprite": "mozaik:blackstone/shard"
     },
     {
@@ -42,7 +42,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/granite_shards",
+      "resource": "mozaik:item/shards/granite_shards",
       "sprite": "mozaik:granite/shard"
     },
     {
@@ -62,7 +62,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/diorite_shards",
+      "resource": "mozaik:item/shards/diorite_shards",
       "sprite": "mozaik:diorite/shard"
     },
     {
@@ -82,7 +82,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/andesite_shards",
+      "resource": "mozaik:item/shards/andesite_shards",
       "sprite": "mozaik:andesite/shard"
     },
     {
@@ -102,7 +102,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/deepslate_shards",
+      "resource": "mozaik:item/shards/deepslate_shards",
       "sprite": "mozaik:deepslate/shard"
     },
     {
@@ -127,7 +127,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/tuff_shards",
+      "resource": "mozaik:item/shards/tuff_shards",
       "sprite": "mozaik:tuff/shard"
     },
     {
@@ -147,7 +147,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/calcite_shards",
+      "resource": "mozaik:item/shards/calcite_shards",
       "sprite": "mozaik:calcite/shard"
     },
     {
@@ -167,7 +167,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/dripstone_shards",
+      "resource": "mozaik:item/shards/dripstone_shards",
       "sprite": "mozaik:dripstone/shard"
     },
     {
@@ -187,7 +187,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/mossy_shards",
+      "resource": "mozaik:item/shards/mossy_shards",
       "sprite": "mozaik:mossy/shard"
     },
     {
@@ -207,7 +207,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/resin_shards",
+      "resource": "mozaik:item/shards/resin_shards",
       "sprite": "mozaik:resin/shard"
     },
     {
@@ -227,7 +227,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/amethyst_shards",
+      "resource": "mozaik:item/shards/amethyst_shards",
       "sprite": "mozaik:amethyst/shard"
     },
     {
@@ -247,7 +247,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/brick_shards",
+      "resource": "mozaik:item/shards/brick_shards",
       "sprite": "mozaik:brick/shard"
     },
     {
@@ -262,7 +262,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/packed_mud_shards",
+      "resource": "mozaik:item/shards/packed_mud_shards",
       "sprite": "mozaik:packed_mud/shard"
     },
     {
@@ -282,7 +282,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/sandstone_shards",
+      "resource": "mozaik:item/shards/sandstone_shards",
       "sprite": "mozaik:sandstone/shard"
     },
     {
@@ -302,7 +302,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/red_sandstone_shards",
+      "resource": "mozaik:item/shards/red_sandstone_shards",
       "sprite": "mozaik:red_sandstone/shard"
     },
     {
@@ -322,7 +322,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/bone_shards",
+      "resource": "mozaik:item/shards/bone_shards",
       "sprite": "mozaik:bone/shard"
     },
     {
@@ -342,7 +342,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/netherrack_shards",
+      "resource": "mozaik:item/shards/netherrack_shards",
       "sprite": "mozaik:netherrack/shard"
     },
     {
@@ -362,7 +362,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/nether_brick_shards",
+      "resource": "mozaik:item/shards/nether_brick_shards",
       "sprite": "mozaik:nether_brick/shard"
     },
     {
@@ -382,7 +382,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/red_nether_brick_shards",
+      "resource": "mozaik:item/shards/red_nether_brick_shards",
       "sprite": "mozaik:red_nether_brick/shard"
     },
     {
@@ -402,7 +402,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/quartz_shards",
+      "resource": "mozaik:item/shards/quartz_shards",
       "sprite": "mozaik:quartz/shard"
     },
     {
@@ -417,7 +417,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/glowstone_shards",
+      "resource": "mozaik:item/shards/glowstone_shards",
       "sprite": "mozaik:glowstone/shard"
     },
     {
@@ -437,7 +437,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/ancient_debris_shards",
+      "resource": "mozaik:item/shards/ancient_debris_shards",
       "sprite": "mozaik:ancient_debris/shard"
     },
     {
@@ -457,7 +457,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/basalt_shards",
+      "resource": "mozaik:item/shards/basalt_shards",
       "sprite": "mozaik:basalt/shard"
     },
     {
@@ -477,7 +477,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/obsidian_shards",
+      "resource": "mozaik:item/shards/obsidian_shards",
       "sprite": "mozaik:obsidian/shard"
     },
     {
@@ -497,7 +497,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/crying_obsidian_shards",
+      "resource": "mozaik:item/shards/crying_obsidian_shards",
       "sprite": "mozaik:crying_obsidian/shard"
     },
     {
@@ -517,7 +517,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/end_stone_shards",
+      "resource": "mozaik:item/shards/end_stone_shards",
       "sprite": "mozaik:end_stone/shard"
     },
     {
@@ -537,7 +537,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/purpur_shards",
+      "resource": "mozaik:item/shards/purpur_shards",
       "sprite": "mozaik:purpur/shard"
     },
     {
@@ -557,7 +557,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/raw_iron_shards",
+      "resource": "mozaik:item/shards/raw_iron_shards",
       "sprite": "mozaik:raw_iron/shard"
     },
     {
@@ -577,7 +577,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/raw_copper_shards",
+      "resource": "mozaik:item/shards/raw_copper_shards",
       "sprite": "mozaik:raw_copper/shard"
     },
     {
@@ -597,7 +597,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/raw_gold_shards",
+      "resource": "mozaik:item/shards/raw_gold_shards",
       "sprite": "mozaik:raw_gold/shard"
     },
     {
@@ -617,7 +617,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/dark_prismarine_shards",
+      "resource": "mozaik:item/shards/dark_prismarine_shards",
       "sprite": "mozaik:dark_prismarine/shard"
     },
     {
@@ -637,7 +637,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/prismarine_shards",
+      "resource": "mozaik:item/shards/prismarine_shards",
       "sprite": "mozaik:prismarine/shard"
     },
     {
@@ -657,7 +657,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/sea_lantern_shards",
+      "resource": "mozaik:item/shards/sea_lantern_shards",
       "sprite": "mozaik:sea_lantern/shard"
     },
     {
@@ -677,7 +677,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/terracotta_shards",
+      "resource": "mozaik:item/shards/terracotta_shards",
       "sprite": "mozaik:terracotta/shard"
     },
     {
@@ -692,7 +692,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/white_terracotta_shards",
+      "resource": "mozaik:item/shards/white_terracotta_shards",
       "sprite": "mozaik:white_terracotta/shard"
     },
     {
@@ -707,7 +707,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/orange_terracotta_shards",
+      "resource": "mozaik:item/shards/orange_terracotta_shards",
       "sprite": "mozaik:orange_terracotta/shard"
     },
     {
@@ -722,7 +722,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/magenta_terracotta_shards",
+      "resource": "mozaik:item/shards/magenta_terracotta_shards",
       "sprite": "mozaik:magenta_terracotta/shard"
     },
     {
@@ -737,7 +737,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/light_blue_terracotta_shards",
+      "resource": "mozaik:item/shards/light_blue_terracotta_shards",
       "sprite": "mozaik:light_blue_terracotta/shard"
     },
     {
@@ -752,7 +752,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/yellow_terracotta_shards",
+      "resource": "mozaik:item/shards/yellow_terracotta_shards",
       "sprite": "mozaik:yellow_terracotta/shard"
     },
     {
@@ -767,7 +767,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/lime_terracotta_shards",
+      "resource": "mozaik:item/shards/lime_terracotta_shards",
       "sprite": "mozaik:lime_terracotta/shard"
     },
     {
@@ -782,7 +782,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/pink_terracotta_shards",
+      "resource": "mozaik:item/shards/pink_terracotta_shards",
       "sprite": "mozaik:pink_terracotta/shard"
     },
     {
@@ -797,7 +797,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/gray_terracotta_shards",
+      "resource": "mozaik:item/shards/gray_terracotta_shards",
       "sprite": "mozaik:gray_terracotta/shard"
     },
     {
@@ -812,7 +812,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/light_gray_terracotta_shards",
+      "resource": "mozaik:item/shards/light_gray_terracotta_shards",
       "sprite": "mozaik:light_gray_terracotta/shard"
     },
     {
@@ -827,7 +827,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/cyan_terracotta_shards",
+      "resource": "mozaik:item/shards/cyan_terracotta_shards",
       "sprite": "mozaik:cyan_terracotta/shard"
     },
     {
@@ -842,7 +842,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/purple_terracotta_shards",
+      "resource": "mozaik:item/shards/purple_terracotta_shards",
       "sprite": "mozaik:purple_terracotta/shard"
     },
     {
@@ -857,7 +857,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/blue_terracotta_shards",
+      "resource": "mozaik:item/shards/blue_terracotta_shards",
       "sprite": "mozaik:blue_terracotta/shard"
     },
     {
@@ -872,7 +872,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/brown_terracotta_shards",
+      "resource": "mozaik:item/shards/brown_terracotta_shards",
       "sprite": "mozaik:brown_terracotta/shard"
     },
     {
@@ -887,7 +887,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/green_terracotta_shards",
+      "resource": "mozaik:item/shards/green_terracotta_shards",
       "sprite": "mozaik:green_terracotta/shard"
     },
     {
@@ -902,7 +902,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/red_terracotta_shards",
+      "resource": "mozaik:item/shards/red_terracotta_shards",
       "sprite": "mozaik:red_terracotta/shard"
     },
     {
@@ -917,7 +917,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/black_terracotta_shards",
+      "resource": "mozaik:item/shards/black_terracotta_shards",
       "sprite": "mozaik:black_terracotta/shard"
     },
     {
@@ -932,7 +932,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/white_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/white_glazed_terracotta_shards",
       "sprite": "mozaik:white_glazed_terracotta/shard"
     },
     {
@@ -947,7 +947,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/orange_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/orange_glazed_terracotta_shards",
       "sprite": "mozaik:orange_glazed_terracotta/shard"
     },
     {
@@ -962,7 +962,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/magenta_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/magenta_glazed_terracotta_shards",
       "sprite": "mozaik:magenta_glazed_terracotta/shard"
     },
     {
@@ -977,7 +977,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/light_blue_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/light_blue_glazed_terracotta_shards",
       "sprite": "mozaik:light_blue_glazed_terracotta/shard"
     },
     {
@@ -992,7 +992,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/yellow_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/yellow_glazed_terracotta_shards",
       "sprite": "mozaik:yellow_glazed_terracotta/shard"
     },
     {
@@ -1007,7 +1007,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/lime_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/lime_glazed_terracotta_shards",
       "sprite": "mozaik:lime_glazed_terracotta/shard"
     },
     {
@@ -1022,7 +1022,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/pink_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/pink_glazed_terracotta_shards",
       "sprite": "mozaik:pink_glazed_terracotta/shard"
     },
     {
@@ -1037,7 +1037,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/gray_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/gray_glazed_terracotta_shards",
       "sprite": "mozaik:gray_glazed_terracotta/shard"
     },
     {
@@ -1052,7 +1052,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/light_gray_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/light_gray_glazed_terracotta_shards",
       "sprite": "mozaik:light_gray_glazed_terracotta/shard"
     },
     {
@@ -1067,7 +1067,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/cyan_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/cyan_glazed_terracotta_shards",
       "sprite": "mozaik:cyan_glazed_terracotta/shard"
     },
     {
@@ -1082,7 +1082,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/purple_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/purple_glazed_terracotta_shards",
       "sprite": "mozaik:purple_glazed_terracotta/shard"
     },
     {
@@ -1097,7 +1097,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/blue_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/blue_glazed_terracotta_shards",
       "sprite": "mozaik:blue_glazed_terracotta/shard"
     },
     {
@@ -1112,7 +1112,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/brown_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/brown_glazed_terracotta_shards",
       "sprite": "mozaik:brown_glazed_terracotta/shard"
     },
     {
@@ -1127,7 +1127,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/green_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/green_glazed_terracotta_shards",
       "sprite": "mozaik:green_glazed_terracotta/shard"
     },
     {
@@ -1142,7 +1142,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/red_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/red_glazed_terracotta_shards",
       "sprite": "mozaik:red_glazed_terracotta/shard"
     },
     {
@@ -1157,7 +1157,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/black_glazed_terracotta_shards",
+      "resource": "mozaik:item/shards/black_glazed_terracotta_shards",
       "sprite": "mozaik:black_glazed_terracotta/shard"
     },
     {
@@ -1172,7 +1172,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/white_stained_glass_shards",
+      "resource": "mozaik:item/shards/white_stained_glass_shards",
       "sprite": "mozaik:white_stained_glass/shard"
     },
     {
@@ -1182,7 +1182,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/orange_stained_glass_shards",
+      "resource": "mozaik:item/shards/orange_stained_glass_shards",
       "sprite": "mozaik:orange_stained_glass/shard"
     },
     {
@@ -1192,7 +1192,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/magenta_stained_glass_shards",
+      "resource": "mozaik:item/shards/magenta_stained_glass_shards",
       "sprite": "mozaik:magenta_stained_glass/shard"
     },
     {
@@ -1202,7 +1202,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/light_blue_stained_glass_shards",
+      "resource": "mozaik:item/shards/light_blue_stained_glass_shards",
       "sprite": "mozaik:light_blue_stained_glass/shard"
     },
     {
@@ -1212,7 +1212,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/yellow_stained_glass_shards",
+      "resource": "mozaik:item/shards/yellow_stained_glass_shards",
       "sprite": "mozaik:yellow_stained_glass/shard"
     },
     {
@@ -1222,7 +1222,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/lime_stained_glass_shards",
+      "resource": "mozaik:item/shards/lime_stained_glass_shards",
       "sprite": "mozaik:lime_stained_glass/shard"
     },
     {
@@ -1232,7 +1232,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/pink_stained_glass_shards",
+      "resource": "mozaik:item/shards/pink_stained_glass_shards",
       "sprite": "mozaik:pink_stained_glass/shard"
     },
     {
@@ -1242,7 +1242,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/gray_stained_glass_shards",
+      "resource": "mozaik:item/shards/gray_stained_glass_shards",
       "sprite": "mozaik:gray_stained_glass/shard"
     },
     {
@@ -1252,7 +1252,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/light_gray_stained_glass_shards",
+      "resource": "mozaik:item/shards/light_gray_stained_glass_shards",
       "sprite": "mozaik:light_gray_stained_glass/shard"
     },
     {
@@ -1262,7 +1262,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/cyan_stained_glass_shards",
+      "resource": "mozaik:item/shards/cyan_stained_glass_shards",
       "sprite": "mozaik:cyan_stained_glass/shard"
     },
     {
@@ -1272,7 +1272,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/purple_stained_glass_shards",
+      "resource": "mozaik:item/shards/purple_stained_glass_shards",
       "sprite": "mozaik:purple_stained_glass/shard"
     },
     {
@@ -1282,7 +1282,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/blue_stained_glass_shards",
+      "resource": "mozaik:item/shards/blue_stained_glass_shards",
       "sprite": "mozaik:blue_stained_glass/shard"
     },
     {
@@ -1292,7 +1292,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/brown_stained_glass_shards",
+      "resource": "mozaik:item/shards/brown_stained_glass_shards",
       "sprite": "mozaik:brown_stained_glass/shard"
     },
     {
@@ -1302,7 +1302,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/green_stained_glass_shards",
+      "resource": "mozaik:item/shards/green_stained_glass_shards",
       "sprite": "mozaik:green_stained_glass/shard"
     },
     {
@@ -1312,7 +1312,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/red_stained_glass_shards",
+      "resource": "mozaik:item/shards/red_stained_glass_shards",
       "sprite": "mozaik:red_stained_glass/shard"
     },
     {
@@ -1322,7 +1322,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "mozaik:item/black_stained_glass_shards",
+      "resource": "mozaik:item/shards/black_stained_glass_shards",
       "sprite": "mozaik:black_stained_glass/shard"
     },
     {

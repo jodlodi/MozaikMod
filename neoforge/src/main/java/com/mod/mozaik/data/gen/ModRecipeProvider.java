@@ -6,6 +6,7 @@ import com.mod.mozaik.polyomino.ShardMaterial;
 import com.mod.mozaik.reg.*;
 import com.mod.mozaik.util.ColorCollection;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -51,7 +52,7 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
 				.save(this.output);
 
 		ColorCollection.zipApply(ModItems.DYED_SHARD_BAG, ColorCollection.VALUES, (shardBag, color) -> {
-			TransmuteRecipeBuilder.transmute(RecipeCategory.DECORATIONS, this.tag(ModTags.Items.SHARD_BAGS), Ingredient.of(Items.DYE.pick(color)), shardBag.get())
+			TransmuteRecipeBuilder.transmute(RecipeCategory.DECORATIONS, this.tag(ModTags.Items.SHARD_BAGS), Ingredient.of(ColorCollection.ItemCollections.DYES.pick(color)), shardBag.get())
 					.group("shard_bag_dye")
 					.unlockedBy("has_shard_bag", this.has(ModTags.Items.SHARD_BAGS))
 					.save(this.output, this.defaultId(shardBag, "_dyed"));
@@ -280,7 +281,7 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
 				.unlockedBy("has_item", has(ColorCollection.ItemCollections.CONCRETE_POWDER.pick(color)))
 				.save(this.output, this.defaultId(ModItems.MORTARS.pick(color), "_crafted"));
 
-		TransmuteRecipeBuilder.transmute(RecipeCategory.DECORATIONS, this.tag(ModTags.Items.MORTARS), Ingredient.of(Items.DYE.pick(color)), ModItems.MORTARS.pick(color).get())
+		TransmuteRecipeBuilder.transmute(RecipeCategory.DECORATIONS, this.tag(ModTags.Items.MORTARS), Ingredient.of(ColorCollection.ItemCollections.DYES.pick(color)), ModItems.MORTARS.pick(color).get())
 				.group("mortar_dye")
 				.unlockedBy("has_mortar", this.has(ModTags.Items.MORTARS))
 				.save(this.output, this.defaultId(ModItems.MORTARS.pick(color), "_dyed"));

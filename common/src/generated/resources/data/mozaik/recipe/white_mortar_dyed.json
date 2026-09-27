@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_transmute",
+  "category": "misc",
   "group": "mortar_dye",
   "input": "#mozaik:mortars",
   "material": "minecraft:white_dye",

@@ -4,6 +4,7 @@ import com.mod.mozaik.client.ShardBagSpecialRenderer;
 import com.mod.mozaik.items.ShardBagItem;
 import com.mod.mozaik.items.ShardItem;
 import com.mod.mozaik.reg.ModItems;
+import com.mod.mozaik.util.ColorCollection;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;
 import net.minecraft.client.data.models.model.*;
@@ -15,7 +16,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.ColorCollection;
 import org.jspecify.annotations.NullMarked;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -32,7 +32,7 @@ public class ModItemModelGen extends ItemModelGenerators {
     @Override
     public void run() {
         this.generateBagModels(ModItems.SHARD_BAG.get(), Items.BUNDLE);
-        ColorCollection.zipApply(ModItems.DYED_SHARD_BAG, Items.DYED_BUNDLE, (shardBags, bundle) ->
+        ColorCollection.zipApply(ModItems.DYED_SHARD_BAG, ColorCollection.ItemCollections.BUNDLES, (shardBags, bundle) ->
                 this.generateBagModels(shardBags.get(), bundle)
         );
 
